@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @class CDPost;
+@class CDPostDetailView;
 
 @interface PostDetailViewController : UITableViewController <UIActionSheetDelegate, UIGestureRecognizerDelegate>
 {
@@ -18,7 +19,10 @@
 
 @property (nonatomic) NSInteger postID;
 @property (nonatomic, strong) CDPost *post;
+@property (nonatomic, strong) UIImage *smallImage;
+@property (nonatomic, strong) UIImage *middleImage;
 
 - (id)initWithStyle:(UITableViewStyle)style andPost:(CDPost *)post;
 - (id)initWithStyle:(UITableViewStyle)style andPostID:(NSInteger)post_id;
+
 @end

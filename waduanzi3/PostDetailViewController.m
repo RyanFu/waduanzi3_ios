@@ -6,6 +6,7 @@
 //  Copyright (c) 2013年 chendong. All rights reserved.
 //
 
+#import <QuartzCore/QuartzCore.h>
 #import <RestKit/RestKit.h>
 #import "PostDetailViewController.h"
 #import "WCAlertView.h"
@@ -17,6 +18,7 @@
 #import "CDDefine.h"
 #import "CDCommentTableViewCell.h"
 #import "UIImageView+WebCache.h"
+#import "CDPostDetailView.h"
 
 
 @interface PostDetailViewController ()
@@ -24,7 +26,8 @@
 - (void) loadPostComments;
 - (void) loadPostDetail;
 - (NSDictionary *) commentsParameters;
-- (void) setCellSubViews:(CDCommentTableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath;
+- (void) setupPostDetailViewInCell:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath;
+- (void) setCommentCellSubViews:(CDCommentTableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath;
 - (void) supportComment:(NSInteger) index;
 - (void) copyComment:(NSInteger) index;
 - (void) reportComment:(NSInteger) index;
@@ -35,6 +38,8 @@
 
 @synthesize postID = _postID;
 @synthesize post = _post;
+@synthesize smallImage = _smallImage;
+@synthesize middleImage = _middleImage;
 
 - (void) initData
 {
@@ -137,21 +142,10 @@
         
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:PostDetailCellIdentifier];
         if (cell == nil) {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:PostDetailCellIdentifier];
-            
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:PostDetailCellIdentifier];
         }
         
-        cell.textLabel.text = [_post.comment_count stringValue];
-        cell.detailTextLabel.text = _post.content;
-
-        if (_post.middle_pic.length > 0) {
-            NSURL *imageUrl = [NSURL URLWithString:_post.middle_pic];
-            UIImage *placeImage = [UIImage imageNamed:@"thumb_placeholder"];
-            [cell.imageView setImageWithURL:imageUrl placeholderImage:placeImage completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-                NSLog(@"error: %@", error);
-            }];
-        }
-        
+        [self setupPostDetailViewInCell:cell indexPath:indexPath];
         
         return cell;
     }
@@ -161,7 +155,7 @@
         CDCommentTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CommentListCellIdentifier];
         if (cell == nil) {
             cell = [[CDCommentTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CommentListCellIdentifier];
-            [self setCellSubViews:cell forRowAtIndexPath:indexPath];
+            [self setCommentCellSubViews:cell forRowAtIndexPath:indexPath];
         }
         
         CDComment *comment = [_comments objectAtIndex:indexPath.row];
@@ -179,7 +173,63 @@
     
 }
 
-- (void) setCellSubViews:(CDCommentTableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+- (void) setupPostDetailViewInCell:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath
+{
+    CDPostDetailView * detailView = [[CDPostDetailView alloc] initWithFrame:cell.contentView.bounds];
+    detailView.padding = CELL_PADDING;
+    
+    CGFloat contentWidth = detailView.frame.size.width - CELL_PADDING * 2;
+    CGFloat imageViewHeight = 0;
+    if (_middleImage) {
+        CGSize middleImageSize = CGSizeMake(_middleImage.size.width / 2, _middleImage.size.height / 2);
+        // 引处按照将图片宽度全部拉伸为contentWidth
+        imageViewHeight =  contentWidth * middleImageSize.height / middleImageSize.width;
+    }
+    else if (_smallImage) {
+        CGSize smallImageSize = CGSizeMake(_smallImage.size.width / 2, _smallImage.size.height / 2);
+        imageViewHeight =  contentWidth * smallImageSize.height / smallImageSize.width;
+    }
+    else
+        imageViewHeight = THUMB_HEIGHT;
+    detailView.imageSize = CGSizeMake(contentWidth, imageViewHeight);
+    
+    detailView.detailTextLabel.text = _post.content;
+    detailView.authorTextLabel.text = _post.author_name;
+    detailView.datetimeTextLabel.text = _post.create_time_at;
+    [detailView.avatarImageView setImageWithURL:[NSURL URLWithString:_post.user.mini_avatar] placeholderImage:[UIImage imageNamed:@"avatar_placeholder"]];
+    if (_middleImage) {
+        detailView.imageView.image = _middleImage;
+        detailView.textLabel.text = nil;
+    }
+    else if (_post.middle_pic.length > 0) {
+        if (_smallImage == nil)
+            self.smallImage = [UIImage imageNamed:@"thumb_placeholder"];
+        
+        NSURL *imageUrl = [NSURL URLWithString:_post.middle_pic];
+        __block PostDetailViewController *blockSelf = self;
+        [detailView.imageView setImageWithURL:imageUrl placeholderImage:_smallImage completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+            blockSelf.middleImage = image;
+            NSIndexSet *indexSet = [[NSIndexSet alloc] initWithIndex:0];
+            [blockSelf.tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationNone];
+            
+        }];
+        // 如果是趣图，不显示标题，只显示内容
+        detailView.textLabel.text = nil;
+    }
+    else {
+        detailView.textLabel.text = _post.title;
+        detailView.imageView.image = nil;
+    }
+    
+    detailView.upButton.tag = detailView.commentButton.tag = indexPath.row;
+    [detailView.upButton setTitle:[_post.up_count stringValue] forState:UIControlStateNormal];
+    NSString *commentButtonText = [_post.comment_count integerValue] > 0 ? [_post.comment_count stringValue] : @"抢沙发";
+    [detailView.commentButton setTitle:commentButtonText forState:UIControlStateNormal];
+    
+    [cell.contentView addSubview:detailView];
+}
+
+- (void) setCommentCellSubViews:(CDCommentTableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     cell.padding = CELL_PADDING;
     
@@ -196,8 +246,39 @@
 
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0)
-        return 100;
+    if (indexPath.section == 0) {
+        CGFloat contentWidth = tableView.frame.size.width - CELL_PADDING*2;
+        CGSize titleLabelSize = [_post.title sizeWithFont:[UIFont systemFontOfSize:16.0f]
+                                       constrainedToSize:CGSizeMake(contentWidth, 9999.0)
+                                           lineBreakMode:UILineBreakModeWordWrap];
+        
+        CGSize detailLabelSize = [_post.content sizeWithFont:[UIFont systemFontOfSize:16.0f]
+                                          constrainedToSize:CGSizeMake(contentWidth, 9999.0)
+                                              lineBreakMode:UILineBreakModeWordWrap];
+        
+        CGFloat cellHeight = CELL_PADDING + POST_AVATAR_WIDTH + CELL_PADDING + detailLabelSize.height + CELL_PADDING + CELL_BUTTON_HEIGHT;
+        
+        CGFloat imageViewHeight = 0;
+        if (_middleImage) {
+            CGSize middleImageSize = CGSizeMake(_middleImage.size.width / 2, _middleImage.size.height / 2);
+            // 引处按照将图片宽度全部拉伸为contentWidth
+            imageViewHeight =  contentWidth * middleImageSize.height / middleImageSize.width;
+        }
+        else if (_smallImage) {
+            CGSize smallImageSize = CGSizeMake(_smallImage.size.width / 2, _smallImage.size.height / 2);
+            imageViewHeight =  contentWidth * smallImageSize.height / smallImageSize.width;
+        }
+        else if (_post.middle_pic.length > 0)
+            imageViewHeight = THUMB_HEIGHT;
+        
+        if (imageViewHeight > 0)
+            cellHeight += imageViewHeight + CELL_PADDING;
+        else
+            cellHeight += titleLabelSize.height + CELL_PADDING;
+        
+        return cellHeight + CELL_PADDING;
+    }
+    
     
     CDComment *comment = [_comments objectAtIndex:indexPath.row];
     
@@ -214,7 +295,6 @@
 
 - (void) handleTableViewLongPress:(UILongPressGestureRecognizer *)recognizer
 {
-    NSLog(@"state: %d", recognizer.state);
     if (recognizer.state == UIGestureRecognizerStateBegan) {
         CGPoint point = [recognizer locationInView:self.tableView];
         NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:point];
@@ -346,18 +426,10 @@
                             success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
                                 [self.tableView.pullToRefreshView stopAnimating];
                                 
-                                if (mappingResult.count > 0) {
-                                    self.post = (CDPost *) [mappingResult firstObject];
-                                    NSLog(@"%@", _post);
-                                    
-                                    
-                                    if (self.isViewLoaded) {
-                                        NSIndexSet *indexSet = [[NSIndexSet alloc] initWithIndex:0];
-                                        [self.tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationAutomatic];
-                                    }
-                                }
-                                else {
-                                    NSLog(@"没有更多内容了");
+                                self.post = (CDPost *) [mappingResult firstObject];
+                                if (self.isViewLoaded) {
+                                    NSIndexSet *indexSet = [[NSIndexSet alloc] initWithIndex:0];
+                                    [self.tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationNone];
                                 }
                             }
                             failure:^(RKObjectRequestOperation *operation, NSError *error) {

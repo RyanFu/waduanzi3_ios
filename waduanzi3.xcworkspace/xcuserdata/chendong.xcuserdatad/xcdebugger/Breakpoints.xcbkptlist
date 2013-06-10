@@ -8,11 +8,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "waduanzi3/PostDetailViewController.m"
-         timestampString = "392320769.210125"
+         timestampString = "392556653.183237"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "313"
-         endingLineNumber = "313"
+         startingLineNumber = "393"
+         endingLineNumber = "393"
          landmarkName = "-loadPostComments"
          landmarkType = "5">
       </FileBreakpoint>
@@ -21,11 +21,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "waduanzi3/PostDetailViewController.m"
-         timestampString = "392320769.210125"
+         timestampString = "392556653.183237"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "308"
-         endingLineNumber = "308"
+         startingLineNumber = "388"
+         endingLineNumber = "388"
          landmarkName = "-loadPostComments"
          landmarkType = "5">
       </FileBreakpoint>
@@ -34,11 +34,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "waduanzi3/PostDetailViewController.m"
-         timestampString = "392320769.210125"
+         timestampString = "392556653.183237"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "315"
-         endingLineNumber = "315"
+         startingLineNumber = "395"
+         endingLineNumber = "395"
          landmarkName = "-loadPostComments"
          landmarkType = "5">
       </FileBreakpoint>
@@ -47,11 +47,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "waduanzi3/PostDetailViewController.m"
-         timestampString = "392320769.210125"
+         timestampString = "392556653.183237"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "317"
-         endingLineNumber = "317"
+         startingLineNumber = "397"
+         endingLineNumber = "397"
          landmarkName = "-loadPostComments"
          landmarkType = "5">
       </FileBreakpoint>

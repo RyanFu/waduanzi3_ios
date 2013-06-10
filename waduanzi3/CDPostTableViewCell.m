@@ -29,7 +29,7 @@
         self.userInteractionEnabled = YES;
         
         self.padding = 7.5f;
-        self.thumbSize = CGSizeMake(150.0f, 150.0f);
+        self.thumbSize = CGSizeMake(THUMB_WIDTH, THUMB_HEIGHT);
         
         self.avatarImageView = [[UIImageView alloc] init];
         self.authorTextLabel = [[UILabel alloc] init];
@@ -127,7 +127,7 @@
     }
     
     // imageView
-    if (self.imageView.tag > 0) {
+    if (self.imageView.image) {
         self.imageView.contentMode = UIViewContentModeScaleAspectFit;
         self.imageView.opaque = YES;
         self.imageView.userInteractionEnabled = YES;

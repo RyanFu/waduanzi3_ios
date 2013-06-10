@@ -169,13 +169,11 @@
         [cell.imageView setImageWithURL:imageUrl placeholderImage:placeImage completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
             ;
         }];
-        cell.imageView.tag = 1;
         cell.textLabel.text = nil;
     }
     else {
         cell.textLabel.text = post.title;
         cell.imageView.image = nil;
-        cell.imageView.tag = 0;
     }
     
     cell.upButton.tag = cell.commentButton.tag = indexPath.row;
@@ -297,7 +295,7 @@
                                       constrainedToSize:CGSizeMake(contentWidth, 9999.0)
                                           lineBreakMode:UILineBreakModeWordWrap];
     
-    CGFloat cellHeight = CELL_PADDING + 30.0f + detailLabelSize.height + CELL_PADDING + CELL_BUTTON_HEIGHT;
+    CGFloat cellHeight = CELL_PADDING + POST_AVATAR_WIDTH + detailLabelSize.height + CELL_PADDING + CELL_BUTTON_HEIGHT;
     if (post.small_pic.length > 0)
         cellHeight += THUMB_HEIGHT + CELL_PADDING;
     else
@@ -310,6 +308,8 @@
 {
     CDPost *post = [_statuses objectAtIndex:indexPath.row];
     PostDetailViewController *detailViewController = [[PostDetailViewController alloc] initWithStyle:UITableViewStylePlain andPost:post];
+    CDPostTableViewCell *cell = (CDPostTableViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+//    detailViewController.smallImage = cell.imageView.image;
     [self.navigationController pushViewController:detailViewController animated:YES];
 }
 

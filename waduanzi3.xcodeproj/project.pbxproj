@@ -10,6 +10,7 @@
 		2B1B4D9C16DBBCDE009D79ED /* OpenUDID.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1B4D9B16DBBCDE009D79ED /* OpenUDID.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		2B232B3B175ED659007803C0 /* PostDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B232B3A175ED659007803C0 /* PostDetailViewController.m */; };
 		2B232B3E175F365B007803C0 /* CDRestError.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B232B3D175F365B007803C0 /* CDRestError.m */; };
+		2B37B9001764F8DA00A026DA /* CDPostDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B37B8FF1764F8DA00A026DA /* CDPostDetailView.m */; };
 		2B48FF261756026000FFF85B /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B48FF091756025F00FFF85B /* MBProgressHUD.m */; };
 		2B48FF271756026000FFF85B /* MTStatusBarOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B48FF0C1756025F00FFF85B /* MTStatusBarOverlay.m */; };
 		2B48FF321756026000FFF85B /* WCAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B48FF251756026000FFF85B /* WCAlertView.m */; };
@@ -101,6 +102,8 @@
 		2B232B3A175ED659007803C0 /* PostDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostDetailViewController.m; sourceTree = "<group>"; };
 		2B232B3C175F365B007803C0 /* CDRestError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDRestError.h; sourceTree = "<group>"; };
 		2B232B3D175F365B007803C0 /* CDRestError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDRestError.m; sourceTree = "<group>"; };
+		2B37B8FE1764F8D900A026DA /* CDPostDetailView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDPostDetailView.h; sourceTree = "<group>"; };
+		2B37B8FF1764F8DA00A026DA /* CDPostDetailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDPostDetailView.m; sourceTree = "<group>"; };
 		2B48FF081756025F00FFF85B /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		2B48FF091756025F00FFF85B /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		2B48FF0B1756025F00FFF85B /* MTStatusBarOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTStatusBarOverlay.h; sourceTree = "<group>"; };
@@ -364,6 +367,8 @@
 				2B551F0B17607C9200C68E43 /* CDPostTableViewCell.m */,
 				2BC4D4A8176201270098151C /* CDCommentTableViewCell.h */,
 				2BC4D4A7176201270098151C /* CDCommentTableViewCell.m */,
+				2B37B8FE1764F8D900A026DA /* CDPostDetailView.h */,
+				2B37B8FF1764F8DA00A026DA /* CDPostDetailView.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -691,6 +696,7 @@
 				2BC4D4F91762530F0098151C /* UIImage+GIF.m in Sources */,
 				2BC4D4FA1762530F0098151C /* UIImage+MultiFormat.m in Sources */,
 				2BC4D4FB1762530F0098151C /* UIImageView+WebCache.m in Sources */,
+				2B37B9001764F8DA00A026DA /* CDPostDetailView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
