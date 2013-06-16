@@ -19,17 +19,24 @@
 #import "CDRestClient.h"
 #import "CDPostTableViewCell.h"
 #import "UIImageView+WebCache.h"
+#import "CDConfig.h"
 
 @interface PostListViewController ()
 - (void) initData;
+- (void) setupTableView;
+- (void) setupAdView;
 - (void)loadLatestStatuses;
 - (void)loadMoreStatuses;
 - (NSDictionary *) latestStatusesParameters;
 - (NSDictionary *) moreStatusesParameters;
 - (void) setCellSubViews:(CDPostTableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath;
+- (void) setupTableViewPullAndInfiniteScrollView;
 @end
 
 @implementation PostListViewController
+
+@synthesize tableView = _tableView;
+@synthesize adView = _adView;
 
 - (void) initData
 {
@@ -39,12 +46,11 @@
     _mediaType = 0;
     _lasttime = 0;
     _maxtime = 0;
-    
 }
 
-- (id) initWithStyle:(UITableViewStyle)style andChanneID:(NSInteger)channelID andMediaType:(NSInteger)mediaType
+- (id) initWithChanneID:(NSInteger)channelID andMediaType:(NSInteger)mediaType
 {
-    self = [super initWithStyle:style];
+    self = [super init];
     if (self) {
         [self initData];
         _channelID = channelID;
@@ -95,6 +101,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.view.backgroundColor = [UIColor whiteColor];
+    
+    [self setupTableView];
+    [self setupAdView];
     
     UISwipeGestureRecognizer *swipGestureRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwips:)];
     swipGestureRecognizer.delegate = self;
@@ -107,17 +117,75 @@
  
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPlay target:self action:@selector(openLeftSlideView:)];
     
-    self.view.backgroundColor = [UIColor colorWithRed:0.96f green:0.96f blue:0.96f alpha:1.00f];
+    [self setupTableViewPullAndInfiniteScrollView];
+    [self.tableView triggerPullToRefresh];
+}
+
+- (void) setupTableView
+{
+    // setup tableView
+    CGRect tableViewFrame = self.view.bounds;
+    //    NSLog(@"h: %f", tableViewFrame.size.height);
+    tableViewFrame.size.height -= NAVBAR_HEIGHT;
+    self.tableView = [[UITableView alloc] initWithFrame:tableViewFrame style:UITableViewStylePlain];
+    _tableView.delegate = self;
+    _tableView.dataSource = self;
+    [self.view addSubview:_tableView];
+}
+
+- (void) setupAdView
+{
+    CGRect tableViewFrame = self.view.bounds;
+    CGRect adViewFrame = CGRectMake(0, tableViewFrame.origin.y + tableViewFrame.size.height, self.view.bounds.size.width, AD_BANNER_HEIGHT);
+    self.adView = [[UIView alloc] initWithFrame:adViewFrame];
+    [self.view addSubview:self.adView];
+}
+
+- (void) viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    BOOL enableAdvert = [CDConfig enabledAdvert];
+    CGRect tableViewFrame = self.view.bounds;
+//    NSLog(@"h: %f", tableViewFrame.size.height);
+    if (enableAdvert) {
+        tableViewFrame.size.height -= AD_BANNER_HEIGHT;
+        [self setupAdView];
+    }
+    else {
+        [self.adView removeFromSuperview];
+        self.adView = nil;
+    }
+    _tableView.frame = tableViewFrame;
+}
+
+- (void) setupTableViewPullAndInfiniteScrollView
+{
     __block PostListViewController *blockSelf = self;
     [self.tableView addPullToRefreshWithActionHandler:^{
         [blockSelf loadLatestStatuses];
     }];
+    [self.tableView.pullToRefreshView setTitle:@"下拉刷新" forState:SVPullToRefreshStateStopped];
+    [self.tableView.pullToRefreshView setTitle:@"载入中" forState:SVPullToRefreshStateLoading];
+    [self.tableView.pullToRefreshView setTitle:@"释放立即刷新" forState:SVPullToRefreshStateTriggered];
     
     [self.tableView addInfiniteScrollingWithActionHandler:^{
         [blockSelf loadMoreStatuses];
     }];
     
-    [self.tableView triggerPullToRefresh];
+    CGRect infiniteViewFrame = CGRectMake(0, 0, self.tableView.frame.size.width, 30.0f);
+    UILabel *stoppedLabel = [[UILabel alloc] initWithFrame:infiniteViewFrame];
+    UILabel *loadingLabel = [[UILabel alloc] initWithFrame:infiniteViewFrame];
+    UILabel *triggeredLabel = [[UILabel alloc] initWithFrame:infiniteViewFrame];
+    stoppedLabel.textAlignment = loadingLabel.textAlignment = triggeredLabel.textAlignment = UITextAlignmentCenter;
+    stoppedLabel.textColor = loadingLabel.textColor = triggeredLabel.textColor = [UIColor grayColor];
+    stoppedLabel.text = @"向上滑动载入更多";
+    [self.tableView.infiniteScrollingView setCustomView:stoppedLabel forState:SVInfiniteScrollingStateStopped];
+    loadingLabel.text = @"载入中...";
+    [self.tableView.infiniteScrollingView setCustomView:loadingLabel forState:SVInfiniteScrollingStateLoading];
+    triggeredLabel.text = @"松开手指开始载入";
+    [self.tableView.infiniteScrollingView setCustomView:triggeredLabel forState:SVInfiniteScrollingStateTriggered];
+    
 }
 
 - (void) handleSwips:(UISwipeGestureRecognizer *)recognizer
@@ -308,7 +376,7 @@
 {
     CDPost *post = [_statuses objectAtIndex:indexPath.row];
     PostDetailViewController *detailViewController = [[PostDetailViewController alloc] initWithStyle:UITableViewStylePlain andPost:post];
-    CDPostTableViewCell *cell = (CDPostTableViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+//    CDPostTableViewCell *cell = (CDPostTableViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
 //    detailViewController.smallImage = cell.imageView.image;
     [self.navigationController pushViewController:detailViewController animated:YES];
 }

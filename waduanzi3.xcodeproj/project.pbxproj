@@ -42,6 +42,7 @@
 		2B551F0C17607C9200C68E43 /* CDPostTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B551F0B17607C9200C68E43 /* CDPostTableViewCell.m */; };
 		2B551F0F1760BC4800C68E43 /* avatar_placeholder.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B551F0D1760BC4800C68E43 /* avatar_placeholder.png */; };
 		2B551F101760BC4800C68E43 /* avatar_placeholder@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B551F0E1760BC4800C68E43 /* avatar_placeholder@2x.png */; };
+		2B6519AB1767318F0080D632 /* CDConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B6519AA1767318F0080D632 /* CDConfig.m */; };
 		2BB60F8C1756437D00290F69 /* CDUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BB60F8B1756437D00290F69 /* CDUser.m */; };
 		2BB60F8F1756437D00290F69 /* CDPost.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BB60F8E1756437D00290F69 /* CDPost.m */; };
 		2BB60F921756470F00290F69 /* TestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BB60F911756470F00290F69 /* TestViewController.m */; };
@@ -140,6 +141,8 @@
 		2B551F0D1760BC4800C68E43 /* avatar_placeholder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = avatar_placeholder.png; sourceTree = "<group>"; };
 		2B551F0E1760BC4800C68E43 /* avatar_placeholder@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "avatar_placeholder@2x.png"; sourceTree = "<group>"; };
 		2B551F19176108B200C68E43 /* CDDefine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDDefine.h; sourceTree = "<group>"; };
+		2B6519A91767318F0080D632 /* CDConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDConfig.h; sourceTree = "<group>"; };
+		2B6519AA1767318F0080D632 /* CDConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDConfig.m; sourceTree = "<group>"; };
 		2BB60F8A1756437D00290F69 /* CDUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDUser.h; sourceTree = "<group>"; };
 		2BB60F8B1756437D00290F69 /* CDUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDUser.m; sourceTree = "<group>"; };
 		2BB60F8D1756437D00290F69 /* CDPost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDPost.h; sourceTree = "<group>"; };
@@ -487,6 +490,8 @@
 				2BB60F9317565CD900290F69 /* CDRestClient.h */,
 				2BB60F9417565CD900290F69 /* CDRestClient.m */,
 				2B551F19176108B200C68E43 /* CDDefine.h */,
+				2B6519A91767318F0080D632 /* CDConfig.h */,
+				2B6519AA1767318F0080D632 /* CDConfig.m */,
 			);
 			name = Common;
 			sourceTree = "<group>";
@@ -697,6 +702,7 @@
 				2BC4D4FA1762530F0098151C /* UIImage+MultiFormat.m in Sources */,
 				2BC4D4FB1762530F0098151C /* UIImageView+WebCache.m in Sources */,
 				2B37B9001764F8DA00A026DA /* CDPostDetailView.m in Sources */,
+				2B6519AB1767318F0080D632 /* CDConfig.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

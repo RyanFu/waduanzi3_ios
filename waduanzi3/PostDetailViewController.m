@@ -31,6 +31,7 @@
 - (void) supportComment:(NSInteger) index;
 - (void) copyComment:(NSInteger) index;
 - (void) reportComment:(NSInteger) index;
+- (void) setupTableViewPullAndInfiniteScrollView;
 @end
 
 
@@ -100,15 +101,37 @@
     longPressRecognizer.delegate = self;
     [self.tableView addGestureRecognizer:longPressRecognizer];
     
+    [self setupTableViewPullAndInfiniteScrollView];
+    [self.tableView triggerInfiniteScrolling];
+}
+
+- (void) setupTableViewPullAndInfiniteScrollView
+{
     __block PostDetailViewController *blockSelf = self;
     [self.tableView addPullToRefreshWithActionHandler:^{
         [blockSelf loadPostDetail];
     }];
+    [self.tableView.pullToRefreshView setTitle:@"下拉刷新" forState:SVPullToRefreshStateStopped];
+    [self.tableView.pullToRefreshView setTitle:@"载入中" forState:SVPullToRefreshStateLoading];
+    [self.tableView.pullToRefreshView setTitle:@"释放立即刷新" forState:SVPullToRefreshStateTriggered];
+    
     [self.tableView addInfiniteScrollingWithActionHandler:^{
         [blockSelf loadPostComments];
     }];
     
-    [self.tableView triggerInfiniteScrolling];
+    CGRect infiniteViewFrame = CGRectMake(0, 0, self.tableView.frame.size.width, 30.0f);
+    UILabel *stoppedLabel = [[UILabel alloc] initWithFrame:infiniteViewFrame];
+    UILabel *loadingLabel = [[UILabel alloc] initWithFrame:infiniteViewFrame];
+    UILabel *triggeredLabel = [[UILabel alloc] initWithFrame:infiniteViewFrame];
+    stoppedLabel.textAlignment = loadingLabel.textAlignment = triggeredLabel.textAlignment = UITextAlignmentCenter;
+    stoppedLabel.textColor = loadingLabel.textColor = triggeredLabel.textColor = [UIColor grayColor];
+    NSInteger moreCommentCount = [_post.comment_count integerValue] - _comments.count;
+    stoppedLabel.text = (moreCommentCount > 0) ? [NSString stringWithFormat:@"还有%d条评论", moreCommentCount] : @"没有更多啦";
+    [self.tableView.infiniteScrollingView setCustomView:stoppedLabel forState:SVInfiniteScrollingStateStopped];
+    loadingLabel.text = @"载入中...";
+    [self.tableView.infiniteScrollingView setCustomView:loadingLabel forState:SVInfiniteScrollingStateLoading];
+    triggeredLabel.text = @"松开手指开始载入";
+    [self.tableView.infiniteScrollingView setCustomView:triggeredLabel forState:SVInfiniteScrollingStateTriggered];
 }
 
 - (void) handleSwips:(UISwipeGestureRecognizer *)recognizer
@@ -395,6 +418,14 @@
                                     [self.tableView beginUpdates];
                                     [self.tableView insertRowsAtIndexPaths:insertIndexPaths withRowAnimation:UITableViewRowAnimationFade];
                                     [self.tableView endUpdates];
+                                    
+                                    NSInteger moreCommentCount = [_post.comment_count integerValue] - _comments.count;
+                                    CGRect infiniteViewFrame = CGRectMake(0, 0, self.tableView.frame.size.width, 30.0f);
+                                    UILabel *stoppedLabel = [[UILabel alloc] initWithFrame:infiniteViewFrame];
+                                    stoppedLabel.textAlignment = UITextAlignmentCenter;
+                                    stoppedLabel.textColor = [UIColor grayColor];
+                                    stoppedLabel.text = (moreCommentCount > 0) ? [NSString stringWithFormat:@"还有%d条评论", moreCommentCount] : @"没有更多啦";
+                                    [self.tableView.infiniteScrollingView setCustomView:stoppedLabel forState:SVInfiniteScrollingStateStopped];
                                 }
                                 else {
                                     NSLog(@"没有更多内容了");

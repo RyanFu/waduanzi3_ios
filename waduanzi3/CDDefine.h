@@ -16,4 +16,9 @@ const static CGFloat CELL_BUTTON_HEIGHT = 30.0f;
 const static CGFloat POST_AVATAR_WIDTH = 30.0f;
 const static CGFloat COMMENT_AVATAR_WIDTH = 24.0f;
 
+const static CGFloat STATUSBAR_HEIGHT = 20.0f;
+const static CGFloat NAVBAR_HEIGHT = 44.0f;
+const static CGFloat NAVBAR_LANDSCAPE_HEIGHT = 32.0f;
+const static CGFloat AD_BANNER_HEIGHT = 50.0f;
+
 #endif

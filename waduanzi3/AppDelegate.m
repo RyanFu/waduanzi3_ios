@@ -182,7 +182,7 @@
     SideMenuViewController *menuController = [[SideMenuViewController alloc] initWithStyle:UITableViewStylePlain];
     UINavigationController *sideController = [[UINavigationController alloc] initWithRootViewController:menuController];
     
-    PostListViewController *postListController = [[PostListViewController alloc] initWithStyle:UITableViewStylePlain andChanneID:1 andMediaType:0];
+    PostListViewController *postListController = [[PostListViewController alloc] initWithChanneID:1 andMediaType:0];
     self.centerController = [[UINavigationController alloc] initWithRootViewController:postListController];
     IIViewDeckController *deckController = [[IIViewDeckController alloc] initWithCenterViewController:_centerController leftViewController:sideController];
     

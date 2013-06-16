@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface PostListViewController : UITableViewController <UIGestureRecognizerDelegate>
+@interface PostListViewController : UIViewController <UIGestureRecognizerDelegate, UITableViewDataSource, UITableViewDelegate>
 {
     NSMutableArray *_statuses;
     NSMutableDictionary *_parameters;
@@ -19,6 +19,9 @@
     NSInteger _mediaType;
 }
 
-- (id) initWithStyle:(UITableViewStyle)style andChanneID:(NSInteger)channelID andMediaType:(NSInteger)mediaType;
+@property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) UIView *adView;
+
+- (id) initWithChanneID:(NSInteger)channelID andMediaType:(NSInteger)mediaType;
 
 @end
