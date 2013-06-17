@@ -7,21 +7,34 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <RestKit/RestKit.h>
+#import "IIViewDeckController.h"
 
-@interface PostListViewController : UIViewController <UIGestureRecognizerDelegate, UITableViewDataSource, UITableViewDelegate>
+@interface PostListViewController : UIViewController <UIGestureRecognizerDelegate, UITableViewDataSource, UITableViewDelegate, IIViewDeckControllerDelegate>
 {
     NSMutableArray *_statuses;
     NSMutableDictionary *_parameters;
     NSString *_restPath;
     NSInteger _channelID;
+    NSInteger _mediaType;
     NSInteger _lasttime;
     NSInteger _maxtime;
-    NSInteger _mediaType;
 }
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) UIView *adView;
 
-- (id) initWithChanneID:(NSInteger)channelID andMediaType:(NSInteger)mediaType;
+- (void) initData;
+- (NSDictionary *) latestStatusesParameters;
+- (NSDictionary *) moreStatusesParameters;
+- (void)loadLatestStatuses;
+- (void)loadMoreStatuses;
+- (NSString *) latestStatusesRestPath;
+- (NSString *) moreStatusesRestPath;
+
+- (void) latestStatusesSuccess:(RKObjectRequestOperation *)operation mappingResult:(RKMappingResult *)result;
+- (void) latestStatusesFailed:(RKObjectRequestOperation *)operation error:(NSError *)error;
+- (void) moreStatusesSuccess:(RKObjectRequestOperation *)operation mappingResult:(RKMappingResult *)result;
+- (void) moreStatusesFailed:(RKObjectRequestOperation *)operation error:(NSError *)error;
 
 @end

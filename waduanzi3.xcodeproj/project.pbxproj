@@ -42,6 +42,10 @@
 		2B551F0C17607C9200C68E43 /* CDPostTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B551F0B17607C9200C68E43 /* CDPostTableViewCell.m */; };
 		2B551F0F1760BC4800C68E43 /* avatar_placeholder.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B551F0D1760BC4800C68E43 /* avatar_placeholder.png */; };
 		2B551F101760BC4800C68E43 /* avatar_placeholder@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B551F0E1760BC4800C68E43 /* avatar_placeholder@2x.png */; };
+		2B569BA1176F3D9100B34E0C /* TimelineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B569BA0176F3D9100B34E0C /* TimelineViewController.m */; };
+		2B569BA4176F3E6400B34E0C /* ChoiceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B569BA3176F3E6400B34E0C /* ChoiceViewController.m */; };
+		2B569BA7176F3E7500B34E0C /* HistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B569BA6176F3E7500B34E0C /* HistoryViewController.m */; };
+		2B569BAA176F3E8400B34E0C /* MediaTypeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B569BA9176F3E8400B34E0C /* MediaTypeViewController.m */; };
 		2B6519AB1767318F0080D632 /* CDConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B6519AA1767318F0080D632 /* CDConfig.m */; };
 		2BB60F8C1756437D00290F69 /* CDUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BB60F8B1756437D00290F69 /* CDUser.m */; };
 		2BB60F8F1756437D00290F69 /* CDPost.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BB60F8E1756437D00290F69 /* CDPost.m */; };
@@ -141,6 +145,14 @@
 		2B551F0D1760BC4800C68E43 /* avatar_placeholder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = avatar_placeholder.png; sourceTree = "<group>"; };
 		2B551F0E1760BC4800C68E43 /* avatar_placeholder@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "avatar_placeholder@2x.png"; sourceTree = "<group>"; };
 		2B551F19176108B200C68E43 /* CDDefine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDDefine.h; sourceTree = "<group>"; };
+		2B569B9F176F3D9100B34E0C /* TimelineViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimelineViewController.h; sourceTree = "<group>"; };
+		2B569BA0176F3D9100B34E0C /* TimelineViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimelineViewController.m; sourceTree = "<group>"; };
+		2B569BA2176F3E6400B34E0C /* ChoiceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChoiceViewController.h; sourceTree = "<group>"; };
+		2B569BA3176F3E6400B34E0C /* ChoiceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChoiceViewController.m; sourceTree = "<group>"; };
+		2B569BA5176F3E7500B34E0C /* HistoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryViewController.h; sourceTree = "<group>"; };
+		2B569BA6176F3E7500B34E0C /* HistoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryViewController.m; sourceTree = "<group>"; };
+		2B569BA8176F3E8300B34E0C /* MediaTypeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MediaTypeViewController.h; sourceTree = "<group>"; };
+		2B569BA9176F3E8400B34E0C /* MediaTypeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MediaTypeViewController.m; sourceTree = "<group>"; };
 		2B6519A91767318F0080D632 /* CDConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDConfig.h; sourceTree = "<group>"; };
 		2B6519AA1767318F0080D632 /* CDConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDConfig.m; sourceTree = "<group>"; };
 		2BB60F8A1756437D00290F69 /* CDUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDUser.h; sourceTree = "<group>"; };
@@ -372,6 +384,14 @@
 				2BC4D4A7176201270098151C /* CDCommentTableViewCell.m */,
 				2B37B8FE1764F8D900A026DA /* CDPostDetailView.h */,
 				2B37B8FF1764F8DA00A026DA /* CDPostDetailView.m */,
+				2B569B9F176F3D9100B34E0C /* TimelineViewController.h */,
+				2B569BA0176F3D9100B34E0C /* TimelineViewController.m */,
+				2B569BA2176F3E6400B34E0C /* ChoiceViewController.h */,
+				2B569BA3176F3E6400B34E0C /* ChoiceViewController.m */,
+				2B569BA5176F3E7500B34E0C /* HistoryViewController.h */,
+				2B569BA6176F3E7500B34E0C /* HistoryViewController.m */,
+				2B569BA8176F3E8300B34E0C /* MediaTypeViewController.h */,
+				2B569BA9176F3E8400B34E0C /* MediaTypeViewController.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -703,6 +723,10 @@
 				2BC4D4FB1762530F0098151C /* UIImageView+WebCache.m in Sources */,
 				2B37B9001764F8DA00A026DA /* CDPostDetailView.m in Sources */,
 				2B6519AB1767318F0080D632 /* CDConfig.m in Sources */,
+				2B569BA1176F3D9100B34E0C /* TimelineViewController.m in Sources */,
+				2B569BA4176F3E6400B34E0C /* ChoiceViewController.m in Sources */,
+				2B569BA7176F3E7500B34E0C /* HistoryViewController.m in Sources */,
+				2B569BAA176F3E8400B34E0C /* MediaTypeViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -6,8 +6,11 @@
 //  Copyright (c) 2013年 chendong. All rights reserved.
 //
 
+#import "CDDefine.h"
 #import "SideMenuViewController.h"
 #import "IIViewDeckController.h"
+#import "TimelineViewController.h"
+#import "MediaTypeViewController.h"
 
 @interface SideMenuViewController ()
 
@@ -69,16 +72,15 @@
     static NSString *CellIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        cell.textLabel.textColor = [UIColor whiteColor];
+        cell.textLabel.backgroundColor = [UIColor clearColor];
+        cell.contentView.backgroundColor = [UIColor clearColor];
     }
     
-    cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
-    
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     NSDictionary *menu = [[menuData objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
     cell.textLabel.text = [menu objectForKey:@"name"];
-    cell.textLabel.textColor = [UIColor whiteColor];
-    cell.textLabel.backgroundColor = [UIColor clearColor];
-    cell.contentView.backgroundColor = [UIColor clearColor];
     
     UIImage *bgImage = [[UIImage imageNamed:@"menu_cell_bg.png"] stretchableImageWithLeftCapWidth:2.0 topCapHeight:2.0f];
     UIImageView *bgView = [[UIImageView alloc] initWithImage:bgImage];
@@ -110,51 +112,54 @@
     return imgView;
 }
 
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
 
 #pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [self.viewDeckController closeLeftViewAnimated:YES completion:^(IIViewDeckController *controller, BOOL success) {
-        ;
+        UINavigationController *centerViewController;
+        
+        if (indexPath.section == 0) {
+            static TimelineViewController *timelineViewController;
+            
+            switch (indexPath.row) {
+                case 0:
+                    if (timelineViewController == nil)
+                        timelineViewController = [[TimelineViewController alloc] init];
+                    centerViewController = [[UINavigationController alloc] initWithRootViewController:timelineViewController];
+                    self.viewDeckController.centerController = centerViewController;
+                    break;
+                    
+                default:
+                    break;
+            }
+        }
+        else if (indexPath.section == 1) {
+            static MediaTypeViewController *textJokeViewController;
+            static MediaTypeViewController *imageJokeViewController;
+            
+            switch (indexPath.row) {
+                case 0:
+                    if (textJokeViewController == nil) {
+                        textJokeViewController = [[MediaTypeViewController alloc] initWithMediaType:MEDIA_TYPE_TEXT];
+                        textJokeViewController.title = @"挖笑话";
+                    }
+                    centerViewController = [[UINavigationController alloc] initWithRootViewController:textJokeViewController];
+                    self.viewDeckController.centerController = centerViewController;
+                    break;
+                case 1:
+                    if (imageJokeViewController == nil) {
+                        imageJokeViewController = [[MediaTypeViewController alloc] initWithMediaType:MEDIA_TYPE_IMAGE];
+                        imageJokeViewController.title = @"挖趣图";
+                    }
+                    centerViewController = [[UINavigationController alloc] initWithRootViewController:imageJokeViewController];
+                    self.viewDeckController.centerController = centerViewController;
+                    break;
+                default:
+                    break;
+            }
+        }
     }];
     
 }

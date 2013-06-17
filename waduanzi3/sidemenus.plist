@@ -33,19 +33,7 @@
 			<key>name</key>
 			<string>挖趣图</string>
 			<key>tag</key>
-			<integer>11</integer>
-		</dict>
-		<dict>
-			<key>name</key>
-			<string>挖女神</string>
-			<key>tag</key>
-			<integer>12</integer>
-		</dict>
-		<dict>
-			<key>name</key>
-			<string>挖短片</string>
-			<key>tag</key>
-			<integer>13</integer>
+			<integer>20</integer>
 		</dict>
 	</array>
 </array>

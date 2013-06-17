@@ -26,6 +26,7 @@
 - (void) loadPostComments;
 - (void) loadPostDetail;
 - (NSDictionary *) commentsParameters;
+- (void) setupTableView;
 - (void) setupPostDetailViewInCell:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath;
 - (void) setCommentCellSubViews:(CDCommentTableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath;
 - (void) supportComment:(NSInteger) index;
@@ -37,6 +38,7 @@
 
 @implementation PostDetailViewController
 
+@synthesize tableView = _tableView;
 @synthesize postID = _postID;
 @synthesize post = _post;
 @synthesize smallImage = _smallImage;
@@ -48,9 +50,9 @@
     _lasttime = 0;
 }
 
-- (id)initWithStyle:(UITableViewStyle)style andPostID:(NSInteger)post_id
+- (id)initWithPostID:(NSInteger)post_id
 {
-    self = [super initWithStyle:style];
+    self = [super init];
     if (self) {
         [self initData];
         self.postID = post_id;
@@ -58,9 +60,9 @@
     return self;
 }
 
-- (id)initWithStyle:(UITableViewStyle)style andPost:(CDPost *)post
+- (id)initWithPost:(CDPost *)post
 {
-    self = [super initWithStyle:style];
+    self = [super init];
     if (self) {
         [self initData];
         self.post = post;
@@ -88,7 +90,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
+    [self setupTableView];
     
     UISwipeGestureRecognizer *swipGestureRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwips:)];
     swipGestureRecognizer.delegate = self;
@@ -97,12 +99,24 @@
     [self.view addGestureRecognizer:swipGestureRecognizer];
     
     UILongPressGestureRecognizer *longPressRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleTableViewLongPress:)];
-    longPressRecognizer.minimumPressDuration = 0.5f;
+    longPressRecognizer.minimumPressDuration = 0.3f;
     longPressRecognizer.delegate = self;
     [self.tableView addGestureRecognizer:longPressRecognizer];
     
     [self setupTableViewPullAndInfiniteScrollView];
     [self.tableView triggerInfiniteScrolling];
+}
+
+- (void) setupTableView
+{
+    // setup tableView
+    CGRect tableViewFrame = self.view.bounds;
+    //    NSLog(@"h: %f", tableViewFrame.size.height);
+    tableViewFrame.size.height -= NAVBAR_HEIGHT;
+    self.tableView = [[UITableView alloc] initWithFrame:tableViewFrame style:UITableViewStylePlain];
+    _tableView.delegate = self;
+    _tableView.dataSource = self;
+    [self.view addSubview:_tableView];
 }
 
 - (void) setupTableViewPullAndInfiniteScrollView
@@ -125,12 +139,13 @@
     UILabel *triggeredLabel = [[UILabel alloc] initWithFrame:infiniteViewFrame];
     stoppedLabel.textAlignment = loadingLabel.textAlignment = triggeredLabel.textAlignment = UITextAlignmentCenter;
     stoppedLabel.textColor = loadingLabel.textColor = triggeredLabel.textColor = [UIColor grayColor];
+    stoppedLabel.font = loadingLabel.font = triggeredLabel.font = [UIFont systemFontOfSize:14.0f];
     NSInteger moreCommentCount = [_post.comment_count integerValue] - _comments.count;
     stoppedLabel.text = (moreCommentCount > 0) ? [NSString stringWithFormat:@"还有%d条评论", moreCommentCount] : @"没有更多啦";
-    [self.tableView.infiniteScrollingView setCustomView:stoppedLabel forState:SVInfiniteScrollingStateStopped];
-    loadingLabel.text = @"载入中...";
+//    [self.tableView.infiniteScrollingView setCustomView:stoppedLabel forState:SVInfiniteScrollingStateStopped];
+    loadingLabel.text = @"加载中，请稍候...";
     [self.tableView.infiniteScrollingView setCustomView:loadingLabel forState:SVInfiniteScrollingStateLoading];
-    triggeredLabel.text = @"松开手指开始载入";
+    triggeredLabel.text = @"加载更多";
     [self.tableView.infiniteScrollingView setCustomView:triggeredLabel forState:SVInfiniteScrollingStateTriggered];
 }
 
@@ -155,7 +170,13 @@
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return section == 0 ? 1 :[_comments count];
+    NSInteger count = 0;
+    if (section == 0)
+        count = 1;
+    else if (section == 1)
+        count = [_comments count];
+
+    return count;
 }
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -166,6 +187,7 @@
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:PostDetailCellIdentifier];
         if (cell == nil) {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:PostDetailCellIdentifier];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
         
         [self setupPostDetailViewInCell:cell indexPath:indexPath];
@@ -178,15 +200,14 @@
         CDCommentTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CommentListCellIdentifier];
         if (cell == nil) {
             cell = [[CDCommentTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CommentListCellIdentifier];
+            cell.selectionStyle = UITableViewCellSelectionStyleGray;
             [self setCommentCellSubViews:cell forRowAtIndexPath:indexPath];
         }
         
         CDComment *comment = [_comments objectAtIndex:indexPath.row];
         cell.detailTextLabel.text = comment.content;
         cell.authorTextLabel.text = comment.author_name;
-        
         cell.orderTextLabel.text = [NSString stringWithFormat:@"#%d", indexPath.row+1];
-        
         [cell.avatarImageView setImageWithURL:[NSURL URLWithString:comment.user.mini_avatar] placeholderImage:[UIImage imageNamed:@"avatar_placeholder"]];
         
         comment = nil;
@@ -264,7 +285,6 @@
     
     cell.orderTextLabel.font = [UIFont systemFontOfSize:14.0f];
     cell.orderTextLabel.textColor = [UIColor colorWithRed:0.80f green:0.80f blue:0.80f alpha:1.00f];
-    
 }
 
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -301,19 +321,31 @@
         
         return cellHeight + CELL_PADDING;
     }
-    
-    
-    CDComment *comment = [_comments objectAtIndex:indexPath.row];
-    
-    CGFloat contentWidth = self.view.frame.size.width - CELL_PADDING*2;
-    UIFont *detailFont = [UIFont systemFontOfSize:14.0f];
-    CGSize detailLabelSize = [comment.content sizeWithFont:detailFont
-                                      constrainedToSize:CGSizeMake(contentWidth, 9999.0)
-                                          lineBreakMode:UILineBreakModeWordWrap];
-    
-    CGFloat cellHeight = CELL_PADDING + COMMENT_AVATAR_WIDTH + detailLabelSize.height + CELL_PADDING;
-    
-    return cellHeight;
+    else if (indexPath.section == 1 && indexPath.row < _comments.count) {
+        CDComment *comment = [_comments objectAtIndex:indexPath.row];
+        
+        CGFloat contentWidth = self.view.frame.size.width - CELL_PADDING*2;
+        UIFont *detailFont = [UIFont systemFontOfSize:14.0f];
+        CGSize detailLabelSize = [comment.content sizeWithFont:detailFont
+                                          constrainedToSize:CGSizeMake(contentWidth, 9999.0)
+                                              lineBreakMode:UILineBreakModeWordWrap];
+        
+        CGFloat cellHeight = CELL_PADDING + COMMENT_AVATAR_WIDTH + detailLabelSize.height + CELL_PADDING;
+        
+        return cellHeight;
+    }
+    else
+        return 0.0f;
+}
+
+- (CGFloat) tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return 0.001f;
+}
+
+- (UIView *) tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+    return [[UIView alloc]init];
 }
 
 - (void) handleTableViewLongPress:(UILongPressGestureRecognizer *)recognizer
@@ -420,12 +452,8 @@
                                     [self.tableView endUpdates];
                                     
                                     NSInteger moreCommentCount = [_post.comment_count integerValue] - _comments.count;
-                                    CGRect infiniteViewFrame = CGRectMake(0, 0, self.tableView.frame.size.width, 30.0f);
-                                    UILabel *stoppedLabel = [[UILabel alloc] initWithFrame:infiniteViewFrame];
-                                    stoppedLabel.textAlignment = UITextAlignmentCenter;
-                                    stoppedLabel.textColor = [UIColor grayColor];
-                                    stoppedLabel.text = (moreCommentCount > 0) ? [NSString stringWithFormat:@"还有%d条评论", moreCommentCount] : @"没有更多啦";
-                                    [self.tableView.infiniteScrollingView setCustomView:stoppedLabel forState:SVInfiniteScrollingStateStopped];
+                                    if (moreCommentCount <= 0)
+                                        self.tableView.showsInfiniteScrolling = NO;
                                 }
                                 else {
                                     NSLog(@"没有更多内容了");

@@ -6,10 +6,11 @@
 //  Copyright (c) 2012年 chendong. All rights reserved.
 //
 
+#import "CDDefine.h"
 #import "AppDelegate.h"
 #import "IIViewDeckController.h"
 #import "SideMenuViewController.h"
-#import "PostListViewController.h"
+#import "TimelineViewController.h"
 #import "TestViewController.h"
 #import "CDRestClient.h"
 
@@ -182,14 +183,14 @@
     SideMenuViewController *menuController = [[SideMenuViewController alloc] initWithStyle:UITableViewStylePlain];
     UINavigationController *sideController = [[UINavigationController alloc] initWithRootViewController:menuController];
     
-    PostListViewController *postListController = [[PostListViewController alloc] initWithChanneID:1 andMediaType:0];
-    self.centerController = [[UINavigationController alloc] initWithRootViewController:postListController];
+    TimelineViewController *timelineController = [[TimelineViewController alloc] init];
+    self.centerController = [[UINavigationController alloc] initWithRootViewController:timelineController];
     IIViewDeckController *deckController = [[IIViewDeckController alloc] initWithCenterViewController:_centerController leftViewController:sideController];
     
-    deckController.leftSize = 60.0f;
+    deckController.leftSize = DECK_LEFT_SIZE;
     deckController.sizeMode = IIViewDeckLedgeSizeMode;
     deckController.navigationControllerBehavior = IIViewDeckNavigationControllerContained;
-    deckController.panningMode = IIViewDeckNoPanning;
+    deckController.panningMode = IIViewDeckNavigationBarOrOpenCenterPanning;
     deckController.centerhiddenInteractivity = IIViewDeckCenterHiddenNotUserInteractiveWithTapToClose;
     deckController.openSlideAnimationDuration = 0.2f;
     deckController.closeSlideAnimationDuration = 0.25f;
@@ -222,6 +223,7 @@
 }
 
 @end
+
 
 
 

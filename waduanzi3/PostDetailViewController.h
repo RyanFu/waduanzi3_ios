@@ -11,18 +11,19 @@
 @class CDPost;
 @class CDPostDetailView;
 
-@interface PostDetailViewController : UITableViewController <UIActionSheetDelegate, UIGestureRecognizerDelegate>
+@interface PostDetailViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate, UIGestureRecognizerDelegate>
 {
     NSMutableArray *_comments;
     NSInteger _lasttime;
 }
 
+@property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic) NSInteger postID;
 @property (nonatomic, strong) CDPost *post;
 @property (nonatomic, strong) UIImage *smallImage;
 @property (nonatomic, strong) UIImage *middleImage;
 
-- (id)initWithStyle:(UITableViewStyle)style andPost:(CDPost *)post;
-- (id)initWithStyle:(UITableViewStyle)style andPostID:(NSInteger)post_id;
+- (id)initWithPost:(CDPost *)post;
+- (id)initWithPostID:(NSInteger)post_id;
 
 @end

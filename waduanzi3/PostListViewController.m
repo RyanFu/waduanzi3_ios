@@ -22,13 +22,8 @@
 #import "CDConfig.h"
 
 @interface PostListViewController ()
-- (void) initData;
 - (void) setupTableView;
 - (void) setupAdView;
-- (void)loadLatestStatuses;
-- (void)loadMoreStatuses;
-- (NSDictionary *) latestStatusesParameters;
-- (NSDictionary *) moreStatusesParameters;
 - (void) setCellSubViews:(CDPostTableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath;
 - (void) setupTableViewPullAndInfiniteScrollView;
 @end
@@ -38,87 +33,80 @@
 @synthesize tableView = _tableView;
 @synthesize adView = _adView;
 
-- (void) initData
-{
-    _statuses = [NSMutableArray array];
-    _parameters = [NSMutableDictionary dictionary];
-    _channelID = 1;
-    _mediaType = 0;
-    _lasttime = 0;
-    _maxtime = 0;
-}
-
-- (id) initWithChanneID:(NSInteger)channelID andMediaType:(NSInteger)mediaType
+- (id) init
 {
     self = [super init];
     if (self) {
         [self initData];
-        _channelID = channelID;
-        _mediaType = mediaType;
-        
-        _restPath = @"/post/timeline";
     }
+    NSLog(@"method: PostListViewController init");
     return self;
+}
+
+- (void) initData
+{
+    _statuses = [NSMutableArray array];
+    _parameters = [NSMutableDictionary dictionary];
+    _channelID = CHANNEL_FUNNY;
+    _mediaType = MEDIA_TYPE_MIXED;
+    _lasttime = 0;
+    _maxtime = 0;
+    NSLog(@"method: PostListViewController initData");
 }
 
 - (NSDictionary *) latestStatusesParameters
 {
-    if (_statuses.count > 0) {
-        CDPost *firstPost = [_statuses objectAtIndex:0];
-        _lasttime = [firstPost.create_time integerValue];
-    }
-    
-    NSString *channel_id = [NSString stringWithFormat:@"%d", 1];
-    NSString *media_type = [NSString stringWithFormat:@"%d", _mediaType];
-    NSString *last_time = [NSString stringWithFormat:@"%d", _lasttime];
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    [params setObject:channel_id forKey:@"channel_id"];
-    [params setObject:media_type forKey:@"media_type"];
-    [params setObject:last_time forKey:@"lasttime"];
-    
-    return [CDRestClient requestParams:params];
+    [NSException raise:@"Invoked abstract method" format:@"Invoked abstract method"];
+    return nil;
 }
 
 - (NSDictionary *) moreStatusesParameters
 {
-    if (_statuses.count > 0) {
-        CDPost *lastPost = [_statuses lastObject];
-        _maxtime = [lastPost.create_time integerValue];
-    }
-    
-    NSString *channel_id = [NSString stringWithFormat:@"%d", 1];
-    NSString *media_type = [NSString stringWithFormat:@"%d", _mediaType];
-    NSString *max_time = [NSString stringWithFormat:@"%d", _maxtime];
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    [params setObject:channel_id forKey:@"channel_id"];
-    [params setObject:media_type forKey:@"media_type"];
-    [params setObject:max_time forKey:@"maxtime"];
-    
-    return [CDRestClient requestParams:params];;
+    [NSException raise:@"Invoked abstract method" format:@"Invoked abstract method"];
+    return nil;
 }
 
+- (NSString *) latestStatusesRestPath
+{
+    [NSException raise:@"Invoked abstract method" format:@"Invoked abstract method"];
+    return nil;
+}
+
+- (NSString *) moreStatusesRestPath
+{
+    [NSException raise:@"Invoked abstract method" format:@"Invoked abstract method"];
+    return nil;
+}
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
+    self.viewDeckController.delegate = self;
     
     [self setupTableView];
     [self setupAdView];
     
-    UISwipeGestureRecognizer *swipGestureRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwips:)];
-    swipGestureRecognizer.delegate = self;
-    swipGestureRecognizer.direction = UISwipeGestureRecognizerDirectionRight;
-    swipGestureRecognizer.numberOfTouchesRequired = 1;
-    [self.view addGestureRecognizer:swipGestureRecognizer];
-
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPlay target:self action:@selector(openLeftSlideView:)];
     
     [self setupTableViewPullAndInfiniteScrollView];
     [self.tableView triggerPullToRefresh];
+}
+
+
+
+#pragma mark - viewDeckControllerDelegate
+
+- (void)viewDeckController:(IIViewDeckController *)viewDeckController willOpenViewSide:(IIViewDeckSide)viewDeckSide animated:(BOOL)animated
+{
+    self.tableView.userInteractionEnabled = NO;
+    NSLog(@"will open");
+}
+
+- (void)viewDeckController:(IIViewDeckController *)viewDeckController didCloseViewSide:(IIViewDeckSide)viewDeckSide animated:(BOOL)animated
+{
+    self.tableView.userInteractionEnabled = YES;
+    NSLog(@"did close");
 }
 
 - (void) setupTableView
@@ -143,6 +131,7 @@
 
 - (void) viewWillAppear:(BOOL)animated
 {
+    self.viewDeckController.panningMode = IIViewDeckNavigationBarOrOpenCenterPanning;
     [super viewWillAppear:animated];
     
     BOOL enableAdvert = [CDConfig enabledAdvert];
@@ -157,6 +146,12 @@
         self.adView = nil;
     }
     _tableView.frame = tableViewFrame;
+}
+
+- (void) viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    self.viewDeckController.panningMode = IIViewDeckNoPanning;
 }
 
 - (void) setupTableViewPullAndInfiniteScrollView
@@ -179,21 +174,16 @@
     UILabel *triggeredLabel = [[UILabel alloc] initWithFrame:infiniteViewFrame];
     stoppedLabel.textAlignment = loadingLabel.textAlignment = triggeredLabel.textAlignment = UITextAlignmentCenter;
     stoppedLabel.textColor = loadingLabel.textColor = triggeredLabel.textColor = [UIColor grayColor];
+    stoppedLabel.font = loadingLabel.font = triggeredLabel.font = [UIFont systemFontOfSize:14.0f];
     stoppedLabel.text = @"向上滑动载入更多";
-    [self.tableView.infiniteScrollingView setCustomView:stoppedLabel forState:SVInfiniteScrollingStateStopped];
-    loadingLabel.text = @"载入中...";
+//    [self.tableView.infiniteScrollingView setCustomView:stoppedLabel forState:SVInfiniteScrollingStateStopped];
+    loadingLabel.text = @"加载中，请稍候...";
     [self.tableView.infiniteScrollingView setCustomView:loadingLabel forState:SVInfiniteScrollingStateLoading];
-    triggeredLabel.text = @"松开手指开始载入";
+    triggeredLabel.text = @"加载更多";
     [self.tableView.infiniteScrollingView setCustomView:triggeredLabel forState:SVInfiniteScrollingStateTriggered];
     
 }
 
-- (void) handleSwips:(UISwipeGestureRecognizer *)recognizer
-{
-    NSLog(@"direction: %d", recognizer.direction);
-    if (recognizer.direction & UISwipeGestureRecognizerDirectionRight)
-        [self.viewDeckController openLeftViewAnimated:YES];
-}
 
 - (void)didReceiveMemoryWarning
 {
@@ -251,7 +241,7 @@
     
     
     post = nil;
-    NSLog(@"state: %d", cell.upButton.state);
+//    NSLog(@"state: %d", cell.upButton.state);
     return cell;
 }
 
@@ -374,8 +364,10 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+//    if (!_centerDidAppear) return;
+    
     CDPost *post = [_statuses objectAtIndex:indexPath.row];
-    PostDetailViewController *detailViewController = [[PostDetailViewController alloc] initWithStyle:UITableViewStylePlain andPost:post];
+    PostDetailViewController *detailViewController = [[PostDetailViewController alloc] initWithPost:post];
 //    CDPostTableViewCell *cell = (CDPostTableViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
 //    detailViewController.smallImage = cell.imageView.image;
     [self.navigationController pushViewController:detailViewController animated:YES];
@@ -389,80 +381,81 @@
 }
 
 #pragma mark - load data
+
+- (void) latestStatusesSuccess:(RKObjectRequestOperation *)operation mappingResult:(RKMappingResult *)result
+{
+    [NSException raise:@"Invoked abstract method" format:@"Invoked abstract method"];
+}
+
+- (void) latestStatusesFailed:(RKObjectRequestOperation *)operation error:(NSError *)error
+{
+    NSLog(@"method: PostListViewController latestStatusesFailed:error:");
+    [WCAlertView showAlertWithTitle:@"出错啦" message:@"载入数据出错。" customizationBlock:^(WCAlertView *alertView) {
+        
+        alertView.style = WCAlertViewStyleWhite;
+        
+    } completionBlock:^(NSUInteger buttonIndex, WCAlertView *alertView) {
+        if (buttonIndex == 1)
+            [self loadLatestStatuses];
+    } cancelButtonTitle:@"关闭" otherButtonTitles:@"重试",nil];
+    NSLog(@"Hit error: %@", error);
+}
+
+- (void) moreStatusesSuccess:(RKObjectRequestOperation *)operation mappingResult:(RKMappingResult *)result
+{
+    [NSException raise:@"Invoked abstract method" format:@"Invoked abstract method"];
+}
+
+- (void) moreStatusesFailed:(RKObjectRequestOperation *)operation error:(NSError *)error
+{
+    [WCAlertView showAlertWithTitle:@"出错啦"
+                            message:@"载入数据出错。"
+                 customizationBlock:^(WCAlertView *alertView) {
+                     
+                     alertView.style = WCAlertViewStyleWhite;
+                     
+                 } completionBlock:^(NSUInteger buttonIndex, WCAlertView *alertView) {
+                     if (buttonIndex == 1)
+                         [self loadLatestStatuses];
+                 } cancelButtonTitle:@"关闭" otherButtonTitles:@"重试",nil];
+    NSLog(@"Hit error: %@", error);
+}
+
 - (void)loadLatestStatuses
 {
     // Load the object model via RestKit
     RKObjectManager *objectManager = [RKObjectManager sharedManager];
-    [objectManager getObjectsAtPath:_restPath
+    [objectManager getObjectsAtPath:[self latestStatusesRestPath]
                          parameters:[self latestStatusesParameters]
                             success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
                                 [self.tableView.pullToRefreshView stopAnimating];
-                                
-                                if (mappingResult.count > 0) {
-                                    NSMutableArray* statuses = (NSMutableArray *)[mappingResult array];
-    //                                NSLog(@"Loaded statuses: %@", statuses);
-                                    _statuses = statuses;
-                                    
-                                    if (self.isViewLoaded)
-                                        [self.tableView reloadData];
-                                }
-                                else {
-                                    NSLog(@"没有更多内容了");
-                                }
+                                if ([self respondsToSelector:@selector(latestStatusesSuccess:mappingResult:)])
+                                    [self performSelector:@selector(latestStatusesSuccess:mappingResult:) withObject:operation withObject:mappingResult];
                             }
                             failure:^(RKObjectRequestOperation *operation, NSError *error) {
                                 [self.tableView.pullToRefreshView stopAnimating];
-                                
-                                [WCAlertView showAlertWithTitle:@"出错啦" message:@"载入数据出错。" customizationBlock:^(WCAlertView *alertView) {
-                                                 
-                                     alertView.style = WCAlertViewStyleWhite;
-                                                 
-                                 } completionBlock:^(NSUInteger buttonIndex, WCAlertView *alertView) {
-                                     if (buttonIndex == 1)
-                                         [self loadLatestStatuses];
-                                 } cancelButtonTitle:@"关闭" otherButtonTitles:@"重试",nil];
+                                if ([self respondsToSelector:@selector(latestStatusesFailed:error:)])
+                                    [self performSelector:@selector(latestStatusesFailed:error:) withObject:operation withObject:error];
                                 NSLog(@"Hit error: %@", error);
                             }];
-
+    
 }
 
 - (void)loadMoreStatuses
 {
     // Load the object model via RestKit
     RKObjectManager *objectManager = [RKObjectManager sharedManager];
-    [objectManager getObjectsAtPath:_restPath
+    [objectManager getObjectsAtPath:[self moreStatusesRestPath]
                          parameters:[self moreStatusesParameters]
                             success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
                                 [self.tableView.infiniteScrollingView stopAnimating];
-                                
-                                if (mappingResult.count > 0) {
-                                    NSArray* statuses = (NSArray *)[mappingResult array];
-//                                    NSLog(@"Loaded statuses: %@", statuses);
-                                    NSInteger currentCount = [_statuses count];
-                                    [_statuses addObjectsFromArray:statuses];
-                                    
-                                    NSMutableArray *insertIndexPaths = [NSMutableArray array];
-                                    for (int i=0; i<statuses.count; i++) {
-                                        [insertIndexPaths addObject:[NSIndexPath indexPathForRow:currentCount+i inSection:0]];
-                                    }
-                                    
-                                    [self.tableView beginUpdates];
-                                    [self.tableView insertRowsAtIndexPaths:insertIndexPaths withRowAnimation:UITableViewRowAnimationFade];
-                                    [self.tableView endUpdates];
-                                }
+                                if ([self respondsToSelector:@selector(moreStatusesSuccess:mappingResult:)])
+                                    [self performSelector:@selector(moreStatusesSuccess:mappingResult:) withObject:operation withObject:mappingResult];
                             }
                             failure:^(RKObjectRequestOperation *operation, NSError *error) {
                                 [self.tableView.infiniteScrollingView stopAnimating];
-                                [WCAlertView showAlertWithTitle:@"出错啦"
-                                                        message:@"载入数据出错。"
-                                             customizationBlock:^(WCAlertView *alertView) {
-                                                 
-                                                 alertView.style = WCAlertViewStyleWhite;
-                                                 
-                                             } completionBlock:^(NSUInteger buttonIndex, WCAlertView *alertView) {
-                                                 if (buttonIndex == 1)
-                                                     [self loadLatestStatuses];
-                                             } cancelButtonTitle:@"关闭" otherButtonTitles:@"重试",nil];
+                                if ([self respondsToSelector:@selector(moreStatusesFailed:error:)])
+                                    [self performSelector:@selector(moreStatusesFailed:error:) withObject:operation withObject:error];
                                 NSLog(@"Hit error: %@", error);
                             }];
     
