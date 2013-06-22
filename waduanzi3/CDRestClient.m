@@ -131,7 +131,12 @@
                                                                                                  statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
     [_manager addResponseDescriptor:createCommentResponseDescriptor];
     
-    
+    // user/login
+    RKResponseDescriptor *loginUserResponseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:userMapping
+                                                                                                pathPattern:@"/user/login"
+                                                                                                    keyPath:nil
+                                                                                                statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+    [_manager addResponseDescriptor:loginUserResponseDescriptor];
 }
 
 - (RKObjectMapping *) setPostObjectMapping

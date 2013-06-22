@@ -11,8 +11,8 @@
 #import "IIViewDeckController.h"
 #import "SideMenuViewController.h"
 #import "TimelineViewController.h"
-#import "TestViewController.h"
 #import "CDRestClient.h"
+#import "TestViewController.h"
 
 
 @interface AppDelegate ()
@@ -202,7 +202,6 @@
 {
     TestViewController *testController = [[TestViewController alloc] initWithStyle:UITableViewStylePlain];
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:testController];
-    
     
     self.window.rootViewController = navController;
 }

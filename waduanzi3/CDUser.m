@@ -23,4 +23,9 @@
 @synthesize username = _username;
 @synthesize website = _website;
 
++ (BOOL) logined
+{
+    return NO;
+}
+
 @end

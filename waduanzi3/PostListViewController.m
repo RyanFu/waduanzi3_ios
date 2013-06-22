@@ -251,18 +251,9 @@
     cell.thumbSize = CGSizeMake(THUMB_WIDTH, THUMB_HEIGHT);
     
     cell.textLabel.font = [UIFont systemFontOfSize:16.0f];
-    cell.textLabel.textColor = [UIColor colorWithRed:0.01f green:0.01f blue:0.01f alpha:1.00f];
-    
     cell.detailTextLabel.font = [UIFont systemFontOfSize:16.0f];
-    cell.detailTextLabel.textColor = [UIColor colorWithRed:0.01f green:0.01f blue:0.01f alpha:1.00f];
-    
-    cell.authorTextLabel.font = [UIFont boldSystemFontOfSize:16.0f];
-    cell.authorTextLabel.textColor = [UIColor colorWithRed:0.37f green:0.75f blue:0.51f alpha:1.00f];
-    
+    cell.authorTextLabel.font = [UIFont boldSystemFontOfSize:16.0f];    
     cell.datetimeTextLabel.font = [UIFont systemFontOfSize:14.0f];
-    cell.datetimeTextLabel.textColor = [UIColor colorWithRed:0.80f green:0.80f blue:0.80f alpha:1.00f];
-    
-    
     
     cell.upButton.contentEdgeInsets = cell.commentButton.contentEdgeInsets = UIEdgeInsetsMake(3, 0, 3, 0);
     cell.upButton.imageEdgeInsets = cell.commentButton.contentEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 7);
@@ -272,9 +263,7 @@
     cell.upButton.layer.borderColor = cell.commentButton.layer.borderColor = [[UIColor colorWithRed:0.83f green:0.83f blue:0.83f alpha:0.70f] CGColor];
     cell.upButton.layer.cornerRadius = cell.commentButton.layer.cornerRadius = 6.0f;
     cell.upButton.backgroundColor = cell.commentButton.backgroundColor = [UIColor whiteColor];
-    
     cell.upButton.adjustsImageWhenHighlighted = NO;
-    cell.commentButton.adjustsImageWhenHighlighted = NO;
     
     [cell.upButton setImage:[UIImage imageNamed:@"avatar_placeholder"] forState:UIControlStateNormal];
     [cell.upButton setTitleColor:[UIColor colorWithRed:0.73f green:0.73f blue:0.73f alpha:1.00f] forState:UIControlStateNormal];
@@ -287,6 +276,7 @@
     [cell.commentButton setTitleColor:[UIColor redColor] forState:UIControlStateHighlighted];
     [cell.commentButton addTarget:self action:@selector(cellButtonTouchDown:) forControlEvents:UIControlEventTouchDown];
     [cell.commentButton addTarget:self action:@selector(commentButtonTouchUpInside:) forControlEvents:UIControlEventTouchUpInside];
+    cell.commentButton.adjustsImageWhenHighlighted = NO;
 }
 
 #pragma mark - cell buttion event selector
@@ -319,9 +309,8 @@
     [button setTitle:[post.up_count stringValue] forState:UIControlStateNormal];
     
     RKObjectManager *objectManager = [RKObjectManager sharedManager];
-    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:[post.post_id stringValue], @"post_id", nil];
-
-    [objectManager.HTTPClient putPath:@"/post/up" parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    NSString *restPath = [NSString stringWithFormat:@"/post/support/%d", [post.post_id integerValue]];
+    [objectManager.HTTPClient putPath:restPath parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"response: %@", responseObject);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"error: %@", error);

@@ -15,6 +15,7 @@
 {
     NSMutableArray *_comments;
     NSInteger _lasttime;
+    UIToolbar *_bottomToolbar;
 }
 
 @property (nonatomic, strong) UITableView *tableView;

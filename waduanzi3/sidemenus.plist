@@ -36,5 +36,25 @@
 			<integer>20</integer>
 		</dict>
 	</array>
+	<array>
+		<dict>
+			<key>name</key>
+			<string>我收藏的</string>
+			<key>tag</key>
+			<string>100</string>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>我参与的</string>
+			<key>tag</key>
+			<string>110</string>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>我发表的</string>
+			<key>tag</key>
+			<string>120</string>
+		</dict>
+	</array>
 </array>
 </plist>

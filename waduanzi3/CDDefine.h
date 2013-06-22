@@ -20,6 +20,7 @@ const static CGFloat COMMENT_AVATAR_WIDTH = 24.0f;
 
 const static CGFloat STATUSBAR_HEIGHT = 20.0f;
 const static CGFloat NAVBAR_HEIGHT = 44.0f;
+const static CGFloat TOOLBAR_HEIGHT = 44.0f;
 const static CGFloat NAVBAR_LANDSCAPE_HEIGHT = 32.0f;
 const static CGFloat AD_BANNER_HEIGHT = 50.0f;
 
@@ -33,5 +34,21 @@ const static NSInteger MEDIA_TYPE_IMAGE = 20;
 const static NSInteger MEDIA_TYPE_AUDIO = 30;
 const static NSInteger MEDIA_TYPE_VIDEO = 40;
 
+
+// user login and signup
+const static CGFloat VIEW_PADDING = 20.0f;
+const static CGFloat LOGOVIEW_HEIGHT = 70.0f;
+const static CGFloat FORMVIEW_HEIGHT = 90.0f;
+const static CGFloat LOGOVIEW_FORMVIEW_MARGIN = 35.0f;
+const static CGFloat LOGOVIEW_MARGIN_TOP = 90.0f;
+const static CGFloat FORMVIEW_SUBMITBUTTON_MARGIN = 10.0f;
+const static NSInteger USERNAME_TEXTFIELD_TAG = 1;
+const static NSInteger PASSWORD_TEXTFIELD_TAG = 2;
+
+
+typedef NS_ENUM(NSInteger, CDAppErrorCode) {
+    USER_NOT_EXIST = 20001,
+    USER_NOT_AUTHENTICATED = 20002,
+};
 
 #endif

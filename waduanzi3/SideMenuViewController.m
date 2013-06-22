@@ -11,9 +11,12 @@
 #import "IIViewDeckController.h"
 #import "TimelineViewController.h"
 #import "MediaTypeViewController.h"
+#import "UserProfileViewController.h"
+#import "SettingViewController.h"
+#import "UserLoginViewController.h"
 
 @interface SideMenuViewController ()
-
+- (void) setupNavBarButtonItem;
 @end
 
 @implementation SideMenuViewController
@@ -28,14 +31,19 @@
     return self;
 }
 
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
     self.tableView.scrollsToTop = NO;
+    [self setupNavBarButtonItem];
 
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
+    self.clearsSelectionOnViewWillAppear = NO;
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
@@ -47,10 +55,26 @@
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 }
 
-- (void)didReceiveMemoryWarning
+- (void) viewWillAppear:(BOOL)animated
 {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    [super viewWillAppear:animated];
+    
+    CGRect viewFrame = self.navigationController.view.frame;
+    viewFrame.size.width = self.navigationController.view.frame.size.width - DECK_LEFT_SIZE;
+    self.view.frame = viewFrame;
+}
+
+
+#pragma mark - setup subviews
+
+- (void) setupNavBarButtonItem
+{
+    CGRect viewFrame = self.navigationController.navigationBar.frame;
+    viewFrame.size.width = self.navigationController.view.frame.size.width - DECK_LEFT_SIZE;
+    self.navigationController.navigationBar.frame = viewFrame;
+    
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(openUserProfileController:)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(openSettingController:)];
 }
 
 #pragma mark - Table view data source
@@ -161,6 +185,35 @@
             }
         }
     }];
+}
+
+
+#pragma mark - button item selector
+
+- (void) openSettingController:(id)sender
+{
+    UIViewController *rootController = [[[UIApplication sharedApplication] keyWindow] rootViewController];
+    SettingViewController *settingController = [[SettingViewController alloc] init];
+    [rootController presentViewController:settingController animated:YES completion:^{
+        NSLog(@"open setting");
+    }];
+}
+
+- (void) openUserProfileController:(id)sender
+{
+    static UINavigationController *loginNavController;
+    
+    UIViewController *rootController = [[[UIApplication sharedApplication] keyWindow] rootViewController];
+    UserLoginViewController *loginController = [[UserLoginViewController alloc] init];
+    
+    if (loginNavController == nil)
+        loginNavController = [[UINavigationController alloc] initWithRootViewController:loginController];
+    
+    loginNavController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+    [rootController presentViewController:loginNavController animated:YES completion:nil];
     
 }
+
 @end
+
+

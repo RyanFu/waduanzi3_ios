@@ -85,13 +85,16 @@
     _datetimeTextLabel.contentMode = UIViewContentModeRight;
     [_datetimeTextLabel sizeToFit];
     _datetimeTextLabel.backgroundColor = [UIColor clearColor];
-    
+    _datetimeTextLabel.textColor = [UIColor colorWithRed:0.80f green:0.80f blue:0.80f alpha:1.00f];
+
     // authorLabel
     CGFloat authorLabelWidth = contentViewWidth - timeLabelSize.width - widgetHeight - _padding*2;
     CGRect authorLabelFrame = CGRectMake(_padding + widgetHeight + _padding, widgetY, authorLabelWidth, widgetHeight);
     [self.authorTextLabel setFrame:authorLabelFrame];
     [_authorTextLabel sizeToFit];
     _authorTextLabel.backgroundColor = [UIColor clearColor];
+    _authorTextLabel.textColor = [UIColor colorWithRed:0.37f green:0.75f blue:0.51f alpha:1.00f];
+
     
     widgetY += widgetHeight;
     
@@ -99,6 +102,7 @@
     if (self.textLabel.text.length > 0) {
         self.textLabel.numberOfLines = 0;
         self.textLabel.lineBreakMode = UILineBreakModeWordWrap;
+        self.textLabel.textColor = [UIColor colorWithRed:0.01f green:0.01f blue:0.01f alpha:1.00f];
         
         CGSize titleLabelSize = [self.textLabel.text sizeWithFont:self.textLabel.font
                                                        constrainedToSize:CGSizeMake(contentViewWidth, 9999.0)
@@ -115,6 +119,7 @@
     if (self.detailTextLabel.text.length > 0) {
         self.detailTextLabel.numberOfLines = 0;
         self.detailTextLabel.lineBreakMode = UILineBreakModeWordWrap;
+        self.detailTextLabel.textColor = [UIColor colorWithRed:0.01f green:0.01f blue:0.01f alpha:1.00f];
         
         CGSize detailLabelSize = [self.detailTextLabel.text sizeWithFont:self.detailTextLabel.font
                                                 constrainedToSize:CGSizeMake(contentViewWidth, 9999.0)

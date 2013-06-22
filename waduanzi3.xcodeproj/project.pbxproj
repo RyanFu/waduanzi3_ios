@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2B0929EC1773950C0051D1DC /* NSString+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B0929EB1773950C0051D1DC /* NSString+MD5.m */; };
+		2B0929EF177395430051D1DC /* NSData+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B0929EE177395420051D1DC /* NSData+MD5.m */; };
 		2B1B4D9C16DBBCDE009D79ED /* OpenUDID.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1B4D9B16DBBCDE009D79ED /* OpenUDID.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		2B232B3B175ED659007803C0 /* PostDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B232B3A175ED659007803C0 /* PostDetailViewController.m */; };
 		2B232B3E175F365B007803C0 /* CDRestError.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B232B3D175F365B007803C0 /* CDRestError.m */; };
@@ -66,6 +68,15 @@
 		2BC4D4FA1762530F0098151C /* UIImage+MultiFormat.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BC4D4EC1762530F0098151C /* UIImage+MultiFormat.m */; };
 		2BC4D4FB1762530F0098151C /* UIImageView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BC4D4EE1762530F0098151C /* UIImageView+WebCache.m */; };
 		2BC4D4FD1762558F0098151C /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BC4D4FC1762558E0098151C /* MapKit.framework */; };
+		2BC95520177184D600568E54 /* oppose@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BC9551C177184D600568E54 /* oppose@2x.png */; };
+		2BC95521177184D600568E54 /* support@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BC9551D177184D600568E54 /* support@2x.png */; };
+		2BC95522177184D600568E54 /* oppose.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BC9551E177184D600568E54 /* oppose.png */; };
+		2BC95523177184D600568E54 /* support.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BC9551F177184D600568E54 /* support.png */; };
+		2BC955261771D65B00568E54 /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BC955251771D65B00568E54 /* SettingViewController.m */; };
+		2BC955291771D68300568E54 /* UserProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BC955281771D68300568E54 /* UserProfileViewController.m */; };
+		2BC9552C1771E49F00568E54 /* UserLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BC9552B1771E49F00568E54 /* UserLoginViewController.m */; };
+		2BC9552F1771E4AE00568E54 /* UserSignupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BC9552E1771E4AE00568E54 /* UserSignupViewController.m */; };
+		2BC955321771F59D00568E54 /* CDTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BC955311771F59D00568E54 /* CDTextField.m */; };
 		2BCA0A0117578704000DD9FF /* CDComment.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BCA0A0017578704000DD9FF /* CDComment.m */; };
 		2BCFA8C516E4DCD700521DEC /* IISideController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BCFA8C016E4DCD700521DEC /* IISideController.m */; };
 		2BCFA8C616E4DCD700521DEC /* IIViewDeckController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BCFA8C216E4DCD700521DEC /* IIViewDeckController.m */; };
@@ -101,6 +112,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2B0929EA1773950C0051D1DC /* NSString+MD5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+MD5.h"; sourceTree = "<group>"; };
+		2B0929EB1773950C0051D1DC /* NSString+MD5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+MD5.m"; sourceTree = "<group>"; };
+		2B0929ED177395420051D1DC /* NSData+MD5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+MD5.h"; sourceTree = "<group>"; };
+		2B0929EE177395420051D1DC /* NSData+MD5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+MD5.m"; sourceTree = "<group>"; };
 		2B1B4D9A16DBBCDE009D79ED /* OpenUDID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenUDID.h; sourceTree = "<group>"; };
 		2B1B4D9B16DBBCDE009D79ED /* OpenUDID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenUDID.m; sourceTree = "<group>"; };
 		2B232B39175ED659007803C0 /* PostDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostDetailViewController.h; sourceTree = "<group>"; };
@@ -193,6 +208,20 @@
 		2BC4D4ED1762530F0098151C /* UIImageView+WebCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+WebCache.h"; sourceTree = "<group>"; };
 		2BC4D4EE1762530F0098151C /* UIImageView+WebCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+WebCache.m"; sourceTree = "<group>"; };
 		2BC4D4FC1762558E0098151C /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		2BC9551C177184D600568E54 /* oppose@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "oppose@2x.png"; sourceTree = "<group>"; };
+		2BC9551D177184D600568E54 /* support@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "support@2x.png"; sourceTree = "<group>"; };
+		2BC9551E177184D600568E54 /* oppose.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = oppose.png; sourceTree = "<group>"; };
+		2BC9551F177184D600568E54 /* support.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = support.png; sourceTree = "<group>"; };
+		2BC955241771D65B00568E54 /* SettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
+		2BC955251771D65B00568E54 /* SettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingViewController.m; sourceTree = "<group>"; };
+		2BC955271771D68300568E54 /* UserProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserProfileViewController.h; sourceTree = "<group>"; };
+		2BC955281771D68300568E54 /* UserProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserProfileViewController.m; sourceTree = "<group>"; };
+		2BC9552A1771E49F00568E54 /* UserLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserLoginViewController.h; sourceTree = "<group>"; };
+		2BC9552B1771E49F00568E54 /* UserLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserLoginViewController.m; sourceTree = "<group>"; };
+		2BC9552D1771E4AE00568E54 /* UserSignupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserSignupViewController.h; sourceTree = "<group>"; };
+		2BC9552E1771E4AE00568E54 /* UserSignupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserSignupViewController.m; sourceTree = "<group>"; };
+		2BC955301771F59D00568E54 /* CDTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDTextField.h; sourceTree = "<group>"; };
+		2BC955311771F59D00568E54 /* CDTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDTextField.m; sourceTree = "<group>"; };
 		2BCA09FF17578704000DD9FF /* CDComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDComment.h; sourceTree = "<group>"; };
 		2BCA0A0017578704000DD9FF /* CDComment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDComment.m; sourceTree = "<group>"; };
 		2BCFA8BF16E4DCD700521DEC /* IISideController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IISideController.h; sourceTree = "<group>"; };
@@ -392,6 +421,14 @@
 				2B569BA6176F3E7500B34E0C /* HistoryViewController.m */,
 				2B569BA8176F3E8300B34E0C /* MediaTypeViewController.h */,
 				2B569BA9176F3E8400B34E0C /* MediaTypeViewController.m */,
+				2BC955241771D65B00568E54 /* SettingViewController.h */,
+				2BC955251771D65B00568E54 /* SettingViewController.m */,
+				2BC955271771D68300568E54 /* UserProfileViewController.h */,
+				2BC955281771D68300568E54 /* UserProfileViewController.m */,
+				2BC9552A1771E49F00568E54 /* UserLoginViewController.h */,
+				2BC9552B1771E49F00568E54 /* UserLoginViewController.m */,
+				2BC9552D1771E4AE00568E54 /* UserSignupViewController.h */,
+				2BC9552E1771E4AE00568E54 /* UserSignupViewController.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -512,6 +549,12 @@
 				2B551F19176108B200C68E43 /* CDDefine.h */,
 				2B6519A91767318F0080D632 /* CDConfig.h */,
 				2B6519AA1767318F0080D632 /* CDConfig.m */,
+				2BC955301771F59D00568E54 /* CDTextField.h */,
+				2BC955311771F59D00568E54 /* CDTextField.m */,
+				2B0929EA1773950C0051D1DC /* NSString+MD5.h */,
+				2B0929EB1773950C0051D1DC /* NSString+MD5.m */,
+				2B0929ED177395420051D1DC /* NSData+MD5.h */,
+				2B0929EE177395420051D1DC /* NSData+MD5.m */,
 			);
 			name = Common;
 			sourceTree = "<group>";
@@ -519,6 +562,10 @@
 		2BED82F8167B5ED20025E9C4 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				2BC9551C177184D600568E54 /* oppose@2x.png */,
+				2BC9551D177184D600568E54 /* support@2x.png */,
+				2BC9551E177184D600568E54 /* oppose.png */,
+				2BC9551F177184D600568E54 /* support.png */,
 				2BFEBD8216E7848C00D8D363 /* menu_cell_separator.png */,
 				2BFEBD8016E783D600D8D363 /* menu_cell_bg.png */,
 				2BFEBD7B16E781CE00D8D363 /* menu_table_bg.png */,
@@ -640,6 +687,10 @@
 				2BFEBD8316E7848C00D8D363 /* menu_cell_separator.png in Resources */,
 				2B551F0F1760BC4800C68E43 /* avatar_placeholder.png in Resources */,
 				2B551F101760BC4800C68E43 /* avatar_placeholder@2x.png in Resources */,
+				2BC95520177184D600568E54 /* oppose@2x.png in Resources */,
+				2BC95521177184D600568E54 /* support@2x.png in Resources */,
+				2BC95522177184D600568E54 /* oppose.png in Resources */,
+				2BC95523177184D600568E54 /* support.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -727,6 +778,13 @@
 				2B569BA4176F3E6400B34E0C /* ChoiceViewController.m in Sources */,
 				2B569BA7176F3E7500B34E0C /* HistoryViewController.m in Sources */,
 				2B569BAA176F3E8400B34E0C /* MediaTypeViewController.m in Sources */,
+				2BC955261771D65B00568E54 /* SettingViewController.m in Sources */,
+				2BC955291771D68300568E54 /* UserProfileViewController.m in Sources */,
+				2BC9552C1771E49F00568E54 /* UserLoginViewController.m in Sources */,
+				2BC9552F1771E4AE00568E54 /* UserSignupViewController.m in Sources */,
+				2BC955321771F59D00568E54 /* CDTextField.m in Sources */,
+				2B0929EC1773950C0051D1DC /* NSString+MD5.m in Sources */,
+				2B0929EF177395430051D1DC /* NSData+MD5.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

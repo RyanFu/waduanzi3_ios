@@ -17,3 +17,8 @@
 // AFHTTPClient
 #import <SystemConfiguration/SystemConfiguration.h>
 #import <MobileCoreServices/MobileCoreServices.h>
+
+
+
+#define CDSCREEN [UIScreen mainScreen]
+#define CDSCREEN_SIZE CDSCREEN.bounds.size

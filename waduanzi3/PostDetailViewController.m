@@ -6,6 +6,9 @@
 //  Copyright (c) 2013年 chendong. All rights reserved.
 //
 
+#define FORWARD_ACTIONSHEET_TAG 999999
+
+
 #import <QuartzCore/QuartzCore.h>
 #import <RestKit/RestKit.h>
 #import "PostDetailViewController.h"
@@ -19,6 +22,7 @@
 #import "CDCommentTableViewCell.h"
 #import "UIImageView+WebCache.h"
 #import "CDPostDetailView.h"
+#import "UserProfileViewController.h"
 
 
 @interface PostDetailViewController ()
@@ -33,6 +37,7 @@
 - (void) copyComment:(NSInteger) index;
 - (void) reportComment:(NSInteger) index;
 - (void) setupTableViewPullAndInfiniteScrollView;
+- (void) setupBottomToolBar;
 @end
 
 
@@ -71,6 +76,12 @@
     return self;
 }
 
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
 - (NSDictionary *) commentsParameters
 {
     if (_comments.count > 0) {
@@ -90,7 +101,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.title = @"查看笑话";
     [self setupTableView];
+    [self setupBottomToolBar];
     
     UISwipeGestureRecognizer *swipGestureRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwips:)];
     swipGestureRecognizer.delegate = self;
@@ -107,16 +121,47 @@
     [self.tableView triggerInfiniteScrolling];
 }
 
+- (void) handleSwips:(UISwipeGestureRecognizer *)recognizer
+{
+    NSLog(@"direction: %d", recognizer.direction);
+    if (recognizer.direction & UISwipeGestureRecognizerDirectionRight)
+        [self.navigationController popViewControllerAnimated:YES];
+}
+
+
+#pragma mark - setup subviews
+
 - (void) setupTableView
 {
-    // setup tableView
     CGRect tableViewFrame = self.view.bounds;
-    //    NSLog(@"h: %f", tableViewFrame.size.height);
-    tableViewFrame.size.height -= NAVBAR_HEIGHT;
+    tableViewFrame.size.height -= (self.navigationController.navigationBar.frame.size.height + TOOLBAR_HEIGHT);
     self.tableView = [[UITableView alloc] initWithFrame:tableViewFrame style:UITableViewStylePlain];
     _tableView.delegate = self;
     _tableView.dataSource = self;
     [self.view addSubview:_tableView];
+}
+
+- (void) setupBottomToolBar
+{
+    CGRect toolbarFrame = CGRectMake(0, _tableView.frame.origin.y + _tableView.frame.size.height, self.view.frame.size.width, TOOLBAR_HEIGHT);
+    _bottomToolbar = [[UIToolbar alloc] initWithFrame:toolbarFrame];
+    _bottomToolbar.barStyle = UIBarStyleBlack;
+    
+    // set button items
+    UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemReply target:self action:@selector(backButtonDidPressed:)];
+    UIBarButtonItem *favoriteButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemBookmarks target:self action:@selector(bookmarkButtonDidPressed:)];
+    UIBarButtonItem *flexButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+    UIBarButtonItem *forwardButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(forwardButtonDidPressed:)];
+    UIBarButtonItem *commentButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"发表评论" style:UIBarButtonItemStylePlain target:self action:@selector(openCommentTextInput:)];
+    
+    NSArray *items = [NSArray arrayWithObjects:backButtonItem, flexButtonItem,
+                      commentButtonItem, flexButtonItem,
+                      favoriteButton, flexButtonItem,
+                      forwardButtonItem,
+                      nil];
+    
+    [_bottomToolbar setItems:items];
+    [self.view addSubview:_bottomToolbar];
 }
 
 - (void) setupTableViewPullAndInfiniteScrollView
@@ -149,18 +194,57 @@
     [self.tableView.infiniteScrollingView setCustomView:triggeredLabel forState:SVInfiniteScrollingStateTriggered];
 }
 
-- (void) handleSwips:(UISwipeGestureRecognizer *)recognizer
+#pragma mark - bottom bar button selector
+
+
+
+- (void) backButtonDidPressed:(id)sender
 {
-    NSLog(@"direction: %d", recognizer.direction);
-    if (recognizer.direction & UISwipeGestureRecognizerDirectionRight)
-        [self.navigationController popViewControllerAnimated:YES];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (void)didReceiveMemoryWarning
+- (void) bookmarkButtonDidPressed:(id)sender
 {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    UIBarButtonItem *button = (UIBarButtonItem *)sender;
+    NSLog(@"stared, tag: %d", button.tag);
+
+    NSString *restPath;
+    if (button.tag > 0)
+        restPath = [NSString stringWithFormat:@"/post/unlike/%d", [_post.post_id integerValue]];
+    else
+        restPath = [NSString stringWithFormat:@"/post/like/%d", [_post.post_id integerValue]];
+    
+#warning 这里的user_id要修改为登录后的user_id
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:@"", @"user_id", nil];
+
+    RKObjectManager *objectManager = [RKObjectManager sharedManager];
+    [objectManager.HTTPClient putPath:restPath parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"response: %@", responseObject);
+        button.tag = (button.tag > 0) ? 0 : 1;
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"error: %@", error);
+    }];
 }
+
+- (void) forwardButtonDidPressed:(id)sender
+{
+    NSLog(@"forward");
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"我要分享" delegate:self cancelButtonTitle:@"关闭" destructiveButtonTitle:nil otherButtonTitles:@"短信分享", @"新浪微博", @"腾讯微博", @"复制", @"微信好友", @"微信朋友圈", nil];
+    actionSheet.tag = FORWARD_ACTIONSHEET_TAG;
+    
+    [actionSheet showInView:self.navigationController.view];
+}
+
+- (void) openCommentTextInput:(id)sender
+{
+    NSLog(@"open comment text input");
+    PostDetailViewController *dc = [[PostDetailViewController alloc] initWithPost:_post];
+    [self presentViewController:dc animated:YES completion:^{
+        NSLog(@"open profile");
+    }];
+}
+
+
 
 #pragma mark - tableview datasource
 - (NSInteger) numberOfSectionsInTableView:(UITableView *)tableView
@@ -348,6 +432,10 @@
     return [[UIView alloc]init];
 }
 
+
+
+#pragma mark - comment cell long press selector and methods
+
 - (void) handleTableViewLongPress:(UILongPressGestureRecognizer *)recognizer
 {
     if (recognizer.state == UIGestureRecognizerStateBegan) {
@@ -357,7 +445,7 @@
         
         CDComment *comment = [_comments objectAtIndex:indexPath.row];
         NSString *upText = [NSString stringWithFormat:@"顶[%d]", [comment.up_count integerValue]];
-        UIActionSheet * actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self
+        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self
                                                          cancelButtonTitle:@"取消"
                                                     destructiveButtonTitle:nil
                                                          otherButtonTitles:upText, @"复制", @"举报", nil];
@@ -368,18 +456,24 @@
 
 - (void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    switch (buttonIndex) {
-        case 0:
-            [self supportComment:actionSheet.tag];
-            break;
-        case 1:
-            [self copyComment:actionSheet.tag];
-            break;
-        case 2:
-            [self reportComment:actionSheet.tag];
-            break;
-        default:
-            break;
+    NSLog(@"action sheet tag: %d,  buttonIndex: %d", actionSheet.tag, buttonIndex);
+    if (actionSheet.tag == FORWARD_ACTIONSHEET_TAG) {
+        NSLog(@"forward button pressed");
+    }
+    else {
+        switch (buttonIndex) {
+            case 0:
+                [self supportComment:actionSheet.tag];
+                break;
+            case 1:
+                [self copyComment:actionSheet.tag];
+                break;
+            case 2:
+                [self reportComment:actionSheet.tag];
+                break;
+            default:
+                break;
+        }
     }
 }
 
@@ -388,9 +482,8 @@
     CDComment *comment = [_comments objectAtIndex:index];
     
     RKObjectManager *objectManager = [RKObjectManager sharedManager];
-    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:[comment.comment_id stringValue], @"comment_id", nil];
-    
-    [objectManager.HTTPClient putPath:@"/comment/support" parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    NSString *restPath = [NSString stringWithFormat:@"/comment/support/%d", [comment.comment_id integerValue]];
+    [objectManager.HTTPClient putPath:restPath parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         comment.up_count = [NSNumber numberWithInteger: [comment.up_count integerValue] + 1];
         [_comments replaceObjectAtIndex:index withObject:comment];
         
@@ -405,9 +498,8 @@
     CDComment *comment = [_comments objectAtIndex:index];
     
     RKObjectManager *objectManager = [RKObjectManager sharedManager];
-    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:[comment.comment_id stringValue], @"comment_id", nil];
-    
-    [objectManager.HTTPClient putPath:@"/comment/report" parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    NSString *restPath = [NSString stringWithFormat:@"/comment/report/%d", [comment.comment_id integerValue]];
+    [objectManager.HTTPClient putPath:restPath parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         comment.report_count = [NSNumber numberWithInteger: [comment.report_count integerValue] + 1];
         [_comments replaceObjectAtIndex:index withObject:comment];
         
