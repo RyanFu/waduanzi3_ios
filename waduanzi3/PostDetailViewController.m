@@ -23,6 +23,8 @@
 #import "UIImageView+WebCache.h"
 #import "CDPostDetailView.h"
 #import "UserProfileViewController.h"
+#import "CDDataCache.h"
+#import "CDAppUser.h"
 
 
 @interface PostDetailViewController ()
@@ -205,6 +207,14 @@
 
 - (void) bookmarkButtonDidPressed:(id)sender
 {
+    if (![CDAppUser hasLogined]) {
+        NSLog(@"user is not logined");
+        return;
+    }
+    
+    CDUser *user = [CDAppUser currentUser];
+    NSString *userID = [user.user_id stringValue];
+    
     UIBarButtonItem *button = (UIBarButtonItem *)sender;
     NSLog(@"stared, tag: %d", button.tag);
 
@@ -214,8 +224,8 @@
     else
         restPath = [NSString stringWithFormat:@"/post/like/%d", [_post.post_id integerValue]];
     
-#warning 这里的user_id要修改为登录后的user_id
-    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:@"", @"user_id", nil];
+    
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:userID, @"user_id", nil];
 
     RKObjectManager *objectManager = [RKObjectManager sharedManager];
     [objectManager.HTTPClient putPath:restPath parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -304,9 +314,9 @@
 - (void) setupPostDetailViewInCell:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath
 {
     CDPostDetailView * detailView = [[CDPostDetailView alloc] initWithFrame:cell.contentView.bounds];
-    detailView.padding = CELL_PADDING;
+    detailView.padding = POST_DETAIL_CELL_PADDING;
     
-    CGFloat contentWidth = detailView.frame.size.width - CELL_PADDING * 2;
+    CGFloat contentWidth = detailView.frame.size.width - POST_DETAIL_CELL_PADDING * 2;
     CGFloat imageViewHeight = 0;
     if (_middleImage) {
         CGSize middleImageSize = CGSizeMake(_middleImage.size.width / 2, _middleImage.size.height / 2);
@@ -359,7 +369,7 @@
 
 - (void) setCommentCellSubViews:(CDCommentTableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    cell.padding = CELL_PADDING;
+    cell.padding = POST_DETAIL_CELL_PADDING;
     
     cell.detailTextLabel.font = [UIFont systemFontOfSize:14.0f];
     cell.detailTextLabel.textColor = [UIColor colorWithRed:0.01f green:0.01f blue:0.01f alpha:1.00f];
@@ -374,7 +384,7 @@
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 0) {
-        CGFloat contentWidth = tableView.frame.size.width - CELL_PADDING*2;
+        CGFloat contentWidth = tableView.frame.size.width - POST_DETAIL_CELL_PADDING*2;
         CGSize titleLabelSize = [_post.title sizeWithFont:[UIFont systemFontOfSize:16.0f]
                                        constrainedToSize:CGSizeMake(contentWidth, 9999.0)
                                            lineBreakMode:UILineBreakModeWordWrap];
@@ -383,7 +393,7 @@
                                           constrainedToSize:CGSizeMake(contentWidth, 9999.0)
                                               lineBreakMode:UILineBreakModeWordWrap];
         
-        CGFloat cellHeight = CELL_PADDING + POST_AVATAR_WIDTH + CELL_PADDING + detailLabelSize.height + CELL_PADDING + CELL_BUTTON_HEIGHT;
+        CGFloat cellHeight = POST_DETAIL_CELL_PADDING + POST_AVATAR_WIDTH + POST_DETAIL_CELL_PADDING + detailLabelSize.height + POST_DETAIL_CELL_PADDING + CELL_BUTTON_HEIGHT;
         
         CGFloat imageViewHeight = 0;
         if (_middleImage) {
@@ -399,22 +409,22 @@
             imageViewHeight = THUMB_HEIGHT;
         
         if (imageViewHeight > 0)
-            cellHeight += imageViewHeight + CELL_PADDING;
+            cellHeight += imageViewHeight + POST_DETAIL_CELL_PADDING;
         else
-            cellHeight += titleLabelSize.height + CELL_PADDING;
+            cellHeight += titleLabelSize.height + POST_DETAIL_CELL_PADDING;
         
-        return cellHeight + CELL_PADDING;
+        return cellHeight + POST_DETAIL_CELL_PADDING;
     }
     else if (indexPath.section == 1 && indexPath.row < _comments.count) {
         CDComment *comment = [_comments objectAtIndex:indexPath.row];
         
-        CGFloat contentWidth = self.view.frame.size.width - CELL_PADDING*2;
+        CGFloat contentWidth = self.view.frame.size.width - POST_DETAIL_CELL_PADDING*2;
         UIFont *detailFont = [UIFont systemFontOfSize:14.0f];
         CGSize detailLabelSize = [comment.content sizeWithFont:detailFont
                                           constrainedToSize:CGSizeMake(contentWidth, 9999.0)
                                               lineBreakMode:UILineBreakModeWordWrap];
         
-        CGFloat cellHeight = CELL_PADDING + COMMENT_AVATAR_WIDTH + detailLabelSize.height + CELL_PADDING;
+        CGFloat cellHeight = POST_DETAIL_CELL_PADDING + COMMENT_AVATAR_WIDTH + detailLabelSize.height + POST_DETAIL_CELL_PADDING;
         
         return cellHeight;
     }

@@ -88,6 +88,8 @@
     // avatarImageView
     _avatarImageView.contentMode = UIViewContentModeScaleAspectFit;
     _avatarImageView.opaque = YES;
+    _avatarImageView.layer.cornerRadius = 3.0f;
+    _avatarImageView.clipsToBounds = YES;
     CGRect avatarViewFrame = CGRectMake(_padding, widgetY, avatarWidth, widgetHeight);
     [_avatarImageView setFrame:avatarViewFrame];
     

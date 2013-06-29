@@ -24,7 +24,7 @@
         self.multipleTouchEnabled = YES;
         self.userInteractionEnabled = YES;
         
-        self.padding = 7.5f;
+        self.padding = 10.0f;
         
         self.avatarImageView = [[UIImageView alloc] init];
         self.authorTextLabel = [[UILabel alloc] init];

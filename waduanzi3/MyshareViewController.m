@@ -1,12 +1,12 @@
 //
-//  TimelineViewController.m
+//  MyshareViewController.m
 //  waduanzi3
 //
-//  Created by chendong on 13-6-17.
+//  Created by chendong on 13-6-23.
 //  Copyright (c) 2013年 chendong. All rights reserved.
 //
 
-#import "TimelineViewController.h"
+#import "MyshareViewController.h"
 #import <RestKit/RestKit.h>
 #import "CDDefine.h"
 #import "CDPost.h"
@@ -16,18 +16,27 @@
 #import "UIScrollView+SVPullToRefresh.h"
 #import "CDDataCache.h"
 
-@interface TimelineViewController ()
+@interface MyshareViewController ()
 
 @end
 
-@implementation TimelineViewController
+@implementation MyshareViewController
+
+- (id) initWithUserID:(NSInteger)user_id
+{
+    self = [super init];
+    if (self) {
+        _userID = user_id;
+        _page = FIRST_PAGE_ID;
+    }
+    return self;
+}
 
 - (void)viewDidLoad
 {
-    // Do any additional setup after loading the view.
-    self.title = @"随便看看";
-    
-    _statuses = [[CDDataCache shareCache] fetchTimelinePosts];
+	// Do any additional setup after loading the view.
+    self.title = @"我发表的";
+    _statuses = [[CDDataCache shareCache] fetchMySharePosts];
     
     [super viewDidLoad];
 }
@@ -36,51 +45,44 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-
 }
-
 
 
 #pragma mark - inherit parent interface required method
 
 - (NSString *) latestStatusesRestPath
 {
-    return @"/post/timeline";
+    return @"/post/myshare";
 }
 
 - (NSString *) moreStatusesRestPath
 {
-    return @"/post/timeline";
+    return @"/post/myshare";
 }
 
 - (NSDictionary *) latestStatusesParameters
 {
-    if (_statuses.count > 0) {
-        CDPost *firstPost = [_statuses objectAtIndex:0];
-        _lasttime = [firstPost.create_time integerValue];
-    }
-    
     NSString *channel_id = [NSString stringWithFormat:@"%d", _channelID];
-    NSString *last_time = [NSString stringWithFormat:@"%d", _lasttime];
+    NSString *user_id = [NSString stringWithFormat:@"%d", _userID];
+    NSString *page_id = [NSString stringWithFormat:@"%d", FIRST_PAGE_ID];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setObject:channel_id forKey:@"channel_id"];
-    [params setObject:last_time forKey:@"lasttime"];
+    [params setObject:user_id forKey:@"user_id"];
+    [params setObject:page_id forKey:@"page"];
     
     return [CDRestClient requestParams:params];
 }
 
 - (NSDictionary *) moreStatusesParameters
 {
-    if (_statuses.count > 0) {
-        CDPost *lastPost = [_statuses lastObject];
-        _maxtime = [lastPost.create_time integerValue];
-    }
-    
+    NSLog(@"page id: %d", _page);
     NSString *channel_id = [NSString stringWithFormat:@"%d", _channelID];
-    NSString *max_time = [NSString stringWithFormat:@"%d", _maxtime];
+    NSString *user_id = [NSString stringWithFormat:@"%d", _userID];
+    NSString *page_id = [NSString stringWithFormat:@"%d", _page];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setObject:channel_id forKey:@"channel_id"];
-    [params setObject:max_time forKey:@"maxtime"];
+    [params setObject:user_id forKey:@"user_id"];
+    [params setObject:page_id forKey:@"page"];
     
     return [CDRestClient requestParams:params];
 }
@@ -89,26 +91,19 @@
 #pragma mark - loadLatestStatuses
 - (void)latestStatusesSuccess:(RKObjectRequestOperation *)operation mappingResult:(RKMappingResult *)result
 {
-    NSLog(@"TimelineViewController latestStatusesSuccess:mappingResult:");
+    NSLog(@"MyshareViewController latestStatusesSuccess:mappingResult:");
     
     NSArray* statuses = (NSArray *)[result array];
     NSInteger resultCount = [statuses count];
     NSLog(@"count: %d", resultCount);
     if (resultCount > 0) {
-        for (int i=0; i<resultCount; i++) {
-            [_statuses insertObject:[statuses objectAtIndex:i] atIndex:i];
-        }
+        [_statuses removeAllObjects];
+        _statuses = [NSMutableArray arrayWithArray:statuses];
+        [self.tableView reloadData];
         
-        NSMutableArray *insertIndexPaths = [NSMutableArray array];
-        for (int i=0; i<resultCount; i++) {
-            [insertIndexPaths addObject:[NSIndexPath indexPathForRow:i inSection:0]];
-        }
-        
-        [self.tableView beginUpdates];
-        [self.tableView insertRowsAtIndexPaths:insertIndexPaths withRowAnimation:UITableViewRowAnimationFade];
-        [self.tableView endUpdates];
-        
-        [[CDDataCache shareCache] cacheTimelinePosts:_statuses];
+        _page = FIRST_PAGE_ID;
+        _page++;
+        [[CDDataCache shareCache] cacheMySharePosts:_statuses];
     }
     else {
         NSLog(@"没有更多内容了");
@@ -123,8 +118,8 @@
 #pragma mark - loadMoreStatuses
 - (void)moreStatusesSuccess:(RKObjectRequestOperation *)operation mappingResult:(RKMappingResult *)result
 {
-    NSLog(@"TimelineViewController moreStatusesSuccess:mappingResult:");
-
+    NSLog(@"MyshareViewController moreStatusesSuccess:mappingResult:");
+    
     if (result.count > 0) {
         NSArray* statuses = (NSArray *)[result array];
         NSInteger currentCount = [_statuses count];
@@ -139,6 +134,7 @@
         [self.tableView insertRowsAtIndexPaths:insertIndexPaths withRowAnimation:UITableViewRowAnimationFade];
         [self.tableView endUpdates];
         
+        _page++;
     }
 }
 

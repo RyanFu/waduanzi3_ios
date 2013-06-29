@@ -35,7 +35,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-
+    [self customAppearance];
     [self setupRKObjectMapping];
     [self setupWindowView];
 //    [self setupTestRootController];
@@ -175,7 +175,10 @@
 
 - (void) customAppearance
 {
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque];
     
+    [[UINavigationBar appearance] setTintColor:[UIColor clearColor]];
+    [[UINavigationBar appearance] setBarStyle:UIBarStyleBlackOpaque];
 }
 
 - (void) setupWindowView
@@ -213,12 +216,34 @@
 
 - (void) setupRKObjectMapping
 {
-    RKLogConfigureByName("RestKit/*", RKLogLevelOff);
+//    RKLogConfigureByName("RestKit/*", RKLogLevelOff);
 //    RKLogConfigureByName("RestKit/ObjectMapping", RKLogLevelTrace);
 //    RKLogConfigureByName("RestKit/Network", RKLogLevelTrace);
 
     CDRestClient *restClient = [[CDRestClient alloc] init];
     [restClient run];
+    
+    [self performSelector:@selector(updateDeviceInfo) withObject:nil afterDelay:1.0f];
+}
+
+- (void) updateDeviceInfo
+{
+    NSString *language = [[NSLocale preferredLanguages] objectAtIndex:0];
+    NSString *countryCode = [[NSLocale currentLocale] objectForKey: NSLocaleCountryCode];
+    
+    NSDictionary *infos = [NSDictionary dictionaryWithObjectsAndKeys:CDDEVICE.model, @"model",
+                          CDDEVICE.systemName, @"sys_name",
+                          CDDEVICE.name, @"device_name",
+                          language , @"language",
+                          countryCode, @"country", nil];
+    
+    NSDictionary *params = [CDRestClient requestParams:infos];
+    RKObjectManager *manager = [RKObjectManager sharedManager];
+    [manager.HTTPClient postPath:@"/device/update" parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"deivce update success");
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"deivce update error: %@", error.localizedRecoverySuggestion);
+    }];
 }
 
 @end

@@ -54,13 +54,14 @@
 {
     [_client setDefaultHeader:@"User-Agent" value:[CDRestClient userAgent]];
     [_client setDefaultHeader:@"Accept" value:RKMIMETypeJSON];
-    [_client setDefaultHeader:@"device_udid" value:[OpenUDID value]];
+    [_client setDefaultHeader:@"Device-UDID" value:[OpenUDID value]];
+    [_client setDefaultHeader:@"User-Token" value:@""];
     
     UIDevice *device = [UIDevice currentDevice];
-    [_client setDefaultHeader:@"sys_version" value:device.systemVersion];
+    [_client setDefaultHeader:@"OS-Version" value:device.systemVersion];
     
     NSString *appVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"] ?: [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey];
-    [_client setDefaultHeader:@"app_version" value:appVersion];
+    [_client setDefaultHeader:@"App-Version" value:appVersion];
 }
 
 - (void) initObjectManager
@@ -101,12 +102,40 @@
     [commentMapping addPropertyMapping:[userRelationShipMapping copy]];
     
     
-    // post response descriptor
-    RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:postMapping
+    // post timeline response descriptor
+    RKResponseDescriptor *timelineResponseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:postMapping
                                                                                        pathPattern:@"/post/timeline"
                                                                                            keyPath:nil
                                                                                        statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
-    [_manager addResponseDescriptor:responseDescriptor];
+    [_manager addResponseDescriptor:timelineResponseDescriptor];
+    
+    // post myshare response descriptor
+    RKResponseDescriptor *myshareResponseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:postMapping
+                                                                                       pathPattern:@"/post/myshare"
+                                                                                           keyPath:nil
+                                                                                       statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+    [_manager addResponseDescriptor:myshareResponseDescriptor];
+    
+    // post favorite response descriptor
+    RKResponseDescriptor *favoriteResponseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:postMapping
+                                                                                              pathPattern:@"/post/favorite"
+                                                                                                  keyPath:nil
+                                                                                              statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+    [_manager addResponseDescriptor:favoriteResponseDescriptor];
+    
+    // post favorite response descriptor
+    RKResponseDescriptor *bestResponseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:postMapping
+                                                                                               pathPattern:@"/post/best"
+                                                                                                   keyPath:nil
+                                                                                               statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+    [_manager addResponseDescriptor:bestResponseDescriptor];
+    
+    // post favorite response descriptor
+    RKResponseDescriptor *historyResponseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:postMapping
+                                                                                               pathPattern:@"/post/history"
+                                                                                                   keyPath:nil
+                                                                                               statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+    [_manager addResponseDescriptor:historyResponseDescriptor];
     
     
     // comment response descriptor
@@ -229,16 +258,10 @@
 
 + (NSDictionary *) defaultParams
 {
-    UIDevice *device = [UIDevice currentDevice];
-    NSString *appVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"] ?: [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey];
-    
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
          @"123", @"apikey",
          @"json", @"format",
-         @"153635366", @"timestamp",
-         [OpenUDID value], @"device_udid",
-         device.systemVersion, @"sys_version",
-         appVersion, @"app_version", nil];
+         @"153635366", @"timestamp", nil];
     
     return params;
 };
@@ -253,6 +276,7 @@
     
     NSString *sig = [CDRestClient generateSignatureByParams:args];
     [args setObject:sig forKey:@"sig"];
+    NSLog(@"params: %@", args);
     
     return args;
 }

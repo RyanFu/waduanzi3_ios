@@ -10,6 +10,10 @@
 		2B0929EC1773950C0051D1DC /* NSString+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B0929EB1773950C0051D1DC /* NSString+MD5.m */; };
 		2B0929EF177395430051D1DC /* NSData+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B0929EE177395420051D1DC /* NSData+MD5.m */; };
 		2B1B4D9C16DBBCDE009D79ED /* OpenUDID.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1B4D9B16DBBCDE009D79ED /* OpenUDID.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		2B1FDDF3177C935900CD1135 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B1FDDF2177C935900CD1135 /* CoreLocation.framework */; };
+		2B1FDDF4177C936000CD1135 /* libQuickDialog.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B1FDDEF177C931300CD1135 /* libQuickDialog.a */; };
+		2B1FDDF7177C95F400CD1135 /* CDQuickElements.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FDDF6177C95F400CD1135 /* CDQuickElements.m */; };
+		2B1FDDFA177CB87900CD1135 /* CDSideTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FDDF9177CB87900CD1135 /* CDSideTableViewCell.m */; };
 		2B232B3B175ED659007803C0 /* PostDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B232B3A175ED659007803C0 /* PostDetailViewController.m */; };
 		2B232B3E175F365B007803C0 /* CDRestError.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B232B3D175F365B007803C0 /* CDRestError.m */; };
 		2B37B9001764F8DA00A026DA /* CDPostDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B37B8FF1764F8DA00A026DA /* CDPostDetailView.m */; };
@@ -45,10 +49,13 @@
 		2B551F0F1760BC4800C68E43 /* avatar_placeholder.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B551F0D1760BC4800C68E43 /* avatar_placeholder.png */; };
 		2B551F101760BC4800C68E43 /* avatar_placeholder@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B551F0E1760BC4800C68E43 /* avatar_placeholder@2x.png */; };
 		2B569BA1176F3D9100B34E0C /* TimelineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B569BA0176F3D9100B34E0C /* TimelineViewController.m */; };
-		2B569BA4176F3E6400B34E0C /* ChoiceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B569BA3176F3E6400B34E0C /* ChoiceViewController.m */; };
+		2B569BA4176F3E6400B34E0C /* BestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B569BA3176F3E6400B34E0C /* BestViewController.m */; };
 		2B569BA7176F3E7500B34E0C /* HistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B569BA6176F3E7500B34E0C /* HistoryViewController.m */; };
 		2B569BAA176F3E8400B34E0C /* MediaTypeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B569BA9176F3E8400B34E0C /* MediaTypeViewController.m */; };
+		2B5B19C8177B888F0042398E /* CDAppUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B5B19C7177B888F0042398E /* CDAppUser.m */; };
 		2B6519AB1767318F0080D632 /* CDConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B6519AA1767318F0080D632 /* CDConfig.m */; };
+		2BA6348917761D4700AE5DDA /* MyshareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BA6348817761D4700AE5DDA /* MyshareViewController.m */; };
+		2BA6348C177621EE00AE5DDA /* MyFavoriteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BA6348B177621EE00AE5DDA /* MyFavoriteViewController.m */; };
 		2BB60F8C1756437D00290F69 /* CDUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BB60F8B1756437D00290F69 /* CDUser.m */; };
 		2BB60F8F1756437D00290F69 /* CDPost.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BB60F8E1756437D00290F69 /* CDPost.m */; };
 		2BB60F921756470F00290F69 /* TestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BB60F911756470F00290F69 /* TestViewController.m */; };
@@ -104,12 +111,37 @@
 		2BED82F0167B5C8E0025E9C4 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BED82EF167B5C8E0025E9C4 /* MessageUI.framework */; };
 		2BED82F4167B5D610025E9C4 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BED82F3167B5D610025E9C4 /* ImageIO.framework */; };
 		2BED82F6167B5E400025E9C4 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BED82F5167B5E400025E9C4 /* MobileCoreServices.framework */; };
+		2BFC742B177752C80027F9B3 /* CDDataCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BFC742A177752C80027F9B3 /* CDDataCache.m */; };
 		2BFEBD6F16E76E0C00D8D363 /* sidemenus.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2BFEBD6E16E76E0C00D8D363 /* sidemenus.plist */; };
 		2BFEBD7D16E781CE00D8D363 /* menu_table_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BFEBD7B16E781CE00D8D363 /* menu_table_bg.png */; };
 		2BFEBD8116E783D600D8D363 /* menu_cell_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BFEBD8016E783D600D8D363 /* menu_cell_bg.png */; };
 		2BFEBD8316E7848C00D8D363 /* menu_cell_separator.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BFEBD8216E7848C00D8D363 /* menu_cell_separator.png */; };
 		ACED23B1EEC6484FB1432C16 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3457177890EA467497A4E122 /* libPods.a */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		2B1FDDEC177C931300CD1135 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2B1FDDE7177C931300CD1135 /* QuickDialog.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D80B0E3313E052DF00FA85CA;
+			remoteInfo = QuickDialogExample;
+		};
+		2B1FDDEE177C931300CD1135 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2B1FDDE7177C931300CD1135 /* QuickDialog.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 2C542393145ADEBD0026A152;
+			remoteInfo = QuickDialog;
+		};
+		2B1FDDF0177C932F00CD1135 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2B1FDDE7177C931300CD1135 /* QuickDialog.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 2C542392145ADEBD0026A152;
+			remoteInfo = QuickDialog;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		2B0929EA1773950C0051D1DC /* NSString+MD5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+MD5.h"; sourceTree = "<group>"; };
@@ -118,6 +150,12 @@
 		2B0929EE177395420051D1DC /* NSData+MD5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+MD5.m"; sourceTree = "<group>"; };
 		2B1B4D9A16DBBCDE009D79ED /* OpenUDID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenUDID.h; sourceTree = "<group>"; };
 		2B1B4D9B16DBBCDE009D79ED /* OpenUDID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenUDID.m; sourceTree = "<group>"; };
+		2B1FDDE7177C931300CD1135 /* QuickDialog.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = QuickDialog.xcodeproj; path = QuickDialog/QuickDialog.xcodeproj; sourceTree = "<group>"; };
+		2B1FDDF2177C935900CD1135 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		2B1FDDF5177C95F400CD1135 /* CDQuickElements.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDQuickElements.h; sourceTree = "<group>"; };
+		2B1FDDF6177C95F400CD1135 /* CDQuickElements.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDQuickElements.m; sourceTree = "<group>"; };
+		2B1FDDF8177CB87900CD1135 /* CDSideTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDSideTableViewCell.h; sourceTree = "<group>"; };
+		2B1FDDF9177CB87900CD1135 /* CDSideTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDSideTableViewCell.m; sourceTree = "<group>"; };
 		2B232B39175ED659007803C0 /* PostDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostDetailViewController.h; sourceTree = "<group>"; };
 		2B232B3A175ED659007803C0 /* PostDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostDetailViewController.m; sourceTree = "<group>"; };
 		2B232B3C175F365B007803C0 /* CDRestError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDRestError.h; sourceTree = "<group>"; };
@@ -162,14 +200,20 @@
 		2B551F19176108B200C68E43 /* CDDefine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDDefine.h; sourceTree = "<group>"; };
 		2B569B9F176F3D9100B34E0C /* TimelineViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimelineViewController.h; sourceTree = "<group>"; };
 		2B569BA0176F3D9100B34E0C /* TimelineViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimelineViewController.m; sourceTree = "<group>"; };
-		2B569BA2176F3E6400B34E0C /* ChoiceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChoiceViewController.h; sourceTree = "<group>"; };
-		2B569BA3176F3E6400B34E0C /* ChoiceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChoiceViewController.m; sourceTree = "<group>"; };
+		2B569BA2176F3E6400B34E0C /* BestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BestViewController.h; sourceTree = "<group>"; };
+		2B569BA3176F3E6400B34E0C /* BestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BestViewController.m; sourceTree = "<group>"; };
 		2B569BA5176F3E7500B34E0C /* HistoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryViewController.h; sourceTree = "<group>"; };
 		2B569BA6176F3E7500B34E0C /* HistoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryViewController.m; sourceTree = "<group>"; };
 		2B569BA8176F3E8300B34E0C /* MediaTypeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MediaTypeViewController.h; sourceTree = "<group>"; };
 		2B569BA9176F3E8400B34E0C /* MediaTypeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MediaTypeViewController.m; sourceTree = "<group>"; };
+		2B5B19C6177B888F0042398E /* CDAppUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDAppUser.h; sourceTree = "<group>"; };
+		2B5B19C7177B888F0042398E /* CDAppUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDAppUser.m; sourceTree = "<group>"; };
 		2B6519A91767318F0080D632 /* CDConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDConfig.h; sourceTree = "<group>"; };
 		2B6519AA1767318F0080D632 /* CDConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDConfig.m; sourceTree = "<group>"; };
+		2BA6348717761D4700AE5DDA /* MyshareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyshareViewController.h; sourceTree = "<group>"; };
+		2BA6348817761D4700AE5DDA /* MyshareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyshareViewController.m; sourceTree = "<group>"; };
+		2BA6348A177621EE00AE5DDA /* MyFavoriteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyFavoriteViewController.h; sourceTree = "<group>"; };
+		2BA6348B177621EE00AE5DDA /* MyFavoriteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyFavoriteViewController.m; sourceTree = "<group>"; };
 		2BB60F8A1756437D00290F69 /* CDUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDUser.h; sourceTree = "<group>"; };
 		2BB60F8B1756437D00290F69 /* CDUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDUser.m; sourceTree = "<group>"; };
 		2BB60F8D1756437D00290F69 /* CDPost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDPost.h; sourceTree = "<group>"; };
@@ -267,6 +311,8 @@
 		2BED82F1167B5D4A0025E9C4 /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
 		2BED82F3167B5D610025E9C4 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		2BED82F5167B5E400025E9C4 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		2BFC7429177752C80027F9B3 /* CDDataCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDDataCache.h; sourceTree = "<group>"; };
+		2BFC742A177752C80027F9B3 /* CDDataCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDDataCache.m; sourceTree = "<group>"; };
 		2BFEBD6E16E76E0C00D8D363 /* sidemenus.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = sidemenus.plist; sourceTree = "<group>"; };
 		2BFEBD7B16E781CE00D8D363 /* menu_table_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menu_table_bg.png; sourceTree = "<group>"; };
 		2BFEBD8016E783D600D8D363 /* menu_cell_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menu_cell_bg.png; sourceTree = "<group>"; };
@@ -280,6 +326,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2B1FDDF4177C936000CD1135 /* libQuickDialog.a in Frameworks */,
+				2B1FDDF3177C935900CD1135 /* CoreLocation.framework in Frameworks */,
 				2BC4D4FD1762558F0098151C /* MapKit.framework in Frameworks */,
 				2BED82F6167B5E400025E9C4 /* MobileCoreServices.framework in Frameworks */,
 				2BED82F4167B5D610025E9C4 /* ImageIO.framework in Frameworks */,
@@ -305,6 +353,15 @@
 				2B1B4D9B16DBBCDE009D79ED /* OpenUDID.m */,
 			);
 			path = OpenUDID;
+			sourceTree = "<group>";
+		};
+		2B1FDDE8177C931300CD1135 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2B1FDDED177C931300CD1135 /* QuickDialogExample.app */,
+				2B1FDDEF177C931300CD1135 /* libQuickDialog.a */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		2B48FF071756025F00FFF85B /* MBProgressHUD */ = {
@@ -407,16 +464,12 @@
 				2BB60F911756470F00290F69 /* TestViewController.m */,
 				2B232B39175ED659007803C0 /* PostDetailViewController.h */,
 				2B232B3A175ED659007803C0 /* PostDetailViewController.m */,
-				2B551F0A17607C9200C68E43 /* CDPostTableViewCell.h */,
-				2B551F0B17607C9200C68E43 /* CDPostTableViewCell.m */,
 				2BC4D4A8176201270098151C /* CDCommentTableViewCell.h */,
 				2BC4D4A7176201270098151C /* CDCommentTableViewCell.m */,
-				2B37B8FE1764F8D900A026DA /* CDPostDetailView.h */,
-				2B37B8FF1764F8DA00A026DA /* CDPostDetailView.m */,
 				2B569B9F176F3D9100B34E0C /* TimelineViewController.h */,
 				2B569BA0176F3D9100B34E0C /* TimelineViewController.m */,
-				2B569BA2176F3E6400B34E0C /* ChoiceViewController.h */,
-				2B569BA3176F3E6400B34E0C /* ChoiceViewController.m */,
+				2B569BA2176F3E6400B34E0C /* BestViewController.h */,
+				2B569BA3176F3E6400B34E0C /* BestViewController.m */,
 				2B569BA5176F3E7500B34E0C /* HistoryViewController.h */,
 				2B569BA6176F3E7500B34E0C /* HistoryViewController.m */,
 				2B569BA8176F3E8300B34E0C /* MediaTypeViewController.h */,
@@ -429,6 +482,16 @@
 				2BC9552B1771E49F00568E54 /* UserLoginViewController.m */,
 				2BC9552D1771E4AE00568E54 /* UserSignupViewController.h */,
 				2BC9552E1771E4AE00568E54 /* UserSignupViewController.m */,
+				2BA6348717761D4700AE5DDA /* MyshareViewController.h */,
+				2BA6348817761D4700AE5DDA /* MyshareViewController.m */,
+				2BA6348A177621EE00AE5DDA /* MyFavoriteViewController.h */,
+				2BA6348B177621EE00AE5DDA /* MyFavoriteViewController.m */,
+				2B551F0A17607C9200C68E43 /* CDPostTableViewCell.h */,
+				2B551F0B17607C9200C68E43 /* CDPostTableViewCell.m */,
+				2B37B8FE1764F8D900A026DA /* CDPostDetailView.h */,
+				2B37B8FF1764F8DA00A026DA /* CDPostDetailView.m */,
+				2B1FDDF8177CB87900CD1135 /* CDSideTableViewCell.h */,
+				2B1FDDF9177CB87900CD1135 /* CDSideTableViewCell.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -448,6 +511,7 @@
 		2BED81F5167B573E0025E9C4 = {
 			isa = PBXGroup;
 			children = (
+				2B1FDDE7177C931300CD1135 /* QuickDialog.xcodeproj */,
 				2BED8226167B59320025E9C4 /* Vendors */,
 				2BED820C167B573E0025E9C4 /* waduanzi3 */,
 				2BED8203167B573E0025E9C4 /* Frameworks */,
@@ -467,6 +531,7 @@
 		2BED8203167B573E0025E9C4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2B1FDDF2177C935900CD1135 /* CoreLocation.framework */,
 				2BC4D4FC1762558E0098151C /* MapKit.framework */,
 				2BED82F5167B5E400025E9C4 /* MobileCoreServices.framework */,
 				2BED82F3167B5D610025E9C4 /* ImageIO.framework */,
@@ -555,6 +620,12 @@
 				2B0929EB1773950C0051D1DC /* NSString+MD5.m */,
 				2B0929ED177395420051D1DC /* NSData+MD5.h */,
 				2B0929EE177395420051D1DC /* NSData+MD5.m */,
+				2BFC7429177752C80027F9B3 /* CDDataCache.h */,
+				2BFC742A177752C80027F9B3 /* CDDataCache.m */,
+				2B5B19C6177B888F0042398E /* CDAppUser.h */,
+				2B5B19C7177B888F0042398E /* CDAppUser.m */,
+				2B1FDDF5177C95F400CD1135 /* CDQuickElements.h */,
+				2B1FDDF6177C95F400CD1135 /* CDQuickElements.m */,
 			);
 			name = Common;
 			sourceTree = "<group>";
@@ -617,6 +688,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				2B1FDDF1177C932F00CD1135 /* PBXTargetDependency */,
 			);
 			name = waduanzi3;
 			productName = waduanzi3;
@@ -642,12 +714,35 @@
 			mainGroup = 2BED81F5167B573E0025E9C4;
 			productRefGroup = 2BED8201167B573E0025E9C4 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 2B1FDDE8177C931300CD1135 /* Products */;
+					ProjectRef = 2B1FDDE7177C931300CD1135 /* QuickDialog.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				2BED81FF167B573E0025E9C4 /* waduanzi3 */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		2B1FDDED177C931300CD1135 /* QuickDialogExample.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = QuickDialogExample.app;
+			remoteRef = 2B1FDDEC177C931300CD1135 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		2B1FDDEF177C931300CD1135 /* libQuickDialog.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libQuickDialog.a;
+			remoteRef = 2B1FDDEE177C931300CD1135 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		2BED81FE167B573E0025E9C4 /* Resources */ = {
@@ -775,7 +870,7 @@
 				2B37B9001764F8DA00A026DA /* CDPostDetailView.m in Sources */,
 				2B6519AB1767318F0080D632 /* CDConfig.m in Sources */,
 				2B569BA1176F3D9100B34E0C /* TimelineViewController.m in Sources */,
-				2B569BA4176F3E6400B34E0C /* ChoiceViewController.m in Sources */,
+				2B569BA4176F3E6400B34E0C /* BestViewController.m in Sources */,
 				2B569BA7176F3E7500B34E0C /* HistoryViewController.m in Sources */,
 				2B569BAA176F3E8400B34E0C /* MediaTypeViewController.m in Sources */,
 				2BC955261771D65B00568E54 /* SettingViewController.m in Sources */,
@@ -785,10 +880,24 @@
 				2BC955321771F59D00568E54 /* CDTextField.m in Sources */,
 				2B0929EC1773950C0051D1DC /* NSString+MD5.m in Sources */,
 				2B0929EF177395430051D1DC /* NSData+MD5.m in Sources */,
+				2BA6348917761D4700AE5DDA /* MyshareViewController.m in Sources */,
+				2BA6348C177621EE00AE5DDA /* MyFavoriteViewController.m in Sources */,
+				2BFC742B177752C80027F9B3 /* CDDataCache.m in Sources */,
+				2B5B19C8177B888F0042398E /* CDAppUser.m in Sources */,
+				2B1FDDF7177C95F400CD1135 /* CDQuickElements.m in Sources */,
+				2B1FDDFA177CB87900CD1135 /* CDSideTableViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		2B1FDDF1177C932F00CD1135 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = QuickDialog;
+			targetProxy = 2B1FDDF0177C932F00CD1135 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		2BED820F167B573E0025E9C4 /* InfoPlist.strings */ = {
@@ -865,6 +974,7 @@
 					"\"$(SRCROOT)/WeChat_SDK\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/QuickDialog\"/**";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -883,6 +993,7 @@
 					"\"$(SRCROOT)/WeChat_SDK\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/QuickDialog\"/**";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

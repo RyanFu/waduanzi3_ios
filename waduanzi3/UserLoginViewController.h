@@ -10,7 +10,7 @@
 
 @class CDTextField;
 
-@interface UserLoginViewController : UIViewController <UITextFieldDelegate>
+@interface UserLoginViewController : QuickDialogController <UITextFieldDelegate>
 {
     UIImageView *_logoView;
     UIView *_formView;

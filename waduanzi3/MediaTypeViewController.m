@@ -14,6 +14,7 @@
 #import "WCAlertView.h"
 #import "UIScrollView+SVInfiniteScrolling.h"
 #import "UIScrollView+SVPullToRefresh.h"
+#import "CDDataCache.h"
 
 @interface MediaTypeViewController ()
 
@@ -34,8 +35,10 @@
 
 - (void)viewDidLoad
 {
-    [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    _statuses = [[CDDataCache shareCache] fetchPostsByMediaType:_mediaType];
+    
+    [super viewDidLoad];
 }
 
 - (void)didReceiveMemoryWarning
@@ -115,6 +118,8 @@
         [self.tableView beginUpdates];
         [self.tableView insertRowsAtIndexPaths:insertIndexPaths withRowAnimation:UITableViewRowAnimationFade];
         [self.tableView endUpdates];
+        
+        [[CDDataCache shareCache] cachePostsByMediaType:_statuses mediaType:_mediaType];
     }
     else {
         NSLog(@"没有更多内容了");
@@ -144,6 +149,7 @@
         [self.tableView beginUpdates];
         [self.tableView insertRowsAtIndexPaths:insertIndexPaths withRowAnimation:UITableViewRowAnimationFade];
         [self.tableView endUpdates];
+        
     }
 }
 

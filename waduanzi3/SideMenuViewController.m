@@ -6,6 +6,7 @@
 //  Copyright (c) 2013年 chendong. All rights reserved.
 //
 
+#import <QuartzCore/QuartzCore.h>
 #import "CDDefine.h"
 #import "SideMenuViewController.h"
 #import "IIViewDeckController.h"
@@ -14,6 +15,15 @@
 #import "UserProfileViewController.h"
 #import "SettingViewController.h"
 #import "UserLoginViewController.h"
+#import "MyshareViewController.h"
+#import "MyFavoriteViewController.h"
+#import "BestViewController.h"
+#import "HistoryViewController.h"
+#import "CDDataCache.h"
+#import "CDUser.h"
+#import "CDAppUser.h"
+#import "CDQuickElements.h"
+#import "CDSideTableViewCell.h"
 
 @interface SideMenuViewController ()
 - (void) setupNavBarButtonItem;
@@ -41,13 +51,10 @@
 {
     [super viewDidLoad];
     self.tableView.scrollsToTop = NO;
-    [self setupNavBarButtonItem];
-
+    self.navigationItem.hidesBackButton = YES;
     self.clearsSelectionOnViewWillAppear = NO;
+    [self setupNavBarButtonItem];
  
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    
     UIImageView *bgView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"menu_table_bg.png"]stretchableImageWithLeftCapWidth:2.0 topCapHeight:2.0f]];
     bgView.contentMode = UIViewContentModeScaleToFill;
     bgView.frame = self.tableView.frame;
@@ -55,26 +62,17 @@
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 }
 
-- (void) viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    
-    CGRect viewFrame = self.navigationController.view.frame;
-    viewFrame.size.width = self.navigationController.view.frame.size.width - DECK_LEFT_SIZE;
-    self.view.frame = viewFrame;
-}
-
 
 #pragma mark - setup subviews
 
 - (void) setupNavBarButtonItem
 {
-    CGRect viewFrame = self.navigationController.navigationBar.frame;
-    viewFrame.size.width = self.navigationController.view.frame.size.width - DECK_LEFT_SIZE;
-    self.navigationController.navigationBar.frame = viewFrame;
-    
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(openUserProfileController:)];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(openSettingController:)];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(openUserViewController)];
+    UIBarButtonItem *settingButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(openSettingController:)];
+    UIBarButtonItem *flexButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    flexButton.width = DECK_LEFT_SIZE;
+    NSArray *rightButtons = [NSArray arrayWithObjects:flexButton, settingButton, nil];
+    self.navigationItem.rightBarButtonItems = rightButtons;
 }
 
 #pragma mark - Table view data source
@@ -91,18 +89,18 @@
     return [[menuData objectAtIndex:section] count];
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (CDSideTableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    static NSString *CellIdentifier = @"SideMenuCell";
+    CDSideTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        cell = [[CDSideTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
         cell.textLabel.textColor = [UIColor whiteColor];
         cell.textLabel.backgroundColor = [UIColor clearColor];
         cell.contentView.backgroundColor = [UIColor clearColor];
+        cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"avatar_placeholder"]];
     }
     
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     NSDictionary *menu = [[menuData objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
     cell.textLabel.text = [menu objectForKey:@"name"];
     
@@ -146,7 +144,8 @@
         
         if (indexPath.section == 0) {
             static TimelineViewController *timelineViewController;
-            
+            static BestViewController *bestViewController;
+            static HistoryViewController *historyViewController;
             switch (indexPath.row) {
                 case 0:
                     if (timelineViewController == nil)
@@ -154,14 +153,23 @@
                     centerViewController = [[UINavigationController alloc] initWithRootViewController:timelineViewController];
                     self.viewDeckController.centerController = centerViewController;
                     break;
-                    
+                case 1:
+                    if (bestViewController == nil)
+                        bestViewController = [[BestViewController alloc] init];
+                    centerViewController = [[UINavigationController alloc] initWithRootViewController:bestViewController];
+                    self.viewDeckController.centerController = centerViewController;
+                    break;
+                case 2:
+                    if (historyViewController == nil)
+                        historyViewController = [[HistoryViewController alloc] init];
+                    centerViewController = [[UINavigationController alloc] initWithRootViewController:historyViewController];
+                    self.viewDeckController.centerController = centerViewController;
                 default:
                     break;
             }
         }
         else if (indexPath.section == 1) {
-            static MediaTypeViewController *textJokeViewController;
-            static MediaTypeViewController *imageJokeViewController;
+            static MediaTypeViewController *textJokeViewController, *imageJokeViewController;
             
             switch (indexPath.row) {
                 case 0:
@@ -184,6 +192,36 @@
                     break;
             }
         }
+        else if (indexPath.section == 2) {
+            if (![CDAppUser hasLogined]) {
+                [self performSelector:@selector(openUserLoginController)];
+                return ;
+            }
+            CDUser *user = [CDAppUser currentUser];
+            NSInteger userID = [user.user_id integerValue];
+            
+            static MyshareViewController *myshareController;
+            static MyFavoriteViewController *favoriteController;
+            switch (indexPath.row) {
+                case 0:
+                    if (favoriteController == nil)
+                        favoriteController = [[MyFavoriteViewController alloc] initWithUserID:userID];
+                    centerViewController = [[UINavigationController alloc] initWithRootViewController:favoriteController];
+                    self.viewDeckController.centerController = centerViewController;
+                    break;
+                case 1:
+                    break;
+                case 2:
+                    if (myshareController == nil)
+                        myshareController = [[MyshareViewController alloc] initWithUserID:userID];
+                    centerViewController = [[UINavigationController alloc] initWithRootViewController:myshareController];
+                    self.viewDeckController.centerController = centerViewController;
+                    break;
+                    
+                default:
+                    break;
+            }
+        }
     }];
 }
 
@@ -192,14 +230,38 @@
 
 - (void) openSettingController:(id)sender
 {
-    UIViewController *rootController = [[[UIApplication sharedApplication] keyWindow] rootViewController];
     SettingViewController *settingController = [[SettingViewController alloc] init];
-    [rootController presentViewController:settingController animated:YES completion:^{
-        NSLog(@"open setting");
+    UINavigationController *settingNavController = [[UINavigationController alloc] initWithRootViewController:settingController];
+    UIViewController *rootController = [[[UIApplication sharedApplication] keyWindow] rootViewController];
+    [rootController presentViewController:settingNavController animated:YES completion:^{
+        ;
     }];
 }
 
-- (void) openUserProfileController:(id)sender
+- (void) openUserViewController
+{
+    if ([CDAppUser hasLogined])
+        [self performSelector:@selector(openUserProfileController)];
+    else
+        [self performSelector:@selector(openUserLoginController)];
+}
+
+- (void) openUserProfileController
+{
+    static UINavigationController *profileNavController;
+    
+    UIViewController *rootController = [[[UIApplication sharedApplication] keyWindow] rootViewController];
+    UserProfileViewController *profileController = [[UserProfileViewController alloc] init];
+    
+    if (profileNavController == nil)
+        profileNavController = [[UINavigationController alloc] initWithRootViewController:profileController];
+    
+    profileNavController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+    [rootController presentViewController:profileNavController animated:YES completion:nil];
+    
+}
+
+- (void) openUserLoginController
 {
     static UINavigationController *loginNavController;
     

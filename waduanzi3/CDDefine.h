@@ -9,9 +9,13 @@
 #ifndef waduanzi3_CDDefine_h
 #define waduanzi3_CDDefine_h
 
+#define FIRST_PAGE_ID 1
+
+
 const static CGFloat DECK_LEFT_SIZE = 80.0f;
 
-const static CGFloat CELL_PADDING = 7.5f;
+const static CGFloat POST_LIST_CELL_PADDING = 10.0f;
+const static CGFloat POST_DETAIL_CELL_PADDING = 12.5f;
 const static CGFloat THUMB_WIDTH = 150.0f;
 const static CGFloat THUMB_HEIGHT = 150.0f;
 const static CGFloat CELL_BUTTON_HEIGHT = 30.0f;

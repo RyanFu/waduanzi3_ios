@@ -59,13 +59,14 @@
     [super layoutSubviews];
     
     CGSize cellContentViewSize = self.contentView.frame.size;
-    CGFloat contentViewWidth = cellContentViewSize.width - _padding*2;
+    CGFloat containerViewWidth = cellContentViewSize.width - _padding*2;
+    CGFloat contentViewWidth = containerViewWidth - POST_AVATAR_WIDTH - _padding;
     
     CGFloat avatarWidth = POST_AVATAR_WIDTH;
     CGFloat avatarHeight = POST_AVATAR_WIDTH;
     
     CGFloat subContentViewX = _padding + avatarWidth + _padding;
-    CGFloat subContentViewWidth = contentViewWidth - avatarWidth - _padding;
+    CGFloat subContentViewWidth = containerViewWidth - avatarWidth - _padding;
     
     CGFloat widgetY = _padding;
     CGFloat widgetHeight = avatarHeight;
@@ -73,12 +74,14 @@
     // avatarImageView
     _avatarImageView.contentMode = UIViewContentModeScaleAspectFit;
     _avatarImageView.opaque = YES;
+    _avatarImageView.layer.cornerRadius = 3.0f;
+    _avatarImageView.clipsToBounds = YES;
     CGRect avatarViewFrame = CGRectMake(_padding, widgetY, avatarWidth, widgetHeight);
     [_avatarImageView setFrame:avatarViewFrame];
     
     // timeLabel
     CGSize timeLabelSize = [self.datetimeTextLabel.text sizeWithFont:self.datetimeTextLabel.font
-                                                   constrainedToSize:CGSizeMake(contentViewWidth, 9999.0)
+                                                   constrainedToSize:CGSizeMake(containerViewWidth, 9999.0)
                                                        lineBreakMode:UILineBreakModeWordWrap];
     CGRect timeLabelFrame = CGRectMake(cellContentViewSize.width - _padding - timeLabelSize.width, widgetY, timeLabelSize.width, widgetHeight);
     [_datetimeTextLabel setFrame:timeLabelFrame];
@@ -88,7 +91,7 @@
     _datetimeTextLabel.textColor = [UIColor colorWithRed:0.80f green:0.80f blue:0.80f alpha:1.00f];
 
     // authorLabel
-    CGFloat authorLabelWidth = contentViewWidth - timeLabelSize.width - widgetHeight - _padding*2;
+    CGFloat authorLabelWidth = containerViewWidth - timeLabelSize.width - widgetHeight - _padding*2;
     CGRect authorLabelFrame = CGRectMake(_padding + widgetHeight + _padding, widgetY, authorLabelWidth, widgetHeight);
     [self.authorTextLabel setFrame:authorLabelFrame];
     [_authorTextLabel sizeToFit];

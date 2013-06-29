@@ -25,7 +25,8 @@
 - (void) setupTableView;
 - (void) setupAdView;
 - (void) setCellSubViews:(CDPostTableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath;
-- (void) setupTableViewPullAndInfiniteScrollView;
+- (void) setupTableViewPullScrollView;
+- (void) setupTableViewInfiniteScrollView;
 @end
 
 @implementation PostListViewController
@@ -89,8 +90,15 @@
     
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPlay target:self action:@selector(openLeftSlideView:)];
     
-    [self setupTableViewPullAndInfiniteScrollView];
-    [self.tableView triggerPullToRefresh];
+    [self setupTableViewPullScrollView];
+    [self setupTableViewInfiniteScrollView];
+    
+    if (_statuses.count == 0) {
+        NSLog(@"count = 0, data from remote");
+        [self.tableView triggerPullToRefresh];
+    }
+    else
+        NSLog(@"count > 0, data from cache");
 }
 
 
@@ -154,7 +162,7 @@
     self.viewDeckController.panningMode = IIViewDeckNoPanning;
 }
 
-- (void) setupTableViewPullAndInfiniteScrollView
+- (void) setupTableViewPullScrollView
 {
     __block PostListViewController *blockSelf = self;
     [self.tableView addPullToRefreshWithActionHandler:^{
@@ -163,7 +171,11 @@
     [self.tableView.pullToRefreshView setTitle:@"下拉刷新" forState:SVPullToRefreshStateStopped];
     [self.tableView.pullToRefreshView setTitle:@"载入中" forState:SVPullToRefreshStateLoading];
     [self.tableView.pullToRefreshView setTitle:@"释放立即刷新" forState:SVPullToRefreshStateTriggered];
-    
+}
+
+- (void) setupTableViewInfiniteScrollView
+{
+    __block PostListViewController *blockSelf = self;
     [self.tableView addInfiniteScrollingWithActionHandler:^{
         [blockSelf loadMoreStatuses];
     }];
@@ -176,12 +188,11 @@
     stoppedLabel.textColor = loadingLabel.textColor = triggeredLabel.textColor = [UIColor grayColor];
     stoppedLabel.font = loadingLabel.font = triggeredLabel.font = [UIFont systemFontOfSize:14.0f];
     stoppedLabel.text = @"向上滑动载入更多";
-//    [self.tableView.infiniteScrollingView setCustomView:stoppedLabel forState:SVInfiniteScrollingStateStopped];
+    //    [self.tableView.infiniteScrollingView setCustomView:stoppedLabel forState:SVInfiniteScrollingStateStopped];
     loadingLabel.text = @"加载中，请稍候...";
     [self.tableView.infiniteScrollingView setCustomView:loadingLabel forState:SVInfiniteScrollingStateLoading];
     triggeredLabel.text = @"加载更多";
     [self.tableView.infiniteScrollingView setCustomView:triggeredLabel forState:SVInfiniteScrollingStateTriggered];
-    
 }
 
 
@@ -247,7 +258,7 @@
 
 - (void) setCellSubViews:(CDPostTableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    cell.padding = CELL_PADDING;
+    cell.padding = POST_LIST_CELL_PADDING;
     cell.thumbSize = CGSizeMake(THUMB_WIDTH, THUMB_HEIGHT);
     
     cell.textLabel.font = [UIFont systemFontOfSize:16.0f];
@@ -331,7 +342,7 @@
 {
     CDPost *post = [_statuses objectAtIndex:indexPath.row];
     
-    CGFloat contentWidth = self.view.frame.size.width - CELL_PADDING*2;
+    CGFloat contentWidth = self.view.frame.size.width - POST_AVATAR_WIDTH - POST_LIST_CELL_PADDING*3;
     UIFont *titleFont = [UIFont systemFontOfSize:16.0f];
     CGSize titleLabelSize = [post.title sizeWithFont:titleFont
                                    constrainedToSize:CGSizeMake(contentWidth, 9999.0)
@@ -342,13 +353,13 @@
                                       constrainedToSize:CGSizeMake(contentWidth, 9999.0)
                                           lineBreakMode:UILineBreakModeWordWrap];
     
-    CGFloat cellHeight = CELL_PADDING + POST_AVATAR_WIDTH + detailLabelSize.height + CELL_PADDING + CELL_BUTTON_HEIGHT;
+    CGFloat cellHeight = POST_LIST_CELL_PADDING + POST_AVATAR_WIDTH + detailLabelSize.height + POST_LIST_CELL_PADDING + CELL_BUTTON_HEIGHT;
     if (post.small_pic.length > 0)
-        cellHeight += THUMB_HEIGHT + CELL_PADDING;
+        cellHeight += THUMB_HEIGHT + POST_LIST_CELL_PADDING;
     else
-        cellHeight +=  titleLabelSize.height + CELL_PADDING;
+        cellHeight +=  titleLabelSize.height + POST_LIST_CELL_PADDING;
     
-    return cellHeight + CELL_PADDING;
+    return cellHeight + POST_LIST_CELL_PADDING;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

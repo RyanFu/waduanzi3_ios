@@ -14,11 +14,14 @@
     #import <CoreData/CoreData.h>
 #endif
 
+#import <QuickDialog/QuickDialog.h>
+
 // AFHTTPClient
 #import <SystemConfiguration/SystemConfiguration.h>
 #import <MobileCoreServices/MobileCoreServices.h>
 
 
-
+#define CDDEVICE [UIDevice currentDevice]
 #define CDSCREEN [UIScreen mainScreen]
 #define CDSCREEN_SIZE CDSCREEN.bounds.size
+#define APP_VERSION [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"] ?: [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey]

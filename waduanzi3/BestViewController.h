@@ -8,6 +8,9 @@
 
 #import "PostListViewController.h"
 
-@interface ChoiceViewController : PostListViewController
-
+@interface BestViewController : PostListViewController
+{
+    NSInteger _page;
+    NSInteger _hours;
+}
 @end

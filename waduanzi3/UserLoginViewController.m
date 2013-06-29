@@ -15,7 +15,9 @@
 #import "UserSignupViewController.h"
 #import "NSString+MD5.h"
 #import "CDUser.h"
-
+#import "CDRestClient.h"
+#import "CDDataCache.h"
+#import "CDQuickElements.h"
 
 @interface UserLoginViewController ()
 - (void) setupNavbar;
@@ -26,6 +28,16 @@
 
 @implementation UserLoginViewController
 
+- (id) init
+{
+    self = [super init];
+    if (self) {
+        QRootElement *root = [CDQuickElements createUserLoginElements];
+        self.root = root;
+    }
+    return self;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -35,22 +47,22 @@
     self.view.userInteractionEnabled = YES;
     
     [self setupNavbar];
-    [self setupLogoView];
-    [self setupFormView];
+//    [self setupLogoView];
+//    [self setupFormView];
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     UITouch *touch = [touches anyObject];
     if (touch.phase == UITouchPhaseBegan) {
-        for (UIView *subView in _formView.subviews) {
+        for (UIView *subView in self.quickDialogTableView.subviews) {
             if (subView.isFirstResponder)
                 [subView resignFirstResponder];
         }
     }
 }
 
-- (void)viewWillAppe2ar:(BOOL)animated
+- (void)viewWillAppear2:(BOOL)animated
 {
     [super viewWillAppear:animated];
     // register for keyboard notifications
@@ -65,7 +77,7 @@
                                                object:nil];
 }
 
-- (void)viewWillDisappear:(BOOL)animated
+- (void)viewWillDisappear2:(BOOL)animated
 {
     [super viewWillDisappear:animated];
     // unregister for keyboard notifications while not visible.
@@ -252,11 +264,16 @@
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:_usernameTextField.text, @"username",
                             [_passwordTextField.text md5], @"password", nil];
     
+    NSDictionary *parameters = [CDRestClient requestParams:params];
     RKObjectManager *objectManager = [RKObjectManager sharedManager];
-    [objectManager postObject:nil path:@"/user/login" parameters:params success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-        NSLog(@"%@", mappingResult);
+    [objectManager postObject:nil path:@"/user/login" parameters:parameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+//        NSLog(@"%@", mappingResult);
         CDUser *user = [mappingResult firstObject];
         if ([user isKindOfClass:[CDUser class]]) {
+            [[CDDataCache shareCache] cacheLoginedUser:user];
+            [[CDDataCache shareCache] removeMySharePosts];
+            [[CDDataCache shareCache] removeFavoritePosts];
+            
             [self.navigationController dismissViewControllerAnimated:YES completion:^{
                 NSLog(@"user logined");
             }];
