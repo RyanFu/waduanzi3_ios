@@ -19,6 +19,13 @@
     root.title = @"设置";
     root.grouped = YES;
     
+    QAppearance *appearance = root.appearance;
+    appearance.labelFont = [UIFont systemFontOfSize:16.0f];
+    appearance.labelColorEnabled = [UIColor blackColor];
+    appearance.actionColorEnabled = [UIColor blackColor];
+    appearance.sectionFooterColor = [UIColor lightGrayColor];
+    [root setAppearance:appearance];
+    
     // section 0
     QSection *section0 = [[QSection alloc] init];
     [root addSection:section0];
@@ -77,6 +84,51 @@
     QRootElement *root = [[QRootElement alloc] init];
     root.grouped = YES;
     root.title = @"注册";
+    root.controllerName = @"UserSingupViewController";
+    
+    
+    QAppearance *appearance = root.appearance;
+    appearance.entryFont = [UIFont systemFontOfSize:18.0f];
+    appearance.labelFont = [UIFont systemFontOfSize:18.0f];
+    [root setAppearance:appearance];
+    
+    
+    QSection *textFieldSection = [[QSection alloc] init];
+    [root addSection:textFieldSection];
+    textFieldSection.headerImage = @"login_logo.png";
+    CGRect logoViewFrame = textFieldSection.headerView.frame;
+    logoViewFrame.size.height = 160.0f;
+    textFieldSection.headerView.frame = logoViewFrame;
+    textFieldSection.headerView.contentMode = UIViewContentModeScaleAspectFit;
+    
+    QEntryElement *usernameTextField = [[QEntryElement alloc] initWithTitle:nil Value:nil Placeholder:@"邮箱/手机号/用户名"];
+    usernameTextField.key = @"key_username";
+    usernameTextField.keyboardType = UIKeyboardTypeEmailAddress;
+    usernameTextField.bind = @"textValue:username";
+    [textFieldSection addElement:usernameTextField];
+    QEntryElement *passwordTextField = [[QEntryElement alloc] initWithTitle:nil Value:nil Placeholder:@"密码"];
+    passwordTextField.key = @"key_password";
+    passwordTextField.secureTextEntry = YES;
+    passwordTextField.bind = @"textValue:password";
+    [textFieldSection addElement:passwordTextField];
+    
+    QSection *buttonSection = [[QSection alloc] init];
+    [root addSection:buttonSection];
+    QButtonElement *submitButton = [[QButtonElement alloc] initWithTitle:@"注册"];
+    submitButton.key = @"key_submit_signup";
+    submitButton.controllerAction = @"userSignupAction";
+    QAppearance *buttonAppearance = submitButton.appearance;
+    buttonAppearance.actionColorEnabled = [UIColor colorWithRed:0.93f green:0.98f blue:0.96f alpha:1.00f];
+    [submitButton setAppearance:buttonAppearance];
+    [buttonSection addElement:submitButton];
+    
+    
+    QSection *extraButtonSection = [[QSection alloc] init];
+    [root addSection:extraButtonSection];
+    QButtonElement *signupButton = [[QButtonElement alloc] initWithTitle:@"已有账号，直接登录"];
+    signupButton.controllerAction = @"retrunUserLoginAction";
+    [signupButton setAppearance:buttonAppearance];
+    [extraButtonSection addElement:signupButton];
     
     return root;
 }
@@ -84,41 +136,54 @@
 + (QRootElement *) createUserLoginElements
 {
     QRootElement *root = [[QRootElement alloc] init];
+    root.presentationMode = QPresentationModeModalForm;
     root.grouped = YES;
     root.title = @"登录";
     root.controllerName = @"UserLoginViewController";
     
+    
+    QAppearance *appearance = root.appearance;
+    appearance.entryFont = [UIFont systemFontOfSize:18.0f];
+    appearance.labelFont = [UIFont systemFontOfSize:18.0f];
+    [root setAppearance:appearance];
+    
+    
     QSection *textFieldSection = [[QSection alloc] init];
     [root addSection:textFieldSection];
-    QEntryElement *usernameTextField = [[QEntryElement alloc] initWithTitle:@"账号" Value:nil Placeholder:@"邮箱/手机号/用户名"];
+    textFieldSection.headerImage = @"login_logo.png";
+    CGRect logoViewFrame = textFieldSection.headerView.frame;
+    logoViewFrame.size.height = 160.0f;
+    textFieldSection.headerView.frame = logoViewFrame;
+    textFieldSection.headerView.contentMode = UIViewContentModeScaleAspectFit;
+    
+    QEntryElement *usernameTextField = [[QEntryElement alloc] initWithTitle:nil Value:nil Placeholder:@"邮箱/手机号/用户名"];
     usernameTextField.key = @"key_username";
     usernameTextField.keyboardType = UIKeyboardTypeEmailAddress;
-    [textFieldSection addElement:usernameTextField];
-    QEntryElement *passwordTextField = [[QEntryElement alloc] initWithTitle:@"密码" Value:nil Placeholder:@"密码"];
+    usernameTextField.bind = @"textValue:username";
+    QEntryElement *passwordTextField = [[QEntryElement alloc] initWithTitle:nil Value:nil Placeholder:@"密码"];
     passwordTextField.key = @"key_password";
-    passwordTextField.keyboardType = UIKeyboardTypeEmailAddress;
     passwordTextField.secureTextEntry = YES;
+    passwordTextField.bind = @"textValue:password";
+    [textFieldSection addElement:usernameTextField];
+    usernameTextField.height = passwordTextField.height = 50.0f;
     [textFieldSection addElement:passwordTextField];
-    
+
     QSection *buttonSection = [[QSection alloc] init];
     [root addSection:buttonSection];
     QButtonElement *submitButton = [[QButtonElement alloc] initWithTitle:@"登录"];
     submitButton.key = @"key_submit_login";
     submitButton.controllerAction = @"userLoginAction";
+    QAppearance *buttonAppearance = submitButton.appearance;
+    buttonAppearance.actionColorEnabled = [UIColor colorWithRed:0.93f green:0.98f blue:0.96f alpha:1.00f];
+    [submitButton setAppearance:buttonAppearance];
     [buttonSection addElement:submitButton];
     
-    UIButton *goSignupButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [goSignupButton addTarget:self action:@selector(openSignupController:) forControlEvents:UIControlEventTouchUpInside];
-    [goSignupButton setTitle:@"注册挖段子账户" forState:UIControlStateNormal];
-    goSignupButton.backgroundColor = [UIColor blackColor];
-    CGRect signupButtonFrame = buttonSection.frame;
-    signupButtonFrame.origin.x = (self.view.frame.size.width - 150.0f) / 2;
-    signupButtonFrame.origin.y = self.view.frame.size.height - 100.0f;
-    signupButtonFrame.size.width = 150.0f;
-    signupButtonFrame.size.height = 30.0f;
-    goSignupButton.frame = signupButtonFrame;
-    
-    buttonSection.footerView = goSignupButton;
+    QSection *extraButtonSection = [[QSection alloc] init];
+    [root addSection:extraButtonSection];
+    QButtonElement *signupButton = [[QButtonElement alloc] initWithTitle:@"注册挖段子账号"];
+    signupButton.controllerAction = @"gotoUserSignupAction";
+    [signupButton setAppearance:buttonAppearance];
+    [extraButtonSection addElement:signupButton];
     
     return root;
 }

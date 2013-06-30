@@ -13,6 +13,7 @@
 #import "TimelineViewController.h"
 #import "CDRestClient.h"
 #import "TestViewController.h"
+#import "MGBoxViewController.h"
 
 
 @interface AppDelegate ()
@@ -38,6 +39,7 @@
     [self customAppearance];
     [self setupRKObjectMapping];
     [self setupWindowView];
+    
 //    [self setupTestRootController];
     
     self.window.backgroundColor = [UIColor whiteColor];
@@ -203,6 +205,11 @@
 
 - (void) setupTestRootController
 {
+    MGBoxViewController *mgboxController = [[MGBoxViewController alloc] init];
+    self.window.rootViewController = mgboxController;
+    
+    return;
+    
     TestViewController *testController = [[TestViewController alloc] initWithStyle:UITableViewStylePlain];
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:testController];
     

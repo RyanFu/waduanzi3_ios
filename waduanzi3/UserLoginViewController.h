@@ -8,15 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@class CDTextField;
 
-@interface UserLoginViewController : QuickDialogController <UITextFieldDelegate>
-{
-    UIImageView *_logoView;
-    UIView *_formView;
-    CDTextField *_usernameTextField;
-    CDTextField *_passwordTextField;
-    UIButton *_submitButton;
-}
+@interface UserLoginViewController : QuickDialogController <UITextFieldDelegate, QuickDialogStyleProvider>
 
 @end

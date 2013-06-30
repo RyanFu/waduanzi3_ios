@@ -98,7 +98,7 @@
         cell.textLabel.textColor = [UIColor whiteColor];
         cell.textLabel.backgroundColor = [UIColor clearColor];
         cell.contentView.backgroundColor = [UIColor clearColor];
-        cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"avatar_placeholder"]];
+        cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"accessory_arrow.png"]];
     }
     
     NSDictionary *menu = [[menuData objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];

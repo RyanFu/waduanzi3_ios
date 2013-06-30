@@ -8,13 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@class  CDTextField;
-@interface UserSignupViewController : UIViewController <UITextFieldDelegate>
-{
-    UIImageView *_logoView;
-    UIView *_formView;
-    CDTextField *_usernameTextField;
-    CDTextField *_passwordTextField;
-    UIButton *_submitButton;
-}
+@interface UserSignupViewController : QuickDialogController <UITextFieldDelegate, QuickDialogStyleProvider>
+
 @end
