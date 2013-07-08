@@ -13,4 +13,5 @@
 + (QRootElement *) createSettingElements;
 + (QRootElement *) createUserSignupElements;
 + (QRootElement *) createUserLoginElements;
++ (QRootElement *) createUserProfileElements;
 @end

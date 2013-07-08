@@ -138,10 +138,17 @@
     if (self.imageView.image) {
         self.imageView.contentMode = UIViewContentModeScaleAspectFit;
         self.imageView.opaque = YES;
-        self.imageView.userInteractionEnabled = YES;
         widgetHeight = _thumbSize.height;
         CGRect imageViewFrame = CGRectMake(subContentViewX, widgetY, _thumbSize.width, widgetHeight);
         [self.imageView setFrame: imageViewFrame];
+        
+        if (self.delegate && [self.delegate respondsToSelector:@selector(thumbImageViewDidTapFinished:)]) {
+            self.imageView.userInteractionEnabled = YES;
+            UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self.delegate action:@selector(thumbImageViewDidTapFinished:)];
+            tapGestureRecognizer.numberOfTapsRequired = 1;
+            
+            [self.imageView addGestureRecognizer:tapGestureRecognizer];
+        }
         
         widgetY += widgetHeight + _padding;
     }

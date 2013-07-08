@@ -189,7 +189,7 @@
         @"small_pic"           : @"small_pic",
         @"middle_pic"          : @"middle_pic",
         @"large_pic"           : @"large_pic",
-        @"pic_frames"           : @"pic_frames",
+        @"pic_frames"          : @"pic_frames",
      }];
     
     return postMapping;
@@ -209,7 +209,8 @@
         @"desc"             : @"desc",
         @"mini_avatar"      : @"mini_avatar",
         @"small_avatar"     : @"small_avatar",
-        @"large_avatar"     : @"large_avatar"
+        @"large_avatar"     : @"large_avatar",
+        @"score"            : @"score"
     }];
     
     return userMapping;

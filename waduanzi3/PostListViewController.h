@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import <RestKit/RestKit.h>
 #import "IIViewDeckController.h"
+#import "CDPostTableViewCell.h"
 
-@interface PostListViewController : UIViewController <UIGestureRecognizerDelegate, UITableViewDataSource, UITableViewDelegate, IIViewDeckControllerDelegate>
+@interface PostListViewController : UIViewController <CDPostTableViewCellDelegate, UIGestureRecognizerDelegate, UITableViewDataSource, UITableViewDelegate, IIViewDeckControllerDelegate>
 {
     NSMutableArray *_statuses;
     NSMutableDictionary *_parameters;

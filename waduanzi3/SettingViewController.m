@@ -6,10 +6,12 @@
 //  Copyright (c) 2013年 chendong. All rights reserved.
 //
 
+#import "CDDefine.h"
 #import "SettingViewController.h"
 #import "CDDataCache.h"
 #import "CDAppUser.h"
 #import "CDQuickElements.h"
+#import "UserProfileViewController.h"
 
 @interface SettingViewController ()
 
@@ -34,6 +36,7 @@
     self.quickDialogTableView.backgroundView = nil;
     self.quickDialogTableView.backgroundColor = [UIColor colorWithRed:0.89f green:0.88f blue:0.83f alpha:1.00f];
     self.quickDialogTableView.styleProvider = self;
+    self.quickDialogTableView.deselectRowWhenViewAppears = YES;
     
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(closeController)];
 }
@@ -80,6 +83,11 @@
 - (void) clearCacheAction:(QButtonElement *)element
 {
     BOOL result = [CDDataCache clearAllCacheFiles];
+    if (result) {
+        NSString *cacheString = [NSString stringWithFormat:@"清除缓存 %@", [CDDataCache cacheFilesTotalSize]];
+        element.title = cacheString;
+        [self.quickDialogTableView reloadData];
+    }
     NSLog(@"clear cache files: %d", result);
 }
 
@@ -90,16 +98,33 @@
 
 - (void) starredAction:(QLabelElement *)element
 {
+    [CDAPPLICATION openURL:[NSURL URLWithString:APP_STORE_URL]];
     NSLog(@"starred");
 }
 
 - (void) userProfileAction:(QLabelElement *)element
 {
+    [self  dismissViewControllerAnimated:YES completion:^{
+        static UINavigationController *profileNavController;
+        
+        UserProfileViewController *profileController = [[UserProfileViewController alloc] init];
+        
+        if (profileNavController == nil)
+            profileNavController = [[UINavigationController alloc] initWithRootViewController:profileController];
+        
+        profileNavController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+        [ROOT_CONTROLLER presentViewController:profileNavController animated:YES completion:nil];
+        
+    }];
     NSLog(@"user profile");
 }
 
 - (void) aboutmeAction:(QLabelElement *)element
 {
+    QWebViewController *webController = [[QWebViewController alloc] initWithUrl:@"http://m.waduanzi.com/about"];
+    webController.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:webController animated:YES];
+    
     NSLog(@"aboutme");
 }
 

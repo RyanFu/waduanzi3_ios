@@ -16,9 +16,6 @@
 @property (nonatomic, strong) UIImageView *avatarImageView;
 @property (nonatomic, strong) UILabel *authorTextLabel;
 @property (nonatomic, strong) UILabel *datetimeTextLabel;
-@property (nonatomic, strong) UIButton *upButton;
-@property (nonatomic, strong) UIButton *commentButton;
-@property (nonatomic, strong) UIButton *moreButton;
 
 @property (nonatomic) CGFloat padding;
 @property (nonatomic) CGSize imageSize;

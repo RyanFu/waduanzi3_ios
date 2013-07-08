@@ -11,8 +11,8 @@
 @protocol CDPostTableViewCellDelegate <NSObject>
 
 @optional
-- (void) thumbImageViewDidTapFinished:(UIImageView *) imageView ;
-- (void) avatarImageViewDidTapFinished:(UIImageView *) imageView;
+- (void) thumbImageViewDidTapFinished:(UITapGestureRecognizer *) gestureRecognizer;
+- (void) avatarImageViewDidTapFinished:(UITapGestureRecognizer *) gestureRecognizer;
 @end
 
 

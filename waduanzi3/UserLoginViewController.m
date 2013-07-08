@@ -17,6 +17,7 @@
 #import "CDRestClient.h"
 #import "CDDataCache.h"
 #import "CDQuickElements.h"
+#import "CDUserForm.h"
 
 @interface UserLoginViewController ()
 - (void) setupNavbar;
@@ -136,13 +137,16 @@
 
 - (void) userLoginAction
 {
-//    if (_usernameTextField.text.length == 0 || _passwordTextField.text.length == 0) {
-//        NSLog(@"please input username and password");
-//        return;
-//    }
+    CDUserForm *form = [[CDUserForm alloc] init];
+    [self.root fetchValueUsingBindingsIntoObject:form];
     
-    NSDictionary *params = nil;//[NSDictionary dictionaryWithObjectsAndKeys:_usernameTextField.text, @"username",
-//                            [_passwordTextField.text md5], @"password", nil];
+    if (form.username.length == 0 || form.password.length == 0) {
+        NSLog(@"please input username and password");
+        return;
+    }
+    
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:form.username, @"username",
+                            [form.password md5], @"password", nil];
     
     NSDictionary *parameters = [CDRestClient requestParams:params];
     RKObjectManager *objectManager = [RKObjectManager sharedManager];
@@ -159,6 +163,7 @@
             }];
         }
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+        NSLog(@"error: %@", error);
         NSData *jsonData = [error.localizedRecoverySuggestion dataUsingEncoding:NSUTF8StringEncoding];
         NSError *_error;
         NSDictionary *errorData = [NSJSONSerialization JSONObjectWithData:jsonData options:kNilOptions error:&_error];

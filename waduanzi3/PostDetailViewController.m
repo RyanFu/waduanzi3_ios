@@ -25,9 +25,15 @@
 #import "UserProfileViewController.h"
 #import "CDDataCache.h"
 #import "CDAppUser.h"
+#import "ImageDetailViewController.h"
 
 
 @interface PostDetailViewController ()
+{
+    MBProgressHUD *HUD;
+    CDPostDetailView *detailView;
+}
+
 - (void) initData;
 - (void) loadPostComments;
 - (void) loadPostDetail;
@@ -40,6 +46,7 @@
 - (void) reportComment:(NSInteger) index;
 - (void) setupTableViewPullAndInfiniteScrollView;
 - (void) setupBottomToolBar;
+- (void) setupHUD;
 @end
 
 
@@ -143,6 +150,14 @@
     [self.view addSubview:_tableView];
 }
 
+- (void) setupHUD
+{
+    HUD = [[MBProgressHUD alloc] initWithView:self.view];
+	[self.view addSubview:HUD];
+	HUD.mode = MBProgressHUDModeDeterminate;
+	HUD.delegate = self;
+}
+
 - (void) setupBottomToolBar
 {
     CGRect toolbarFrame = CGRectMake(0, _tableView.frame.origin.y + _tableView.frame.size.height, self.view.frame.size.width, TOOLBAR_HEIGHT);
@@ -168,16 +183,16 @@
 
 - (void) setupTableViewPullAndInfiniteScrollView
 {
-    __block PostDetailViewController *blockSelf = self;
+    __weak PostDetailViewController *weakSelf = self;
     [self.tableView addPullToRefreshWithActionHandler:^{
-        [blockSelf loadPostDetail];
+        [weakSelf loadPostDetail];
     }];
     [self.tableView.pullToRefreshView setTitle:@"下拉刷新" forState:SVPullToRefreshStateStopped];
     [self.tableView.pullToRefreshView setTitle:@"载入中" forState:SVPullToRefreshStateLoading];
     [self.tableView.pullToRefreshView setTitle:@"释放立即刷新" forState:SVPullToRefreshStateTriggered];
     
     [self.tableView addInfiniteScrollingWithActionHandler:^{
-        [blockSelf loadPostComments];
+        [weakSelf loadPostComments];
     }];
     
     CGRect infiniteViewFrame = CGRectMake(0, 0, self.tableView.frame.size.width, 30.0f);
@@ -202,6 +217,7 @@
 
 - (void) backButtonDidPressed:(id)sender
 {
+    [detailView.imageView cancelCurrentImageLoad];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -313,7 +329,13 @@
 
 - (void) setupPostDetailViewInCell:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath
 {
-    CDPostDetailView * detailView = [[CDPostDetailView alloc] initWithFrame:cell.contentView.bounds];
+    detailView = [[CDPostDetailView alloc] initWithFrame:cell.contentView.bounds];
+    [cell.contentView addSubview:detailView];
+    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showFullscreenImage:)];
+    [detailView addGestureRecognizer:tapGestureRecognizer];
+    tapGestureRecognizer.delegate = self;
+    
+    [self setupHUD];
     detailView.padding = POST_DETAIL_CELL_PADDING;
     
     CGFloat contentWidth = detailView.frame.size.width - POST_DETAIL_CELL_PADDING * 2;
@@ -334,7 +356,8 @@
     detailView.detailTextLabel.text = _post.content;
     detailView.authorTextLabel.text = _post.author_name;
     detailView.datetimeTextLabel.text = _post.create_time_at;
-    [detailView.avatarImageView setImageWithURL:[NSURL URLWithString:_post.user.mini_avatar] placeholderImage:[UIImage imageNamed:@"avatar_placeholder"]];
+    [detailView.avatarImageView setImageWithURL:[NSURL URLWithString:_post.user.small_avatar] placeholderImage:[UIImage imageNamed:@"avatar_placeholder"]];
+    
     if (_middleImage) {
         detailView.imageView.image = _middleImage;
         detailView.textLabel.text = nil;
@@ -343,13 +366,28 @@
         if (_smallImage == nil)
             self.smallImage = [UIImage imageNamed:@"thumb_placeholder"];
         
+        __weak PostDetailViewController *weakSelf = self;
+        __weak MBProgressHUD *weakHUD = HUD;
+        __weak UIImageView *weakImageView = detailView.imageView;
         NSURL *imageUrl = [NSURL URLWithString:_post.middle_pic];
-        __block PostDetailViewController *blockSelf = self;
-        [detailView.imageView setImageWithURL:imageUrl placeholderImage:_smallImage completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-            blockSelf.middleImage = image;
-            NSIndexSet *indexSet = [[NSIndexSet alloc] initWithIndex:0];
-            [blockSelf.tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationNone];
-            
+        [detailView.imageView setImageWithURL:imageUrl placeholderImage:_smallImage options:SDWebImageRetryFailed progress:^(NSUInteger receivedSize, long long expectedSize) {
+            if (expectedSize <= 0) {
+                weakHUD.mode = MBProgressHUDModeDeterminate;
+                [weakHUD show:YES];
+            }
+            else
+                weakHUD.progress = receivedSize / (expectedSize + 0.0);
+        } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+            [weakHUD hide:YES];
+            if (error) {
+                [weakImageView cancelCurrentImageLoad];
+                NSLog(@"picture download failed:%@", error);
+            }
+            else {
+                weakSelf.middleImage = image;
+                NSIndexSet *indexSet = [[NSIndexSet alloc] initWithIndex:0];
+                [weakSelf.tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationNone];
+            }
         }];
         // 如果是趣图，不显示标题，只显示内容
         detailView.textLabel.text = nil;
@@ -358,14 +396,17 @@
         detailView.textLabel.text = _post.title;
         detailView.imageView.image = nil;
     }
-    
-    detailView.upButton.tag = detailView.commentButton.tag = indexPath.row;
-    [detailView.upButton setTitle:[_post.up_count stringValue] forState:UIControlStateNormal];
-    NSString *commentButtonText = [_post.comment_count integerValue] > 0 ? [_post.comment_count stringValue] : @"抢沙发";
-    [detailView.commentButton setTitle:commentButtonText forState:UIControlStateNormal];
-    
-    [cell.contentView addSubview:detailView];
 }
+
+- (void) showFullscreenImage:(UITapGestureRecognizer *) recognizer
+{
+    ImageDetailViewController *imageViewController = [[ImageDetailViewController alloc] init];
+    imageViewController.thumbnail = _smallImage;
+    imageViewController.originaPic = _middleImage;
+    imageViewController.originalPicUrl = [NSURL URLWithString:_post.middle_pic];
+    [self presentViewController:imageViewController animated:NO completion:NULL];
+}
+
 
 - (void) setCommentCellSubViews:(CDCommentTableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -393,7 +434,7 @@
                                           constrainedToSize:CGSizeMake(contentWidth, 9999.0)
                                               lineBreakMode:UILineBreakModeWordWrap];
         
-        CGFloat cellHeight = POST_DETAIL_CELL_PADDING + POST_AVATAR_WIDTH + POST_DETAIL_CELL_PADDING + detailLabelSize.height + POST_DETAIL_CELL_PADDING + CELL_BUTTON_HEIGHT;
+        CGFloat cellHeight = POST_DETAIL_CELL_PADDING + POST_AVATAR_WIDTH + POST_DETAIL_CELL_PADDING + detailLabelSize.height;
         
         CGFloat imageViewHeight = 0;
         if (_middleImage) {

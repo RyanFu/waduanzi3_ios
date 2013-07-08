@@ -20,6 +20,7 @@
 #import "CDPostTableViewCell.h"
 #import "UIImageView+WebCache.h"
 #import "CDConfig.h"
+#import "ImageDetailViewController.h"
 
 @interface PostListViewController ()
 - (void) setupTableView;
@@ -164,9 +165,9 @@
 
 - (void) setupTableViewPullScrollView
 {
-    __block PostListViewController *blockSelf = self;
+    __weak PostListViewController *weakSelf = self;
     [self.tableView addPullToRefreshWithActionHandler:^{
-        [blockSelf loadLatestStatuses];
+        [weakSelf loadLatestStatuses];
     }];
     [self.tableView.pullToRefreshView setTitle:@"下拉刷新" forState:SVPullToRefreshStateStopped];
     [self.tableView.pullToRefreshView setTitle:@"载入中" forState:SVPullToRefreshStateLoading];
@@ -175,9 +176,9 @@
 
 - (void) setupTableViewInfiniteScrollView
 {
-    __block PostListViewController *blockSelf = self;
+    __weak PostListViewController *weakSelf = self;
     [self.tableView addInfiniteScrollingWithActionHandler:^{
-        [blockSelf loadMoreStatuses];
+        [weakSelf loadMoreStatuses];
     }];
     
     CGRect infiniteViewFrame = CGRectMake(0, 0, self.tableView.frame.size.width, 30.0f);
@@ -221,18 +222,20 @@
     CDPostTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
     if (nil == cell) {
         cell = [[CDPostTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:reuseIdentifier];
-        
+        cell.delegate = self;
+        cell.tag = indexPath.row;
         [self setCellSubViews:cell forRowAtIndexPath:indexPath];
     }
     
     CDPost *post = [_statuses objectAtIndex:indexPath.row];
     cell.detailTextLabel.text = post.content;
     cell.authorTextLabel.text = post.author_name;
-    
     cell.datetimeTextLabel.text = post.create_time_at;
     
-    [cell.avatarImageView setImageWithURL:[NSURL URLWithString:post.user.mini_avatar] placeholderImage:[UIImage imageNamed:@"avatar_placeholder"]];
+    [cell.avatarImageView setImageWithURL:[NSURL URLWithString:post.user.small_avatar] placeholderImage:[UIImage imageNamed:@"avatar_placeholder"]];
+    
     if (post.small_pic.length > 0) {
+        cell.imageView.tag = indexPath.row;
         NSURL *imageUrl = [NSURL URLWithString:post.small_pic];
         UIImage *placeImage = [UIImage imageNamed:@"thumb_placeholder"];
         [cell.imageView setImageWithURL:imageUrl placeholderImage:placeImage completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
@@ -288,6 +291,20 @@
     [cell.commentButton addTarget:self action:@selector(cellButtonTouchDown:) forControlEvents:UIControlEventTouchDown];
     [cell.commentButton addTarget:self action:@selector(commentButtonTouchUpInside:) forControlEvents:UIControlEventTouchUpInside];
     cell.commentButton.adjustsImageWhenHighlighted = NO;
+}
+
+#pragma mark - CDPostTableViewCellDelegate
+
+- (void) thumbImageViewDidTapFinished:(UITapGestureRecognizer *)gestureRecognizer
+{
+    UIImageView *imageView = (UIImageView *)gestureRecognizer.view;
+    CDPost *post = [_statuses objectAtIndex:imageView.tag];
+    NSURL *originaUrl = [NSURL URLWithString:post.middle_pic];
+    ImageDetailViewController *imageViewController = [[ImageDetailViewController alloc] init];
+    imageViewController.thumbnail = imageView.image;
+    imageViewController.originalPicUrl = originaUrl;
+    
+    [self presentModalViewController:imageViewController animated:NO];
 }
 
 #pragma mark - cell buttion event selector
@@ -359,17 +376,16 @@
     else
         cellHeight +=  titleLabelSize.height + POST_LIST_CELL_PADDING;
     
-    return cellHeight + POST_LIST_CELL_PADDING;
+    return cellHeight + 10.0f;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    if (!_centerDidAppear) return;
-    
     CDPost *post = [_statuses objectAtIndex:indexPath.row];
     PostDetailViewController *detailViewController = [[PostDetailViewController alloc] initWithPost:post];
-//    CDPostTableViewCell *cell = (CDPostTableViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
-//    detailViewController.smallImage = cell.imageView.image;
+    CDPostTableViewCell *cell = (CDPostTableViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+    if (cell.imageView.image != nil)
+        detailViewController.smallImage = cell.imageView.image;
     [self.navigationController pushViewController:detailViewController animated:YES];
 }
 

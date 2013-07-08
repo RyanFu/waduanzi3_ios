@@ -36,6 +36,7 @@
     // section 1
     QSection *section1 = [[QSection alloc] init];
     [root addSection:section1];
+    section1.key = @"section_key_clear_cache";
     QButtonElement *clearCacheButton = [[QButtonElement alloc] initWithTitle:@"清除缓存"];
     clearCacheButton.key = @"key_clear_cache";
     clearCacheButton.controllerAction = @"clearCacheAction:";
@@ -184,6 +185,45 @@
     signupButton.controllerAction = @"gotoUserSignupAction";
     [signupButton setAppearance:buttonAppearance];
     [extraButtonSection addElement:signupButton];
+    
+    return root;
+}
+
++ (QRootElement *) createUserProfileElements
+{
+    QRootElement *root = [[QRootElement alloc] init];
+    root.presentationMode = QPresentationModeModalForm;
+    root.grouped = YES;
+    root.title = @"我的资料";
+    root.controllerName = @"UserProfileViewController";
+    
+    
+    QAppearance *appearance = root.appearance;
+    appearance.entryFont = [UIFont systemFontOfSize:18.0f];
+    appearance.labelFont = [UIFont systemFontOfSize:18.0f];
+    [root setAppearance:appearance];
+    
+    CDUser *user = [CDAppUser currentUser];
+    
+    QSection *section1 = [[QSection alloc] initWithTitle:@"个人信息"];
+    [root addSection:section1];
+    QBadgeElement *scoreLabel = [[QBadgeElement alloc] initWithTitle:@"我的积分" Value:[user.score stringValue]];
+    scoreLabel.key = @"key_user_score";
+    [section1 addElement:scoreLabel];
+    QLabelElement *websiteLabel = [[QLabelElement alloc] initWithTitle:@"主页" Value:user.website];
+    [section1 addElement:websiteLabel];
+    
+    QSection *section2 = [[QSection alloc] initWithTitle:@"个人介绍"];
+    [root addSection:section2];
+    QTextElement *descText = [[QTextElement alloc] initWithText:user.desc];
+    [section2 addElement:descText];
+    
+    QSection *section3 = [[QSection alloc] init];
+    [root addSection:section3];
+    QButtonElement *logoutButton = [[QButtonElement alloc] initWithTitle:@"退出当前账号"];
+    logoutButton.key = @"key_logout_button";
+    logoutButton.controllerName = @"logoutAction";
+    [section3 addElement:logoutButton];
     
     return root;
 }

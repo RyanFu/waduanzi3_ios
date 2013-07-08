@@ -22,6 +22,7 @@
 @property (nonatomic, strong) NSNumber * token;
 @property (nonatomic, copy) NSString * username;
 @property (nonatomic, copy) NSString * website;
+@property (nonatomic, copy) NSNumber * score;
 
 + (BOOL) logined;
 

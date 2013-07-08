@@ -16,8 +16,11 @@
 		2B1FDDFA177CB87900CD1135 /* CDSideTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FDDF9177CB87900CD1135 /* CDSideTableViewCell.m */; };
 		2B232B3B175ED659007803C0 /* PostDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B232B3A175ED659007803C0 /* PostDetailViewController.m */; };
 		2B232B3E175F365B007803C0 /* CDRestError.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B232B3D175F365B007803C0 /* CDRestError.m */; };
+		2B2BEC611783CE5F008038B0 /* ImageDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B2BEC601783CE5F008038B0 /* ImageDetailViewController.m */; };
+		2B2BEC661783FE53008038B0 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B2BEC651783FE53008038B0 /* MBProgressHUD.m */; };
+		2B2BEC6917841A8C008038B0 /* checkmark.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B2BEC6717841A8C008038B0 /* checkmark.png */; };
+		2B2BEC6A17841A8C008038B0 /* checkmark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B2BEC6817841A8C008038B0 /* checkmark@2x.png */; };
 		2B37B9001764F8DA00A026DA /* CDPostDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B37B8FF1764F8DA00A026DA /* CDPostDetailView.m */; };
-		2B48FF261756026000FFF85B /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B48FF091756025F00FFF85B /* MBProgressHUD.m */; };
 		2B48FF271756026000FFF85B /* MTStatusBarOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B48FF0C1756025F00FFF85B /* MTStatusBarOverlay.m */; };
 		2B48FF321756026000FFF85B /* WCAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B48FF251756026000FFF85B /* WCAlertView.m */; };
 		2B492B82167B626700BBA956 /* arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B492B69167B626700BBA956 /* arrow.png */; };
@@ -90,6 +93,7 @@
 		2BCFA8C716E4DCD700521DEC /* IIWrapController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BCFA8C416E4DCD700521DEC /* IIWrapController.m */; };
 		2BCFA8CB16E4E12500521DEC /* SideMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BCFA8CA16E4E12500521DEC /* SideMenuViewController.m */; };
 		2BCFA8CE16E4E2CF00521DEC /* PostListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BCFA8CD16E4E2CF00521DEC /* PostListViewController.m */; };
+		2BD65029178A6EE900EFE5B7 /* CDUserForm.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BD65028178A6EE900EFE5B7 /* CDUserForm.m */; };
 		2BDD7058177F563800421915 /* login_background.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BDD7056177F563800421915 /* login_background.png */; };
 		2BDD705B177F57DD00421915 /* login_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BDD705A177F57DD00421915 /* login_logo.png */; };
 		2BDD705E177F5EB000421915 /* accessory_arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BDD705C177F5EB000421915 /* accessory_arrow@2x.png */; };
@@ -190,10 +194,14 @@
 		2B232B3A175ED659007803C0 /* PostDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostDetailViewController.m; sourceTree = "<group>"; };
 		2B232B3C175F365B007803C0 /* CDRestError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDRestError.h; sourceTree = "<group>"; };
 		2B232B3D175F365B007803C0 /* CDRestError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDRestError.m; sourceTree = "<group>"; };
+		2B2BEC5F1783CE5F008038B0 /* ImageDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageDetailViewController.h; sourceTree = "<group>"; };
+		2B2BEC601783CE5F008038B0 /* ImageDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageDetailViewController.m; sourceTree = "<group>"; };
+		2B2BEC641783FE53008038B0 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
+		2B2BEC651783FE53008038B0 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
+		2B2BEC6717841A8C008038B0 /* checkmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkmark.png; sourceTree = "<group>"; };
+		2B2BEC6817841A8C008038B0 /* checkmark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checkmark@2x.png"; sourceTree = "<group>"; };
 		2B37B8FE1764F8D900A026DA /* CDPostDetailView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDPostDetailView.h; sourceTree = "<group>"; };
 		2B37B8FF1764F8DA00A026DA /* CDPostDetailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDPostDetailView.m; sourceTree = "<group>"; };
-		2B48FF081756025F00FFF85B /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
-		2B48FF091756025F00FFF85B /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		2B48FF0B1756025F00FFF85B /* MTStatusBarOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTStatusBarOverlay.h; sourceTree = "<group>"; };
 		2B48FF0C1756025F00FFF85B /* MTStatusBarOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTStatusBarOverlay.m; sourceTree = "<group>"; };
 		2B48FF241756026000FFF85B /* WCAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WCAlertView.h; sourceTree = "<group>"; };
@@ -308,6 +316,8 @@
 		2BCFA8CA16E4E12500521DEC /* SideMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SideMenuViewController.m; sourceTree = "<group>"; };
 		2BCFA8CC16E4E2CF00521DEC /* PostListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostListViewController.h; sourceTree = "<group>"; };
 		2BCFA8CD16E4E2CF00521DEC /* PostListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostListViewController.m; sourceTree = "<group>"; };
+		2BD65027178A6EE900EFE5B7 /* CDUserForm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDUserForm.h; sourceTree = "<group>"; };
+		2BD65028178A6EE900EFE5B7 /* CDUserForm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDUserForm.m; sourceTree = "<group>"; };
 		2BDD7056177F563800421915 /* login_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = login_background.png; sourceTree = "<group>"; };
 		2BDD705A177F57DD00421915 /* login_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = login_logo.png; sourceTree = "<group>"; };
 		2BDD705C177F5EB000421915 /* accessory_arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "accessory_arrow@2x.png"; sourceTree = "<group>"; };
@@ -444,11 +454,11 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		2B48FF071756025F00FFF85B /* MBProgressHUD */ = {
+		2B2BEC631783FE53008038B0 /* MBProgressHUD */ = {
 			isa = PBXGroup;
 			children = (
-				2B48FF081756025F00FFF85B /* MBProgressHUD.h */,
-				2B48FF091756025F00FFF85B /* MBProgressHUD.m */,
+				2B2BEC641783FE53008038B0 /* MBProgressHUD.h */,
+				2B2BEC651783FE53008038B0 /* MBProgressHUD.m */,
 			);
 			path = MBProgressHUD;
 			sourceTree = "<group>";
@@ -482,6 +492,8 @@
 				2BCA0A0017578704000DD9FF /* CDComment.m */,
 				2B232B3C175F365B007803C0 /* CDRestError.h */,
 				2B232B3D175F365B007803C0 /* CDRestError.m */,
+				2BD65027178A6EE900EFE5B7 /* CDUserForm.h */,
+				2BD65028178A6EE900EFE5B7 /* CDUserForm.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -711,10 +723,10 @@
 		2BED8226167B59320025E9C4 /* Vendors */ = {
 			isa = PBXGroup;
 			children = (
+				2B2BEC631783FE53008038B0 /* MBProgressHUD */,
 				2BDD7071177F96D100421915 /* MGBox */,
 				2BC4D4D31762530F0098151C /* SDWebImage */,
 				2BDD7D32175E31D000842596 /* SVPullToRefresh */,
-				2B48FF071756025F00FFF85B /* MBProgressHUD */,
 				2B48FF0A1756025F00FFF85B /* MTStatusBarOverlay */,
 				2B48FF231756025F00FFF85B /* WCAlertView */,
 				2BCFA8BE16E4DCD700521DEC /* ViewDeck */,
@@ -742,6 +754,8 @@
 		2BED82F7167B5ECC0025E9C4 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				2B2BEC5F1783CE5F008038B0 /* ImageDetailViewController.h */,
+				2B2BEC601783CE5F008038B0 /* ImageDetailViewController.m */,
 				2BB60F9317565CD900290F69 /* CDRestClient.h */,
 				2BB60F9417565CD900290F69 /* CDRestClient.m */,
 				2B551F19176108B200C68E43 /* CDDefine.h */,
@@ -766,6 +780,8 @@
 		2BED82F8167B5ED20025E9C4 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				2B2BEC6717841A8C008038B0 /* checkmark.png */,
+				2B2BEC6817841A8C008038B0 /* checkmark@2x.png */,
 				2BDD706C177F829500421915 /* form_background.png */,
 				2BDD706D177F829500421915 /* form_background@2x.png */,
 				2BDD7068177F637400421915 /* button_go_arrow_active.png */,
@@ -943,6 +959,8 @@
 				2BDD706B177F637400421915 /* button_go_arrow.png in Resources */,
 				2BDD706E177F829500421915 /* form_background.png in Resources */,
 				2BDD706F177F829500421915 /* form_background@2x.png in Resources */,
+				2B2BEC6917841A8C008038B0 /* checkmark.png in Resources */,
+				2B2BEC6A17841A8C008038B0 /* checkmark@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -997,7 +1015,6 @@
 				2BCFA8C716E4DCD700521DEC /* IIWrapController.m in Sources */,
 				2BCFA8CB16E4E12500521DEC /* SideMenuViewController.m in Sources */,
 				2BCFA8CE16E4E2CF00521DEC /* PostListViewController.m in Sources */,
-				2B48FF261756026000FFF85B /* MBProgressHUD.m in Sources */,
 				2B48FF271756026000FFF85B /* MTStatusBarOverlay.m in Sources */,
 				2B48FF321756026000FFF85B /* WCAlertView.m in Sources */,
 				2BB60F8C1756437D00290F69 /* CDUser.m in Sources */,
@@ -1060,6 +1077,9 @@
 				2BDD70A3177F96D100421915 /* MGTableBox.m in Sources */,
 				2BDD70A4177F96D100421915 /* MGTableBoxStyled.m in Sources */,
 				2BDD70A8177F971700421915 /* MGBoxViewController.m in Sources */,
+				2B2BEC611783CE5F008038B0 /* ImageDetailViewController.m in Sources */,
+				2B2BEC661783FE53008038B0 /* MBProgressHUD.m in Sources */,
+				2BD65029178A6EE900EFE5B7 /* CDUserForm.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

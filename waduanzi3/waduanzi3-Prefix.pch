@@ -21,7 +21,18 @@
 #import <MobileCoreServices/MobileCoreServices.h>
 
 
-#define CDDEVICE [UIDevice currentDevice]
-#define CDSCREEN [UIScreen mainScreen]
-#define CDSCREEN_SIZE CDSCREEN.bounds.size
-#define APP_VERSION [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"] ?: [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey]
+
+#define CDDEVICE        [UIDevice currentDevice]
+#define CDSCREEN        [UIScreen mainScreen]
+#define CDSCREEN_SIZE   CDSCREEN.bounds.size
+#define CDAPPLICATION   [UIApplication sharedApplication]
+#define ROOT_CONTROLLER [[[UIApplication sharedApplication] keyWindow] rootViewController]
+#define APP_VERSION     [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"] ?: [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey]
+
+#define APP_STORE_URL @"itms-apps://itunes.apple.com/cn/app//id486268988?mt=8"
+
+#define MOGO_ADID  @"299f9bceb40a4aa785b6104d3d962378"
+#define UMENG_APPKEY @"4ebd31185270156770000001"
+#define WEIXIN_APPKEY @"wx22fe21179d1d00d0"
+
+#import "CDDefine.h"

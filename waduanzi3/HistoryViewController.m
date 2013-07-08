@@ -49,8 +49,7 @@
         NSDate *date = [NSDate dateWithTimeIntervalSince1970:[firstPost.create_time doubleValue]];
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setDateFormat:@"yyyy年MM月dd日"];
-        NSString *textDate = [dateFormatter stringFromDate:date];
-        self.navigationItem.title = [@"穿越到" stringByAppendingString:textDate];
+        self.navigationItem.title = [dateFormatter stringFromDate:date];
     }
 }
 

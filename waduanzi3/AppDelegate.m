@@ -14,6 +14,7 @@
 #import "CDRestClient.h"
 #import "TestViewController.h"
 #import "MGBoxViewController.h"
+#import "WCAlertView.h"
 
 
 @interface AppDelegate ()
@@ -201,6 +202,8 @@
     deckController.closeSlideAnimationDuration = 0.25f;
     
     self.window.rootViewController = deckController;
+    
+    [self afterWindowVisible];
 }
 
 - (void) setupTestRootController
@@ -212,13 +215,19 @@
     
     TestViewController *testController = [[TestViewController alloc] initWithStyle:UITableViewStylePlain];
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:testController];
-    
     self.window.rootViewController = navController;
+    
+    
 }
 
 - (void) afterWindowVisible
 {
-    
+    // set WCAlertView Default style
+    [WCAlertView setDefaultCustomiaztonBlock:^(WCAlertView *alertView) {
+        alertView.style = WCAlertViewStyleWhite;
+        alertView.labelTextColor = [UIColor grayColor];
+        alertView.buttonTextColor = [UIColor grayColor];
+    }];
 }
 
 - (void) setupRKObjectMapping
@@ -233,6 +242,8 @@
     [self performSelector:@selector(updateDeviceInfo) withObject:nil afterDelay:1.0f];
 }
 
+
+// update device info
 - (void) updateDeviceInfo
 {
     NSString *language = [[NSLocale preferredLanguages] objectAtIndex:0];

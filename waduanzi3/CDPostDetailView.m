@@ -16,15 +16,12 @@
 @synthesize imageSize = _imageSize;
 @synthesize actualHeight = _actualHeight;
 
-@synthesize avatarImageView = _avatarImageView;
-@synthesize authorTextLabel = _authorTextLabel;
-@synthesize datetimeTextLabel = _datetimeTextLabel;
-@synthesize upButton = _upButton;
-@synthesize commentButton = _commentButton;
-@synthesize moreButton = _moreButton;
 @synthesize textLabel = _textLabel;
 @synthesize detailTextLabel = _detailTextLabel;
 @synthesize imageView = _imageView;
+@synthesize avatarImageView = _avatarImageView;
+@synthesize authorTextLabel = _authorTextLabel;
+@synthesize datetimeTextLabel = _datetimeTextLabel;
 
 - (id)init
 {
@@ -59,16 +56,10 @@
     self.avatarImageView = [[UIImageView alloc] init];
     self.authorTextLabel = [[UILabel alloc] init];
     self.datetimeTextLabel = [[UILabel alloc] init];
-    self.upButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.commentButton = [[UIButton alloc] init];
-    self.moreButton = [[UIButton alloc] init];
     
     [self addSubview:_avatarImageView];
     [self addSubview:_authorTextLabel];
     [self addSubview:_datetimeTextLabel];
-    [self addSubview:_upButton];
-    [self addSubview:_commentButton];
-    [self addSubview:_moreButton];
 }
 
 - (void) layoutSubviews
@@ -163,34 +154,6 @@
         
         widgetY += widgetHeight + _padding;
     }
-    
-    CGRect upButtonFrame = CGRectMake(contentViewX, widgetY, 75.0f, 27);
-    [_upButton setFrame:upButtonFrame];
-    _upButton.contentEdgeInsets = _commentButton.contentEdgeInsets = UIEdgeInsetsMake(3, 0, 3, 0);
-    _upButton.imageEdgeInsets = _commentButton.contentEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 7);
-    _upButton.titleEdgeInsets = _commentButton.titleEdgeInsets = UIEdgeInsetsMake(2, 7, 0, 0);
-    _upButton.titleLabel.font = _commentButton.titleLabel.font = [UIFont systemFontOfSize:14.0f];
-    _upButton.layer.borderWidth = _commentButton.layer.borderWidth = 1.0f;
-    _upButton.layer.borderColor = _commentButton.layer.borderColor = [[UIColor colorWithRed:0.83f green:0.83f blue:0.83f alpha:0.70f] CGColor];
-    _upButton.layer.cornerRadius = _commentButton.layer.cornerRadius = 6.0f;
-    _upButton.backgroundColor = _commentButton.backgroundColor = [UIColor whiteColor];
-    _upButton.adjustsImageWhenHighlighted = NO;
-    
-    [_upButton setImage:[UIImage imageNamed:@"avatar_placeholder"] forState:UIControlStateNormal];
-    [_upButton setTitleColor:[UIColor colorWithRed:0.73f green:0.73f blue:0.73f alpha:1.00f] forState:UIControlStateNormal];
-    [_upButton setTitleColor:[UIColor redColor] forState:UIControlStateHighlighted];
-    [_upButton addTarget:self action:@selector(_detailViewButtonTouchDown:) forControlEvents:UIControlEventTouchDown];
-    [_upButton addTarget:self action:@selector(upButtonTouchUpInside:) forControlEvents:UIControlEventTouchUpInside];
-    
-    CGRect commentButtonFrame = upButtonFrame;
-    commentButtonFrame.origin.x += 75.0f + _padding;
-    [_commentButton setFrame:commentButtonFrame];
-    _commentButton.adjustsImageWhenHighlighted = NO;
-    [_commentButton setImage:[UIImage imageNamed:@"avatar_placeholder"] forState:UIControlStateNormal];
-    [_commentButton setTitleColor:[UIColor colorWithRed:0.73f green:0.73f blue:0.73f alpha:1.00f] forState:UIControlStateNormal];
-    [_commentButton setTitleColor:[UIColor redColor] forState:UIControlStateHighlighted];
-    [_commentButton addTarget:self action:@selector(_detailViewButtonTouchDown:) forControlEvents:UIControlEventTouchDown];
-    [_commentButton addTarget:self action:@selector(commentButtonTouchUpInside:) forControlEvents:UIControlEventTouchUpInside];
     
     self.actualHeight = widgetY + widgetHeight + _padding;
     

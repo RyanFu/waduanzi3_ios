@@ -22,6 +22,7 @@
 @synthesize token = _token;
 @synthesize username = _username;
 @synthesize website = _website;
+@synthesize score = _score;
 
 + (BOOL) logined
 {
@@ -42,6 +43,7 @@
         self.token = [decoder decodeObjectForKey:@"token"];
         self.username = [decoder decodeObjectForKey:@"username"];
         self.website = [decoder decodeObjectForKey:@"website"];
+        self.score = [decoder decodeObjectForKey:@"score"];
     }
     return self;
 }
@@ -58,6 +60,7 @@
     [encoder encodeObject:_token forKey:@"token"];
     [encoder encodeObject:_username forKey:@"username"];
     [encoder encodeObject:_website forKey:@"website"];
+    [encoder encodeObject:_score forKey:@"score"];
 }
 
 @end

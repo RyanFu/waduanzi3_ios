@@ -250,14 +250,13 @@
 {
     static UINavigationController *profileNavController;
     
-    UIViewController *rootController = [[[UIApplication sharedApplication] keyWindow] rootViewController];
     UserProfileViewController *profileController = [[UserProfileViewController alloc] init];
     
     if (profileNavController == nil)
         profileNavController = [[UINavigationController alloc] initWithRootViewController:profileController];
     
     profileNavController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
-    [rootController presentViewController:profileNavController animated:YES completion:nil];
+    [ROOT_CONTROLLER presentViewController:profileNavController animated:YES completion:nil];
     
 }
 
