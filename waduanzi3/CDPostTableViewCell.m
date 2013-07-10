@@ -10,6 +10,10 @@
 #import "CDPostTableViewCell.h"
 #import "CDDefine.h"
 
+@interface CDPostTableViewCell ()
+- (void) setupTableCellStyle;
+@end
+
 @implementation CDPostTableViewCell
 
 @synthesize padding = _padding;
@@ -58,6 +62,8 @@
 {
     [super layoutSubviews];
     
+    [self setupTableCellStyle];
+    
     CGSize cellContentViewSize = self.contentView.frame.size;
     CGFloat containerViewWidth = cellContentViewSize.width - _padding*2;
     CGFloat contentViewWidth = containerViewWidth - POST_AVATAR_WIDTH - _padding;
@@ -103,6 +109,7 @@
     
     // textLabel
     if (self.textLabel.text.length > 0) {
+        self.textLabel.backgroundColor = [UIColor clearColor];
         self.textLabel.numberOfLines = 0;
         self.textLabel.lineBreakMode = UILineBreakModeWordWrap;
         self.textLabel.textColor = [UIColor colorWithRed:0.01f green:0.01f blue:0.01f alpha:1.00f];
@@ -120,6 +127,7 @@
     
     // detailLabel
     if (self.detailTextLabel.text.length > 0) {
+        self.detailTextLabel.backgroundColor = [UIColor clearColor];
         self.detailTextLabel.numberOfLines = 0;
         self.detailTextLabel.lineBreakMode = UILineBreakModeWordWrap;
         self.detailTextLabel.textColor = [UIColor colorWithRed:0.01f green:0.01f blue:0.01f alpha:1.00f];
@@ -159,6 +167,17 @@
     CGRect commentButtonFrame = upButtonFrame;
     commentButtonFrame.origin.x += 75.0f + _padding;
     [_commentButton setFrame:commentButtonFrame];
+}
+
+- (void) setupTableCellStyle
+{
+    self.contentMode = UIViewContentModeTopLeft;
+    
+    UIImage *bgImage = [[UIImage imageNamed:@"post_cell_bg.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:5.0f];
+    UIImageView *bgView = [[UIImageView alloc] initWithImage:bgImage];
+    bgView.contentMode = UIViewContentModeScaleToFill;
+    bgView.frame = self.contentView.frame;
+    self.backgroundView = bgView;
 }
 
 @end

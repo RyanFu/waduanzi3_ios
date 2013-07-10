@@ -151,8 +151,8 @@
     NSDictionary *parameters = [CDRestClient requestParams:params];
     RKObjectManager *objectManager = [RKObjectManager sharedManager];
     [objectManager postObject:nil path:@"/user/login" parameters:parameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-//        NSLog(@"%@", mappingResult);
         CDUser *user = [mappingResult firstObject];
+        NSLog(@"%@, %@", user.username, user.screen_name);
         if ([user isKindOfClass:[CDUser class]]) {
             [[CDDataCache shareCache] cacheLoginedUser:user];
             [[CDDataCache shareCache] removeMySharePosts];

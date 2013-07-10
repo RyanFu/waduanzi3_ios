@@ -126,6 +126,7 @@
 		2BDD70AA177F980A00421915 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BDD70A9177F980A00421915 /* CoreText.framework */; };
 		2BDD7D38175E31D000842596 /* UIScrollView+SVInfiniteScrolling.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BDD7D35175E31D000842596 /* UIScrollView+SVInfiniteScrolling.m */; };
 		2BDD7D39175E31D000842596 /* UIScrollView+SVPullToRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BDD7D37175E31D000842596 /* UIScrollView+SVPullToRefresh.m */; };
+		2BDE2F92178C1360007736A8 /* CDCommentFormView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BDE2F91178C1360007736A8 /* CDCommentFormView.m */; };
 		2BED8205167B573E0025E9C4 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BED8204167B573E0025E9C4 /* UIKit.framework */; };
 		2BED8207167B573E0025E9C4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BED8206167B573E0025E9C4 /* Foundation.framework */; };
 		2BED8209167B573E0025E9C4 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BED8208167B573E0025E9C4 /* CoreGraphics.framework */; };
@@ -145,6 +146,11 @@
 		2BED82F0167B5C8E0025E9C4 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BED82EF167B5C8E0025E9C4 /* MessageUI.framework */; };
 		2BED82F4167B5D610025E9C4 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BED82F3167B5D610025E9C4 /* ImageIO.framework */; };
 		2BED82F6167B5E400025E9C4 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BED82F5167B5E400025E9C4 /* MobileCoreServices.framework */; };
+		2BF5BE7F178D10F400220DDF /* LeftViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF5BE7E178D10F400220DDF /* LeftViewController.m */; };
+		2BF5BE90178D5AE200220DDF /* cell_bg_plain@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BF5BE8C178D5ADC00220DDF /* cell_bg_plain@2x.png */; };
+		2BF5BE91178D5AE200220DDF /* cell_bg_plain.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BF5BE8D178D5ADC00220DDF /* cell_bg_plain.png */; };
+		2BF5BE92178D5AE200220DDF /* post_cell_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BF5BE8E178D5ADD00220DDF /* post_cell_bg.png */; };
+		2BF5BE93178D5AE200220DDF /* post_cell_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BF5BE8F178D5ADF00220DDF /* post_cell_bg@2x.png */; };
 		2BFC742B177752C80027F9B3 /* CDDataCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BFC742A177752C80027F9B3 /* CDDataCache.m */; };
 		2BFEBD6F16E76E0C00D8D363 /* sidemenus.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2BFEBD6E16E76E0C00D8D363 /* sidemenus.plist */; };
 		2BFEBD7D16E781CE00D8D363 /* menu_table_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BFEBD7B16E781CE00D8D363 /* menu_table_bg.png */; };
@@ -372,6 +378,8 @@
 		2BDD7D35175E31D000842596 /* UIScrollView+SVInfiniteScrolling.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+SVInfiniteScrolling.m"; sourceTree = "<group>"; };
 		2BDD7D36175E31D000842596 /* UIScrollView+SVPullToRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+SVPullToRefresh.h"; sourceTree = "<group>"; };
 		2BDD7D37175E31D000842596 /* UIScrollView+SVPullToRefresh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+SVPullToRefresh.m"; sourceTree = "<group>"; };
+		2BDE2F90178C1360007736A8 /* CDCommentFormView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDCommentFormView.h; sourceTree = "<group>"; };
+		2BDE2F91178C1360007736A8 /* CDCommentFormView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDCommentFormView.m; sourceTree = "<group>"; };
 		2BED8200167B573E0025E9C4 /* waduanzi3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = waduanzi3.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2BED8204167B573E0025E9C4 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		2BED8206167B573E0025E9C4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -400,6 +408,12 @@
 		2BED82F1167B5D4A0025E9C4 /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
 		2BED82F3167B5D610025E9C4 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		2BED82F5167B5E400025E9C4 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		2BF5BE7D178D10F400220DDF /* LeftViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeftViewController.h; sourceTree = "<group>"; };
+		2BF5BE7E178D10F400220DDF /* LeftViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeftViewController.m; sourceTree = "<group>"; };
+		2BF5BE8C178D5ADC00220DDF /* cell_bg_plain@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cell_bg_plain@2x.png"; sourceTree = "<group>"; };
+		2BF5BE8D178D5ADC00220DDF /* cell_bg_plain.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cell_bg_plain.png; sourceTree = "<group>"; };
+		2BF5BE8E178D5ADD00220DDF /* post_cell_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = post_cell_bg.png; sourceTree = "<group>"; };
+		2BF5BE8F178D5ADF00220DDF /* post_cell_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "post_cell_bg@2x.png"; sourceTree = "<group>"; };
 		2BFC7429177752C80027F9B3 /* CDDataCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDDataCache.h; sourceTree = "<group>"; };
 		2BFC742A177752C80027F9B3 /* CDDataCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDDataCache.m; sourceTree = "<group>"; };
 		2BFEBD6E16E76E0C00D8D363 /* sidemenus.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = sidemenus.plist; sourceTree = "<group>"; };
@@ -550,6 +564,8 @@
 			children = (
 				2BCFA8C916E4E12500521DEC /* SideMenuViewController.h */,
 				2BCFA8CA16E4E12500521DEC /* SideMenuViewController.m */,
+				2BF5BE7D178D10F400220DDF /* LeftViewController.h */,
+				2BF5BE7E178D10F400220DDF /* LeftViewController.m */,
 				2BCFA8CC16E4E2CF00521DEC /* PostListViewController.h */,
 				2BCFA8CD16E4E2CF00521DEC /* PostListViewController.m */,
 				2BB60F901756470F00290F69 /* TestViewController.h */,
@@ -586,6 +602,8 @@
 				2B1FDDF9177CB87900CD1135 /* CDSideTableViewCell.m */,
 				2BDD70A6177F971700421915 /* MGBoxViewController.h */,
 				2BDD70A7177F971700421915 /* MGBoxViewController.m */,
+				2BDE2F90178C1360007736A8 /* CDCommentFormView.h */,
+				2BDE2F91178C1360007736A8 /* CDCommentFormView.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -780,6 +798,10 @@
 		2BED82F8167B5ED20025E9C4 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				2BF5BE8C178D5ADC00220DDF /* cell_bg_plain@2x.png */,
+				2BF5BE8D178D5ADC00220DDF /* cell_bg_plain.png */,
+				2BF5BE8E178D5ADD00220DDF /* post_cell_bg.png */,
+				2BF5BE8F178D5ADF00220DDF /* post_cell_bg@2x.png */,
 				2B2BEC6717841A8C008038B0 /* checkmark.png */,
 				2B2BEC6817841A8C008038B0 /* checkmark@2x.png */,
 				2BDD706C177F829500421915 /* form_background.png */,
@@ -961,6 +983,10 @@
 				2BDD706F177F829500421915 /* form_background@2x.png in Resources */,
 				2B2BEC6917841A8C008038B0 /* checkmark.png in Resources */,
 				2B2BEC6A17841A8C008038B0 /* checkmark@2x.png in Resources */,
+				2BF5BE90178D5AE200220DDF /* cell_bg_plain@2x.png in Resources */,
+				2BF5BE91178D5AE200220DDF /* cell_bg_plain.png in Resources */,
+				2BF5BE92178D5AE200220DDF /* post_cell_bg.png in Resources */,
+				2BF5BE93178D5AE200220DDF /* post_cell_bg@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1080,6 +1106,8 @@
 				2B2BEC611783CE5F008038B0 /* ImageDetailViewController.m in Sources */,
 				2B2BEC661783FE53008038B0 /* MBProgressHUD.m in Sources */,
 				2BD65029178A6EE900EFE5B7 /* CDUserForm.m in Sources */,
+				2BDE2F92178C1360007736A8 /* CDCommentFormView.m in Sources */,
+				2BF5BE7F178D10F400220DDF /* LeftViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

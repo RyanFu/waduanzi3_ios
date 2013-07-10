@@ -15,6 +15,7 @@
 #import "TestViewController.h"
 #import "MGBoxViewController.h"
 #import "WCAlertView.h"
+#import "LeftViewController.h"
 
 
 @interface AppDelegate ()

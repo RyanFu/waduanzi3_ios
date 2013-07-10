@@ -83,7 +83,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor whiteColor];
+//    self.view.backgroundColor = [UIColor grayColor];
     self.viewDeckController.delegate = self;
     
     [self setupTableView];
@@ -125,9 +125,11 @@
     //    NSLog(@"h: %f", tableViewFrame.size.height);
     tableViewFrame.size.height -= NAVBAR_HEIGHT;
     self.tableView = [[UITableView alloc] initWithFrame:tableViewFrame style:UITableViewStylePlain];
+    [self.view addSubview:_tableView];
     _tableView.delegate = self;
     _tableView.dataSource = self;
-    [self.view addSubview:_tableView];
+    _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    _tableView.backgroundColor = [UIColor underPageBackgroundColor];
 }
 
 - (void) setupAdView

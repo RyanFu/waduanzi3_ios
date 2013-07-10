@@ -12,7 +12,7 @@
 @class CDPost;
 @class CDPostDetailView;
 
-@interface PostDetailViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate, UIGestureRecognizerDelegate, MBProgressHUDDelegate>
+@interface PostDetailViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate, UIGestureRecognizerDelegate, MBProgressHUDDelegate, UITextFieldDelegate>
 {
     NSMutableArray *_comments;
     NSInteger _lasttime;

@@ -109,6 +109,7 @@
     
     // textLabel
     if (self.textLabel.text.length > 0) {
+        self.textLabel.backgroundColor = [UIColor clearColor];
         self.textLabel.numberOfLines = 0;
         self.textLabel.lineBreakMode = UILineBreakModeWordWrap;
         self.textLabel.font = [UIFont systemFontOfSize:16.0f];
@@ -127,6 +128,7 @@
     
     // detailLabel
     if (self.detailTextLabel.text.length > 0) {
+        self.detailTextLabel.backgroundColor = [UIColor clearColor];
         self.detailTextLabel.numberOfLines = 0;
         self.detailTextLabel.lineBreakMode = UILineBreakModeWordWrap;
         self.detailTextLabel.font = [UIFont systemFontOfSize:16.0f];
@@ -155,7 +157,7 @@
         widgetY += widgetHeight + _padding;
     }
     
-    self.actualHeight = widgetY + widgetHeight + _padding;
+    self.actualHeight = widgetY;
     
     CGRect viewFrame = self.frame;
     viewFrame.size.height = _actualHeight;

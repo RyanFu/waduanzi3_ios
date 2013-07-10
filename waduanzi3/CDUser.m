@@ -29,6 +29,7 @@
     return NO;
 }
 
+
 - (id)initWithCoder:(NSCoder *)decoder
 {
     self = [super init];
@@ -42,6 +43,7 @@
         self.mini_avatar = [decoder decodeObjectForKey:@"mini_avatar"];
         self.token = [decoder decodeObjectForKey:@"token"];
         self.username = [decoder decodeObjectForKey:@"username"];
+        self.screen_name = [decoder decodeObjectForKey:@"screen_name"];
         self.website = [decoder decodeObjectForKey:@"website"];
         self.score = [decoder decodeObjectForKey:@"score"];
     }
@@ -59,6 +61,7 @@
     [encoder encodeObject:_mini_avatar forKey:@"mini_avatar"];
     [encoder encodeObject:_token forKey:@"token"];
     [encoder encodeObject:_username forKey:@"username"];
+    [encoder encodeObject:_screen_name forKey:@"screen_name"];
     [encoder encodeObject:_website forKey:@"website"];
     [encoder encodeObject:_score forKey:@"score"];
 }
