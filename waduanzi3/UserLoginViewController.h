@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 
 
-@interface UserLoginViewController : QuickDialogController <UITextFieldDelegate, QuickDialogStyleProvider>
+@interface UserLoginViewController : QuickDialogController <QuickDialogEntryElementDelegate, QuickDialogStyleProvider>
 
 @end

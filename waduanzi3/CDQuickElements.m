@@ -6,6 +6,7 @@
 //  Copyright (c) 2013年 chendong. All rights reserved.
 //
 
+#import <QuartzCore/QuartzCore.h>
 #import "CDQuickElements.h"
 #import "CDAppUser.h"
 #import "CDUser.h"
@@ -24,6 +25,8 @@
     appearance.labelColorEnabled = [UIColor blackColor];
     appearance.actionColorEnabled = [UIColor blackColor];
     appearance.sectionFooterColor = [UIColor lightGrayColor];
+    appearance.tableBackgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"BackgroundDark.png"]];
+    appearance.tableBackgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"BackgroundLight.png"]];
     [root setAppearance:appearance];
     
     // section 0
@@ -32,7 +35,7 @@
     QBooleanElement *messagePush = [[QBooleanElement alloc] initWithTitle:@"消息推送" Value:0];
     messagePush.controllerAction = @"messagePushAction:";
     [section0 addElement:messagePush];
-    
+
     // section 1
     QSection *section1 = [[QSection alloc] init];
     [root addSection:section1];
@@ -91,6 +94,8 @@
     QAppearance *appearance = root.appearance;
     appearance.entryFont = [UIFont systemFontOfSize:18.0f];
     appearance.labelFont = [UIFont systemFontOfSize:18.0f];
+    appearance.tableBackgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"login_background.png"]];
+    appearance.tableBackgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"BackgroundLight.png"]];
     [root setAppearance:appearance];
     
     
@@ -112,6 +117,7 @@
     passwordTextField.secureTextEntry = YES;
     passwordTextField.bind = @"textValue:password";
     [textFieldSection addElement:passwordTextField];
+    usernameTextField.height = passwordTextField.height = 44.0f;
     
     QSection *buttonSection = [[QSection alloc] init];
     [root addSection:buttonSection];
@@ -146,6 +152,8 @@
     QAppearance *appearance = root.appearance;
     appearance.entryFont = [UIFont systemFontOfSize:18.0f];
     appearance.labelFont = [UIFont systemFontOfSize:18.0f];
+    appearance.tableBackgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"login_background.png"]];
+    appearance.tableBackgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"BackgroundLight.png"]];
     [root setAppearance:appearance];
     
     
@@ -166,7 +174,7 @@
     passwordTextField.secureTextEntry = YES;
     passwordTextField.bind = @"textValue:password";
     [textFieldSection addElement:usernameTextField];
-    usernameTextField.height = passwordTextField.height = 50.0f;
+    usernameTextField.height = passwordTextField.height = 44.0f;
     [textFieldSection addElement:passwordTextField];
 
     QSection *buttonSection = [[QSection alloc] init];
@@ -183,7 +191,7 @@
     [root addSection:extraButtonSection];
     QButtonElement *signupButton = [[QButtonElement alloc] initWithTitle:@"注册挖段子账号"];
     signupButton.controllerAction = @"gotoUserSignupAction";
-    [signupButton setAppearance:buttonAppearance];
+    [submitButton setAppearance:buttonAppearance];
     [extraButtonSection addElement:signupButton];
     
     return root;
@@ -201,6 +209,8 @@
     QAppearance *appearance = root.appearance;
     appearance.entryFont = [UIFont systemFontOfSize:18.0f];
     appearance.labelFont = [UIFont systemFontOfSize:18.0f];
+    appearance.tableBackgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"BackgroundDark.png"]];
+    appearance.tableBackgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"BackgroundLight.png"]];
     [root setAppearance:appearance];
     
     CDUser *user = [CDAppUser currentUser];
@@ -222,7 +232,9 @@
     [root addSection:section3];
     QButtonElement *logoutButton = [[QButtonElement alloc] initWithTitle:@"退出当前账号"];
     logoutButton.key = @"key_logout_button";
-    logoutButton.controllerName = @"logoutAction";
+    logoutButton.controllerAction = @"logoutAction:";
+    QAppearance *logoutButtionAppearance = logoutButton.appearance;
+    logoutButtionAppearance.labelFont = [UIFont boldSystemFontOfSize:18.0f];
     [section3 addElement:logoutButton];
     
     return root;

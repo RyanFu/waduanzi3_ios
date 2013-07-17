@@ -9,6 +9,7 @@
 #import "CDAppUser.h"
 #import "CDDataCache.h"
 #import "CDUser.h"
+#import "UserLoginViewController.h"
 
 @implementation CDAppUser
 
@@ -34,4 +35,28 @@ static CDAppUser *instance;
     id user = [CDAppUser currentUser];
     return [user isKindOfClass:[CDUser class]];
 }
+
++ (void) logoutWithCompletion: (void (^)(CDUser *user))completion;
+{
+    @try {
+        if ([[self class] hasLogined]) {
+            CDUser *user = [CDAppUser currentUser];
+            [[CDDataCache shareCache] removeLoginedUserCache];
+            completion(user);
+        }
+        
+    }
+    @catch (NSException *exception) {
+        NSLog(@"caught exception: %@", exception);
+    }
+}
+
++ (void) requiredLogin
+{
+    UserLoginViewController *loginController = [[UserLoginViewController alloc] init];
+    UINavigationController *loginNavController = [[UINavigationController alloc] initWithRootViewController:loginController];
+    
+    [ROOT_CONTROLLER presentViewController:loginNavController animated:YES completion:nil];
+}
+
 @end

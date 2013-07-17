@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "CDUser.h"
 
+#define SUMMARY_LEN 100
+#define CONTENT_SUB_THRESHOLD_LEN 200
 
 @interface CDPost : NSObject
 
@@ -31,5 +33,7 @@
 @property (nonatomic, strong) NSNumber * pic_frames;
 
 @property (nonatomic, strong) CDUser *user;
+
+- (NSString *) summary;
 
 @end

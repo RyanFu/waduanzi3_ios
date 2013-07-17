@@ -36,6 +36,7 @@
         [_submitButton setTitle:@"发布" forState:UIControlStateNormal];
         _submitButton.backgroundColor = [UIColor grayColor];
         _submitButton.layer.cornerRadius = 3.0f;
+        _submitButton.titleLabel.font = [UIFont boldSystemFontOfSize:14.0f];
         [self addSubview:_submitButton];
     }
     return self;

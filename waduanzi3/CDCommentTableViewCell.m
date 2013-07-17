@@ -10,6 +10,10 @@
 #import "CDCommentTableViewCell.h"
 #import "CDDefine.h"
 
+@interface CDCommentTableViewCell ()
+- (void) setupTableCellStyle;
+@end
+
 @implementation CDCommentTableViewCell
 
 @synthesize padding = _padding;
@@ -30,6 +34,13 @@
         self.authorTextLabel = [[UILabel alloc] init];
         self.orderTextLabel = [[UILabel alloc] init];
         
+        self.detailTextLabel.font = [UIFont systemFontOfSize:14.0f];
+        self.detailTextLabel.textColor = [UIColor colorWithRed:0.01f green:0.01f blue:0.01f alpha:1.00f];
+        self.authorTextLabel.font = [UIFont boldSystemFontOfSize:14.0f];
+        self.authorTextLabel.textColor = [UIColor colorWithRed:0.20f green:0.30f blue:0.55f alpha:1.00f];
+        self.orderTextLabel.font = [UIFont systemFontOfSize:14.0f];
+        self.orderTextLabel.textColor = [UIColor colorWithRed:0.65f green:0.65f blue:0.65f alpha:1.00f];
+        
         [self.contentView addSubview:_avatarImageView];
         [self.contentView addSubview:_authorTextLabel];
         [self.contentView addSubview:_orderTextLabel];
@@ -46,6 +57,8 @@
 - (void) layoutSubviews
 {
     [super layoutSubviews];
+    
+    [self setupTableCellStyle];
     
     CGSize cellContentViewSize = self.contentView.frame.size;
     CGFloat contentViewWidth = cellContentViewSize.width - _padding*2;
@@ -88,7 +101,7 @@
     if (self.textLabel.text.length > 0) {
         self.textLabel.numberOfLines = 0;
         self.textLabel.lineBreakMode = UILineBreakModeWordWrap;
-        
+        self.textLabel.textColor = [UIColor colorWithRed:0.16f green:0.16f blue:0.16f alpha:1.00f];
         CGSize titleLabelSize = [self.textLabel.text sizeWithFont:self.textLabel.font
                                                        constrainedToSize:CGSizeMake(contentViewWidth, 9999.0)
                                                            lineBreakMode:UILineBreakModeWordWrap];
@@ -104,7 +117,7 @@
     if (self.detailTextLabel.text.length > 0) {
         self.detailTextLabel.numberOfLines = 0;
         self.detailTextLabel.lineBreakMode = UILineBreakModeWordWrap;
-        
+        self.detailTextLabel.textColor = [UIColor colorWithRed:0.16f green:0.16f blue:0.16f alpha:1.00f];
         CGSize detailLabelSize = [self.detailTextLabel.text sizeWithFont:self.detailTextLabel.font
                                                 constrainedToSize:CGSizeMake(contentViewWidth, 9999.0)
                                                     lineBreakMode:UILineBreakModeWordWrap];
@@ -114,6 +127,17 @@
         
         widgetY += widgetHeight + _padding;
     }
+}
+
+- (void) setupTableCellStyle
+{
+    self.contentMode = UIViewContentModeTopLeft;
+    
+    UIImage *bgImage = [[UIImage imageNamed:@"post_cell_bg.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 5.0f, 0)];
+    UIImageView *bgView = [[UIImageView alloc] initWithImage:bgImage];
+    bgView.contentMode = UIViewContentModeScaleToFill;
+    bgView.frame = self.contentView.frame;
+    self.backgroundView = bgView;
 }
 
 @end

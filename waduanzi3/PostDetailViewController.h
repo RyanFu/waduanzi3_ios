@@ -24,6 +24,7 @@
 @property (nonatomic, strong) CDPost *post;
 @property (nonatomic, strong) UIImage *smallImage;
 @property (nonatomic, strong) UIImage *middleImage;
+@property (nonatomic) BOOL *commentMode;
 
 - (id)initWithPost:(CDPost *)post;
 - (id)initWithPostID:(NSInteger)post_id;

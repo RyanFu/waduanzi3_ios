@@ -6,9 +6,10 @@
 //  Copyright (c) 2013年 chendong. All rights reserved.
 //
 
+#import <QuartzCore/QuartzCore.h>
 #import "UserProfileViewController.h"
 #import "CDQuickElements.h"
-#import <QuartzCore/QuartzCore.h>
+#import "CDAppUser.h"
 
 @interface UserProfileViewController ()
 - (void) setupNavbar;
@@ -47,12 +48,12 @@
 
 - (void) setupNavbar
 {
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(dismissController:)];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"关闭" style:UIBarButtonItemStyleBordered target:self action:@selector(dismissController)];
 }
 
 #pragma mark - selector
 
-- (void) dismissController:(id)sender
+- (void) dismissController
 {
     
     [self.navigationController dismissViewControllerAnimated:YES completion:nil];
@@ -62,23 +63,19 @@
 - (void) cell:(UITableViewCell *)cell willAppearForElement:(QElement *)element atIndexPath:(NSIndexPath *)indexPath
 {
     if ([element.key isEqualToString:@"key_logout_button"]) {
-        UIView *bgView = [[UIView alloc] initWithFrame:cell.frame];
-        bgView.backgroundColor = [UIColor redColor];
-        bgView.layer.cornerRadius = 6.0f;
-        cell.backgroundView = bgView;
-        
-        UIView *selectedBgView = [[UIView alloc] initWithFrame:cell.frame];
-        selectedBgView.backgroundColor = [UIColor redColor];
-        selectedBgView.layer.cornerRadius = 6.0f;
-        cell.selectedBackgroundView = selectedBgView;
-        
+        cell.backgroundView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"common_button_red_nor.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(5.0f, 6.0f, -1.0f, 6.0f)]];
+        cell.selectedBackgroundView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"common_button_red_press.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(5.0f, 6.0f, -1.0f, 6.0f)]];
         cell.textLabel.textColor = [UIColor whiteColor];
     }
 }
 
 - (void) logoutAction:(QButtonElement *)element
 {
-    NSLog(@"logout");
+    element.enabled = NO;
+    __weak UserProfileViewController *weakSelf = self;
+    [CDAppUser logoutWithCompletion:^(CDUser *user) {
+        [weakSelf performSelector:@selector(dismissController)];
+    }];
 }
 
 @end

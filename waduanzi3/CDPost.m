@@ -78,4 +78,14 @@
     [encoder encodeObject:_user forKey:@"user"];
 }
 
+- (NSString *) summary
+{
+    if (_content != nil && _content.length > CONTENT_SUB_THRESHOLD_LEN)
+        return [[self.content substringToIndex:SUMMARY_LEN] stringByAppendingFormat:@"......\n\n﹤长文，剩余%d字﹥", _content.length - SUMMARY_LEN];
+    else
+        return _content;
+}
+
 @end
+
+

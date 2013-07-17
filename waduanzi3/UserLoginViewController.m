@@ -40,26 +40,16 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.title = @"注册";
-    self.view.userInteractionEnabled = YES;
-    
-    self.view.backgroundColor = self.quickDialogTableView.backgroundColor = [UIColor colorWithRed:0.89f green:0.88f blue:0.83f alpha:1.00f];
-    self.quickDialogTableView.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"login_background.png"]];
+    self.title = @"登录";
+
     self.quickDialogTableView.styleProvider = self;
+    QEntryElement *usernameElement = (QEntryElement *)[self.root elementWithKey:@"key_username"];
+    QEntryElement *passwordElement = (QEntryElement *)[self.root elementWithKey:@"key_password"];
+    usernameElement.delegate = passwordElement.delegate = self;
     
     [self setupNavbar];
 }
 
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
-{
-    UITouch *touch = [touches anyObject];
-    if (touch.phase == UITouchPhaseBegan) {
-        for (UIView *subView in self.quickDialogTableView.subviews) {
-            if (subView.isFirstResponder)
-                [subView resignFirstResponder];
-        }
-    }
-}
 
 - (void)didReceiveMemoryWarning
 {
@@ -71,7 +61,10 @@
 
 - (void) setupNavbar
 {
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(dismissController:)];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"关闭"
+                                                                             style:UIBarButtonItemStyleBordered
+                                                                            target:self
+                                                                            action:@selector(dismissController)];
 }
 
 
@@ -102,9 +95,11 @@
 
 #pragma mark - selector
 
-- (void) dismissController:(id)sender
+- (void) dismissController
 {
-    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+    [self.navigationController dismissViewControllerAnimated:YES completion:^{
+        [[RKObjectManager sharedManager] cancelAllObjectRequestOperationsWithMethod:RKRequestMethodPOST matchingPathPattern:@"/user/login"];
+    }];
 }
 
 - (void) gotoUserSignupAction
@@ -114,21 +109,13 @@
 }
 
 
-#pragma mark - UITextFieldDelegate
+#pragma mark - QuickDialogEntryElementDelegate
 
-- (BOOL) textFieldShouldReturn:(UITextField *)textField
+- (BOOL) QEntryShouldReturnForElement:(QEntryElement *)element andCell:(QEntryTableViewCell *)cell
 {
-    if (textField.tag == USERNAME_TEXTFIELD_TAG) {
-//        [_passwordTextField becomeFirstResponder];
-        return YES;
-    }
-    else if (textField.tag == PASSWORD_TEXTFIELD_TAG) {
+    if ([element.key isEqualToString:@"key_password"])
         [self userLoginAction];
-        
-        return YES;
-    }
-    else
-        return NO;
+    return YES;
 }
 
 
@@ -137,11 +124,14 @@
 
 - (void) userLoginAction
 {
+    self.navigationItem.leftBarButtonItem.enabled = NO;
+    
     CDUserForm *form = [[CDUserForm alloc] init];
     [self.root fetchValueUsingBindingsIntoObject:form];
     
     if (form.username.length == 0 || form.password.length == 0) {
         NSLog(@"please input username and password");
+        self.navigationItem.leftBarButtonItem.enabled = YES;
         return;
     }
     
@@ -157,12 +147,11 @@
             [[CDDataCache shareCache] cacheLoginedUser:user];
             [[CDDataCache shareCache] removeMySharePosts];
             [[CDDataCache shareCache] removeFavoritePosts];
-            
-            [self.navigationController dismissViewControllerAnimated:YES completion:^{
-                NSLog(@"user logined");
-            }];
+            self.navigationItem.leftBarButtonItem.enabled = YES;
+            [self performSelector:@selector(dismissController)];
         }
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+        self.navigationItem.leftBarButtonItem.enabled = YES;
         NSLog(@"error: %@", error);
         NSData *jsonData = [error.localizedRecoverySuggestion dataUsingEncoding:NSUTF8StringEncoding];
         NSError *_error;

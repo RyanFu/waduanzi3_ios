@@ -88,9 +88,10 @@
     
     [self setupTableView];
     [self setupAdView];
-    
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPlay target:self action:@selector(openLeftSlideView:)];
-    
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"BackToSubscriptions.png"]
+                                                                             style:UIBarButtonItemStyleBordered
+                                                                            target:self
+                                                                            action:@selector(openLeftSlideView:)];
     [self setupTableViewPullScrollView];
     [self setupTableViewInfiniteScrollView];
     
@@ -130,6 +131,7 @@
     _tableView.dataSource = self;
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     _tableView.backgroundColor = [UIColor underPageBackgroundColor];
+    _tableView.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"feed_table_bg.jpg"]];
 }
 
 - (void) setupAdView
@@ -171,6 +173,7 @@
     [self.tableView addPullToRefreshWithActionHandler:^{
         [weakSelf loadLatestStatuses];
     }];
+
     [self.tableView.pullToRefreshView setTitle:@"下拉刷新" forState:SVPullToRefreshStateStopped];
     [self.tableView.pullToRefreshView setTitle:@"载入中" forState:SVPullToRefreshStateLoading];
     [self.tableView.pullToRefreshView setTitle:@"释放立即刷新" forState:SVPullToRefreshStateTriggered];
@@ -183,15 +186,17 @@
         [weakSelf loadMoreStatuses];
     }];
     
-    CGRect infiniteViewFrame = CGRectMake(0, 0, self.tableView.frame.size.width, 30.0f);
+    CGRect infiniteViewFrame = CGRectMake(0, 0, self.tableView.frame.size.width, 40.0f);
     UILabel *stoppedLabel = [[UILabel alloc] initWithFrame:infiniteViewFrame];
     UILabel *loadingLabel = [[UILabel alloc] initWithFrame:infiniteViewFrame];
     UILabel *triggeredLabel = [[UILabel alloc] initWithFrame:infiniteViewFrame];
     stoppedLabel.textAlignment = loadingLabel.textAlignment = triggeredLabel.textAlignment = UITextAlignmentCenter;
     stoppedLabel.textColor = loadingLabel.textColor = triggeredLabel.textColor = [UIColor grayColor];
     stoppedLabel.font = loadingLabel.font = triggeredLabel.font = [UIFont systemFontOfSize:14.0f];
+    stoppedLabel.backgroundColor = loadingLabel.backgroundColor = triggeredLabel.backgroundColor = [UIColor clearColor];
+    
     stoppedLabel.text = @"向上滑动载入更多";
-    //    [self.tableView.infiniteScrollingView setCustomView:stoppedLabel forState:SVInfiniteScrollingStateStopped];
+//    [self.tableView.infiniteScrollingView setCustomView:stoppedLabel forState:SVInfiniteScrollingStateStopped];
     loadingLabel.text = @"加载中，请稍候...";
     [self.tableView.infiniteScrollingView setCustomView:loadingLabel forState:SVInfiniteScrollingStateLoading];
     triggeredLabel.text = @"加载更多";
@@ -230,16 +235,16 @@
     }
     
     CDPost *post = [_statuses objectAtIndex:indexPath.row];
-    cell.detailTextLabel.text = post.content;
+    cell.detailTextLabel.text = [post summary];
     cell.authorTextLabel.text = post.author_name;
     cell.datetimeTextLabel.text = post.create_time_at;
     
-    [cell.avatarImageView setImageWithURL:[NSURL URLWithString:post.user.small_avatar] placeholderImage:[UIImage imageNamed:@"avatar_placeholder"]];
+    [cell.avatarImageView setImageWithURL:[NSURL URLWithString:post.user.small_avatar] placeholderImage:[UIImage imageNamed:@"avatar_placeholder.png"]];
     
     if (post.small_pic.length > 0) {
         cell.imageView.tag = indexPath.row;
         NSURL *imageUrl = [NSURL URLWithString:post.small_pic];
-        UIImage *placeImage = [UIImage imageNamed:@"thumb_placeholder"];
+        UIImage *placeImage = [UIImage imageNamed:@"thumb_placeholder.png"];
         [cell.imageView setImageWithURL:imageUrl placeholderImage:placeImage completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
             ;
         }];
@@ -268,31 +273,22 @@
     
     cell.textLabel.font = [UIFont systemFontOfSize:16.0f];
     cell.detailTextLabel.font = [UIFont systemFontOfSize:16.0f];
-    cell.authorTextLabel.font = [UIFont boldSystemFontOfSize:16.0f];    
-    cell.datetimeTextLabel.font = [UIFont systemFontOfSize:14.0f];
+    cell.authorTextLabel.font = [UIFont boldSystemFontOfSize:14.0f];
+    cell.datetimeTextLabel.font = [UIFont systemFontOfSize:12.0f];
+
+    cell.upButton.imageEdgeInsets = cell.commentButton.contentEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 5.0f);
+    cell.upButton.titleEdgeInsets = cell.commentButton.titleEdgeInsets = UIEdgeInsetsMake(0, 8.0f, 0, 0);
+    cell.upButton.titleLabel.font = cell.commentButton.titleLabel.font = [UIFont systemFontOfSize:12.0f];
+    cell.upButton.adjustsImageWhenHighlighted = cell.commentButton.adjustsImageWhenHighlighted = NO;
     
-    cell.upButton.contentEdgeInsets = cell.commentButton.contentEdgeInsets = UIEdgeInsetsMake(3, 0, 3, 0);
-    cell.upButton.imageEdgeInsets = cell.commentButton.contentEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 7);
-    cell.upButton.titleEdgeInsets = cell.commentButton.titleEdgeInsets = UIEdgeInsetsMake(2, 7, 0, 0);
-    cell.upButton.titleLabel.font = cell.commentButton.titleLabel.font = [UIFont systemFontOfSize:14.0f];
-    cell.upButton.layer.borderWidth = cell.commentButton.layer.borderWidth = 1.0f;
-    cell.upButton.layer.borderColor = cell.commentButton.layer.borderColor = [[UIColor colorWithRed:0.83f green:0.83f blue:0.83f alpha:0.70f] CGColor];
-    cell.upButton.layer.cornerRadius = cell.commentButton.layer.cornerRadius = 6.0f;
-    cell.upButton.backgroundColor = cell.commentButton.backgroundColor = [UIColor whiteColor];
-    cell.upButton.adjustsImageWhenHighlighted = NO;
-    
-    [cell.upButton setImage:[UIImage imageNamed:@"avatar_placeholder"] forState:UIControlStateNormal];
-    [cell.upButton setTitleColor:[UIColor colorWithRed:0.73f green:0.73f blue:0.73f alpha:1.00f] forState:UIControlStateNormal];
-    [cell.upButton setTitleColor:[UIColor redColor] forState:UIControlStateHighlighted];
-    [cell.upButton addTarget:self action:@selector(cellButtonTouchDown:) forControlEvents:UIControlEventTouchDown];
+    [cell.upButton setImage:[UIImage imageNamed:@"mqz_feed_like.png"] forState:UIControlStateNormal];
+    [cell.upButton setImage:[UIImage imageNamed:@"mqz_feed_like_disable.png"] forState:UIControlStateDisabled];
+    [cell.upButton setTitleColor:[UIColor colorWithRed:0.45f green:0.51f blue:0.64f alpha:1.00f] forState:UIControlStateNormal];
     [cell.upButton addTarget:self action:@selector(upButtonTouchUpInside:) forControlEvents:UIControlEventTouchUpInside];
-    
-    [cell.commentButton setImage:[UIImage imageNamed:@"avatar_placeholder"] forState:UIControlStateNormal];
-    [cell.commentButton setTitleColor:[UIColor colorWithRed:0.73f green:0.73f blue:0.73f alpha:1.00f] forState:UIControlStateNormal];
-    [cell.commentButton setTitleColor:[UIColor redColor] forState:UIControlStateHighlighted];
-    [cell.commentButton addTarget:self action:@selector(cellButtonTouchDown:) forControlEvents:UIControlEventTouchDown];
+
+    [cell.commentButton setImage:[UIImage imageNamed:@"mqz_feed_comment_normal.png"] forState:UIControlStateNormal];
+    [cell.commentButton setTitleColor:[UIColor colorWithRed:0.45f green:0.51f blue:0.64f alpha:1.00f] forState:UIControlStateNormal];
     [cell.commentButton addTarget:self action:@selector(commentButtonTouchUpInside:) forControlEvents:UIControlEventTouchUpInside];
-    cell.commentButton.adjustsImageWhenHighlighted = NO;
 }
 
 #pragma mark - CDPostTableViewCellDelegate
@@ -311,47 +307,46 @@
 
 #pragma mark - cell buttion event selector
 
-- (void) cellButtonTouchDown:(id)sender
-{
-    UIButton *button = (UIButton *)sender;
-    
-//    NSLog(@"up button down : %d", button.tag);
-    NSLog(@"%d, %d, %d, %d, %d, %d", UIControlStateNormal, UIControlStateHighlighted, UIControlStateDisabled, UIControlStateSelected, UIControlStateReserved, UIControlStateApplication);
-    NSLog(@"state: %d", button.state);
-}
 
 - (void) upButtonTouchUpInside:(id)sender
 {
     UIButton *button = (UIButton *)sender;
     NSLog(@"state: %d", button.state);
+    button.enabled = NO;
+    button.userInteractionEnabled = NO;
+//    __weak UIButton *weakButton = button;
     
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [button setHighlighted:YES];
-        button.userInteractionEnabled = NO;
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{    
+        // 不管成不成功都加1
+        CDPost *post = [_statuses objectAtIndex:button.tag];
+        post.up_count = [NSNumber numberWithInteger:[post.up_count integerValue]+1];
+        [_statuses replaceObjectAtIndex:button.tag withObject:post];
+        [button setTitle:[post.up_count stringValue] forState:UIControlStateNormal];
+        
+        RKObjectManager *objectManager = [RKObjectManager sharedManager];
+        NSString *restPath = [NSString stringWithFormat:@"/post/support/%d", [post.post_id integerValue]];
+        [objectManager.HTTPClient putPath:restPath parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            NSLog(@"response: %@", responseObject);
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            NSLog(@"error: %@", error);
+        }];
     });
-
-    
-    
-    // 不管成不成功都加1
-    CDPost *post = [_statuses objectAtIndex:button.tag];
-    post.up_count = [NSNumber numberWithInteger:[post.up_count integerValue]+1];
-    [_statuses replaceObjectAtIndex:button.tag withObject:post];
-    [button setTitle:[post.up_count stringValue] forState:UIControlStateNormal];
-    
-    RKObjectManager *objectManager = [RKObjectManager sharedManager];
-    NSString *restPath = [NSString stringWithFormat:@"/post/support/%d", [post.post_id integerValue]];
-    [objectManager.HTTPClient putPath:restPath parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"response: %@", responseObject);
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"error: %@", error);
-    }];
 }
 
 - (void) commentButtonTouchUpInside:(id)sender
 {
-    UIButton *btn = (UIButton *)sender;
-    [btn setBackgroundColor:[UIColor colorWithRed:0.37f green:0.75f blue:0.49f alpha:1.00f]];
     NSLog(@"comment button clicked");
+    UIButton *btn = (UIButton *)sender;
+    [btn addTarget:self action:nil forControlEvents:UIControlEventTouchUpInside];
+    CDPost *post = [_statuses objectAtIndex:btn.tag];
+    PostDetailViewController *detailViewController = [[PostDetailViewController alloc] initWithPost:post];
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:btn.tag inSection:0];
+    CDPostTableViewCell *cell = (CDPostTableViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+    if (cell.imageView.image != nil)
+        detailViewController.smallImage = cell.imageView.image;
+    detailViewController.commentMode = YES;
+    
+    [self.navigationController pushViewController:detailViewController animated:YES];
 }
 
 
@@ -368,7 +363,7 @@
                                        lineBreakMode:UILineBreakModeWordWrap];
     
     UIFont *detailFont = [UIFont systemFontOfSize:16.0f];
-    CGSize detailLabelSize = [post.content sizeWithFont:detailFont
+    CGSize detailLabelSize = [[post summary] sizeWithFont:detailFont
                                       constrainedToSize:CGSizeMake(contentWidth, 9999.0)
                                           lineBreakMode:UILineBreakModeWordWrap];
     
@@ -378,7 +373,7 @@
     else
         cellHeight +=  titleLabelSize.height + POST_LIST_CELL_PADDING;
     
-    return cellHeight + 10.0f;
+    return cellHeight;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -409,9 +404,7 @@
 {
     NSLog(@"method: PostListViewController latestStatusesFailed:error:");
     [WCAlertView showAlertWithTitle:@"出错啦" message:@"载入数据出错。" customizationBlock:^(WCAlertView *alertView) {
-        
         alertView.style = WCAlertViewStyleWhite;
-        
     } completionBlock:^(NSUInteger buttonIndex, WCAlertView *alertView) {
         if (buttonIndex == 1)
             [self loadLatestStatuses];

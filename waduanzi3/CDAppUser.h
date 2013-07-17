@@ -15,4 +15,7 @@
 + (CDAppUser *) shareAppUser;
 + (CDUser *) currentUser;
 + (BOOL) hasLogined;
++ (void) logoutWithCompletion: (void (^)(CDUser *user))completion;
+
++ (void) requiredLogin;
 @end

@@ -41,25 +41,14 @@
     [super viewDidLoad];
     self.title = @"注册";
     
-    self.view.userInteractionEnabled = YES;
-    
-    self.view.backgroundColor = self.quickDialogTableView.backgroundColor = [UIColor colorWithRed:0.89f green:0.88f blue:0.83f alpha:1.00f];
-    self.quickDialogTableView.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"login_background.png"]];
     self.quickDialogTableView.styleProvider = self;
+    QEntryElement *usernameElement = (QEntryElement *)[self.root elementWithKey:@"key_username"];
+    QEntryElement *passwordElement = (QEntryElement *)[self.root elementWithKey:@"key_password"];
+    usernameElement.delegate = passwordElement.delegate = self;
     
     [self setupNavbar];
 }
 
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
-{
-    UITouch *touch = [touches anyObject];
-    if (touch.phase == UITouchPhaseBegan) {
-        for (UIView *subView in self.quickDialogTableView.subviews) {
-            if (subView.isFirstResponder)
-                [subView resignFirstResponder];
-        }
-    }
-}
 
 - (void)didReceiveMemoryWarning
 {
@@ -71,7 +60,10 @@
 
 - (void) setupNavbar
 {
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(dismissController:)];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"关闭"
+                                                                             style:UIBarButtonItemStyleBordered
+                                                                            target:self
+                                                                            action:@selector(dismissController)];
 }
 
 
@@ -104,37 +96,32 @@
 
 #pragma mark - selector
 
-- (void) dismissController:(id)sender
+- (void) dismissController
 {
-    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+    [self.navigationController dismissViewControllerAnimated:YES completion:^{
+        [[RKObjectManager sharedManager] cancelAllObjectRequestOperationsWithMethod:RKRequestMethodPOST matchingPathPattern:@"/user/signup"];
+    }];
 }
 
 - (void) retrunUserLoginAction
 {
-    [self.navigationController popViewControllerAnimated:YES];
+    if (self.navigationController.viewControllers.count > 1)
+        [self.navigationController popViewControllerAnimated:YES];
 }
 
+#pragma mark - QuickDialogEntryElementDelegate
 
-#pragma mark - UITextFieldDelegate
-
-- (BOOL) textFieldShouldReturn:(UITextField *)textField
+- (BOOL) QEntryShouldReturnForElement:(QEntryElement *)element andCell:(QEntryTableViewCell *)cell
 {
-    if (textField.tag == USERNAME_TEXTFIELD_TAG) {
-        //        [_passwordTextField becomeFirstResponder];
-        return YES;
-    }
-    else if (textField.tag == PASSWORD_TEXTFIELD_TAG) {
+    if ([element.key isEqualToString:@"key_password"])
         [self userSingupAction];
-        
-        return YES;
-    }
-    else
-        return NO;
+    return YES;
 }
 
 - (void) userSingupAction
 {
-    
+    NSLog(@"user signup");
+    self.navigationItem.leftBarButtonItem.enabled = NO;
 }
 
 @end

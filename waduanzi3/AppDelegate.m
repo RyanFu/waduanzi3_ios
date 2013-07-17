@@ -6,6 +6,7 @@
 //  Copyright (c) 2012年 chendong. All rights reserved.
 //
 
+#import <QuartzCore/QuartzCore.h>
 #import "CDDefine.h"
 #import "AppDelegate.h"
 #import "IIViewDeckController.h"
@@ -181,8 +182,24 @@
 {
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque];
     
-    [[UINavigationBar appearance] setTintColor:[UIColor clearColor]];
     [[UINavigationBar appearance] setBarStyle:UIBarStyleBlackOpaque];
+    [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"navibg.png"] forBarMetrics:UIBarMetricsDefault];
+  
+    
+    [[UIBarButtonItem appearance] setBackgroundImage:[[UIImage imageNamed:@"navibarcancel.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 8.0f, 0, 8.0f)]
+                                            forState:UIControlStateNormal
+                                          barMetrics:UIBarMetricsDefault];
+    [[UIBarButtonItem appearance] setBackgroundImage:[[UIImage imageNamed:@"cancel_press.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 8.0f, 0, 8.0f)]
+                                            forState:UIControlStateSelected
+                                          barMetrics:UIBarMetricsDefault];
+    [[UIBarButtonItem appearance] setBackButtonBackgroundImage:[[UIImage imageNamed:@"navibarback.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(5.0f, 18.0f, 5.0f, 5.0f)]
+                                                      forState:UIControlStateNormal
+                                                    barMetrics:UIBarMetricsDefault];
+    [[UIBarButtonItem appearance] setBackButtonBackgroundImage:[[UIImage imageNamed:@"back_press.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(5.0f, 18.0f, 5.0f, 5.0f)]
+                                                      forState:UIControlStateSelected
+                                                    barMetrics:UIBarMetricsDefault];
+    // UIToolBar
+    [[UIBarButtonItem appearanceWhenContainedIn:[UIToolbar class], nil] setTintColor:[UIColor colorWithRed:0.43f green:0.50f blue:0.65f alpha:1.0f]];
 }
 
 - (void) setupWindowView

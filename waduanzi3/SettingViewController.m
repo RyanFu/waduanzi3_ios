@@ -6,6 +6,7 @@
 //  Copyright (c) 2013年 chendong. All rights reserved.
 //
 
+#import <QuartzCore/QuartzCore.h>
 #import "CDDefine.h"
 #import "SettingViewController.h"
 #import "CDDataCache.h"
@@ -33,12 +34,12 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    self.quickDialogTableView.backgroundView = nil;
     self.quickDialogTableView.backgroundColor = [UIColor colorWithRed:0.89f green:0.88f blue:0.83f alpha:1.00f];
+//    self.quickDialogTableView.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"BackgroundDark.png"]];
     self.quickDialogTableView.styleProvider = self;
     self.quickDialogTableView.deselectRowWhenViewAppears = YES;
     
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(closeController)];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"关闭" style:UIBarButtonItemStyleBordered target:self action:@selector(closeController)];
 }
 
 - (void)didReceiveMemoryWarning
@@ -64,7 +65,15 @@
 
 -(void) cell:(UITableViewCell *)cell willAppearForElement:(QElement *)element atIndexPath:(NSIndexPath *)indexPath
 {
-    cell.backgroundColor = [UIColor colorWithRed:0.93f green:0.93f blue:0.91f alpha:1.00f];
+//    cell.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"BackgroundLight.png"]];
+//    cell.backgroundColor = [UIColor colorWithRed:0.93f green:0.93f blue:0.91f alpha:1.00f];
+//    cell.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"BackgroundLight.png"]];
+//    cell.backgroundView.layer.cornerRadius = 5.0f;
+//    cell.backgroundView.layer.borderColor = [UIColor grayColor].CGColor;
+//    cell.backgroundView.layer.borderWidth = 1.5f;
+//    cell.backgroundView.layer.shadowColor = [UIColor redColor].CGColor;
+//    cell.backgroundView.layer.shadowOffset = CGSizeMake(2.0f, 2.0f);
+//    cell.backgroundView.layer.shadowRadius = 5.0f;
 }
 
 

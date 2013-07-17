@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UserSignupViewController : QuickDialogController <UITextFieldDelegate, QuickDialogStyleProvider>
+@interface UserSignupViewController : QuickDialogController <QuickDialogEntryElementDelegate, QuickDialogStyleProvider>
 
 @end

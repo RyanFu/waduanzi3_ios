@@ -14,7 +14,7 @@
 
 @interface ImageDetailViewController ()
 {
-    MBProgressHUD *HUD;
+    MBProgressHUD *_HUD;
 }
 - (void) setupSaveButton;
 - (void) setupImageView;
@@ -122,7 +122,7 @@
     else {
         __weak ImageDetailViewController *weakSelf = self;
         __weak UIButton *weakSaveButton = saveButton;
-        __weak MBProgressHUD *weakHUD = HUD;
+        __weak MBProgressHUD *weakHUD = _HUD;
         __weak UIImageView *weakImageShowView = imageShowView;
 
         [imageShowView setImageWithURL:_originalPicUrl placeholderImage:_thumbnail options:SDWebImageRetryFailed progress:^(NSUInteger receivedSize, long long expectedSize) {
@@ -166,10 +166,10 @@
 
 - (void) setupHUD
 {
-    HUD = [[MBProgressHUD alloc] initWithView:self.view];
-	[self.view addSubview:HUD];
-	HUD.mode = MBProgressHUDModeDeterminate;
-	HUD.delegate = self;
+    _HUD = [[MBProgressHUD alloc] initWithView:self.view];
+	[self.view addSubview:_HUD];
+	_HUD.mode = MBProgressHUDModeDeterminate;
+	_HUD.delegate = self;
 }
 
 #pragma mark - UIScrollView delegate
@@ -224,11 +224,11 @@
         [WCAlertView showAlertWithTitle:@"提示" message:message customizationBlock:NULL completionBlock:NULL cancelButtonTitle:@"知道了～" otherButtonTitles:nil, nil];
     }
     else {
-        HUD.labelText = @"保存成功";
-        HUD.mode = MBProgressHUDModeCustomView;
-        HUD.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"checkmark.png"]];
-        [HUD show:YES];
-        [HUD hide:YES afterDelay:0.5f];
+        _HUD.labelText = @"保存成功";
+        _HUD.mode = MBProgressHUDModeCustomView;
+        _HUD.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"checkmark.png"]];
+        [_HUD show:YES];
+        [_HUD hide:YES afterDelay:0.5f];
     }
     saveButton.enabled = YES;
 }

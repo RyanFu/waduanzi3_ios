@@ -67,12 +67,19 @@
 
 - (void) setupNavBarButtonItem
 {
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(openUserViewController)];
-    UIBarButtonItem *settingButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(openSettingController:)];
+    UIBarButtonItem *settingButton = [[UIBarButtonItem alloc] initWithTitle:@"设置" style:UIBarButtonItemStyleBordered target:self action:@selector(openSettingController:)];
     UIBarButtonItem *flexButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
     flexButton.width = DECK_LEFT_SIZE;
     NSArray *rightButtons = [NSArray arrayWithObjects:flexButton, settingButton, nil];
     self.navigationItem.rightBarButtonItems = rightButtons;
+}
+
+- (void) viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    NSString *leftButtonTitle = [CDAppUser hasLogined] ? [CDAppUser currentUser].screen_name : @"登录";
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:leftButtonTitle style:UIBarButtonItemStyleBordered target:self action:@selector(openUserViewController)];
 }
 
 #pragma mark - Table view data source
@@ -139,6 +146,11 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (indexPath.section == 2 && ![CDAppUser hasLogined]) {
+        [self performSelector:@selector(openUserLoginController)];
+        return ;
+    }
+    
     [self.viewDeckController closeLeftViewAnimated:YES completion:^(IIViewDeckController *controller, BOOL success) {
         UINavigationController *centerViewController;
         
@@ -193,10 +205,6 @@
             }
         }
         else if (indexPath.section == 2) {
-            if (![CDAppUser hasLogined]) {
-                [self performSelector:@selector(openUserLoginController)];
-                return ;
-            }
             CDUser *user = [CDAppUser currentUser];
             NSInteger userID = [user.user_id integerValue];
             
@@ -232,8 +240,8 @@
 {
     SettingViewController *settingController = [[SettingViewController alloc] init];
     UINavigationController *settingNavController = [[UINavigationController alloc] initWithRootViewController:settingController];
-    UIViewController *rootController = [[[UIApplication sharedApplication] keyWindow] rootViewController];
-    [rootController presentViewController:settingNavController animated:YES completion:^{
+
+    [ROOT_CONTROLLER presentViewController:settingNavController animated:YES completion:^{
         ;
     }];
 }
@@ -248,30 +256,19 @@
 
 - (void) openUserProfileController
 {
-    static UINavigationController *profileNavController;
-    
     UserProfileViewController *profileController = [[UserProfileViewController alloc] init];
+    UINavigationController *profileNavController = [[UINavigationController alloc] initWithRootViewController:profileController];
     
-    if (profileNavController == nil)
-        profileNavController = [[UINavigationController alloc] initWithRootViewController:profileController];
-    
-    profileNavController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
     [ROOT_CONTROLLER presentViewController:profileNavController animated:YES completion:nil];
     
 }
 
 - (void) openUserLoginController
 {
-    static UINavigationController *loginNavController;
-    
-    UIViewController *rootController = [[[UIApplication sharedApplication] keyWindow] rootViewController];
     UserLoginViewController *loginController = [[UserLoginViewController alloc] init];
+    UINavigationController *loginNavController = [[UINavigationController alloc] initWithRootViewController:loginController];
     
-    if (loginNavController == nil)
-        loginNavController = [[UINavigationController alloc] initWithRootViewController:loginController];
-    
-    loginNavController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
-    [rootController presentViewController:loginNavController animated:YES completion:nil];
+    [ROOT_CONTROLLER presentViewController:loginNavController animated:YES completion:nil];
     
 }
 

@@ -42,7 +42,7 @@
 
 - (BOOL) cacheLoginedUser:(CDUser *)user;
 - (CDUser *) fetchLoginedUser;
-
+- (void) removeLoginedUserCache;
 
 + (NSString *) cacheFilesTotalSize;
 + (BOOL) clearAllCacheFiles;

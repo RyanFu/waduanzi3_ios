@@ -27,6 +27,7 @@
 #import "CDAppUser.h"
 #import "ImageDetailViewController.h"
 #import "CDCommentFormView.h"
+#import "UserLoginViewController.h"
 
 
 @interface PostDetailViewController ()
@@ -50,7 +51,7 @@
 - (void) reportComment:(NSInteger) index;
 - (void) setupTableViewPullAndInfiniteScrollView;
 - (void) setupBottomToolBar;
-- (void) setupHUD;
+- (void) setupHUDInView:(UIView *)view;
 - (void) setupCommentFormView;
 - (void) sendComment;
 @end
@@ -63,11 +64,13 @@
 @synthesize post = _post;
 @synthesize smallImage = _smallImage;
 @synthesize middleImage = _middleImage;
+@synthesize commentMode = _commentMode;
 
 - (void) initData
 {
     _comments = [NSMutableArray array];
     _lasttime = 0;
+    _commentMode = NO;
 }
 
 - (id)initWithPostID:(NSInteger)post_id
@@ -103,20 +106,17 @@
     [self.view endEditing:YES];
 }
 
-
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.title = @"查看笑话";
     self.view.userInteractionEnabled = YES;
     self.view.exclusiveTouch = YES;
     
-    self.title = @"查看笑话";
     [self setupTableView];
     [self setupBottomToolBar];
-    [self setupHUD];
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(setupCommentFormView)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"吐槽" style:UIBarButtonItemStyleBordered target:self action:@selector(setupCommentFormView)];
     
     UISwipeGestureRecognizer *swipGestureRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwips:)];
     swipGestureRecognizer.delegate = self;
@@ -143,8 +143,22 @@
 - (void) viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
+    
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+    
+    [_detailView.imageView cancelCurrentImageLoad];
+    
+    [[RKObjectManager sharedManager] cancelAllObjectRequestOperationsWithMethod:RKRequestMethodGET matchingPathPattern:@"/comment/show/:post_id"];
+    [[RKObjectManager sharedManager] cancelAllObjectRequestOperationsWithMethod:RKRequestMethodGET matchingPathPattern:@"/post/show/:post_id"];
+}
+
+- (void) viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    if (_commentMode) {
+        [self performSelector:@selector(setupCommentFormView)];
+    }
 }
 
 - (void) keyboardWillShow:(NSNotification*)notification
@@ -197,33 +211,64 @@
     _tableView.delegate = self;
     _tableView.dataSource = self;
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    _tableView.backgroundColor = [UIColor colorWithRed:0.96f green:0.96f blue:0.96f alpha:1.00f];
+    _tableView.backgroundColor = [UIColor underPageBackgroundColor];
+    _tableView.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"feed_table_bg.jpg"]];
 }
 
-- (void) setupHUD
+- (void) setupHUDInView:(UIView *)view
 {
-    if (_HUD == nil || _HUD.superview == nil) {
-        _HUD = [[MBProgressHUD alloc] initWithView:self.view];
-        [self.view addSubview:_HUD];
-        _HUD.mode = MBProgressHUDModeDeterminate;
-        _HUD.delegate = self;
-    }
+    if ([_HUD.superview isEqual:view])
+        [_HUD removeFromSuperview];
+    _HUD = [[MBProgressHUD alloc] initWithView:view];
+    [view addSubview:_HUD];
+    _HUD.mode = MBProgressHUDModeDeterminate;
+    _HUD.delegate = self;
+
 }
 
 - (void) setupBottomToolBar
 {
     CGRect toolbarFrame = CGRectMake(0, _tableView.frame.origin.y + _tableView.frame.size.height, self.view.frame.size.width, TOOLBAR_HEIGHT);
     _bottomToolbar = [[UIToolbar alloc] initWithFrame:toolbarFrame];
-    _bottomToolbar.barStyle = UIBarStyleBlack;
+    _bottomToolbar.barStyle = UIBarStyleBlackTranslucent;
+    _bottomToolbar.backgroundColor = [UIColor clearColor];
+    _bottomToolbar.clipsToBounds = YES;
+    _bottomToolbar.layer.borderWidth = 1.0f;
+    _bottomToolbar.layer.borderColor = [UIColor colorWithWhite:0.85f alpha:1.0f].CGColor;
+    _bottomToolbar.tintColor = [UIColor colorWithRed:0.85f green:0.85f blue:0.85f alpha:1.00f];
+    [_bottomToolbar setBackgroundImage:[UIImage imageNamed:@"qqusb_bottombar.png"]
+                    forToolbarPosition:UIToolbarPositionBottom
+                            barMetrics:UIBarMetricsDefault];
     
     // set button items
-    UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemReply target:self action:@selector(backButtonDidPressed:)];
-    UIBarButtonItem *favoriteButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemBookmarks target:self action:@selector(bookmarkButtonDidPressed:)];
+    UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"ButtonNavBack.png"]
+                                                                       style:UIBarButtonItemStylePlain
+                                                                      target:self
+                                                                      action:@selector(backButtonDidPressed:)];
+    UIBarButtonItem *supportButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"mqz_detail_bottom_like.png"]
+                                                                       style:UIBarButtonItemStylePlain
+                                                                      target:self
+                                                                      action:@selector(bookmarkButtonDidPressed:)];
+//    supportButton.title = @"赞";
+    UIBarButtonItem *favoriteButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"ButtonUnstarred.png"]
+                                                                       style:UIBarButtonItemStylePlain
+                                                                      target:self
+                                                                      action:@selector(bookmarkButtonDidPressed:)];
+//    favoriteButton.title = @"收藏";
+    UIBarButtonItem *commentButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"mqz_detail_bottom_comment.png"]
+                                                                       style:UIBarButtonItemStylePlain
+                                                                      target:self
+                                                                      action:@selector(setupCommentFormView)];
+//    commentButtonItem.title = @"吐槽";
+    UIBarButtonItem *forwardButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"mqz_detail_bottom_share.png"]
+                                                                          style:UIBarButtonItemStylePlain
+                                                                         target:self
+                                                                         action:@selector(forwardButtonDidPressed:)];
+//    forwardButtonItem.title = @"分享";
     UIBarButtonItem *flexButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-    UIBarButtonItem *forwardButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(forwardButtonDidPressed:)];
-    UIBarButtonItem *commentButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"发表评论" style:UIBarButtonItemStylePlain target:self action:@selector(setupCommentFormView)];
-    
+
     NSArray *items = [NSArray arrayWithObjects:backButtonItem, flexButtonItem,
+                      supportButton, flexButtonItem,
                       commentButtonItem, flexButtonItem,
                       favoriteButton, flexButtonItem,
                       forwardButtonItem,
@@ -247,13 +292,13 @@
         [weakSelf loadPostComments];
     }];
     
-    CGRect infiniteViewFrame = CGRectMake(0, 0, self.tableView.frame.size.width, 30.0f);
+    CGRect infiniteViewFrame = CGRectMake(0, 0, self.tableView.frame.size.width, 40.0f);
     UILabel *stoppedLabel = [[UILabel alloc] initWithFrame:infiniteViewFrame];
     UILabel *loadingLabel = [[UILabel alloc] initWithFrame:infiniteViewFrame];
     UILabel *triggeredLabel = [[UILabel alloc] initWithFrame:infiniteViewFrame];
     stoppedLabel.textAlignment = loadingLabel.textAlignment = triggeredLabel.textAlignment = UITextAlignmentCenter;
     stoppedLabel.textColor = loadingLabel.textColor = triggeredLabel.textColor = [UIColor grayColor];
-    stoppedLabel.backgroundColor = loadingLabel.backgroundColor = triggeredLabel.backgroundColor = [UIColor clearColor];
+    stoppedLabel.backgroundColor = loadingLabel.backgroundColor = triggeredLabel.backgroundColor = [UIColor redColor];
     stoppedLabel.font = loadingLabel.font = triggeredLabel.font = [UIFont systemFontOfSize:14.0f];
     NSInteger moreCommentCount = [_post.comment_count integerValue] - _comments.count;
     stoppedLabel.text = (moreCommentCount > 0) ? [NSString stringWithFormat:@"还有%d条评论", moreCommentCount] : @"没有更多啦";
@@ -271,6 +316,14 @@
         formFrame.origin.y = CDSCREEN_SIZE.height;
         _formView = [[CDCommentFormView alloc] initWithFrame:formFrame];
         [self.view addSubview:_formView];
+        _formView.submitButton.backgroundColor = [UIColor clearColor];
+        UIEdgeInsets buttonImageInsets = UIEdgeInsetsMake(1, 3, 1, 3);
+        UIImage *normalButtonImage = [[UIImage imageNamed:@"btn_black_normal.png"] resizableImageWithCapInsets:buttonImageInsets];
+        UIImage *pressButtonImage = [[UIImage imageNamed:@"btn_black_press.png"] resizableImageWithCapInsets:buttonImageInsets];
+        UIImage *disableButtonImage = [[UIImage imageNamed:@"btn_black_disable.png"] resizableImageWithCapInsets:buttonImageInsets];
+        [_formView.submitButton setBackgroundImage:normalButtonImage forState:UIControlStateNormal];
+        [_formView.submitButton setBackgroundImage:pressButtonImage forState:UIControlStateSelected];
+        [_formView.submitButton setBackgroundImage:disableButtonImage forState:UIControlStateDisabled];
         [_formView.submitButton addTarget:self action:@selector(submitButtonTouhcInUpside:) forControlEvents:UIControlEventTouchUpInside];
         _formView.contentField.delegate = self;
     }
@@ -286,11 +339,12 @@
 {
     if (_formView.contentField.text.length == 0)
         return;
-
-    ^{
+    NSLog(@"send comment");
+    button.enabled = NO;
+    dispatch_async(dispatch_get_main_queue(), ^{
         [self sendComment];
-    }();
-    _formView.contentField.text = nil;
+        _formView.contentField.text = nil;
+    });
 }
 
 
@@ -301,10 +355,10 @@
     if (textField.text.length == 0)
         return NO;
     else {
-        ^{
+        dispatch_async(dispatch_get_main_queue(), ^{
             [self sendComment];
             textField.text = nil;
-        }();
+        });
 
         return YES;
     }
@@ -321,6 +375,7 @@
 - (void) bookmarkButtonDidPressed:(id)sender
 {
     if (![CDAppUser hasLogined]) {
+        [CDAppUser requiredLogin];
         NSLog(@"user is not logined");
         return;
     }
@@ -397,8 +452,16 @@
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
         [self setupPostDetailViewInCell:cell indexPath:indexPath];
+        [self setupHUDInView:cell];
+        
         [self setupPostDetailViewInCellData:cell indexPath:indexPath];
-
+        
+        UIImage *bgImage = [[UIImage imageNamed:@"post_cell_bg.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 3.0f, 0)];
+        UIImageView *bgView = [[UIImageView alloc] initWithImage:bgImage];
+        bgView.contentMode = UIViewContentModeScaleToFill;
+        bgView.frame = cell.contentView.frame;
+        cell.backgroundView = bgView;
+        
         return cell;
     }
     else {
@@ -412,12 +475,6 @@
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             cell.contentMode = UIViewContentModeTopLeft;
             
-            UIImage *bgImage = [[UIImage imageNamed:@"post_cell_bg.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:5.0f];
-            UIImageView *bgView = [[UIImageView alloc] initWithImage:bgImage];
-            bgView.contentMode = UIViewContentModeScaleToFill;
-            bgView.frame = cell.contentView.frame;
-            cell.backgroundView = bgView;
-            
             [self setCommentCellSubViews:cell forRowAtIndexPath:indexPath];
         }
         
@@ -425,7 +482,7 @@
         cell.detailTextLabel.text = comment.content;
         cell.authorTextLabel.text = comment.author_name;
         cell.orderTextLabel.text = [NSString stringWithFormat:@"#%d", indexPath.row+1];
-        [cell.avatarImageView setImageWithURL:[NSURL URLWithString:comment.user.mini_avatar] placeholderImage:[UIImage imageNamed:@"avatar_placeholder"]];
+        [cell.avatarImageView setImageWithURL:[NSURL URLWithString:comment.user.mini_avatar] placeholderImage:[UIImage imageNamed:@"avatar_placeholder.png"]];
         cell.imageView.image = nil;
         comment = nil;
         
@@ -461,13 +518,12 @@
         imageViewHeight =  contentWidth * smallImageSize.height / smallImageSize.width;
     }
     else
-        imageViewHeight = THUMB_HEIGHT;
+        imageViewHeight = DETAIL_THUMB_HEIGHT;
     _detailView.imageSize = CGSizeMake(contentWidth, imageViewHeight);
-    
     _detailView.detailTextLabel.text = _post.content;
     _detailView.authorTextLabel.text = _post.author_name;
     _detailView.datetimeTextLabel.text = _post.create_time_at;
-    [_detailView.avatarImageView setImageWithURL:[NSURL URLWithString:_post.user.small_avatar] placeholderImage:[UIImage imageNamed:@"avatar_placeholder"]];
+    [_detailView.avatarImageView setImageWithURL:[NSURL URLWithString:_post.user.small_avatar] placeholderImage:[UIImage imageNamed:@"avatar_placeholder.png"]];
     
     if (_middleImage) {
         _detailView.imageView.image = _middleImage;
@@ -475,13 +531,14 @@
     }
     else if (_post.middle_pic.length > 0) {
         if (_smallImage == nil)
-            self.smallImage = [UIImage imageNamed:@"thumb_placeholder"];
+            self.smallImage = [UIImage imageNamed:@"thumb_placeholder.png"];
         
         __weak PostDetailViewController *weakSelf = self;
         __weak MBProgressHUD *weakHUD = _HUD;
         __weak UIImageView *weakImageView = _detailView.imageView;
         NSURL *imageUrl = [NSURL URLWithString:_post.middle_pic];
         [_detailView.imageView setImageWithURL:imageUrl placeholderImage:_smallImage options:SDWebImageRetryFailed progress:^(NSUInteger receivedSize, long long expectedSize) {
+            NSLog(@"expected size: %lld", expectedSize);
             if (expectedSize <= 0) {
                 weakHUD.mode = MBProgressHUDModeDeterminate;
                 [weakHUD show:YES];
@@ -521,15 +578,6 @@
 - (void) setCommentCellSubViews:(CDCommentTableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     cell.padding = POST_DETAIL_CELL_PADDING;
-    
-    cell.detailTextLabel.font = [UIFont systemFontOfSize:14.0f];
-    cell.detailTextLabel.textColor = [UIColor colorWithRed:0.01f green:0.01f blue:0.01f alpha:1.00f];
-    
-    cell.authorTextLabel.font = [UIFont boldSystemFontOfSize:14.0f];
-    cell.authorTextLabel.textColor = [UIColor colorWithRed:0.37f green:0.75f blue:0.51f alpha:1.00f];
-    
-    cell.orderTextLabel.font = [UIFont systemFontOfSize:14.0f];
-    cell.orderTextLabel.textColor = [UIColor colorWithRed:0.80f green:0.80f blue:0.80f alpha:1.00f];
 }
 
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -597,12 +645,14 @@
     return footerView;
 }
 
-- (CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+// MARK: 评论列表的header view height, 暂时注释
+- (CGFloat) tabl2eView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     return section == 1 ? 20.0f : 0.001f;
 }
 
-- (UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+// MARK: 评论列表的header view, 暂时注释
+- (UIView *) tableVi2ew:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     if (section == 1) {
         CGRect headerViewFrame = CGRectMake(0, 0, tableView.frame.size.width, 20.0f);
@@ -836,25 +886,27 @@
     if (_formView.contentField.text.length == 0)
         return;
     
+    [self.view endEditing:YES];
+    
     // Load the object model via RestKit
     RKObjectManager *objectManager = [RKObjectManager sharedManager];
     [objectManager postObject:nil path:@"comment/create"
                    parameters:[self createCommentParameters] success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-                       CDComment *comment = (CDComment *) [mappingResult firstObject];
-                      NSLog(@"%@", comment.author_name);
-                       [self.view endEditing:YES];
-                       if (self.isViewLoaded) {
-                           NSIndexPath *newIndexPath = [NSIndexPath indexPathForRow:_comments.count inSection:1];
-                           NSArray *insertIndexPaths = [NSArray arrayWithObjects:newIndexPath, nil];
-                           [_comments addObject:comment];
-                           [self.tableView beginUpdates];
-                           [self.tableView insertRowsAtIndexPaths:insertIndexPaths withRowAnimation:UITableViewRowAnimationFade];
-                           [self.tableView endUpdates];
-                           [self.tableView scrollToRowAtIndexPath:newIndexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
-                       }
-                   } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-                       [self.view endEditing:YES];
-                       [WCAlertView showAlertWithTitle:@"出错啦"
+                       _formView.submitButton.enabled = YES;
+                        CDComment *comment = (CDComment *) [mappingResult firstObject];
+                        NSLog(@"%@", comment.author_name);
+                        if (self.isViewLoaded) {
+                            NSIndexPath *newIndexPath = [NSIndexPath indexPathForRow:_comments.count inSection:1];
+                            NSArray *insertIndexPaths = [NSArray arrayWithObjects:newIndexPath, nil];
+                            [_comments addObject:comment];
+                            [self.tableView beginUpdates];
+                            [self.tableView insertRowsAtIndexPaths:insertIndexPaths withRowAnimation:UITableViewRowAnimationFade];
+                            [self.tableView endUpdates];
+                            [self.tableView scrollToRowAtIndexPath:newIndexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+                        }
+                    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+                        _formView.submitButton.enabled = YES;
+                        [WCAlertView showAlertWithTitle:@"出错啦"
                                                message:@"载入数据出错。"
                                     customizationBlock:^(WCAlertView *alertView) {
                                         
@@ -864,7 +916,7 @@
                                         if (buttonIndex == 1)
                                             [self loadPostComments];
                                     } cancelButtonTitle:@"关闭" otherButtonTitles:@"重试",nil];
-                       NSLog(@"Hit error: %@", error);
+                        NSLog(@"Hit error: %@", error);
                    }];
 }
 

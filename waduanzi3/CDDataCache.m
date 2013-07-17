@@ -203,6 +203,12 @@ static CDDataCache *instance;
         return [NSKeyedUnarchiver unarchiveObjectWithData:data];
 }
 
+- (void) removeLoginedUserCache
+{
+    NSString *cacheKey = [self generateCacheID:@"logined_user"];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:cacheKey];
+}
+
 
 + (NSString *) cacheFilesTotalSize
 {
