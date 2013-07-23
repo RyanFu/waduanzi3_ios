@@ -17,6 +17,7 @@
 #import "CDRestClient.h"
 #import "CDDataCache.h"
 #import "CDQuickElements.h"
+#import "CDUIKit.h"
 
 @interface UserSignupViewController ()
 - (void) setupNavbar;
@@ -60,38 +61,72 @@
 
 - (void) setupNavbar
 {
+    [CDUIKit setNavigationBar:self.navigationController.navigationBar style:CDNavigationBarStyleSearch forBarMetrics:UIBarMetricsDefault];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"关闭"
                                                                              style:UIBarButtonItemStyleBordered
                                                                             target:self
                                                                             action:@selector(dismissController)];
+    
+    [CDUIKit setBarButtionItem:self.navigationItem.leftBarButtonItem style:CDBarButtionItemStyleSearch forBarMetrics:UIBarMetricsDefault];
 }
 
 
 - (void) cell:(UITableViewCell *)cell willAppearForElement:(QElement *)element atIndexPath:(NSIndexPath *)indexPath
 {
+    QButtonElement *buttonElement = (QButtonElement *)element;
+    
     if (indexPath.section == 1) {
-        cell.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"login_button_flat.png"]];
-        cell.selectedBackgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"login_button_flat_active.png"]];
+        cell.backgroundView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"loginPrimaryButtonBackground.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 7, 0, 7)]];
+        cell.selectedBackgroundView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"loginPrimaryButtonBackgroundPressed.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 7, 0, 7)]];
+        
+        cell.textLabel.highlightedTextColor = [UIColor colorWithRed:0.33f green:0.33f blue:0.33f alpha:1.00f];
+        cell.textLabel.shadowColor = [UIColor colorWithRed:0.86f green:0.87f blue:0.89f alpha:1.00f];
+        cell.textLabel.shadowOffset = CGSizeMake(0, 2);
+        cell.textLabel.font = [UIFont boldSystemFontOfSize:16.0f];
+        cell.textLabel.textColor = element.enabled ? [UIColor colorWithRed:0.33f green:0.33f blue:0.33f alpha:1.00f] : [UIColor colorWithRed:0.67f green:0.67f blue:0.67f alpha:1.00f];
     }
     else if (indexPath.section == 2) {
-        QButtonElement *buttonElement = (QButtonElement *)element;
-        CGSize textSize = [buttonElement.title sizeWithFont:cell.textLabel.font forWidth:cell.textLabel.frame.size.width lineBreakMode:NSLineBreakByWordWrapping];
-        UIView *bgview = [[UIView alloc] init];
-        UIImage *bgImage = [UIImage imageWithCGImage:[[UIImage imageNamed:@"button_go_arrow.png"] CGImage] scale:1.0 orientation:UIImageOrientationDown];
-        UIImageView *imageView = [[UIImageView alloc] initWithImage:bgImage];
-        CGFloat arrowX = cell.contentView.frame.size.width / 2 - textSize.width / 2 - 24.0f - 10.0f;
-        CGFloat arrowY = (cell.frame.size.height - 24.0f) / 2;
-        imageView.frame = CGRectMake(arrowX, arrowY, 24.0f, 24.0f);
-        [bgview addSubview:imageView];
-        cell.backgroundView = bgview;
+        cell.textLabel.font = [UIFont systemFontOfSize:14.0f];
+        cell.textLabel.textColor = [UIColor whiteColor];
         
-        UIView *activeBgView = [[UIView alloc] init];
-        UIImage *activeBgImage = [UIImage imageWithCGImage:[[UIImage imageNamed:@"button_go_arrow_active.png"] CGImage] scale:1.0 orientation:UIImageOrientationDown];
-        UIImageView *activeImageView = [[UIImageView alloc] initWithImage:activeBgImage];
-        activeImageView.frame = imageView.frame;
-        [activeBgView addSubview:activeImageView];
-        cell.selectedBackgroundView = activeBgView;
+        UIView *backgroundView = [[UIView alloc] init];
+        UIImageView *imageView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"loginSignUpButtonBackground.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 5, 0, 5)]];
+        [backgroundView addSubview:imageView];
+        CGSize textSize = [buttonElement.title sizeWithFont:cell.textLabel.font];
+        CGFloat buttonWidth = textSize.width + 40.0f;
+        imageView.frame = CGRectMake((cell.contentView.frame.size.width-buttonWidth)/2, 0, buttonWidth, 35.0f);;
+        cell.backgroundView = backgroundView;
+        
+        UIView *selectedBackgroundView = [[UIView alloc] init];
+        UIImageView *selectedImageView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"loginSignUpButtonBackgroundPressed.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 5, 0, 5)]];
+        [selectedBackgroundView addSubview:selectedImageView];
+        selectedImageView.frame = imageView.frame;
+        cell.selectedBackgroundView = selectedBackgroundView;
     }
+}
+
+
+#pragma mark - QuickDialogEntryElementDelegate
+
+- (BOOL) QEntryShouldReturnForElement:(QEntryElement *)element andCell:(QEntryTableViewCell *)cell
+{
+    if ([element.key isEqualToString:@"key_password"])
+        [self userSingupAction];
+    return YES;
+}
+
+- (void) QEntryEditingChangedForElement:(QEntryElement *)element andCell:(QEntryTableViewCell *)cell
+{
+    QEntryElement *usernameElement = (QEntryElement *)[self.root elementWithKey:@"key_username"];
+    QEntryElement *passwordElement = (QEntryElement *)[self.root elementWithKey:@"key_password"];
+    QButtonElement *submitButton = (QButtonElement *)[self.root elementWithKey:@"key_submit_login"];
+    
+    if (usernameElement.textValue.length > 0 && passwordElement.textValue.length > 0)
+        submitButton.enabled = YES;
+    else
+        submitButton.enabled = NO;
+    
+    [self.quickDialogTableView reloadCellForElements:submitButton, nil];
 }
 
 #pragma mark - selector
@@ -109,14 +144,6 @@
         [self.navigationController popViewControllerAnimated:YES];
 }
 
-#pragma mark - QuickDialogEntryElementDelegate
-
-- (BOOL) QEntryShouldReturnForElement:(QEntryElement *)element andCell:(QEntryTableViewCell *)cell
-{
-    if ([element.key isEqualToString:@"key_password"])
-        [self userSingupAction];
-    return YES;
-}
 
 - (void) userSingupAction
 {

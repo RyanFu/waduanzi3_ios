@@ -39,10 +39,12 @@
 - (NSMutableArray *)fetchPostsByMediaType:(NSInteger) media_type;
 - (void) removePostsByMediaType:(NSInteger) media_type;
 
-
 - (BOOL) cacheLoginedUser:(CDUser *)user;
 - (CDUser *) fetchLoginedUser;
 - (void) removeLoginedUserCache;
+
+- (BOOL) cachePostLikeState:(BOOL)state forPostID:(NSInteger)postid;
+- (BOOL) fetchPostLikeState:(NSInteger)postid;
 
 + (NSString *) cacheFilesTotalSize;
 + (BOOL) clearAllCacheFiles;

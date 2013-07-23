@@ -69,11 +69,13 @@
     
     NSString *channel_id = [NSString stringWithFormat:@"%d", _channelID];
     NSString *media_type = [NSString stringWithFormat:@"%d", _mediaType];
-    NSString *last_time = [NSString stringWithFormat:@"%d", _lasttime];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setObject:channel_id forKey:@"channel_id"];
     [params setObject:media_type forKey:@"media_type"];
-    [params setObject:last_time forKey:@"lasttime"];
+    
+    // MARK: 下拉刷新只获取最新的N条，如果只想获取最新的并且插入到列表上面，注释掉以下两行注释
+//    NSString *last_time = [NSString stringWithFormat:@"%d", _lasttime];
+//    [params setObject:last_time forKey:@"lasttime"];
     
     return [CDRestClient requestParams:params];
 }
@@ -106,18 +108,9 @@
     NSInteger resultCount = [statuses count];
     NSLog(@"count: %d", resultCount);
     if (resultCount > 0) {
-        for (int i=0; i<resultCount; i++) {
-            [_statuses insertObject:[statuses objectAtIndex:i] atIndex:i];
-        }
-        
-        NSMutableArray *insertIndexPaths = [NSMutableArray array];
-        for (int i=0; i<resultCount; i++) {
-            [insertIndexPaths addObject:[NSIndexPath indexPathForRow:i inSection:0]];
-        }
-        
-        [self.tableView beginUpdates];
-        [self.tableView insertRowsAtIndexPaths:insertIndexPaths withRowAnimation:UITableViewRowAnimationFade];
-        [self.tableView endUpdates];
+        [_statuses removeAllObjects];
+        _statuses = [NSMutableArray arrayWithArray:statuses];
+        [self.tableView reloadData];
         
         [[CDDataCache shareCache] cachePostsByMediaType:_statuses mediaType:_mediaType];
     }
@@ -138,18 +131,8 @@
     
     if (result.count > 0) {
         NSArray* statuses = (NSArray *)[result array];
-        NSInteger currentCount = [_statuses count];
         [_statuses addObjectsFromArray:statuses];
-        
-        NSMutableArray *insertIndexPaths = [NSMutableArray array];
-        for (int i=0; i<statuses.count; i++) {
-            [insertIndexPaths addObject:[NSIndexPath indexPathForRow:currentCount+i inSection:0]];
-        }
-        
-        [self.tableView beginUpdates];
-        [self.tableView insertRowsAtIndexPaths:insertIndexPaths withRowAnimation:UITableViewRowAnimationFade];
-        [self.tableView endUpdates];
-        
+        [self.tableView reloadData];
     }
 }
 

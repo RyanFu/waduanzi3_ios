@@ -13,14 +13,16 @@
 
 #define DECK_LEFT_SIZE 80.0f
 
-#define POST_LIST_CELL_PADDING 7.5f
+#define POST_LIST_CELL_PADDING 8.0f
 #define POST_DETAIL_CELL_PADDING 10.0f
 #define THUMB_WIDTH 100.0f
 #define THUMB_HEIGHT 130.0f
 #define DETAIL_THUMB_HEIGHT 100.0f
 #define CELL_BUTTON_HEIGHT 30.0f
-#define POST_AVATAR_WIDTH 30.0f
-#define COMMENT_AVATAR_WIDTH 24.0f
+#define POST_AVATAR_WIDTH 35.0f
+#define POST_BLOCK_SPACE_HEIGHT 5.0f
+#define COMMENT_AVATAR_WIDTH 40.0f
+#define COMMENT_BLOCK_SPACE_HEIGHT 5.0f
 
 #define STATUSBAR_HEIGHT 20.0f
 #define NAVBAR_HEIGHT 44.0f
@@ -51,9 +53,11 @@ typedef NS_ENUM (NSInteger, CD_MEDIA_TYPE) {
 #define USERNAME_TEXTFIELD_TAG 1
 #define PASSWORD_TEXTFIELD_TAG 2
 
-typedef NS_ENUM (NSInteger, CDAppErrorCode) {
-    USER_NOT_EXIST = 20001,
-    USER_NOT_AUTHENTICATED = 20002
+typedef NS_ENUM (NSInteger, CDUserError) {
+    CDUserErrorUserNotExit = 20001,
+    CDUserErrorUserNotAuthenticated = 20002
 };
 
 #endif
+
+

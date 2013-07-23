@@ -120,17 +120,18 @@
     
     if (result.count > 0) {
         NSArray* statuses = (NSArray *)[result array];
-        NSInteger currentCount = [_statuses count];
         [_statuses addObjectsFromArray:statuses];
+        [self.tableView reloadData];
         
-        NSMutableArray *insertIndexPaths = [NSMutableArray array];
-        for (int i=0; i<statuses.count; i++) {
-            [insertIndexPaths addObject:[NSIndexPath indexPathForRow:currentCount+i inSection:0]];
-        }
-        
-        [self.tableView beginUpdates];
-        [self.tableView insertRowsAtIndexPaths:insertIndexPaths withRowAnimation:UITableViewRowAnimationFade];
-        [self.tableView endUpdates];
+//        NSInteger currentCount = [_statuses count];
+//        NSMutableArray *insertIndexPaths = [NSMutableArray array];
+//        for (int i=0; i<statuses.count; i++) {
+//            [insertIndexPaths addObject:[NSIndexPath indexPathForRow:currentCount+i inSection:0]];
+//        }
+//
+//        [self.tableView beginUpdates];
+//        [self.tableView insertRowsAtIndexPaths:insertIndexPaths withRowAnimation:UITableViewRowAnimationFade];
+//        [self.tableView endUpdates];
         
         _page++;
     }

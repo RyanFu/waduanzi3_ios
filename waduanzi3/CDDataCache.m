@@ -150,7 +150,7 @@ static CDDataCache *instance;
     if ([posts count] > 0) {
         NSString *cacheKey = [self generateCacheID:key];
         NSData *archiver = [NSKeyedArchiver archivedDataWithRootObject:posts];
-        [[NSUserDefaults standardUserDefaults] setObject:archiver forKey:cacheKey];
+        [USER_DEFAULTS setObject:archiver forKey:cacheKey];
     }
     return YES;
 }
@@ -158,7 +158,7 @@ static CDDataCache *instance;
 - (NSMutableArray *) fetchPostsByCacheKey:(NSString *)key
 {
     NSString *cacheKey = [self generateCacheID:key];
-    NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:cacheKey];
+    NSData *data = [USER_DEFAULTS objectForKey:cacheKey];
     
     if (data == nil)
         return [NSMutableArray array];
@@ -171,7 +171,7 @@ static CDDataCache *instance;
 - (void) removePostsCache:(NSString *)key
 {
     NSString *cacheKey = [self generateCacheID:key];
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:cacheKey];
+    [USER_DEFAULTS removeObjectForKey:cacheKey];
 }
 
 
@@ -189,14 +189,14 @@ static CDDataCache *instance;
     
     NSString *cacheKey = [self generateCacheID:@"logined_user"];
     NSData *archiver = [NSKeyedArchiver archivedDataWithRootObject:user];
-    [[NSUserDefaults standardUserDefaults] setObject:archiver forKey:cacheKey];
+    [USER_DEFAULTS setObject:archiver forKey:cacheKey];
     return YES;
 }
 
 - (CDUser *) fetchLoginedUser
 {
     NSString *cacheKey = [self generateCacheID:@"logined_user"];
-    NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:cacheKey];
+    NSData *data = [USER_DEFAULTS objectForKey:cacheKey];
     if (data == nil)
         return nil;
     else
@@ -206,8 +206,25 @@ static CDDataCache *instance;
 - (void) removeLoginedUserCache
 {
     NSString *cacheKey = [self generateCacheID:@"logined_user"];
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:cacheKey];
+    [USER_DEFAULTS removeObjectForKey:cacheKey];
 }
+
+- (BOOL) cachePostLikeState:(BOOL)state forPostID:(NSInteger)postid
+{
+    NSString *key = [NSString stringWithFormat:@"post_like_state_%d", postid];
+    NSString *cacheKey = [self generateCacheID:key];
+    [USER_DEFAULTS setBool:state forKey:cacheKey];
+    return YES;
+}
+
+- (BOOL) fetchPostLikeState:(NSInteger)postid
+{
+    NSString *key = [NSString stringWithFormat:@"post_like_state_%d", postid];
+    NSString *cacheKey = [self generateCacheID:key];
+    return [USER_DEFAULTS boolForKey:cacheKey];
+}
+
+
 
 
 + (NSString *) cacheFilesTotalSize

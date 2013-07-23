@@ -10,6 +10,7 @@
 #import "UserProfileViewController.h"
 #import "CDQuickElements.h"
 #import "CDAppUser.h"
+#import "CDUIKit.h"
 
 @interface UserProfileViewController ()
 - (void) setupNavbar;
@@ -48,14 +49,16 @@
 
 - (void) setupNavbar
 {
+    [CDUIKit setNavigationBar:self.navigationController.navigationBar style:CDNavigationBarStyleSearch forBarMetrics:UIBarMetricsDefault];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"关闭" style:UIBarButtonItemStyleBordered target:self action:@selector(dismissController)];
+    
+    [CDUIKit setBarButtionItem:self.navigationItem.leftBarButtonItem style:CDBarButtionItemStyleSearch forBarMetrics:UIBarMetricsDefault];
 }
 
 #pragma mark - selector
 
 - (void) dismissController
 {
-    
     [self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -66,6 +69,7 @@
         cell.backgroundView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"common_button_red_nor.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(5.0f, 6.0f, -1.0f, 6.0f)]];
         cell.selectedBackgroundView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"common_button_red_press.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(5.0f, 6.0f, -1.0f, 6.0f)]];
         cell.textLabel.textColor = [UIColor whiteColor];
+        cell.textLabel.font = [UIFont boldSystemFontOfSize:18.0f];
     }
 }
 

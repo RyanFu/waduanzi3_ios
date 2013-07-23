@@ -8,11 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "MBProgressHUD.h"
+#import "IIViewDeckController.h"
 
 @class CDPost;
 @class CDPostDetailView;
 
-@interface PostDetailViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate, UIGestureRecognizerDelegate, MBProgressHUDDelegate, UITextFieldDelegate>
+@interface PostDetailViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate, UIGestureRecognizerDelegate, MBProgressHUDDelegate, UITextFieldDelegate, IIViewDeckControllerDelegate>
 {
     NSMutableArray *_comments;
     NSInteger _lasttime;

@@ -21,8 +21,10 @@
 #import "UIImageView+WebCache.h"
 #import "CDConfig.h"
 #import "ImageDetailViewController.h"
+#import "CDDataCache.h"
 
 @interface PostListViewController ()
+- (void) setupNavButtionItems;
 - (void) setupTableView;
 - (void) setupAdView;
 - (void) setCellSubViews:(CDPostTableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath;
@@ -84,14 +86,11 @@
 {
     [super viewDidLoad];
 //    self.view.backgroundColor = [UIColor grayColor];
-    self.viewDeckController.delegate = self;
     
+    [self setupNavButtionItems];
     [self setupTableView];
     [self setupAdView];
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"BackToSubscriptions.png"]
-                                                                             style:UIBarButtonItemStyleBordered
-                                                                            target:self
-                                                                            action:@selector(openLeftSlideView:)];
+
     [self setupTableViewPullScrollView];
     [self setupTableViewInfiniteScrollView];
     
@@ -103,14 +102,35 @@
         NSLog(@"count > 0, data from cache");
 }
 
+- (void) setupNavButtionItems
+{
+    UIImage *launcherImage = [UIImage imageNamed:@"NavBarIconLauncher.png"];
+    UIButton *leftButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    leftButton.frame = CGRectMake(0, 0, launcherImage.size.width + 20.0f, launcherImage.size.height);
+    [leftButton setImage:launcherImage forState:UIControlStateNormal];
+    [leftButton setImage:[UIImage imageNamed:@"NavBarIconLauncherHighlighted.png"] forState:UIControlStateSelected];
+    [leftButton addTarget:self action:@selector(openLeftSlideView:) forControlEvents:UIControlEventTouchUpInside];
+    leftButton.showsTouchWhenHighlighted = YES;
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:leftButton];
+
+    UIImage *composeImage = [UIImage imageNamed:@"NavBarIconCompose.png"];
+    UIButton *rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    rightButton.frame = CGRectMake(0, 0, composeImage.size.width + 20.0f, composeImage.size.height);
+    [rightButton setImage:composeImage forState:UIControlStateNormal];
+    [rightButton addTarget:self action:@selector(openLeftSlideView:) forControlEvents:UIControlEventTouchUpInside];
+    rightButton.showsTouchWhenHighlighted = YES;
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:rightButton];
+}
+
 
 
 #pragma mark - viewDeckControllerDelegate
 
-- (void)viewDeckController:(IIViewDeckController *)viewDeckController willOpenViewSide:(IIViewDeckSide)viewDeckSide animated:(BOOL)animated
+- (BOOL) viewDeckController:(IIViewDeckController *)viewDeckController shouldOpenViewSide:(IIViewDeckSide)viewDeckSide
 {
     self.tableView.userInteractionEnabled = NO;
-    NSLog(@"will open");
+    NSLog(@"shold open");
+    return YES;
 }
 
 - (void)viewDeckController:(IIViewDeckController *)viewDeckController didCloseViewSide:(IIViewDeckSide)viewDeckSide animated:(BOOL)animated
@@ -123,7 +143,7 @@
 {
     // setup tableView
     CGRect tableViewFrame = self.view.bounds;
-    //    NSLog(@"h: %f", tableViewFrame.size.height);
+//    NSLog(@"h: %f", tableViewFrame.size.height);
     tableViewFrame.size.height -= NAVBAR_HEIGHT;
     self.tableView = [[UITableView alloc] initWithFrame:tableViewFrame style:UITableViewStylePlain];
     [self.view addSubview:_tableView];
@@ -131,7 +151,7 @@
     _tableView.dataSource = self;
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     _tableView.backgroundColor = [UIColor underPageBackgroundColor];
-    _tableView.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"feed_table_bg.jpg"]];
+    _tableView.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"pullToRefreshBg.png"]];
 }
 
 - (void) setupAdView
@@ -144,7 +164,6 @@
 
 - (void) viewWillAppear:(BOOL)animated
 {
-    self.viewDeckController.panningMode = IIViewDeckNavigationBarOrOpenCenterPanning;
     [super viewWillAppear:animated];
     
     BOOL enableAdvert = [CDConfig enabledAdvert];
@@ -159,12 +178,6 @@
         self.adView = nil;
     }
     _tableView.frame = tableViewFrame;
-}
-
-- (void) viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    self.viewDeckController.panningMode = IIViewDeckNoPanning;
 }
 
 - (void) setupTableViewPullScrollView
@@ -256,13 +269,13 @@
     }
     
     cell.upButton.tag = cell.commentButton.tag = indexPath.row;
+    cell.upButton.enabled = ![[CDDataCache shareCache] fetchPostLikeState:[post.post_id integerValue]];
     [cell.upButton setTitle:[post.up_count stringValue] forState:UIControlStateNormal];
     NSString *commentButtonText = [post.comment_count integerValue] > 0 ? [post.comment_count stringValue] : @"抢沙发";
     [cell.commentButton setTitle:commentButtonText forState:UIControlStateNormal];
     
-    
     post = nil;
-//    NSLog(@"state: %d", cell.upButton.state);
+    
     return cell;
 }
 
@@ -273,7 +286,7 @@
     
     cell.textLabel.font = [UIFont systemFontOfSize:16.0f];
     cell.detailTextLabel.font = [UIFont systemFontOfSize:16.0f];
-    cell.authorTextLabel.font = [UIFont boldSystemFontOfSize:14.0f];
+    cell.authorTextLabel.font = [UIFont boldSystemFontOfSize:16.0f];
     cell.datetimeTextLabel.font = [UIFont systemFontOfSize:12.0f];
 
     cell.upButton.imageEdgeInsets = cell.commentButton.contentEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 5.0f);
@@ -289,6 +302,11 @@
     [cell.commentButton setImage:[UIImage imageNamed:@"mqz_feed_comment_normal.png"] forState:UIControlStateNormal];
     [cell.commentButton setTitleColor:[UIColor colorWithRed:0.45f green:0.51f blue:0.64f alpha:1.00f] forState:UIControlStateNormal];
     [cell.commentButton addTarget:self action:@selector(commentButtonTouchUpInside:) forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
 }
 
 #pragma mark - CDPostTableViewCellDelegate
@@ -312,25 +330,22 @@
 {
     UIButton *button = (UIButton *)sender;
     NSLog(@"state: %d", button.state);
-    button.enabled = NO;
-    button.userInteractionEnabled = NO;
-//    __weak UIButton *weakButton = button;
     
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{    
-        // 不管成不成功都加1
-        CDPost *post = [_statuses objectAtIndex:button.tag];
-        post.up_count = [NSNumber numberWithInteger:[post.up_count integerValue]+1];
-        [_statuses replaceObjectAtIndex:button.tag withObject:post];
-        [button setTitle:[post.up_count stringValue] forState:UIControlStateNormal];
-        
-        RKObjectManager *objectManager = [RKObjectManager sharedManager];
-        NSString *restPath = [NSString stringWithFormat:@"/post/support/%d", [post.post_id integerValue]];
-        [objectManager.HTTPClient putPath:restPath parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-            NSLog(@"response: %@", responseObject);
-        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-            NSLog(@"error: %@", error);
-        }];
-    });
+    // 不管成不成功都当做成功处理
+    button.enabled = NO;
+    CDPost *post = [_statuses objectAtIndex:button.tag];
+    post.up_count = [NSNumber numberWithInteger:[post.up_count integerValue] + 1];
+    [_statuses replaceObjectAtIndex:button.tag withObject:post];
+    [button setTitle:[post.up_count stringValue] forState:UIControlStateDisabled];
+    [[CDDataCache shareCache] cachePostLikeState:YES forPostID:[post.post_id integerValue]];
+    
+    RKObjectManager *objectManager = [RKObjectManager sharedManager];
+    NSString *restPath = [NSString stringWithFormat:@"/post/support/%d", [post.post_id integerValue]];
+    [objectManager.HTTPClient putPath:restPath parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"response: %@", responseObject);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"error: %@", error);
+    }];
 }
 
 - (void) commentButtonTouchUpInside:(id)sender
@@ -356,22 +371,23 @@
 {
     CDPost *post = [_statuses objectAtIndex:indexPath.row];
     
-    CGFloat contentWidth = self.view.frame.size.width - POST_AVATAR_WIDTH - POST_LIST_CELL_PADDING*3;
-    UIFont *titleFont = [UIFont systemFontOfSize:16.0f];
-    CGSize titleLabelSize = [post.title sizeWithFont:titleFont
+    CGFloat contentWidth = self.view.frame.size.width - POST_AVATAR_WIDTH - POST_LIST_CELL_PADDING * 4.5;
+    CGSize authorSize = [post.author_name sizeWithFont:[UIFont boldSystemFontOfSize:16.0f]];
+    CGSize titleLabelSize = [post.title sizeWithFont:[UIFont systemFontOfSize:16.0f]
                                    constrainedToSize:CGSizeMake(contentWidth, 9999.0)
                                        lineBreakMode:UILineBreakModeWordWrap];
     
-    UIFont *detailFont = [UIFont systemFontOfSize:16.0f];
-    CGSize detailLabelSize = [[post summary] sizeWithFont:detailFont
+    CGSize detailLabelSize = [[post summary] sizeWithFont:[UIFont systemFontOfSize:16.0f]
                                       constrainedToSize:CGSizeMake(contentWidth, 9999.0)
                                           lineBreakMode:UILineBreakModeWordWrap];
     
-    CGFloat cellHeight = POST_LIST_CELL_PADDING + POST_AVATAR_WIDTH + detailLabelSize.height + POST_LIST_CELL_PADDING + CELL_BUTTON_HEIGHT;
+    CGFloat cellHeight = POST_LIST_CELL_PADDING + authorSize.height + POST_BLOCK_SPACE_HEIGHT + detailLabelSize.height + POST_LIST_CELL_PADDING + CELL_BUTTON_HEIGHT;
     if (post.small_pic.length > 0)
         cellHeight += THUMB_HEIGHT + POST_LIST_CELL_PADDING;
     else
         cellHeight +=  titleLabelSize.height + POST_LIST_CELL_PADDING;
+    
+    cellHeight += POST_LIST_CELL_PADDING * 1.5f;
     
     return cellHeight;
 }

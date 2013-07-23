@@ -9,13 +9,17 @@
 #import "CDDefine.h"
 #import "CDSideTableViewCell.h"
 
+@interface CDSideTableViewCell ()
+- (void) setDefaultStyle;
+@end
+
 @implementation CDSideTableViewCell
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        
+        [self setDefaultStyle];
     }
     return self;
 }
@@ -24,7 +28,17 @@
 {
     [super setSelected:selected animated:animated];
 
-    // Configure the view for the selected state
+    self.selectedBackgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"FBSideBarCellBackgroundSelected.png"]];
+}
+
+- (void) setDefaultStyle
+{
+    self.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"FBSideBarCellBackground.png"]];
+    self.textLabel.textColor = [UIColor colorWithRed:0.77f green:0.80f blue:0.85f alpha:1.00f];
+    self.textLabel.backgroundColor = [UIColor clearColor];
+    self.contentView.backgroundColor = [UIColor clearColor];
+    self.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"accessory_arrow.png"]];
+    self.textLabel.font = [UIFont systemFontOfSize:16.0f];
 }
 
 - (void) layoutSubviews

@@ -33,7 +33,7 @@
         self.multipleTouchEnabled = YES;
         self.userInteractionEnabled = YES;
         
-        self.padding = 7.5f;
+        self.padding = POST_LIST_CELL_PADDING;
         self.thumbSize = CGSizeMake(THUMB_WIDTH, THUMB_HEIGHT);
         
         self.avatarImageView = [[UIImageView alloc] init];
@@ -51,10 +51,9 @@
         // MARK: 以后添加列表中的更多按钮
 //        [self.contentView addSubview:_moreButton];
         
-        [self setupSubviewsDefaultStyle];
         
-//        self.upButton.layer.borderWidth = self.commentButton.layer.borderWidth = self.moreButton.layer.borderWidth = 1.0f;
-//        self.upButton.layer.borderColor = self.commentButton.layer.borderColor = self.moreButton.layer.borderColor = [UIColor redColor].CGColor;
+        [self setupTableCellStyle];
+        [self setupSubviewsDefaultStyle];
     }
     return self;
 }
@@ -73,7 +72,7 @@
     
     // authorTextLabel
     _authorTextLabel.backgroundColor = [UIColor clearColor];
-    _authorTextLabel.textColor = [UIColor colorWithRed:0.20f green:0.30f blue:0.55f alpha:1.00f];
+    _authorTextLabel.textColor = [UIColor colorWithRed:0.15f green:0.15f blue:0.15f alpha:1.00f];
     
     // textLabel
     self.textLabel.backgroundColor = [UIColor clearColor];
@@ -107,7 +106,16 @@
 {
     [super layoutSubviews];
     
-    [self setupTableCellStyle];
+    CGRect contentViewFrame = self.frame;
+    contentViewFrame.origin.x = _padding;
+    contentViewFrame.origin.y = _padding;
+    contentViewFrame.size.width -= contentViewFrame.origin.x * 2.0f;
+    contentViewFrame.size.height -= contentViewFrame.origin.y * 1.25f;
+    self.contentView.frame = contentViewFrame;
+    self.contentView.layer.cornerRadius = 3.0f;
+    self.contentView.layer.borderColor = [UIColor colorWithRed:0.76f green:0.77f blue:0.78f alpha:1.00f].CGColor;
+    self.contentView.layer.borderWidth = 1.0f;
+    
     
     CGSize cellContentViewSize = self.contentView.frame.size;
     CGFloat containerViewWidth = cellContentViewSize.width - _padding*2;
@@ -141,7 +149,7 @@
     [_authorTextLabel sizeToFit];
 
     
-    widgetY += widgetHeight;
+    widgetY += _authorTextLabel.frame.size.height + POST_BLOCK_SPACE_HEIGHT;
     
     // textLabel
     if (self.textLabel.text.length > 0) {
@@ -197,12 +205,13 @@
 - (void) setupTableCellStyle
 {
     self.contentMode = UIViewContentModeTopLeft;
+    self.contentView.backgroundColor = [UIColor whiteColor];
     
     UIImage *bgImage = [[UIImage imageNamed:@"post_cell_bg.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 5.0f, 0)];
     UIImageView *bgView = [[UIImageView alloc] initWithImage:bgImage];
     bgView.contentMode = UIViewContentModeScaleToFill;
     bgView.frame = self.contentView.frame;
-    self.backgroundView = bgView;
+//    self.backgroundView = bgView;
 }
 
 @end

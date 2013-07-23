@@ -10,6 +10,7 @@
 #import "CDQuickElements.h"
 #import "CDAppUser.h"
 #import "CDUser.h"
+#import "UIImage+merge.h"
 
 @implementation CDQuickElements
 
@@ -25,7 +26,7 @@
     appearance.labelColorEnabled = [UIColor blackColor];
     appearance.actionColorEnabled = [UIColor blackColor];
     appearance.sectionFooterColor = [UIColor lightGrayColor];
-    appearance.tableBackgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"BackgroundDark.png"]];
+    appearance.tableBackgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background.png"]];
     appearance.tableBackgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"BackgroundLight.png"]];
     [root setAppearance:appearance];
     
@@ -91,11 +92,15 @@
     root.controllerName = @"UserSingupViewController";
     
     
+    UIImage *image1 = [UIImage imageNamed:@"loginTexture.png"];
+    UIImage *image2 = [UIImage imageNamed:@"background.png"];
+    UIImage *backgroundImage = [UIImage mergeImage:image1 withImage:image2 withAlpha:0.5];
+    
     QAppearance *appearance = root.appearance;
-    appearance.entryFont = [UIFont systemFontOfSize:18.0f];
-    appearance.labelFont = [UIFont systemFontOfSize:18.0f];
-    appearance.tableBackgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"login_background.png"]];
-    appearance.tableBackgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"BackgroundLight.png"]];
+    appearance.entryFont = [UIFont systemFontOfSize:16.0f];
+    appearance.labelFont = [UIFont systemFontOfSize:16.0f];
+    appearance.tableBackgroundView = [[UIImageView alloc] initWithImage:backgroundImage];
+    appearance.tableGroupedBackgroundColor = [UIColor clearColor];
     [root setAppearance:appearance];
     
     
@@ -122,20 +127,19 @@
     QSection *buttonSection = [[QSection alloc] init];
     [root addSection:buttonSection];
     QButtonElement *submitButton = [[QButtonElement alloc] initWithTitle:@"注册"];
+    submitButton.height = 42.0f;
+    submitButton.enabled = NO;
     submitButton.key = @"key_submit_signup";
     submitButton.controllerAction = @"userSignupAction";
-    QAppearance *buttonAppearance = submitButton.appearance;
-    buttonAppearance.actionColorEnabled = [UIColor colorWithRed:0.93f green:0.98f blue:0.96f alpha:1.00f];
-    [submitButton setAppearance:buttonAppearance];
     [buttonSection addElement:submitButton];
     
     
     QSection *extraButtonSection = [[QSection alloc] init];
     [root addSection:extraButtonSection];
-    QButtonElement *signupButton = [[QButtonElement alloc] initWithTitle:@"已有账号，直接登录"];
-    signupButton.controllerAction = @"retrunUserLoginAction";
-    [signupButton setAppearance:buttonAppearance];
-    [extraButtonSection addElement:signupButton];
+    QButtonElement *loginButton = [[QButtonElement alloc] initWithTitle:@"已有账号，直接登录"];
+    loginButton.height = 33.0f;
+    loginButton.controllerAction = @"retrunUserLoginAction";
+    [extraButtonSection addElement:loginButton];
     
     return root;
 }
@@ -148,12 +152,15 @@
     root.title = @"登录";
     root.controllerName = @"UserLoginViewController";
     
+    UIImage *image1 = [UIImage imageNamed:@"loginTexture.png"];
+    UIImage *image2 = [UIImage imageNamed:@"background.png"];
+    UIImage *backgroundImage = [UIImage mergeImage:image1 withImage:image2 withAlpha:0.5];
     
     QAppearance *appearance = root.appearance;
-    appearance.entryFont = [UIFont systemFontOfSize:18.0f];
-    appearance.labelFont = [UIFont systemFontOfSize:18.0f];
-    appearance.tableBackgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"login_background.png"]];
-    appearance.tableBackgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"BackgroundLight.png"]];
+    appearance.entryFont = [UIFont systemFontOfSize:16.0f];
+    appearance.labelFont = [UIFont systemFontOfSize:16.0f];
+    appearance.tableBackgroundView = [[UIImageView alloc] initWithImage:backgroundImage];
+    appearance.tableGroupedBackgroundColor = [UIColor clearColor];
     [root setAppearance:appearance];
     
     
@@ -182,16 +189,15 @@
     QButtonElement *submitButton = [[QButtonElement alloc] initWithTitle:@"登录"];
     submitButton.key = @"key_submit_login";
     submitButton.controllerAction = @"userLoginAction";
-    QAppearance *buttonAppearance = submitButton.appearance;
-    buttonAppearance.actionColorEnabled = [UIColor colorWithRed:0.93f green:0.98f blue:0.96f alpha:1.00f];
-    [submitButton setAppearance:buttonAppearance];
+    submitButton.height = 42.0f;
+    submitButton.enabled = NO;
     [buttonSection addElement:submitButton];
     
     QSection *extraButtonSection = [[QSection alloc] init];
     [root addSection:extraButtonSection];
     QButtonElement *signupButton = [[QButtonElement alloc] initWithTitle:@"注册挖段子账号"];
     signupButton.controllerAction = @"gotoUserSignupAction";
-    [submitButton setAppearance:buttonAppearance];
+    signupButton.height = 33.0f;
     [extraButtonSection addElement:signupButton];
     
     return root;
@@ -233,8 +239,6 @@
     QButtonElement *logoutButton = [[QButtonElement alloc] initWithTitle:@"退出当前账号"];
     logoutButton.key = @"key_logout_button";
     logoutButton.controllerAction = @"logoutAction:";
-    QAppearance *logoutButtionAppearance = logoutButton.appearance;
-    logoutButtionAppearance.labelFont = [UIFont boldSystemFontOfSize:18.0f];
     [section3 addElement:logoutButton];
     
     return root;

@@ -24,8 +24,13 @@
 #import "CDAppUser.h"
 #import "CDQuickElements.h"
 #import "CDSideTableViewCell.h"
+#import "CDUIKit.h"
 
 @interface SideMenuViewController ()
+{
+    UIBarButtonItem *_settingButton;
+    NSArray *_sectionHeaderTitles;
+}
 - (void) setupNavBarButtonItem;
 @end
 
@@ -35,6 +40,8 @@
 {
     self = [super initWithStyle:style];
     if (self) {
+        _sectionHeaderTitles = @[@"", @"分类", @"我的"];
+        
         NSString * sidemenus = [[NSBundle mainBundle] pathForResource:@"sidemenus" ofType:@"plist"];
         menuData = [NSMutableArray arrayWithContentsOfFile:sidemenus];
     }
@@ -55,10 +62,8 @@
     self.clearsSelectionOnViewWillAppear = NO;
     [self setupNavBarButtonItem];
  
-    UIImageView *bgView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"menu_table_bg.png"]stretchableImageWithLeftCapWidth:2.0 topCapHeight:2.0f]];
-    bgView.contentMode = UIViewContentModeScaleToFill;
-    bgView.frame = self.tableView.frame;
-    self.tableView.backgroundView = bgView;
+    UIImageView *tableBackgroundView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"FBSideBarCellBackground.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(1.0f, 0, 1.0f, 0)]];
+    self.tableView.backgroundView = tableBackgroundView;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 }
 
@@ -67,11 +72,19 @@
 
 - (void) setupNavBarButtonItem
 {
-    UIBarButtonItem *settingButton = [[UIBarButtonItem alloc] initWithTitle:@"设置" style:UIBarButtonItemStyleBordered target:self action:@selector(openSettingController:)];
+    [CDUIKit setNavigationBar:self.navigationController.navigationBar style:CDNavigationBarStyleSearch forBarMetrics:UIBarMetricsDefault];
+    
+    UIBarButtonItem *leftButton = [[UIBarButtonItem alloc] initWithTitle:@"登录" style:UIBarButtonItemStyleBordered target:self action:@selector(openUserViewController)];
+    self.navigationItem.leftBarButtonItem = leftButton;
+    
+    _settingButton = [[UIBarButtonItem alloc] initWithTitle:@"设置" style:UIBarButtonItemStyleBordered target:self action:@selector(openSettingController:)];
     UIBarButtonItem *flexButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
     flexButton.width = DECK_LEFT_SIZE;
-    NSArray *rightButtons = [NSArray arrayWithObjects:flexButton, settingButton, nil];
+    NSArray *rightButtons = [NSArray arrayWithObjects:flexButton, _settingButton, nil];
     self.navigationItem.rightBarButtonItems = rightButtons;
+    
+    [CDUIKit setBarButtionItem:self.navigationItem.leftBarButtonItem style:CDBarButtionItemStyleSearch forBarMetrics:UIBarMetricsDefault];
+    [CDUIKit setBarButtionItem:_settingButton style:CDBarButtionItemStyleSearch forBarMetrics:UIBarMetricsDefault];
 }
 
 - (void) viewWillAppear:(BOOL)animated
@@ -79,7 +92,7 @@
     [super viewWillAppear:animated];
     
     NSString *leftButtonTitle = [CDAppUser hasLogined] ? [CDAppUser currentUser].screen_name : @"登录";
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:leftButtonTitle style:UIBarButtonItemStyleBordered target:self action:@selector(openUserViewController)];
+    self.navigationItem.leftBarButtonItem.title = leftButtonTitle;
 }
 
 #pragma mark - Table view data source
@@ -102,24 +115,12 @@
     CDSideTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[CDSideTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
-        cell.textLabel.textColor = [UIColor whiteColor];
-        cell.textLabel.backgroundColor = [UIColor clearColor];
-        cell.contentView.backgroundColor = [UIColor clearColor];
-        cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"accessory_arrow.png"]];
     }
     
     NSDictionary *menu = [[menuData objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
     cell.textLabel.text = [menu objectForKey:@"name"];
-    
-    UIImage *bgImage = [[UIImage imageNamed:@"menu_cell_bg.png"] stretchableImageWithLeftCapWidth:2.0 topCapHeight:2.0f];
-    UIImageView *bgView = [[UIImageView alloc] initWithImage:bgImage];
-    bgView.contentMode = UIViewContentModeScaleToFill;
-    bgView.frame = cell.contentView.frame;
-    cell.backgroundView = bgView;
-    
-    UIView *selectedBgView = [[UIView alloc] init];
-    selectedBgView.backgroundColor = [UIColor colorWithRed:205.0/255.0 green:128.0/255.0 blue:3.0/255.0 alpha:1];
-    cell.selectedBackgroundView = selectedBgView;
+    if ([menu objectForKey:@"icon"] != nil)
+        cell.imageView.image = [UIImage imageNamed:[menu objectForKey:@"icon"]];
     
     return cell;
 }
@@ -131,13 +132,19 @@
 
 - (CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return section == 0 ? 0.0f : 9.0f;
+    return section == 0 ? 0.0f : 32.0f;
 }
 
 - (UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    UIImageView *imgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"menu_cell_separator.png"]];
-    imgView.frame = CGRectMake(0, 0, tableView.frame.size.width, 9);
+    UIImageView *imgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"FBMenuSectionHeaderBackground.png"]];
+    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10.0f, 0.0f, 100, 32.0f)];
+    titleLabel.text = [_sectionHeaderTitles objectAtIndex:section];
+    titleLabel.font = [UIFont systemFontOfSize:14.0f];
+    titleLabel.textColor = [UIColor colorWithRed:0.61f green:0.64f blue:0.70f alpha:1.00f];
+    titleLabel.backgroundColor = [UIColor clearColor];
+    [imgView addSubview:titleLabel];
+    
     return imgView;
 }
 

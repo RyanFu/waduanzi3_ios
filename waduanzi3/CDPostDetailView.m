@@ -76,7 +76,7 @@
     
     _authorTextLabel.contentMode = UIViewContentModeTopLeft;
     _authorTextLabel.backgroundColor = [UIColor clearColor];
-    _authorTextLabel.font = [UIFont boldSystemFontOfSize:14.0f];
+    _authorTextLabel.font = [UIFont boldSystemFontOfSize:16.0f];
     _authorTextLabel.textColor = [UIColor colorWithRed:0.20f green:0.30f blue:0.55f alpha:1.00f];
     
     _avatarImageView.contentMode = UIViewContentModeScaleAspectFit;

@@ -13,6 +13,8 @@
 #import "CDAppUser.h"
 #import "CDQuickElements.h"
 #import "UserProfileViewController.h"
+#import "CDUIKit.h"
+#import "CDWebViewController.h"
 
 @interface SettingViewController ()
 
@@ -39,7 +41,10 @@
     self.quickDialogTableView.styleProvider = self;
     self.quickDialogTableView.deselectRowWhenViewAppears = YES;
     
+    [CDUIKit setNavigationBar:self.navigationController.navigationBar style:CDNavigationBarStyleSearch forBarMetrics:UIBarMetricsDefault];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"关闭" style:UIBarButtonItemStyleBordered target:self action:@selector(closeController)];
+    
+    [CDUIKit setBarButtionItem:self.navigationItem.leftBarButtonItem style:CDBarButtionItemStyleSearch forBarMetrics:UIBarMetricsDefault];
 }
 
 - (void)didReceiveMemoryWarning
@@ -65,15 +70,6 @@
 
 -(void) cell:(UITableViewCell *)cell willAppearForElement:(QElement *)element atIndexPath:(NSIndexPath *)indexPath
 {
-//    cell.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"BackgroundLight.png"]];
-//    cell.backgroundColor = [UIColor colorWithRed:0.93f green:0.93f blue:0.91f alpha:1.00f];
-//    cell.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"BackgroundLight.png"]];
-//    cell.backgroundView.layer.cornerRadius = 5.0f;
-//    cell.backgroundView.layer.borderColor = [UIColor grayColor].CGColor;
-//    cell.backgroundView.layer.borderWidth = 1.5f;
-//    cell.backgroundView.layer.shadowColor = [UIColor redColor].CGColor;
-//    cell.backgroundView.layer.shadowOffset = CGSizeMake(2.0f, 2.0f);
-//    cell.backgroundView.layer.shadowRadius = 5.0f;
 }
 
 
@@ -130,7 +126,7 @@
 
 - (void) aboutmeAction:(QLabelElement *)element
 {
-    QWebViewController *webController = [[QWebViewController alloc] initWithUrl:@"http://m.waduanzi.com/about"];
+    CDWebViewController *webController = [[CDWebViewController alloc] initWithUrl:@"http://m.waduanzi.com/about"];
     webController.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:webController animated:YES];
     

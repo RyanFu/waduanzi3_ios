@@ -21,6 +21,7 @@ const static CGFloat COMMENT_SUBMIT_BUTTON_WIDTH = 50.0f;
 @interface CDCommentFormView : UIView
 
 @property (nonatomic, weak) id<CDCommentFormDelegate> delegate;
-@property (nonatomic, strong) CDTextField *contentField;
+@property (nonatomic, strong) UIImageView *textFieldBackgroundView;
+@property (nonatomic, strong) CDTextField *textField;
 @property (nonatomic, strong) UIButton *submitButton;
 @end

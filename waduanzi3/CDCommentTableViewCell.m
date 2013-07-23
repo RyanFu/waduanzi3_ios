@@ -11,7 +11,11 @@
 #import "CDDefine.h"
 
 @interface CDCommentTableViewCell ()
+{
+    CALayer *_bottomLineLayer;
+}
 - (void) setupTableCellStyle;
+- (void) setupSubviewsDefaultStyle;
 @end
 
 @implementation CDCommentTableViewCell
@@ -34,18 +38,50 @@
         self.authorTextLabel = [[UILabel alloc] init];
         self.orderTextLabel = [[UILabel alloc] init];
         
-        self.detailTextLabel.font = [UIFont systemFontOfSize:14.0f];
-        self.detailTextLabel.textColor = [UIColor colorWithRed:0.01f green:0.01f blue:0.01f alpha:1.00f];
-        self.authorTextLabel.font = [UIFont boldSystemFontOfSize:14.0f];
-        self.authorTextLabel.textColor = [UIColor colorWithRed:0.20f green:0.30f blue:0.55f alpha:1.00f];
-        self.orderTextLabel.font = [UIFont systemFontOfSize:14.0f];
-        self.orderTextLabel.textColor = [UIColor colorWithRed:0.65f green:0.65f blue:0.65f alpha:1.00f];
-        
         [self.contentView addSubview:_avatarImageView];
         [self.contentView addSubview:_authorTextLabel];
         [self.contentView addSubview:_orderTextLabel];
+        
+        _bottomLineLayer = [CALayer layer];
+        _bottomLineLayer.backgroundColor = [UIColor colorWithRed:0.87f green:0.87f blue:0.87f alpha:1.00f].CGColor;
+        [self.layer addSublayer:_bottomLineLayer];
+        
+        [self setupTableCellStyle];
+        [self setupSubviewsDefaultStyle];
     }
     return self;
+}
+
+- (void) setupSubviewsDefaultStyle
+{
+    // avatarImageView
+    _avatarImageView.contentMode = UIViewContentModeScaleAspectFit;
+    _avatarImageView.opaque = YES;
+    
+    // orderLabel
+    _orderTextLabel.font = [UIFont systemFontOfSize:12.0f];
+    _orderTextLabel.textColor = [UIColor colorWithRed:0.65f green:0.65f blue:0.65f alpha:1.00f];
+    _orderTextLabel.contentMode = UIViewContentModeRight;
+    _orderTextLabel.backgroundColor = [UIColor clearColor];
+    
+    // authorLabel
+    _authorTextLabel.font = [UIFont boldSystemFontOfSize:14.0f];
+    _authorTextLabel.textColor = [UIColor colorWithRed:0.15f green:0.15f blue:0.15f alpha:1.00f];
+    _authorTextLabel.backgroundColor = [UIColor clearColor];
+    
+    // textLabel
+    self.textLabel.numberOfLines = 0;
+    self.textLabel.lineBreakMode = UILineBreakModeWordWrap;
+    self.textLabel.font = [UIFont systemFontOfSize:14.0f];
+    self.textLabel.textColor = [UIColor colorWithRed:0.16f green:0.16f blue:0.16f alpha:1.00f];
+    self.textLabel.backgroundColor = [UIColor clearColor];
+    
+    // detailLabel
+    self.detailTextLabel.numberOfLines = 0;
+    self.detailTextLabel.lineBreakMode = UILineBreakModeWordWrap;
+    self.detailTextLabel.font = [UIFont systemFontOfSize:12.0f];
+    self.detailTextLabel.textColor = [UIColor colorWithRed:0.16f green:0.16f blue:0.16f alpha:1.00f];
+    self.detailTextLabel.backgroundColor = [UIColor clearColor];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
@@ -57,8 +93,6 @@
 - (void) layoutSubviews
 {
     [super layoutSubviews];
-    
-    [self setupTableCellStyle];
     
     CGSize cellContentViewSize = self.contentView.frame.size;
     CGFloat contentViewWidth = cellContentViewSize.width - _padding*2;
@@ -73,35 +107,27 @@
     CGFloat widgetHeight = avatarHeight;
     
     // avatarImageView
-    _avatarImageView.contentMode = UIViewContentModeScaleAspectFit;
-    _avatarImageView.opaque = YES;
     CGRect avatarViewFrame = CGRectMake(_padding, widgetY, avatarWidth, widgetHeight);
     [_avatarImageView setFrame:avatarViewFrame];
     
-    // timeLabel
-    CGSize timeLabelSize = [self.orderTextLabel.text sizeWithFont:self.orderTextLabel.font
+    // orderLabel
+    CGSize orderLabelSize = [self.orderTextLabel.text sizeWithFont:self.orderTextLabel.font
                                                    constrainedToSize:CGSizeMake(contentViewWidth, 9999.0)
                                                        lineBreakMode:UILineBreakModeWordWrap];
-    CGRect timeLabelFrame = CGRectMake(cellContentViewSize.width - _padding - timeLabelSize.width, widgetY, timeLabelSize.width, widgetHeight);
-    [_orderTextLabel setFrame:timeLabelFrame];
-    _orderTextLabel.contentMode = UIViewContentModeRight;
+    CGRect orderLabelFrame = CGRectMake(cellContentViewSize.width - _padding - orderLabelSize.width, widgetY, orderLabelSize.width, widgetHeight);
+    [_orderTextLabel setFrame:orderLabelFrame];
     [_orderTextLabel sizeToFit];
-    _orderTextLabel.backgroundColor = [UIColor clearColor];
     
     // authorLabel
-    CGFloat authorLabelWidth = contentViewWidth - timeLabelSize.width - widgetHeight - _padding*2;
+    CGFloat authorLabelWidth = contentViewWidth - orderLabelSize.width - widgetHeight - _padding*2;
     CGRect authorLabelFrame = CGRectMake(_padding + widgetHeight + _padding, widgetY, authorLabelWidth, widgetHeight);
     [self.authorTextLabel setFrame:authorLabelFrame];
     [_authorTextLabel sizeToFit];
-    _authorTextLabel.backgroundColor = [UIColor clearColor];
     
-    widgetY += widgetHeight;
+    widgetY += (_authorTextLabel.frame.size.height + COMMENT_BLOCK_SPACE_HEIGHT);
     
     // textLabel
     if (self.textLabel.text.length > 0) {
-        self.textLabel.numberOfLines = 0;
-        self.textLabel.lineBreakMode = UILineBreakModeWordWrap;
-        self.textLabel.textColor = [UIColor colorWithRed:0.16f green:0.16f blue:0.16f alpha:1.00f];
         CGSize titleLabelSize = [self.textLabel.text sizeWithFont:self.textLabel.font
                                                        constrainedToSize:CGSizeMake(contentViewWidth, 9999.0)
                                                            lineBreakMode:UILineBreakModeWordWrap];
@@ -110,14 +136,11 @@
         CGRect titleLabelFrame = CGRectMake(subContentViewX, widgetY, subContentViewWidth, widgetHeight);
         [self.textLabel setFrame:titleLabelFrame];
         
-        widgetY += widgetHeight + _padding;
+        widgetY += widgetHeight + COMMENT_BLOCK_SPACE_HEIGHT;
     }
     
     // detailLabel
     if (self.detailTextLabel.text.length > 0) {
-        self.detailTextLabel.numberOfLines = 0;
-        self.detailTextLabel.lineBreakMode = UILineBreakModeWordWrap;
-        self.detailTextLabel.textColor = [UIColor colorWithRed:0.16f green:0.16f blue:0.16f alpha:1.00f];
         CGSize detailLabelSize = [self.detailTextLabel.text sizeWithFont:self.detailTextLabel.font
                                                 constrainedToSize:CGSizeMake(contentViewWidth, 9999.0)
                                                     lineBreakMode:UILineBreakModeWordWrap];
@@ -127,17 +150,16 @@
         
         widgetY += widgetHeight + _padding;
     }
+    
+    
+    _bottomLineLayer.frame = CGRectMake(0, self.frame.size.height - 1.0f, self.frame.size.width, 1.0f);
 }
 
 - (void) setupTableCellStyle
 {
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
     self.contentMode = UIViewContentModeTopLeft;
-    
-    UIImage *bgImage = [[UIImage imageNamed:@"post_cell_bg.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 5.0f, 0)];
-    UIImageView *bgView = [[UIImageView alloc] initWithImage:bgImage];
-    bgView.contentMode = UIViewContentModeScaleToFill;
-    bgView.frame = self.contentView.frame;
-    self.backgroundView = bgView;
+    self.contentView.backgroundColor = [UIColor whiteColor];
 }
 
 @end

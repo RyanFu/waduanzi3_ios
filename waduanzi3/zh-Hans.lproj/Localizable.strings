@@ -1,0 +1,11 @@
+/* 
+  Localizable.strings
+  waduanzi3
+
+  Created by chendong on 13-7-23.
+  Copyright (c) 2013年 chendong. All rights reserved.
+*/
+
+"Done" = "确定";
+"Previous" = "前一项";
+"Next" = "后一项";

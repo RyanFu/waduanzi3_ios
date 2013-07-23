@@ -10,9 +10,9 @@
 #import <RestKit/RestKit.h>
 #import "IIViewDeckController.h"
 #import "CDPostTableViewCell.h"
-#import "CDViewController.h"
+#import "CDMainViewController.h"
 
-@interface PostListViewController : CDViewController <CDPostTableViewCellDelegate, UIGestureRecognizerDelegate, UITableViewDataSource, UITableViewDelegate, IIViewDeckControllerDelegate>
+@interface PostListViewController : CDMainViewController <CDPostTableViewCellDelegate, UIGestureRecognizerDelegate, UITableViewDataSource, UITableViewDelegate, IIViewDeckControllerDelegate>
 {
     NSMutableArray *_statuses;
     NSMutableDictionary *_parameters;

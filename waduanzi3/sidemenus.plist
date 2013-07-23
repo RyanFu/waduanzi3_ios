@@ -8,18 +8,24 @@
 			<string>随边逛逛</string>
 			<key>tag</key>
 			<integer>0</integer>
+			<key>icon</key>
+			<string>FBBookmarkDefault.png</string>
 		</dict>
 		<dict>
 			<key>name</key>
 			<string>精华</string>
 			<key>tag</key>
 			<integer>1</integer>
+			<key>icon</key>
+			<string>friends.png</string>
 		</dict>
 		<dict>
 			<key>name</key>
 			<string>穿越</string>
 			<key>tag</key>
 			<integer>2</integer>
+			<key>icon</key>
+			<string>events.png</string>
 		</dict>
 	</array>
 	<array>
@@ -28,12 +34,16 @@
 			<string>挖笑话</string>
 			<key>tag</key>
 			<integer>10</integer>
+			<key>icon</key>
+			<string>messages.png</string>
 		</dict>
 		<dict>
 			<key>name</key>
 			<string>挖趣图</string>
 			<key>tag</key>
 			<integer>20</integer>
+			<key>icon</key>
+			<string>photos.png</string>
 		</dict>
 	</array>
 	<array>

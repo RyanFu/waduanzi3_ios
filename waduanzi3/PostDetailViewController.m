@@ -28,7 +28,7 @@
 #import "ImageDetailViewController.h"
 #import "CDCommentFormView.h"
 #import "UserLoginViewController.h"
-
+#import "CDPostToolBar.h"
 
 @interface PostDetailViewController ()
 {
@@ -42,6 +42,7 @@
 - (void) loadPostDetail;
 - (NSDictionary *) commentsParameters;
 - (NSDictionary *) createCommentParameters;
+- (void) setupNavButtionItems;
 - (void) setupTableView;
 - (void) setupPostDetailViewInCell:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath;
 - (void) setupPostDetailViewInCellData:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath;
@@ -112,23 +113,18 @@
     self.title = @"查看笑话";
     self.view.userInteractionEnabled = YES;
     self.view.exclusiveTouch = YES;
-    
+
+    [self setupNavButtionItems];
     [self setupTableView];
-    [self setupBottomToolBar];
-    
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"吐槽" style:UIBarButtonItemStyleBordered target:self action:@selector(setupCommentFormView)];
-    
+    [self setupCommentFormView];
+//    [self setupBottomToolBar];
+
     UISwipeGestureRecognizer *swipGestureRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwips:)];
     swipGestureRecognizer.delegate = self;
     swipGestureRecognizer.direction = UISwipeGestureRecognizerDirectionRight;
     swipGestureRecognizer.numberOfTouchesRequired = 1;
     [self.view addGestureRecognizer:swipGestureRecognizer];
-    
-    UILongPressGestureRecognizer *longPressRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleTableViewLongPress:)];
-    longPressRecognizer.minimumPressDuration = 0.3f;
-    longPressRecognizer.delegate = self;
-    [self.tableView addGestureRecognizer:longPressRecognizer];
-    
+
     [self setupTableViewPullAndInfiniteScrollView];
     [self.tableView triggerInfiniteScrolling];
 }
@@ -157,7 +153,7 @@
 {
     [super viewDidAppear:animated];
     if (_commentMode) {
-        [self performSelector:@selector(setupCommentFormView)];
+        [self performSelector:@selector(commentTextFieldBecomeFirstResponder)];
     }
 }
 
@@ -186,21 +182,54 @@
     _tableView.userInteractionEnabled = YES;
     
     CGRect formViewFrame = _formView.frame;
-    formViewFrame.origin.y = CDSCREEN_SIZE.height;
-    formViewFrame.size.height = COMMENT_FORM_HEIGHT;
+    formViewFrame.origin.y = self.view.frame.origin.y + self.view.frame.size.height - COMMENT_FORM_HEIGHT;
+    NSLog(@"yyy: %f", self.view.frame.size.height);
     _formView.frame = formViewFrame;
-    _formView.hidden = YES;
 }
+
+- (BOOL) viewDeckController:(IIViewDeckController *)viewDeckController shouldOpenViewSide:(IIViewDeckSide)viewDeckSide
+{
+    NSLog(@"xxxx");
+    return NO;
+}
+
 
 - (void) handleSwips:(UISwipeGestureRecognizer *)recognizer
 {
     NSLog(@"direction: %d", recognizer.direction);
-    if (recognizer.direction & UISwipeGestureRecognizerDirectionRight)
-        [self.navigationController popViewControllerAnimated:YES];
+    if (recognizer.direction & UISwipeGestureRecognizerDirectionRight) {
+        CGPoint point = [recognizer locationInView:recognizer.view];
+        if (point.x > recognizer.view.frame.size.width / 4)
+            [self.navigationController popViewControllerAnimated:YES];
+        else
+            [self.viewDeckController openLeftView];
+    }
 }
 
 
 #pragma mark - setup subviews
+
+- (void) setupNavButtionItems
+{
+    UIImage *backImage = [UIImage imageNamed:@"NavBarButtonArrow.png"];
+    UIButton *leftButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    leftButton.frame = CGRectMake(0, 0, backImage.size.width + 20.0f, backImage.size.height);
+    [leftButton setImage:backImage forState:UIControlStateNormal];
+    [leftButton setImage:[UIImage imageNamed:@"NavBarButtonArrowHighlighted.png"] forState:UIControlStateSelected];
+    [leftButton addTarget:self action:@selector(backButtonDidPressed:) forControlEvents:UIControlEventTouchUpInside];
+    leftButton.showsTouchWhenHighlighted = YES;
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:leftButton];
+    
+    UIImage *actionImage = [UIImage imageNamed:@"navBarActionIcon.png"];
+    UIButton *rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    rightButton.frame = CGRectMake(0, 0, actionImage.size.width + 20.0f, actionImage.size.height);
+    [rightButton setImage:actionImage forState:UIControlStateNormal];
+    [rightButton setImage:[UIImage imageNamed:@"NavBarButtonArrowHighlighted.png"] forState:UIControlStateSelected];
+    [rightButton addTarget:self action:@selector(forwardButtonDidPressed:) forControlEvents:UIControlEventTouchUpInside];
+    rightButton.showsTouchWhenHighlighted = YES;
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:rightButton];
+    
+}
 
 - (void) setupTableView
 {
@@ -211,8 +240,8 @@
     _tableView.delegate = self;
     _tableView.dataSource = self;
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    _tableView.backgroundColor = [UIColor underPageBackgroundColor];
-    _tableView.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"feed_table_bg.jpg"]];
+    _tableView.backgroundColor = [UIColor colorWithRed:0.95 green:0.95 blue:0.95 alpha:1.0f];
+    _tableView.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"pullToRefreshBg.png"]];
 }
 
 - (void) setupHUDInView:(UIView *)view
@@ -275,6 +304,7 @@
                       nil];
     
     [_bottomToolbar setItems:items];
+    backButtonItem.tintColor = supportButton.tintColor = commentButtonItem.tintColor = favoriteButton.tintColor = forwardButtonItem.tintColor = [UIColor colorWithRed:0.43f green:0.50f blue:0.65f alpha:1.0f];
     [self.view addSubview:_bottomToolbar];
 }
 
@@ -291,59 +321,35 @@
     [self.tableView addInfiniteScrollingWithActionHandler:^{
         [weakSelf loadPostComments];
     }];
-    
-    CGRect infiniteViewFrame = CGRectMake(0, 0, self.tableView.frame.size.width, 40.0f);
-    UILabel *stoppedLabel = [[UILabel alloc] initWithFrame:infiniteViewFrame];
-    UILabel *loadingLabel = [[UILabel alloc] initWithFrame:infiniteViewFrame];
-    UILabel *triggeredLabel = [[UILabel alloc] initWithFrame:infiniteViewFrame];
-    stoppedLabel.textAlignment = loadingLabel.textAlignment = triggeredLabel.textAlignment = UITextAlignmentCenter;
-    stoppedLabel.textColor = loadingLabel.textColor = triggeredLabel.textColor = [UIColor grayColor];
-    stoppedLabel.backgroundColor = loadingLabel.backgroundColor = triggeredLabel.backgroundColor = [UIColor redColor];
-    stoppedLabel.font = loadingLabel.font = triggeredLabel.font = [UIFont systemFontOfSize:14.0f];
-    NSInteger moreCommentCount = [_post.comment_count integerValue] - _comments.count;
-    stoppedLabel.text = (moreCommentCount > 0) ? [NSString stringWithFormat:@"还有%d条评论", moreCommentCount] : @"没有更多啦";
-//    [self.tableView.infiniteScrollingView setCustomView:stoppedLabel forState:SVInfiniteScrollingStateStopped];
-    loadingLabel.text = @"加载中，请稍候...";
-    [self.tableView.infiniteScrollingView setCustomView:loadingLabel forState:SVInfiniteScrollingStateLoading];
-    triggeredLabel.text = @"加载更多";
-    [self.tableView.infiniteScrollingView setCustomView:triggeredLabel forState:SVInfiniteScrollingStateTriggered];
 }
 
 - (void) setupCommentFormView
 {
-    if (_formView == nil || _formView.superview == nil) {
-        CGRect formFrame = CDSCREEN.bounds;
-        formFrame.origin.y = CDSCREEN_SIZE.height;
-        _formView = [[CDCommentFormView alloc] initWithFrame:formFrame];
-        [self.view addSubview:_formView];
-        _formView.submitButton.backgroundColor = [UIColor clearColor];
-        UIEdgeInsets buttonImageInsets = UIEdgeInsetsMake(1, 3, 1, 3);
-        UIImage *normalButtonImage = [[UIImage imageNamed:@"btn_black_normal.png"] resizableImageWithCapInsets:buttonImageInsets];
-        UIImage *pressButtonImage = [[UIImage imageNamed:@"btn_black_press.png"] resizableImageWithCapInsets:buttonImageInsets];
-        UIImage *disableButtonImage = [[UIImage imageNamed:@"btn_black_disable.png"] resizableImageWithCapInsets:buttonImageInsets];
-        [_formView.submitButton setBackgroundImage:normalButtonImage forState:UIControlStateNormal];
-        [_formView.submitButton setBackgroundImage:pressButtonImage forState:UIControlStateSelected];
-        [_formView.submitButton setBackgroundImage:disableButtonImage forState:UIControlStateDisabled];
-        [_formView.submitButton addTarget:self action:@selector(submitButtonTouhcInUpside:) forControlEvents:UIControlEventTouchUpInside];
-        _formView.contentField.delegate = self;
-    }
-    _formView.hidden = NO;
-    [_formView.contentField becomeFirstResponder];
-    
-    NSLog(@"comment form");
+    CGRect formFrame = CGRectMake(0, self.view.frame.size.height - COMMENT_FORM_HEIGHT - NAVBAR_HEIGHT, CDSCREEN_SIZE.width, COMMENT_FORM_HEIGHT);
+    _formView = [[CDCommentFormView alloc] initWithFrame:formFrame];
+    [self.view addSubview:_formView];
+    [_formView.submitButton addTarget:self action:@selector(submitButtonTouhcInUpside:) forControlEvents:UIControlEventTouchUpInside];
+    _formView.textField.delegate = self;
+
+    NSLog(@"comment form, height: %f", self.view.frame.size.height);
+}
+
+- (void) commentTextFieldBecomeFirstResponder
+{
+    [_formView.textField becomeFirstResponder];
 }
 
 #pragma mark - CDCommentFormView selector
 
 - (void) submitButtonTouhcInUpside:(UIButton *)button
 {
-    if (_formView.contentField.text.length == 0)
+    if (_formView.textField.text.length == 0)
         return;
     NSLog(@"send comment");
     button.enabled = NO;
     dispatch_async(dispatch_get_main_queue(), ^{
         [self sendComment];
-        _formView.contentField.text = nil;
+        _formView.textField.text = nil;
     });
 }
 
@@ -370,6 +376,23 @@
 {
     [_detailView.imageView cancelCurrentImageLoad];
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void) likeButtonDidPressed:(id)sender
+{
+    UIButton *button = (UIButton *)sender;
+    NSLog(@"state: %d", button.state);
+    button.selected = YES;
+    [[CDDataCache shareCache] cachePostLikeState:YES forPostID:_postID];
+    
+    RKObjectManager *objectManager = [RKObjectManager sharedManager];
+    NSString *restPath = [NSString stringWithFormat:@"/post/support/%d", [_post.post_id integerValue]];
+    [objectManager.HTTPClient putPath:restPath parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        _post.up_count = [NSNumber numberWithInteger:[_post.up_count integerValue]+1];
+        NSLog(@"response: %@", responseObject);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"error: %@", error);
+    }];
 }
 
 - (void) bookmarkButtonDidPressed:(id)sender
@@ -413,29 +436,18 @@
     [actionSheet showInView:self.navigationController.view];
 }
 
-- (void) openCommentTextInput:(id)sender
-{
-    NSLog(@"open comment text input");
-    PostDetailViewController *dc = [[PostDetailViewController alloc] initWithPost:_post];
-    [self presentViewController:dc animated:YES completion:^{
-        NSLog(@"open profile");
-    }];
-}
-
-
-
 #pragma mark - tableview datasource
 - (NSInteger) numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 2;
+    return 3;
 }
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     NSInteger count = 0;
-    if (section == 0)
+    if (section == 0 || section == 1)
         count = 1;
-    else if (section == 1)
+    else if (section == 2)
         count = [_comments count];
 
     return count;
@@ -450,17 +462,31 @@
         if (cell == nil) {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:PostDetailCellIdentifier];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.contentView.backgroundColor = [UIColor whiteColor];
         }
+        
         [self setupPostDetailViewInCell:cell indexPath:indexPath];
         [self setupHUDInView:cell];
-        
         [self setupPostDetailViewInCellData:cell indexPath:indexPath];
         
-        UIImage *bgImage = [[UIImage imageNamed:@"post_cell_bg.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 3.0f, 0)];
-        UIImageView *bgView = [[UIImageView alloc] initWithImage:bgImage];
-        bgView.contentMode = UIViewContentModeScaleToFill;
-        bgView.frame = cell.contentView.frame;
-        cell.backgroundView = bgView;
+        return cell;
+    }
+    else if (indexPath.section == 1) {
+        static NSString *PostButtonsCellIdentifier = @"PostButtons";
+        
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:PostButtonsCellIdentifier];
+        if (cell == nil) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:PostButtonsCellIdentifier];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        }
+        
+        CDPostToolBar *toolbar = [[CDPostToolBar alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 40.0f)];
+        [toolbar.likeButton addTarget:self action:@selector(likeButtonDidPressed:) forControlEvents:UIControlEventTouchUpInside];
+        [toolbar.commentButton addTarget:self action:@selector(commentTextFieldBecomeFirstResponder) forControlEvents:UIControlEventTouchUpInside];
+        [toolbar.actionButton addTarget:self action:@selector(forwardButtonDidPressed:) forControlEvents:UIControlEventTouchUpInside];
+        toolbar.likeButton.selected = [[CDDataCache shareCache] fetchPostLikeState:_postID];
+        toolbar.likeButton.userInteractionEnabled = !toolbar.likeButton.selected;
+        [cell.contentView addSubview:toolbar];
         
         return cell;
     }
@@ -471,17 +497,13 @@
         if (cell == nil) {
             cell = [[CDCommentTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CommentListCellIdentifier];
             cell.selectionStyle = UITableViewCellSelectionStyleGray;
-            
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            cell.contentMode = UIViewContentModeTopLeft;
-            
             [self setCommentCellSubViews:cell forRowAtIndexPath:indexPath];
         }
         
         CDComment *comment = [_comments objectAtIndex:indexPath.row];
-        cell.detailTextLabel.text = comment.content;
+        cell.textLabel.text = comment.content;
         cell.authorTextLabel.text = comment.author_name;
-        cell.orderTextLabel.text = [NSString stringWithFormat:@"#%d", indexPath.row+1];
+        cell.orderTextLabel.text = [NSString stringWithFormat:@"%@ #%d", comment.create_time_at, indexPath.row+1];
         [cell.avatarImageView setImageWithURL:[NSURL URLWithString:comment.user.mini_avatar] placeholderImage:[UIImage imageNamed:@"avatar_placeholder.png"]];
         cell.imageView.image = nil;
         comment = nil;
@@ -614,89 +636,42 @@
 
         return cellHeight + POST_DETAIL_CELL_PADDING * 2;
     }
-    else if (indexPath.section == 1 && indexPath.row < _comments.count) {
+    else if (indexPath.section == 1) {
+        return 40.0f;
+    }
+    else if (indexPath.section == 2 && indexPath.row < _comments.count) {
         CDComment *comment = [_comments objectAtIndex:indexPath.row];
         
         CGFloat contentWidth = self.view.frame.size.width - POST_DETAIL_CELL_PADDING*2;
-        UIFont *detailFont = [UIFont systemFontOfSize:14.0f];
-        CGSize detailLabelSize = [comment.content sizeWithFont:detailFont
+        CGSize authorLabelSize = [comment.author_name sizeWithFont:[UIFont boldSystemFontOfSize:14.0f]];
+        CGSize detailLabelSize = [comment.content sizeWithFont:[UIFont systemFontOfSize:14.0f]
                                           constrainedToSize:CGSizeMake(contentWidth, 9999.0)
                                               lineBreakMode:UILineBreakModeWordWrap];
+//        CGSize timeSize = [comment.create_time_at sizeWithFont:[UIFont systemFontOfSize:12.0f]];
         
-        CGFloat cellHeight = POST_DETAIL_CELL_PADDING + COMMENT_AVATAR_WIDTH + detailLabelSize.height + POST_DETAIL_CELL_PADDING;
+        CGFloat cellHeight = POST_DETAIL_CELL_PADDING + authorLabelSize.height + COMMENT_BLOCK_SPACE_HEIGHT + detailLabelSize.height + POST_DETAIL_CELL_PADDING;
         
         return cellHeight;
     }
     else
-        return 0.0f;
+        return 40.0f;
 }
 
-- (CGFloat) tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+- (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 0.001f;
-}
-
-- (UIView *) tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
-{
-    static UIView *footerView;
-    if (footerView == nil)
-        footerView = [[UIView alloc] init];
-    
-    return footerView;
-}
-
-// MARK: 评论列表的header view height, 暂时注释
-- (CGFloat) tabl2eView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-{
-    return section == 1 ? 20.0f : 0.001f;
-}
-
-// MARK: 评论列表的header view, 暂时注释
-- (UIView *) tableVi2ew:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{
-    if (section == 1) {
-        CGRect headerViewFrame = CGRectMake(0, 0, tableView.frame.size.width, 20.0f);
-        UIView *headerView = [[UIView alloc] initWithFrame:headerViewFrame];
-        headerView.backgroundColor = [UIColor lightGrayColor];
-        CGRect labelFrame = headerViewFrame;
-        
-        labelFrame.origin.x += 10.0f;
-        labelFrame.size.width -= labelFrame.origin.x * 2;
-        UILabel *textLabel = [[UILabel alloc] initWithFrame:labelFrame];
-        textLabel.text = @"评论列表";
-        textLabel.textColor = [UIColor whiteColor];
-        textLabel.font = [UIFont systemFontOfSize:13.0f];
-        textLabel.backgroundColor = [UIColor clearColor];
-        textLabel.numberOfLines = 1;
-        
-        [headerView addSubview:textLabel];
-        return headerView;
-    }
-    else
-        return [[UIView alloc] initWithFrame:CGRectZero];
-}
-
-
-
-#pragma mark - comment cell long press selector and methods
-
-- (void) handleTableViewLongPress:(UILongPressGestureRecognizer *)recognizer
-{
-    if (recognizer.state == UIGestureRecognizerStateBegan) {
-        CGPoint point = [recognizer locationInView:self.tableView];
-        NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:point];
-        if (indexPath == nil || indexPath.section == 0) return;
-        
+    if (indexPath.section == 2) {
         CDComment *comment = [_comments objectAtIndex:indexPath.row];
         NSString *upText = [NSString stringWithFormat:@"顶[%d]", [comment.up_count integerValue]];
         UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self
-                                                         cancelButtonTitle:@"取消"
-                                                    destructiveButtonTitle:nil
-                                                         otherButtonTitles:upText, @"复制", @"举报", nil];
+                                                        cancelButtonTitle:@"取消"
+                                                   destructiveButtonTitle:nil
+                                                        otherButtonTitles:upText, @"复制", @"举报", nil];
         actionSheet.tag = indexPath.row;
-        [actionSheet showInView:self.navigationController.view];
+        [actionSheet showInView:ROOT_CONTROLLER.view];
     }
 }
+
+#pragma mark - comment cell long press selector and methods
 
 - (void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
@@ -794,28 +769,20 @@
                                 
                                 if (mappingResult.count > 0) {
                                     NSMutableArray* statuses = (NSMutableArray *)[mappingResult array];
-                                    NSInteger currentCount = [_comments count];
                                     [_comments addObjectsFromArray:statuses];
                                     
-                                    NSMutableArray *insertIndexPaths = [NSMutableArray array];
-                                    for (int i=0; i<statuses.count; i++) {
-                                        [insertIndexPaths addObject:[NSIndexPath indexPathForRow:currentCount+i inSection:1]];
-                                    }
-                                    
-                                    [self.tableView beginUpdates];
-                                    [self.tableView insertRowsAtIndexPaths:insertIndexPaths withRowAnimation:UITableViewRowAnimationNone];
-                                    [self.tableView endUpdates];
-                                    
-                                    NSInteger moreCommentCount = [_post.comment_count integerValue] - _comments.count;
-                                    if (moreCommentCount <= 0)
-                                        self.tableView.showsInfiniteScrolling = NO;
+                                    [self.tableView reloadData];
                                 }
                                 else {
+                                    self.tableView.showsInfiniteScrolling = NO;
                                     NSLog(@"没有更多内容了");
                                 }
                             }
                             failure:^(RKObjectRequestOperation *operation, NSError *error) {
                                 [self.tableView.infiniteScrollingView stopAnimating];
+                                
+                                if (error.code == NSURLErrorCancelled) return ;
+                                
                                 [WCAlertView showAlertWithTitle:@"出错啦"
                                                         message:@"载入数据出错。"
                                              customizationBlock:^(WCAlertView *alertView) {
@@ -842,12 +809,15 @@
                                 
                                 self.post = (CDPost *) [mappingResult firstObject];
                                 if (self.isViewLoaded) {
-                                    NSIndexSet *indexSet = [[NSIndexSet alloc] initWithIndex:0];
+                                    NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:0];
                                     [self.tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationNone];
                                 }
                             }
                             failure:^(RKObjectRequestOperation *operation, NSError *error) {
                                 [self.tableView.pullToRefreshView stopAnimating];
+                                
+                                if (error.code == NSURLErrorCancelled) return ;
+                                
                                 [WCAlertView showAlertWithTitle:@"出错啦"
                                                         message:@"载入数据出错。"
                                              customizationBlock:^(WCAlertView *alertView) {
@@ -867,7 +837,7 @@
 - (NSDictionary *) createCommentParameters
 {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    [params setObject:_formView.contentField.text forKey:@"content"];
+    [params setObject:_formView.textField.text forKey:@"content"];
     [params setObject:_post.post_id forKey:@"post_id"];
     if ([CDAppUser hasLogined]) {
         CDUser *user = [CDAppUser currentUser];
@@ -883,7 +853,7 @@
 
 - (void) sendComment
 {
-    if (_formView.contentField.text.length == 0)
+    if (_formView.textField.text.length == 0)
         return;
     
     [self.view endEditing:YES];
@@ -896,7 +866,7 @@
                         CDComment *comment = (CDComment *) [mappingResult firstObject];
                         NSLog(@"%@", comment.author_name);
                         if (self.isViewLoaded) {
-                            NSIndexPath *newIndexPath = [NSIndexPath indexPathForRow:_comments.count inSection:1];
+                            NSIndexPath *newIndexPath = [NSIndexPath indexPathForRow:_comments.count inSection:2];
                             NSArray *insertIndexPaths = [NSArray arrayWithObjects:newIndexPath, nil];
                             [_comments addObject:comment];
                             [self.tableView beginUpdates];
@@ -906,6 +876,9 @@
                         }
                     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
                         _formView.submitButton.enabled = YES;
+                        
+                        if (error.code == NSURLErrorCancelled) return ;
+                        
                         [WCAlertView showAlertWithTitle:@"出错啦"
                                                message:@"载入数据出错。"
                                     customizationBlock:^(WCAlertView *alertView) {
