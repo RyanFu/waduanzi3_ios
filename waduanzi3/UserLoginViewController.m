@@ -19,6 +19,7 @@
 #import "CDQuickElements.h"
 #import "CDUserForm.h"
 #import "CDUIKit.h"
+#import "UIImage+merge.h"
 
 @interface UserLoginViewController ()
 - (void) setupNavbar;
@@ -32,8 +33,7 @@
     self = [super init];
     if (self) {
         self.resizeWhenKeyboardPresented = YES;
-        QRootElement *root = [CDQuickElements createUserLoginElements];
-        self.root = root;
+        self.root = [CDQuickElements createUserLoginElements];
     }
     return self;
 }
@@ -42,13 +42,25 @@
 {
     [super viewDidLoad];
     self.title = @"登录";
-
+    
     self.quickDialogTableView.styleProvider = self;
     QEntryElement *usernameElement = (QEntryElement *)[self.root elementWithKey:@"key_username"];
     QEntryElement *passwordElement = (QEntryElement *)[self.root elementWithKey:@"key_password"];
     usernameElement.delegate = passwordElement.delegate = self;
     
     [self setupNavbar];
+}
+
+- (void) viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    self.quickDialogTableView.backgroundColor = [UIColor clearColor];
+    
+    UIImage *image1 = [UIImage imageNamed:@"loginTexture.png"];
+    UIImage *image2 = [UIImage imageNamed:@"background.png"];
+    UIImage *backgroundImage = [UIImage mergeImage:image1 withImage:image2 withAlpha:0.5];
+    self.quickDialogTableView.backgroundView = [[UIImageView alloc] initWithImage:backgroundImage];
 }
 
 
@@ -62,13 +74,13 @@
 
 - (void) setupNavbar
 {
-    [CDUIKit setNavigationBar:self.navigationController.navigationBar style:CDNavigationBarStyleSearch forBarMetrics:UIBarMetricsDefault];
+    [CDUIKit setNavigationBar:self.navigationController.navigationBar style:CDNavigationBarStyleBlack forBarMetrics:UIBarMetricsDefault];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"关闭"
                                                                              style:UIBarButtonItemStyleBordered
                                                                             target:self
                                                                             action:@selector(dismissController)];
     
-    [CDUIKit setBarButtionItem:self.navigationItem.leftBarButtonItem style:CDBarButtionItemStyleSearch forBarMetrics:UIBarMetricsDefault];
+    [CDUIKit setBarButtionItem:self.navigationItem.leftBarButtonItem style:CDBarButtionItemStyleBlack forBarMetrics:UIBarMetricsDefault];
 }
 
 

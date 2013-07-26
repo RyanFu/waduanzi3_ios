@@ -72,7 +72,7 @@
 
 - (void) setupNavBarButtonItem
 {
-    [CDUIKit setNavigationBar:self.navigationController.navigationBar style:CDNavigationBarStyleSearch forBarMetrics:UIBarMetricsDefault];
+    [CDUIKit setNavigationBar:self.navigationController.navigationBar style:CDNavigationBarStyleBlack forBarMetrics:UIBarMetricsDefault];
     
     UIBarButtonItem *leftButton = [[UIBarButtonItem alloc] initWithTitle:@"登录" style:UIBarButtonItemStyleBordered target:self action:@selector(openUserViewController)];
     self.navigationItem.leftBarButtonItem = leftButton;
@@ -83,8 +83,8 @@
     NSArray *rightButtons = [NSArray arrayWithObjects:flexButton, _settingButton, nil];
     self.navigationItem.rightBarButtonItems = rightButtons;
     
-    [CDUIKit setBarButtionItem:self.navigationItem.leftBarButtonItem style:CDBarButtionItemStyleSearch forBarMetrics:UIBarMetricsDefault];
-    [CDUIKit setBarButtionItem:_settingButton style:CDBarButtionItemStyleSearch forBarMetrics:UIBarMetricsDefault];
+    [CDUIKit setBarButtionItem:self.navigationItem.leftBarButtonItem style:CDBarButtionItemStyleBlack forBarMetrics:UIBarMetricsDefault];
+    [CDUIKit setBarButtionItem:_settingButton style:CDBarButtionItemStyleBlack forBarMetrics:UIBarMetricsDefault];
 }
 
 - (void) viewWillAppear:(BOOL)animated
@@ -121,6 +121,8 @@
     cell.textLabel.text = [menu objectForKey:@"name"];
     if ([menu objectForKey:@"icon"] != nil)
         cell.imageView.image = [UIImage imageNamed:[menu objectForKey:@"icon"]];
+    else
+        cell.imageView.image = nil;
     
     return cell;
 }
@@ -273,9 +275,8 @@
 - (void) openUserLoginController
 {
     UserLoginViewController *loginController = [[UserLoginViewController alloc] init];
-    UINavigationController *loginNavController = [[UINavigationController alloc] initWithRootViewController:loginController];
-    
-    [ROOT_CONTROLLER presentViewController:loginNavController animated:YES completion:nil];
+    UINavigationController *loginNavController = [[UINavigationController alloc] initWithRootViewController:loginController];    
+    [self presentViewController:loginNavController animated:YES completion:nil];
     
 }
 

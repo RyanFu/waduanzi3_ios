@@ -29,12 +29,14 @@
 #import "CDCommentFormView.h"
 #import "UserLoginViewController.h"
 #import "CDPostToolBar.h"
+#import "UMSocial.h"
 
 @interface PostDetailViewController ()
 {
     MBProgressHUD *_HUD;
     CDPostDetailView *_detailView;
     CDCommentFormView *_formView;
+    CDPostToolBar *_postToolbar;
 }
 
 - (void) initData;
@@ -55,6 +57,7 @@
 - (void) setupHUDInView:(UIView *)view;
 - (void) setupCommentFormView;
 - (void) sendComment;
+
 @end
 
 
@@ -134,6 +137,8 @@
     [super viewWillAppear:animated];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+    
+    self.navigationItem.rightBarButtonItem.enabled = (_post.middle_pic.length == 0) || _middleImage;
 }
 
 - (void) viewWillDisappear:(BOOL)animated
@@ -198,11 +203,7 @@
 {
     NSLog(@"direction: %d", recognizer.direction);
     if (recognizer.direction & UISwipeGestureRecognizerDirectionRight) {
-        CGPoint point = [recognizer locationInView:recognizer.view];
-        if (point.x > recognizer.view.frame.size.width / 4)
-            [self.navigationController popViewControllerAnimated:YES];
-        else
-            [self.viewDeckController openLeftView];
+        [self.navigationController popViewControllerAnimated:YES];
     }
 }
 
@@ -255,6 +256,7 @@
 
 }
 
+// MARK: 暂时不使用
 - (void) setupBottomToolBar
 {
     CGRect toolbarFrame = CGRectMake(0, _tableView.frame.origin.y + _tableView.frame.size.height, self.view.frame.size.width, TOOLBAR_HEIGHT);
@@ -430,10 +432,48 @@
 - (void) forwardButtonDidPressed:(id)sender
 {
     NSLog(@"forward");
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"我要分享" delegate:self cancelButtonTitle:@"关闭" destructiveButtonTitle:nil otherButtonTitles:@"短信分享", @"新浪微博", @"腾讯微博", @"复制", @"微信好友", @"微信朋友圈", nil];
-    actionSheet.tag = FORWARD_ACTIONSHEET_TAG;
     
-    [actionSheet showInView:self.navigationController.view];
+    [self.view endEditing:YES];
+    
+    NSString *identifier = [NSString stringWithFormat:@"post_social_share_%@", _post.post_id];
+    UMSocialData *socialData = [[UMSocialData alloc] initWithIdentifier:identifier withTitle:_post.title];
+    socialData.shareText = _post.content;
+    
+    if (_middleImage) {
+        socialData.shareImage = _middleImage;
+    }
+    else if (_post.middle_pic.length > 0) {
+        UMSocialUrlResource *urlResource = [[UMSocialUrlResource alloc] initWithSnsResourceType:UMSocialUrlResourceTypeImage url:_post.middle_pic];
+        socialData.urlResource = urlResource;
+    }
+    
+    UMSocialExtConfig *extConfig = [[UMSocialExtConfig alloc] init];
+    socialData.extConfig = extConfig;
+    extConfig.title = _post.title;
+    extConfig.mailMessage = _post.content;
+    extConfig.wxDescription = _post.content;
+    if (_middleImage || _post.middle_pic.length > 0) {
+        extConfig.wxMessageType = UMSocialWXMessageTypeApp;
+        extConfig.appUrl = @"http://www.waduanzi.com/mobile/";
+        WXImageObject *imageObject = [WXImageObject object];
+        imageObject.imageUrl = _post.middle_pic;
+        extConfig.wxMediaObject = imageObject;
+    }
+    else
+        extConfig.wxMessageType = UMSocialWXMessageTypeText;
+    
+    UMSocialControllerService *socialDataService = [[UMSocialControllerService alloc] initWithUMSocialData:socialData];
+    socialDataService.socialUIDelegate = self;
+    __weak PostDetailViewController *weakSelf = self;
+    UMSocialIconActionSheet *iconActionSheet = [socialDataService getSocialIconActionSheetInController:weakSelf];
+    [iconActionSheet showInView: self.navigationController.view];
+}
+
+#pragma mark - socialUIDelegate
+
+- (void) didFinishGetUMSocialDataInViewController:(UMSocialResponseEntity *)response
+{
+    NSLog(@"share response: %@", response);
 }
 
 #pragma mark - tableview datasource
@@ -480,13 +520,14 @@
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
         
-        CDPostToolBar *toolbar = [[CDPostToolBar alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 40.0f)];
-        [toolbar.likeButton addTarget:self action:@selector(likeButtonDidPressed:) forControlEvents:UIControlEventTouchUpInside];
-        [toolbar.commentButton addTarget:self action:@selector(commentTextFieldBecomeFirstResponder) forControlEvents:UIControlEventTouchUpInside];
-        [toolbar.actionButton addTarget:self action:@selector(forwardButtonDidPressed:) forControlEvents:UIControlEventTouchUpInside];
-        toolbar.likeButton.selected = [[CDDataCache shareCache] fetchPostLikeState:_postID];
-        toolbar.likeButton.userInteractionEnabled = !toolbar.likeButton.selected;
-        [cell.contentView addSubview:toolbar];
+        _postToolbar = [[CDPostToolBar alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 40.0f)];
+        [_postToolbar.likeButton addTarget:self action:@selector(likeButtonDidPressed:) forControlEvents:UIControlEventTouchUpInside];
+        [_postToolbar.commentButton addTarget:self action:@selector(commentTextFieldBecomeFirstResponder) forControlEvents:UIControlEventTouchUpInside];
+        [_postToolbar.actionButton addTarget:self action:@selector(forwardButtonDidPressed:) forControlEvents:UIControlEventTouchUpInside];
+        _postToolbar.actionButton.enabled = (_post.middle_pic.length == 0) || _middleImage;
+        _postToolbar.likeButton.selected = [[CDDataCache shareCache] fetchPostLikeState:_postID];
+        _postToolbar.likeButton.userInteractionEnabled = !_postToolbar.likeButton.selected;
+        [cell.contentView addSubview:_postToolbar];
         
         return cell;
     }
@@ -559,6 +600,7 @@
         __weak MBProgressHUD *weakHUD = _HUD;
         __weak UIImageView *weakImageView = _detailView.imageView;
         NSURL *imageUrl = [NSURL URLWithString:_post.middle_pic];
+        __weak CDPostToolBar *weakToolbar = _postToolbar;
         [_detailView.imageView setImageWithURL:imageUrl placeholderImage:_smallImage options:SDWebImageRetryFailed progress:^(NSUInteger receivedSize, long long expectedSize) {
             NSLog(@"expected size: %lld", expectedSize);
             if (expectedSize <= 0) {
@@ -576,6 +618,7 @@
             else {
                 weakSelf.middleImage = image;
                 [weakSelf.tableView reloadData];
+                weakSelf.navigationItem.rightBarButtonItem.enabled = weakToolbar.actionButton.enabled = YES;
             }
         }];
         // 如果是趣图，不显示标题，只显示内容
@@ -614,7 +657,7 @@
                                           constrainedToSize:CGSizeMake(contentWidth, 9999.0)
                                               lineBreakMode:UILineBreakModeWordWrap];
         
-        CGFloat cellHeight = POST_DETAIL_CELL_PADDING + POST_AVATAR_WIDTH + POST_DETAIL_CELL_PADDING + detailLabelSize.height;
+        CGFloat cellHeight = POST_DETAIL_CELL_PADDING + POST_AVATAR_SIZE.height + POST_DETAIL_CELL_PADDING + detailLabelSize.height;
         
         CGFloat imageViewHeight = 0;
         if (_middleImage) {
@@ -647,7 +690,6 @@
         CGSize detailLabelSize = [comment.content sizeWithFont:[UIFont systemFontOfSize:14.0f]
                                           constrainedToSize:CGSizeMake(contentWidth, 9999.0)
                                               lineBreakMode:UILineBreakModeWordWrap];
-//        CGSize timeSize = [comment.create_time_at sizeWithFont:[UIFont systemFontOfSize:12.0f]];
         
         CGFloat cellHeight = POST_DETAIL_CELL_PADDING + authorLabelSize.height + COMMENT_BLOCK_SPACE_HEIGHT + detailLabelSize.height + POST_DETAIL_CELL_PADDING;
         
@@ -660,6 +702,8 @@
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 2) {
+        [self.view endEditing:YES];
+        
         CDComment *comment = [_comments objectAtIndex:indexPath.row];
         NSString *upText = [NSString stringWithFormat:@"顶[%d]", [comment.up_count integerValue]];
         UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self
@@ -677,6 +721,22 @@
 {
     NSLog(@"action sheet tag: %d,  buttonIndex: %d", actionSheet.tag, buttonIndex);
     if (actionSheet.tag == FORWARD_ACTIONSHEET_TAG) {
+        switch (buttonIndex) {
+            case 0:
+                break;
+            case 1:
+                [self performSelector:@selector(socialShareToSina)];
+                break;
+            case 4:
+                [self performSelector:@selector(socialShareToWeichatSession)];
+                break;
+            case 5:
+                [self performSelector:@selector(socialShareToWeichatTimeline)];
+                break;
+            default:
+                break;
+        }
+        
         NSLog(@"forward button pressed");
     }
     else {
@@ -737,6 +797,36 @@
     UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
     [pasteboard setString:text];
 }
+
+#pragma mark - sns share selector
+
+- (void) socialShareToSina
+{
+    UMSocialSnsPlatform *snsPlatform = [UMSocialSnsPlatformManager getSocialPlatformWithName:UMShareToSina];
+    snsPlatform.loginClickHandler(self, [UMSocialControllerService defaultControllerService], YES, ^(UMSocialResponseEntity *response){
+        NSLog(@"response is %@",response);
+    });
+}
+
+- (void) socialShareToWeichatSession
+{
+    UMSocialIconActionSheet *iconActionSheet = [[UMSocialControllerService defaultControllerService] getSocialIconActionSheetInController:self];
+    [iconActionSheet showInView:self.view];
+    
+//    UMSocialSnsPlatform *snsPlatform = [UMSocialSnsPlatformManager getSocialPlatformWithName:UMShareToWechatSession];
+//    snsPlatform.loginClickHandler(self, [UMSocialControllerService defaultControllerService], YES, ^(UMSocialResponseEntity *response){
+//        NSLog(@"response is %@",response);
+//    });
+}
+
+- (void) socialShareToWeichatTimeline
+{
+    UMSocialSnsPlatform *snsPlatform = [UMSocialSnsPlatformManager getSocialPlatformWithName:UMShareToWechatTimeline];
+    snsPlatform.loginClickHandler(self, [UMSocialControllerService defaultControllerService], YES, ^(UMSocialResponseEntity *response){
+        NSLog(@"response is %@",response);
+    });
+}
+
 
 #pragma mark - load data
 

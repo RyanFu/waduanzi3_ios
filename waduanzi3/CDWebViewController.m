@@ -7,7 +7,6 @@
 //
 
 #import "CDWebViewController.h"
-#import "CDUIKit.h"
 
 @interface CDWebViewController ()
 
@@ -15,16 +14,43 @@
 
 @implementation CDWebViewController
 
+@synthesize toolbarStyle = _toolbarStyle;
+
+- (id) initWithToolbarStyle:(CDToolBarStyle)style
+{
+    self = [super init];
+    if (self) {
+        _toolbarStyle = style;
+    }
+    return self;
+}
+
+- (id)initWithHTML:(NSString *)html toolbarStyle:(CDToolBarStyle)style
+{
+    self = [super initWithHTML:html];
+    if (self) {
+        _toolbarStyle = style;
+    }
+    return self;
+}
+
+- (id)initWithUrl:(NSString *)url toolbarStyle:(CDToolBarStyle)style
+{
+    self = [super initWithUrl:url];
+    if (self) {
+        _toolbarStyle = style;
+    }
+    return self;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 
-    [CDUIKit setNavigationBar:self.navigationController.navigationBar style:CDNavigationBarStyleSearch forBarMetrics:UIBarMetricsDefault];
-    [CDUIKit setBackBarButtionItemStyle:CDBarButtionItemStyleSearch forBarMetrics:UIBarMetricsDefault];
+    [CDUIKit setNavigationBar:self.navigationController.navigationBar style:CDNavigationBarStyleBlack forBarMetrics:UIBarMetricsDefault];
+    [CDUIKit setBackBarButtionItemStyle:CDBarButtionItemStyleBlack forBarMetrics:UIBarMetricsDefault];
     
-    [self.navigationController.toolbar setBackgroundImage:[UIImage imageNamed:@"FBWebViewToolbarBackground.png"]
-                                       forToolbarPosition:UIToolbarPositionBottom
-                                               barMetrics:UIBarMetricsDefault];
+    [CDUIKit setToolBar:self.navigationController.toolbar style:_toolbarStyle forToolbarPosition:UIToolbarPositionBottom forBarMetrics:UIBarMetricsDefault];
 }
 
 

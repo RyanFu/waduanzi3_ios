@@ -10,7 +10,6 @@
 #import <RestKit/RestKit.h>
 #import "CDDefine.h"
 #import "UserSignupViewController.h"
-#import "UserLoginViewController.h"
 #import "WCAlertView.h"
 #import "NSString+MD5.h"
 #import "CDUser.h"
@@ -18,6 +17,7 @@
 #import "CDDataCache.h"
 #import "CDQuickElements.h"
 #import "CDUIKit.h"
+#import "UIImage+merge.h"
 
 @interface UserSignupViewController ()
 - (void) setupNavbar;
@@ -31,8 +31,7 @@
     self = [super init];
     if (self) {
         self.resizeWhenKeyboardPresented = YES;
-        QRootElement *root = [CDQuickElements createUserSignupElements];
-        self.root = root;
+        self.root = [CDQuickElements createUserSignupElements];
     }
     return self;
 }
@@ -51,6 +50,18 @@
 }
 
 
+- (void) viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    self.quickDialogTableView.backgroundColor = [UIColor clearColor];
+    
+    UIImage *image1 = [UIImage imageNamed:@"loginTexture.png"];
+    UIImage *image2 = [UIImage imageNamed:@"background.png"];
+    UIImage *backgroundImage = [UIImage mergeImage:image1 withImage:image2 withAlpha:0.5];
+    self.quickDialogTableView.backgroundView = [[UIImageView alloc] initWithImage:backgroundImage];
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -61,13 +72,13 @@
 
 - (void) setupNavbar
 {
-    [CDUIKit setNavigationBar:self.navigationController.navigationBar style:CDNavigationBarStyleSearch forBarMetrics:UIBarMetricsDefault];
+    [CDUIKit setNavigationBar:self.navigationController.navigationBar style:CDNavigationBarStyleBlack forBarMetrics:UIBarMetricsDefault];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"关闭"
                                                                              style:UIBarButtonItemStyleBordered
                                                                             target:self
                                                                             action:@selector(dismissController)];
     
-    [CDUIKit setBarButtionItem:self.navigationItem.leftBarButtonItem style:CDBarButtionItemStyleSearch forBarMetrics:UIBarMetricsDefault];
+    [CDUIKit setBarButtionItem:self.navigationItem.leftBarButtonItem style:CDBarButtionItemStyleBlack forBarMetrics:UIBarMetricsDefault];
 }
 
 

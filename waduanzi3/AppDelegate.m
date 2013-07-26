@@ -17,7 +17,8 @@
 #import "MGBoxViewController.h"
 #import "WCAlertView.h"
 #import "CDUIKit.h"
-
+#import "UMSocial.h"
+#import "WXApi.h"
 
 @interface AppDelegate ()
 - (void) customAppearance;
@@ -50,6 +51,22 @@
     return YES;
 }
 
+- (BOOL) application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+{
+    if ([url.description hasPrefix:@"sina"]) {
+        return (BOOL)[[UMSocialSnsService sharedInstance] performSelector:@selector(handleSinaSsoOpenURL:) withObject:url];
+    }
+    else if([url.description hasPrefix:@"wx"]){
+        return [WXApi handleOpenURL:url delegate:(id <WXApiDelegate>)[UMSocialSnsService sharedInstance]];
+    }
+    else if ([url.scheme isEqualToString:@"waduanzi"]) {
+        NSLog(@"waduanzi scheme");
+        return YES;
+    }
+    else
+        return NO;
+}
+
 - (void)applicationWillResignActive:(UIApplication *)application
 {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -70,6 +87,8 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    
+    [UMSocialSnsService applicationDidBecomeActive];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
@@ -183,9 +202,9 @@
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque];
     
     [[UINavigationBar appearance] setBarStyle:UIBarStyleDefault];
-    [CDUIKit setNavigationBar:[UINavigationBar appearance] style:CDNavigationBarStyleDefault forBarMetrics:UIBarMetricsDefault];
-    [CDUIKit setBarButtionItem:[UIBarButtonItem appearance] style:CDBarButtionItemStyleDefault forBarMetrics:UIBarMetricsDefault];
-    [CDUIKit setBackBarButtionItemStyle:CDBarButtionItemStyleDefault forBarMetrics:UIBarMetricsDefault];
+    [CDUIKit setNavigationBar:[UINavigationBar appearance] style:CDNavigationBarStyleBlue forBarMetrics:UIBarMetricsDefault];
+    [CDUIKit setBarButtionItem:[UIBarButtonItem appearance] style:CDBarButtionItemStyleBlue forBarMetrics:UIBarMetricsDefault];
+    [CDUIKit setBackBarButtionItemStyle:CDBarButtionItemStyleBlue forBarMetrics:UIBarMetricsDefault];
     
     // UIToolBar
 //    [[UIBarButtonItem appearanceWhenContainedIn:[UIToolbar class], nil] setTintColor:[UIColor colorWithRed:0.43f green:0.50f blue:0.65f alpha:1.0f]];
@@ -228,6 +247,12 @@
 
 - (void) afterWindowVisible
 {
+    [UMSocialData openLog: CD_DEBUG];
+    [UMSocialData setAppKey:UMENG_APPKEY];
+    [WXApi registerApp:WEIXIN_APPID];
+    
+    [UMSocialConfig setSnsPlatformNames:@[UMShareToQzone, UMShareToSina, UMShareToTencent, UMShareToDouban, UMShareToWechatSession, UMShareToWechatTimeline, UMShareToSms, UMShareToEmail]];
+    
     // set WCAlertView Default style
     [WCAlertView setDefaultCustomiaztonBlock:^(WCAlertView *alertView) {
         alertView.style = WCAlertViewStyleWhite;

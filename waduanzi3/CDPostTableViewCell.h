@@ -27,8 +27,10 @@
 @property (nonatomic, strong) UIButton *upButton;
 @property (nonatomic, strong) UIButton *commentButton;
 @property (nonatomic, strong) UIButton *moreButton;
+@property (nonatomic, assign) UIEdgeInsets contentMargin;
+@property (nonatomic, assign) UIEdgeInsets contentPadding;
 
-@property (nonatomic) CGFloat padding;
+@property (nonatomic) CGFloat separatorHeight;
 @property (nonatomic) CGSize thumbSize;
 
 @end

@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UserProfileViewController : QuickDialogController <QuickDialogStyleProvider>
+@interface UserProfileViewController : QuickDialogController <QuickDialogStyleProvider, UIActionSheetDelegate>
 
 @end

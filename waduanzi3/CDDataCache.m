@@ -15,20 +15,19 @@
 - (void) removePostsCache:(NSString *)key;
 @end
 
-static CDDataCache *instance;
+
 
 @implementation CDDataCache
 
 + (CDDataCache *)shareCache
 {
-    @synchronized(self) {
-        if (instance == nil) {
-            instance = [[super alloc] init];
-        }
-    }
+    static CDDataCache *instance;
+    static dispatch_once_t once = 0;
+    dispatch_once(&once, ^{
+        instance = [[CDDataCache alloc] init];
+    });
     return instance;
 }
-
 
 #pragma mark - timeline
 

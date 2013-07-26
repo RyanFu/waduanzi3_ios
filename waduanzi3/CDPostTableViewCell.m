@@ -17,7 +17,6 @@
 
 @implementation CDPostTableViewCell
 
-@synthesize padding = _padding;
 @synthesize thumbSize = _thumbSize;
 @synthesize avatarImageView = _avatarImageView;
 @synthesize authorTextLabel = _authorTextLabel;
@@ -25,6 +24,9 @@
 @synthesize upButton = _upButton;
 @synthesize commentButton = _commentButton;
 @synthesize moreButton = _moreButton;
+@synthesize contentMargin = _contentMargin;
+@synthesize contentPadding = _contentPadding;
+@synthesize separatorHeight = _separatorHeight;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -33,7 +35,9 @@
         self.multipleTouchEnabled = YES;
         self.userInteractionEnabled = YES;
         
-        self.padding = POST_LIST_CELL_PADDING;
+        self.separatorHeight = POST_LIST_CELL_FRAGMENT_PADDING;
+        self.contentMargin = POST_LIST_CELL_CONTENT_MARGIN;
+        self.contentPadding = POST_LIST_CELL_CONTENT_PADDING;
         self.thumbSize = CGSizeMake(THUMB_WIDTH, THUMB_HEIGHT);
         
         self.avatarImageView = [[UIImageView alloc] init];
@@ -107,79 +111,71 @@
     [super layoutSubviews];
     
     CGRect contentViewFrame = self.frame;
-    contentViewFrame.origin.x = _padding;
-    contentViewFrame.origin.y = _padding;
-    contentViewFrame.size.width -= contentViewFrame.origin.x * 2.0f;
-    contentViewFrame.size.height -= contentViewFrame.origin.y * 1.25f;
+    contentViewFrame.origin.x = _contentMargin.left;
+    contentViewFrame.origin.y = _contentMargin.top;
+    contentViewFrame.size.width -= _contentMargin.left + _contentMargin.right;
+    contentViewFrame.size.height -= _contentMargin.top + _contentMargin.bottom;
     self.contentView.frame = contentViewFrame;
     self.contentView.layer.cornerRadius = 3.0f;
     self.contentView.layer.borderColor = [UIColor colorWithRed:0.76f green:0.77f blue:0.78f alpha:1.00f].CGColor;
     self.contentView.layer.borderWidth = 1.0f;
     
     
-    CGSize cellContentViewSize = self.contentView.frame.size;
-    CGFloat containerViewWidth = cellContentViewSize.width - _padding*2;
-    CGFloat contentViewWidth = containerViewWidth - POST_AVATAR_WIDTH - _padding;
+    CGSize contentViewSize = self.contentView.frame.size;
+    CGFloat containerViewWidth = contentViewSize.width;
+    CGFloat contentBlockWidth = containerViewWidth  - _contentPadding.left - _contentPadding.right;
     
-    CGFloat avatarWidth = POST_AVATAR_WIDTH;
-    CGFloat avatarHeight = POST_AVATAR_WIDTH;
-    
-    CGFloat subContentViewX = _padding + avatarWidth + _padding;
-    CGFloat subContentViewWidth = containerViewWidth - avatarWidth - _padding;
-    
-    CGFloat widgetY = _padding;
-    CGFloat widgetHeight = avatarHeight;
+    CGFloat widgetY = _contentPadding.top;
+    CGFloat widgetHeight = POST_AVATAR_SIZE.height;
     
     // avatarImageView
-    CGRect avatarViewFrame = CGRectMake(_padding, widgetY, avatarWidth, widgetHeight);
+    CGRect avatarViewFrame = CGRectMake(_contentPadding.left, widgetY, POST_AVATAR_SIZE.width, POST_AVATAR_SIZE.height);
     [_avatarImageView setFrame:avatarViewFrame];
     
     // timeLabel
-    CGSize timeLabelSize = [self.datetimeTextLabel.text sizeWithFont:self.datetimeTextLabel.font
-                                                   constrainedToSize:CGSizeMake(containerViewWidth, 9999.0)
-                                                       lineBreakMode:UILineBreakModeWordWrap];
-    CGRect timeLabelFrame = CGRectMake(cellContentViewSize.width - _padding - timeLabelSize.width, widgetY, timeLabelSize.width, widgetHeight);
+    CGSize timeLabelSize = [self.datetimeTextLabel.text sizeWithFont:self.datetimeTextLabel.font];
+    CGRect timeLabelFrame = CGRectMake(contentViewSize.width - _contentPadding.right - timeLabelSize.width, widgetY, timeLabelSize.width, 0);
     [_datetimeTextLabel setFrame:timeLabelFrame];
     [_datetimeTextLabel sizeToFit];
 
     // authorLabel
-    CGFloat authorLabelWidth = containerViewWidth - timeLabelSize.width - widgetHeight - _padding*2;
-    CGRect authorLabelFrame = CGRectMake(_padding + widgetHeight + _padding, widgetY, authorLabelWidth, widgetHeight);
+//    CGFloat authorLabelWidth = containerViewWidth - timeLabelSize.width - widgetHeight - _separatorHeight*2;
+    CGRect authorLabelFrame = CGRectMake(_contentPadding.left + widgetHeight + _separatorHeight, widgetY, 0, 0);
     [self.authorTextLabel setFrame:authorLabelFrame];
     [_authorTextLabel sizeToFit];
 
     
-    widgetY += _authorTextLabel.frame.size.height + POST_BLOCK_SPACE_HEIGHT;
+    widgetY += widgetHeight + _separatorHeight;
     
     // textLabel
     if (self.textLabel.text.length > 0) {
         CGSize titleLabelSize = [self.textLabel.text sizeWithFont:self.textLabel.font
-                                                       constrainedToSize:CGSizeMake(contentViewWidth, 9999.0)
-                                                           lineBreakMode:UILineBreakModeWordWrap];
+                                                       constrainedToSize:CGSizeMake(contentBlockWidth, 9999.0)
+                                                           lineBreakMode:UILineBreakModeCharacterWrap];
         
         widgetHeight = titleLabelSize.height;
-        CGRect titleLabelFrame = CGRectMake(subContentViewX, widgetY, subContentViewWidth, widgetHeight);
+        CGRect titleLabelFrame = CGRectMake(_contentPadding.left, widgetY, contentBlockWidth, widgetHeight);
         [self.textLabel setFrame:titleLabelFrame];
         
-        widgetY += widgetHeight + _padding;
+        widgetY += widgetHeight + _separatorHeight;
     }
     
     // detailLabel
     if (self.detailTextLabel.text.length > 0) {
         CGSize detailLabelSize = [self.detailTextLabel.text sizeWithFont:self.detailTextLabel.font
-                                                constrainedToSize:CGSizeMake(contentViewWidth, 9999.0)
-                                                    lineBreakMode:UILineBreakModeWordWrap];
+                                                constrainedToSize:CGSizeMake(contentBlockWidth, 9999.0)
+                                                    lineBreakMode:UILineBreakModeCharacterWrap];
         widgetHeight = detailLabelSize.height;
-        CGRect detailLabelFrame = CGRectMake(subContentViewX, widgetY, subContentViewWidth, widgetHeight);
+        CGRect detailLabelFrame = CGRectMake(_contentPadding.left, widgetY, contentBlockWidth, widgetHeight);
         [self.detailTextLabel setFrame:detailLabelFrame];
         
-        widgetY += widgetHeight + _padding;
+        widgetY += widgetHeight + _separatorHeight;
     }
     
     // imageView
     if (self.imageView.image) {
         widgetHeight = _thumbSize.height;
-        CGRect imageViewFrame = CGRectMake(subContentViewX, widgetY, _thumbSize.width, widgetHeight);
+        CGRect imageViewFrame = CGRectMake(_contentPadding.left, widgetY, _thumbSize.width, widgetHeight);
         [self.imageView setFrame: imageViewFrame];
         
         if (self.delegate && [self.delegate respondsToSelector:@selector(thumbImageViewDidTapFinished:)]) {
@@ -190,28 +186,23 @@
             [self.imageView addGestureRecognizer:tapGestureRecognizer];
         }
         
-        widgetY += widgetHeight + _padding;
+        widgetY += widgetHeight + _separatorHeight;
     }
 
-    CGRect buttonFrame = CGRectMake(cellContentViewSize.width - _padding*2 - 70.0f, widgetY, 70.0f, 30);
+    CGRect buttonFrame = CGRectMake(contentViewSize.width - _contentMargin.right - _contentPadding.right - 70.0f, widgetY, 70.0f, 30);
     // MARK: 以后添加列表中的更多按钮
 //    [_moreButton setFrame:buttonFrame];
 //    buttonFrame.origin.x -= buttonFrame.size.width;
     [_commentButton setFrame:buttonFrame];
     buttonFrame.origin.x -= buttonFrame.size.width;
     [_upButton setFrame:buttonFrame];
+    
 }
 
 - (void) setupTableCellStyle
 {
     self.contentMode = UIViewContentModeTopLeft;
     self.contentView.backgroundColor = [UIColor whiteColor];
-    
-    UIImage *bgImage = [[UIImage imageNamed:@"post_cell_bg.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 5.0f, 0)];
-    UIImageView *bgView = [[UIImageView alloc] initWithImage:bgImage];
-    bgView.contentMode = UIViewContentModeScaleToFill;
-    bgView.frame = self.contentView.frame;
-//    self.backgroundView = bgView;
 }
 
 @end

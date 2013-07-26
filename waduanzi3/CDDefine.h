@@ -6,6 +6,30 @@
 //  Copyright (c) 2013年 chendong. All rights reserved.
 //
 
+#define CD_DEBUG YES
+
+#define USER_DEFAULTS   [NSUserDefaults standardUserDefaults]
+#define CDDEVICE        [UIDevice currentDevice]
+#define CDSCREEN        [UIScreen mainScreen]
+#define CDSCREEN_SIZE   CDSCREEN.bounds.size
+#define CDAPPLICATION   [UIApplication sharedApplication]
+#define ROOT_CONTROLLER [[[UIApplication sharedApplication] keyWindow] rootViewController]
+#define APP_VERSION     [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"] ?: [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey]
+
+#define APP_STORE_URL @"itms-apps://itunes.apple.com/cn/app//id486268988?mt=8"
+
+#define MOGO_ADID  @"299f9bceb40a4aa785b6104d3d962378"
+#define UMENG_APPKEY @"4ebd31185270156770000001"
+#define WEIXIN_APPID @"wx22fe21179d1d00d0"
+#define WEIXIN_APPKEY @"d0e57a648e5b3c4f1e518cf6c6185236"
+#define OFFICIAL_SINA_WEIBO_USID @"1639121454"
+
+
+
+
+
+
+
 #ifndef waduanzi3_CDDefine_h
 #define waduanzi3_CDDefine_h
 
@@ -13,13 +37,15 @@
 
 #define DECK_LEFT_SIZE 80.0f
 
-#define POST_LIST_CELL_PADDING 8.0f
+#define POST_LIST_CELL_FRAGMENT_PADDING 10.0f
+#define POST_LIST_CELL_CONTENT_MARGIN UIEdgeInsetsMake(7.5f, 7.5f, 2.5f, 7.5f)
+#define POST_LIST_CELL_CONTENT_PADDING UIEdgeInsetsMake(10.0f, 10.0f, 2.5f, 10.0f)
 #define POST_DETAIL_CELL_PADDING 10.0f
 #define THUMB_WIDTH 100.0f
 #define THUMB_HEIGHT 130.0f
 #define DETAIL_THUMB_HEIGHT 100.0f
 #define CELL_BUTTON_HEIGHT 30.0f
-#define POST_AVATAR_WIDTH 35.0f
+#define POST_AVATAR_SIZE CGSizeMake(35.0f, 35.0f)
 #define POST_BLOCK_SPACE_HEIGHT 5.0f
 #define COMMENT_AVATAR_WIDTH 40.0f
 #define COMMENT_BLOCK_SPACE_HEIGHT 5.0f
@@ -59,5 +85,10 @@ typedef NS_ENUM (NSInteger, CDUserError) {
 };
 
 #endif
+
+
+
+
+
 
 

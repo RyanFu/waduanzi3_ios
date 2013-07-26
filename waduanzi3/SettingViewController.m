@@ -15,9 +15,10 @@
 #import "UserProfileViewController.h"
 #import "CDUIKit.h"
 #import "CDWebViewController.h"
+#import "TestViewController.h"
 
 @interface SettingViewController ()
-
+- (void) setupNavbar;
 @end
 
 @implementation SettingViewController
@@ -35,16 +36,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
-    self.quickDialogTableView.backgroundColor = [UIColor colorWithRed:0.89f green:0.88f blue:0.83f alpha:1.00f];
-//    self.quickDialogTableView.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"BackgroundDark.png"]];
+
     self.quickDialogTableView.styleProvider = self;
     self.quickDialogTableView.deselectRowWhenViewAppears = YES;
     
-    [CDUIKit setNavigationBar:self.navigationController.navigationBar style:CDNavigationBarStyleSearch forBarMetrics:UIBarMetricsDefault];
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"关闭" style:UIBarButtonItemStyleBordered target:self action:@selector(closeController)];
-    
-    [CDUIKit setBarButtionItem:self.navigationItem.leftBarButtonItem style:CDBarButtionItemStyleSearch forBarMetrics:UIBarMetricsDefault];
+    [self setupNavbar];
 }
 
 - (void)didReceiveMemoryWarning
@@ -57,12 +53,23 @@
 {
     [super viewWillAppear:animated];
     
+    self.quickDialogTableView.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"BackgroundDark.png"]];
+    self.quickDialogTableView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"BackgroundLight.png"]];
+    
     NSString *cacheString = [NSString stringWithFormat:@"清除缓存 %@", [CDDataCache cacheFilesTotalSize]];
     QButtonElement *clearCacheButton = (QButtonElement *)[self.root elementWithKey:@"key_clear_cache"];
     clearCacheButton.title = cacheString;
     
     QBadgeElement *userProfileElement = (QBadgeElement *)[self.root elementWithKey:@"key_user_profile"];
     userProfileElement.hidden = ![CDAppUser hasLogined];
+}
+
+- (void) setupNavbar
+{
+    [CDUIKit setNavigationBar:self.navigationController.navigationBar style:CDNavigationBarStyleBlack forBarMetrics:UIBarMetricsDefault];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"关闭" style:UIBarButtonItemStyleBordered target:self action:@selector(closeController)];
+    
+    [CDUIKit setBarButtionItem:self.navigationItem.leftBarButtonItem style:CDBarButtionItemStyleBlack forBarMetrics:UIBarMetricsDefault];
 }
 
 
@@ -126,8 +133,7 @@
 
 - (void) aboutmeAction:(QLabelElement *)element
 {
-    CDWebViewController *webController = [[CDWebViewController alloc] initWithUrl:@"http://m.waduanzi.com/about"];
-    webController.hidesBottomBarWhenPushed = YES;
+    CDWebViewController *webController = [[CDWebViewController alloc] initWithUrl:@"http://m.waduanzi.com/about" toolbarStyle:CDToolBarStyleBlack];
     [self.navigationController pushViewController:webController animated:YES];
     
     NSLog(@"aboutme");

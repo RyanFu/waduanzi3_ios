@@ -115,8 +115,8 @@
     CGSize viewSize = self.frame.size;
     CGFloat contentViewWidth = viewSize.width - _padding*2;
     
-    CGFloat avatarWidth = POST_AVATAR_WIDTH;
-    CGFloat avatarHeight = POST_AVATAR_WIDTH;
+    CGFloat avatarWidth = POST_AVATAR_SIZE.width;
+    CGFloat avatarHeight = POST_AVATAR_SIZE.height;
     
     CGFloat widgetY = _padding;
     CGFloat widgetHeight = avatarHeight;

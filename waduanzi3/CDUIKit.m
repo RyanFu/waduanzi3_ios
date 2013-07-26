@@ -13,14 +13,14 @@
 + (void) setNavigationBar:(UINavigationBar *)bar style:(CDNavigationBarStyle)style forBarMetrics:(UIBarMetrics)barMetrics
 {
     switch (style) {
-        case CDNavigationBarStyleDefault:
+        case CDNavigationBarStyleBlue:
             [bar setBackgroundImage:[UIImage imageNamed:@"NavBarBackground.png"] forBarMetrics:barMetrics];
             break;
-        case CDNavigationBarStyleSearch:
+        case CDNavigationBarStyleBlack:
             [bar setBackgroundImage:[UIImage imageNamed:@"UISearchBarBackground.png"] forBarMetrics:barMetrics];
             break;
+        case CDNavigationBarStyleDefault:
         default:
-            @throw @"style invalid";
             break;
     }
 }
@@ -29,7 +29,7 @@
 {
     UIEdgeInsets buttonInsets;
     switch (style) {
-        case CDBarButtionItemStyleDefault:
+        case CDBarButtionItemStyleBlue:
             buttonInsets = UIEdgeInsetsMake(0.0f, 4.0f, 0.0f, 4.0f);
             [button setBackgroundImage:[[UIImage imageNamed:@"NavBarButtonPortrait.png"] resizableImageWithCapInsets:buttonInsets]
                               forState:UIControlStateNormal
@@ -38,7 +38,7 @@
                               forState:UIControlStateSelected
                             barMetrics:UIBarMetricsDefault];
             break;
-        case CDBarButtionItemStyleSearch:
+        case CDBarButtionItemStyleBlack:
             buttonInsets = UIEdgeInsetsMake(0.0f, 4.0f, 0.0f, 4.0f);
             [button setBackgroundImage:[[UIImage imageNamed:@"UISearchBarCancelButtonBackground.png"] resizableImageWithCapInsets:buttonInsets]
                               forState:UIControlStateNormal
@@ -46,6 +46,7 @@
             [button setBackgroundImage:[[UIImage imageNamed:@"UISearchBarCancelButtonBackgroundPressed.png"] resizableImageWithCapInsets:buttonInsets]
                               forState:UIControlStateSelected
                             barMetrics:UIBarMetricsDefault];
+        case CDBarButtionItemStyleDefault:
         default:
             break;
     }
@@ -62,7 +63,7 @@
 {
     UIEdgeInsets buttonInsets;
     switch (style) {
-        case CDBarButtionItemStyleDefault:
+        case CDBarButtionItemStyleBlue:
             buttonInsets = UIEdgeInsetsMake(0.0f, 14.0f, 0.0f, 4.0f);
             [[UIBarButtonItem appearance] setBackButtonBackgroundImage:[[UIImage imageNamed:@"NavBarBackButtonPortrait.png"] resizableImageWithCapInsets:buttonInsets]
                               forState:UIControlStateNormal
@@ -71,7 +72,7 @@
                               forState:UIControlStateSelected
                             barMetrics:UIBarMetricsDefault];
             break;
-        case CDBarButtionItemStyleSearch:
+        case CDBarButtionItemStyleBlack:
             buttonInsets = UIEdgeInsetsMake(1.0f, 12.0f, 1.0f, 4.0f);
             [[UIBarButtonItem appearance] setBackButtonBackgroundImage:[[UIImage imageNamed:@"navibarback.png"] resizableImageWithCapInsets:buttonInsets]
                                         forState:UIControlStateNormal
@@ -79,9 +80,30 @@
             [[UIBarButtonItem appearance] setBackButtonBackgroundImage:[[UIImage imageNamed:@"back_press.png"] resizableImageWithCapInsets:buttonInsets]
                                         forState:UIControlStateSelected
                                       barMetrics:UIBarMetricsDefault];
+        case CDBarButtionItemStyleDefault:
         default:
             break;
     }
+}
+
++ (void) setToolBar:(UIToolbar *)toolbar style:(CDToolBarStyle)style forToolbarPosition:(UIToolbarPosition)topOrBottom forBarMetrics:(UIBarMetrics)barMetrics
+{
+    switch (style) {
+        case CDToolBarStyleBlue:
+            [toolbar setBackgroundImage:[UIImage imageNamed:@"FBWebViewToolbarBackground.png"]
+                                               forToolbarPosition:topOrBottom
+                                                       barMetrics:barMetrics];
+            break;
+        case CDToolBarStyleBlack:
+            [toolbar setBackgroundImage:[UIImage imageNamed:@"toolbar_bg_black.png"]
+                     forToolbarPosition:topOrBottom
+                             barMetrics:barMetrics];
+            break;
+        case CDToolBarStyleDefault:
+        default:
+            break;
+    }
+    
 }
 @end
 

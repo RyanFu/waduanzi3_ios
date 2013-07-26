@@ -258,7 +258,7 @@
         cell.imageView.tag = indexPath.row;
         NSURL *imageUrl = [NSURL URLWithString:post.small_pic];
         UIImage *placeImage = [UIImage imageNamed:@"thumb_placeholder.png"];
-        [cell.imageView setImageWithURL:imageUrl placeholderImage:placeImage completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+        [cell.imageView setImageWithURL:imageUrl placeholderImage:placeImage options:SDWebImageRetryFailed completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
             ;
         }];
         cell.textLabel.text = nil;
@@ -281,7 +281,6 @@
 
 - (void) setCellSubViews:(CDPostTableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    cell.padding = POST_LIST_CELL_PADDING;
     cell.thumbSize = CGSizeMake(THUMB_WIDTH, THUMB_HEIGHT);
     
     cell.textLabel.font = [UIFont systemFontOfSize:16.0f];
@@ -371,23 +370,23 @@
 {
     CDPost *post = [_statuses objectAtIndex:indexPath.row];
     
-    CGFloat contentWidth = self.view.frame.size.width - POST_AVATAR_WIDTH - POST_LIST_CELL_PADDING * 4.5;
-    CGSize authorSize = [post.author_name sizeWithFont:[UIFont boldSystemFontOfSize:16.0f]];
+    CGFloat contentWidth = self.view.frame.size.width - POST_LIST_CELL_CONTENT_MARGIN.left - POST_LIST_CELL_CONTENT_MARGIN.right - POST_LIST_CELL_CONTENT_PADDING.left - POST_LIST_CELL_CONTENT_PADDING.right;
     CGSize titleLabelSize = [post.title sizeWithFont:[UIFont systemFontOfSize:16.0f]
                                    constrainedToSize:CGSizeMake(contentWidth, 9999.0)
-                                       lineBreakMode:UILineBreakModeWordWrap];
+                                       lineBreakMode:UILineBreakModeCharacterWrap];
     
     CGSize detailLabelSize = [[post summary] sizeWithFont:[UIFont systemFontOfSize:16.0f]
                                       constrainedToSize:CGSizeMake(contentWidth, 9999.0)
-                                          lineBreakMode:UILineBreakModeWordWrap];
+                                          lineBreakMode:UILineBreakModeCharacterWrap];
     
-    CGFloat cellHeight = POST_LIST_CELL_PADDING + authorSize.height + POST_BLOCK_SPACE_HEIGHT + detailLabelSize.height + POST_LIST_CELL_PADDING + CELL_BUTTON_HEIGHT;
+    CGFloat cellHeight = POST_LIST_CELL_CONTENT_MARGIN.top + POST_LIST_CELL_CONTENT_PADDING.top + POST_AVATAR_SIZE.height + POST_LIST_CELL_FRAGMENT_PADDING + detailLabelSize.height + POST_LIST_CELL_FRAGMENT_PADDING + CELL_BUTTON_HEIGHT;
+    
     if (post.small_pic.length > 0)
-        cellHeight += THUMB_HEIGHT + POST_LIST_CELL_PADDING;
+        cellHeight += THUMB_HEIGHT + POST_LIST_CELL_FRAGMENT_PADDING;
     else
-        cellHeight +=  titleLabelSize.height + POST_LIST_CELL_PADDING;
+        cellHeight +=  titleLabelSize.height + POST_LIST_CELL_FRAGMENT_PADDING;
     
-    cellHeight += POST_LIST_CELL_PADDING * 1.5f;
+    cellHeight += POST_LIST_CELL_CONTENT_PADDING.bottom + POST_LIST_CELL_CONTENT_MARGIN.bottom;
     
     return cellHeight;
 }

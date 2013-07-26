@@ -9,11 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "MBProgressHUD.h"
 #import "IIViewDeckController.h"
+#import "UMSocialControllerService.h"
 
 @class CDPost;
 @class CDPostDetailView;
 
-@interface PostDetailViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate, UIGestureRecognizerDelegate, MBProgressHUDDelegate, UITextFieldDelegate, IIViewDeckControllerDelegate>
+@interface PostDetailViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate, UIGestureRecognizerDelegate, MBProgressHUDDelegate, UITextFieldDelegate, IIViewDeckControllerDelegate, UMSocialUIDelegate>
 {
     NSMutableArray *_comments;
     NSInteger _lasttime;

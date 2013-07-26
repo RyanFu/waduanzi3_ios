@@ -7,7 +7,13 @@
 //
 
 #import "QWebViewController.h"
+#import "CDUIKit.h"
 
 @interface CDWebViewController : QWebViewController
 
+@property (nonatomic, assign) CDToolBarStyle toolbarStyle;
+
+- (id) initWithToolbarStyle:(CDToolBarStyle)style;
+- (id)initWithHTML:(NSString *)html toolbarStyle:(CDToolBarStyle)style;
+- (id)initWithUrl:(NSString *)url toolbarStyle:(CDToolBarStyle)style;
 @end

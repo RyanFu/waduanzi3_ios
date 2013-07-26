@@ -10,7 +10,7 @@
 #import "CDQuickElements.h"
 #import "CDAppUser.h"
 #import "CDUser.h"
-#import "UIImage+merge.h"
+#import "UMSocial.h"
 
 @implementation CDQuickElements
 
@@ -25,9 +25,8 @@
     appearance.labelFont = [UIFont systemFontOfSize:16.0f];
     appearance.labelColorEnabled = [UIColor blackColor];
     appearance.actionColorEnabled = [UIColor blackColor];
+    appearance.sectionTitleFont = [UIFont systemFontOfSize:14.0f];
     appearance.sectionFooterColor = [UIColor lightGrayColor];
-    appearance.tableBackgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background.png"]];
-    appearance.tableBackgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"BackgroundLight.png"]];
     [root setAppearance:appearance];
     
     // section 0
@@ -91,16 +90,9 @@
     root.title = @"注册";
     root.controllerName = @"UserSingupViewController";
     
-    
-    UIImage *image1 = [UIImage imageNamed:@"loginTexture.png"];
-    UIImage *image2 = [UIImage imageNamed:@"background.png"];
-    UIImage *backgroundImage = [UIImage mergeImage:image1 withImage:image2 withAlpha:0.5];
-    
     QAppearance *appearance = root.appearance;
     appearance.entryFont = [UIFont systemFontOfSize:16.0f];
     appearance.labelFont = [UIFont systemFontOfSize:16.0f];
-    appearance.tableBackgroundView = [[UIImageView alloc] initWithImage:backgroundImage];
-    appearance.tableGroupedBackgroundColor = [UIColor clearColor];
     [root setAppearance:appearance];
     
     
@@ -152,15 +144,9 @@
     root.title = @"登录";
     root.controllerName = @"UserLoginViewController";
     
-    UIImage *image1 = [UIImage imageNamed:@"loginTexture.png"];
-    UIImage *image2 = [UIImage imageNamed:@"background.png"];
-    UIImage *backgroundImage = [UIImage mergeImage:image1 withImage:image2 withAlpha:0.5];
-    
     QAppearance *appearance = root.appearance;
     appearance.entryFont = [UIFont systemFontOfSize:16.0f];
     appearance.labelFont = [UIFont systemFontOfSize:16.0f];
-    appearance.tableBackgroundView = [[UIImageView alloc] initWithImage:backgroundImage];
-    appearance.tableGroupedBackgroundColor = [UIColor clearColor];
     [root setAppearance:appearance];
     
     
@@ -213,10 +199,10 @@
     
     
     QAppearance *appearance = root.appearance;
-    appearance.entryFont = [UIFont systemFontOfSize:18.0f];
-    appearance.labelFont = [UIFont systemFontOfSize:18.0f];
-    appearance.tableBackgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"BackgroundDark.png"]];
-    appearance.tableBackgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"BackgroundLight.png"]];
+    appearance.labelFont = [UIFont systemFontOfSize:16.0f];
+    appearance.entryFont = [UIFont systemFontOfSize:14.0f];
+    appearance.sectionTitleFont = [UIFont systemFontOfSize:14.0f];
+    appearance.sectionFooterColor = [UIColor lightGrayColor];
     [root setAppearance:appearance];
     
     CDUser *user = [CDAppUser currentUser];
@@ -229,6 +215,26 @@
     QLabelElement *websiteLabel = [[QLabelElement alloc] initWithTitle:@"主页" Value:user.website];
     [section1 addElement:websiteLabel];
     
+    QSection *shareSection = [[QSection alloc] initWithTitle:@"分享账号"];
+    [root addSection:shareSection];
+    QBooleanElement *sinaElement = [[QBooleanElement alloc] initWithTitle:@"新浪微博" BoolValue:NO];
+    sinaElement.key = @"key_share_sina_weibo";
+    QBooleanElement *qzoneElement = [[QBooleanElement alloc] initWithTitle:@"QQ空间" BoolValue:NO];
+    qzoneElement.key = @"key_share_qzone";
+    QBooleanElement *tencentElement = [[QBooleanElement alloc] initWithTitle:@"腾讯微博" BoolValue:NO];
+    tencentElement.key = @"key_share_tencent";
+    sinaElement.onImage = qzoneElement.onImage = tencentElement.onImage = [UIImage imageNamed:@"imgOn.png"];
+    sinaElement.offImage = qzoneElement.offImage = tencentElement.offImage = [UIImage imageNamed:@"imgOff.png"];
+    sinaElement.controllerAccessoryAction = @"sinaWeiboLoginAction:";
+    sinaElement.controllerAction = @"sinaWeiboLoginAction:";
+    qzoneElement.controllerAccessoryAction = @"qzoneLoginAction:";
+    qzoneElement.controllerAction = @"qzoneLoginAction:";
+    tencentElement.controllerAccessoryAction = @"tencentLoginAction:";
+    tencentElement.controllerAction = @"tencentLoginAction:";
+    [shareSection addElement:sinaElement];
+    [shareSection addElement:qzoneElement];
+    [shareSection addElement:tencentElement];
+    
     QSection *section2 = [[QSection alloc] initWithTitle:@"个人介绍"];
     [root addSection:section2];
     QTextElement *descText = [[QTextElement alloc] initWithText:user.desc];
@@ -239,6 +245,7 @@
     QButtonElement *logoutButton = [[QButtonElement alloc] initWithTitle:@"退出当前账号"];
     logoutButton.key = @"key_logout_button";
     logoutButton.controllerAction = @"logoutAction:";
+    logoutButton.height = 43.0f;
     [section3 addElement:logoutButton];
     
     return root;
