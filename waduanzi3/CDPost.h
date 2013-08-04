@@ -31,9 +31,11 @@
 @property (nonatomic, copy) NSString * middle_pic;
 @property (nonatomic, copy) NSString * large_pic;
 @property (nonatomic, strong) NSNumber * pic_frames;
+@property (nonatomic, copy) NSString * url;
 
 @property (nonatomic, strong) CDUser *user;
 
 - (NSString *) summary;
+- (NSString *) shareContentWithLength:(NSUInteger)length withPrefix:(NSString *)prefix withSuffix:(NSString *)suffix;
 
 @end

@@ -28,6 +28,7 @@
 @synthesize tags = _tags;
 @synthesize create_time_at = _create_time_at;
 @synthesize pic_frames = _pic_frames;
+@synthesize url = _url;
 @synthesize user = _user;
 
 - (id)initWithCoder:(NSCoder *)decoder
@@ -51,6 +52,7 @@
         self.tags = [decoder decodeObjectForKey:@"tags"];
         self.create_time_at = [decoder decodeObjectForKey:@"create_time_at"];
         self.pic_frames = [decoder decodeObjectForKey:@"pic_frames"];
+        self.url = [decoder decodeObjectForKey:@"url"];
         self.user = [decoder decodeObjectForKey:@"user"];
     }
     return self;
@@ -75,6 +77,7 @@
     [encoder encodeObject:_tags forKey:@"tags"];
     [encoder encodeObject:_create_time_at forKey:@"create_time_at"];
     [encoder encodeObject:_pic_frames forKey:@"pic_frames"];
+    [encoder encodeObject:_url forKey:@"url"];
     [encoder encodeObject:_user forKey:@"user"];
 }
 
@@ -84,6 +87,23 @@
         return [[self.content substringToIndex:SUMMARY_LEN] stringByAppendingFormat:@"......\n\n﹤长文，剩余%d字﹥", _content.length - SUMMARY_LEN];
     else
         return _content;
+}
+
+- (NSString *) shareContentWithLength:(NSUInteger)length withPrefix:(NSString *)prefix withSuffix:(NSString *)suffix
+{
+    if (_content != nil) {
+        NSMutableString *subcontent = [NSMutableString stringWithString:_content];
+        if (_content.length <= length)
+            return subcontent;
+        
+        if (prefix != nil)
+            [subcontent insertString:prefix atIndex:0];
+        if (suffix != nil)
+            [subcontent appendString:suffix];
+        return [subcontent substringToIndex:length];
+    }
+    else
+        return nil;
 }
 
 @end

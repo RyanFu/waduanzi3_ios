@@ -24,8 +24,6 @@
 - (RKObjectMapping *) setUserObjectMapping;
 - (RKObjectMapping *) setCommentObjectMapping;
 - (RKObjectMapping *) setErrorObjectMapping;
-
-+ (NSString *) userAgent;
 @end
 
 
@@ -57,11 +55,9 @@
     [_client setDefaultHeader:@"Device-UDID" value:[OpenUDID value]];
     [_client setDefaultHeader:@"User-Token" value:@""];
     
-    UIDevice *device = [UIDevice currentDevice];
-    [_client setDefaultHeader:@"OS-Version" value:device.systemVersion];
-    
-    NSString *appVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"] ?: [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey];
-    [_client setDefaultHeader:@"App-Version" value:appVersion];
+    [_client setDefaultHeader:@"OS-Version" value:CDDEVICE.systemVersion];
+    [_client setDefaultHeader:@"App-Version" value:APP_VERSION];
+    [_client setDefaultHeader:@"OS-Name" value:CDDEVICE.systemName];
 }
 
 - (void) initObjectManager
@@ -71,7 +67,12 @@
     [RKObjectMapping addDefaultDateFormatterForString:@"MMM-dd HH:mm" inTimeZone:nil];
     _manager.requestSerializationMIMEType = RKMIMETypeFormURLEncoded;
     
-    // check network
+    [self checkNetwork];
+}
+
+- (void) checkNetwork
+{
+    // MARK: check network，需要详细处理
     [_manager.HTTPClient setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
         if (status == AFNetworkReachabilityStatusNotReachable) {
             [WCAlertView showAlertWithTitle:@"没有网络" message:@"请检测您当前手机网络是否正常" customizationBlock:^(WCAlertView *alertView) {
@@ -104,42 +105,56 @@
     
     // post timeline response descriptor
     RKResponseDescriptor *timelineResponseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:postMapping
-                                                                                       pathPattern:@"/post/timeline"
-                                                                                           keyPath:nil
-                                                                                       statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+                                                                                                    method:RKRequestMethodGET
+                                                                                               pathPattern:@"/post/timeline"
+                                                                                                   keyPath:nil
+                                                                                               statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
     [_manager addResponseDescriptor:timelineResponseDescriptor];
     
     // post myshare response descriptor
     RKResponseDescriptor *myshareResponseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:postMapping
-                                                                                       pathPattern:@"/post/myshare"
-                                                                                           keyPath:nil
-                                                                                       statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+                                                                                                   method:RKRequestMethodGET
+                                                                                              pathPattern:@"/post/myshare"
+                                                                                                  keyPath:nil
+                                                                                              statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
     [_manager addResponseDescriptor:myshareResponseDescriptor];
     
     // post favorite response descriptor
     RKResponseDescriptor *favoriteResponseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:postMapping
-                                                                                              pathPattern:@"/post/favorite"
-                                                                                                  keyPath:nil
-                                                                                              statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+                                                                                                    method:RKRequestMethodGET
+                                                                                               pathPattern:@"/post/favorite"
+                                                                                                   keyPath:nil
+                                                                                               statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
     [_manager addResponseDescriptor:favoriteResponseDescriptor];
     
     // post favorite response descriptor
     RKResponseDescriptor *bestResponseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:postMapping
-                                                                                               pathPattern:@"/post/best"
-                                                                                                   keyPath:nil
-                                                                                               statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+                                                                                                method:RKRequestMethodGET
+                                                                                           pathPattern:@"/post/best"
+                                                                                               keyPath:nil
+                                                                                           statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
     [_manager addResponseDescriptor:bestResponseDescriptor];
     
     // post favorite response descriptor
     RKResponseDescriptor *historyResponseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:postMapping
-                                                                                               pathPattern:@"/post/history"
-                                                                                                   keyPath:nil
-                                                                                               statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+                                                                                                   method:RKRequestMethodGET
+                                                                                              pathPattern:@"/post/history"
+                                                                                                  keyPath:nil
+                                                                                              statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
     [_manager addResponseDescriptor:historyResponseDescriptor];
+    
+    // post favorite response descriptor
+    RKResponseDescriptor *feedbacResponseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:postMapping
+                                                                                                   method:RKRequestMethodGET
+                                                                                              pathPattern:@"/post/feedback"
+                                                                                                  keyPath:nil
+                                                                                              statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+    [_manager addResponseDescriptor:feedbacResponseDescriptor];
     
     
     // comment response descriptor
     RKResponseDescriptor *commentResponseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:commentMapping
+                                                                                                   method:RKRequestMethodGET
                                                                                               pathPattern:@"/comment/show/:post_id"
                                                                                                   keyPath:nil
                                                                                               statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
@@ -148,24 +163,35 @@
     
     // post/show response descriptor
     RKResponseDescriptor *postDetailResponseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:postMapping
-                                                                                              pathPattern:@"/post/show/:post_id"
-                                                                                                  keyPath:nil
-                                                                                              statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+                                                                                                      method:RKRequestMethodGET
+                                                                                                 pathPattern:@"/post/show/:post_id"
+                                                                                                     keyPath:nil
+                                                                                                 statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
     [_manager addResponseDescriptor:postDetailResponseDescriptor];
     
     // post/show response descriptor
     RKResponseDescriptor *createCommentResponseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:commentMapping
-                                                                                                 pathPattern:@"/comment/create"
-                                                                                                     keyPath:nil
-                                                                                                 statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+                                                                                                         method:RKRequestMethodPOST
+                                                                                                    pathPattern:@"/comment/create"
+                                                                                                        keyPath:nil
+                                                                                                    statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
     [_manager addResponseDescriptor:createCommentResponseDescriptor];
     
     // user/login
     RKResponseDescriptor *loginUserResponseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:userMapping
+                                                                                                     method:RKRequestMethodPOST
                                                                                                 pathPattern:@"/user/login"
                                                                                                     keyPath:nil
                                                                                                 statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
     [_manager addResponseDescriptor:loginUserResponseDescriptor];
+    
+    // user/create
+    RKResponseDescriptor *createUserResponseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:userMapping
+                                                                                                      method:RKRequestMethodPOST
+                                                                                                 pathPattern:@"/user/create"
+                                                                                                     keyPath:nil
+                                                                                                 statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+    [_manager addResponseDescriptor:createUserResponseDescriptor];
 }
 
 - (RKObjectMapping *) setPostObjectMapping
@@ -190,6 +216,7 @@
         @"middle_pic"          : @"middle_pic",
         @"large_pic"           : @"large_pic",
         @"pic_frames"          : @"pic_frames",
+        @"url"                 : @"url"
      }];
     
     return postMapping;
@@ -249,11 +276,7 @@
 
 + (NSString *) userAgent
 {
-    NSString *appVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"] ?: [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey];
-    
-    UIDevice *device = [UIDevice currentDevice];
-    NSString *userAgent = [NSString stringWithFormat:@"Waduanzi/%@ (%@; %@ %@)", appVersion, device.model, device.systemName, device.systemVersion];
-    
+    NSString *userAgent = [NSString stringWithFormat:@"Waduanzi/%@ (%@; %@ %@)", APP_VERSION, CDDEVICE.model, CDDEVICE.systemName, CDDEVICE.systemVersion];
     return userAgent;
 }
 

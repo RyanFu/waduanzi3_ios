@@ -51,7 +51,7 @@
         section2.key = @"key_user_profile";
         [root addSection:section2];
         CDUser *user = [CDAppUser currentUser];
-        QLabelElement *userProfileLabel = [[QLabelElement alloc] initWithTitle:@"我的资料" Value:user.username];
+        QLabelElement *userProfileLabel = [[QLabelElement alloc] initWithTitle:@"我的账号" Value:user.username];
         userProfileLabel.controllerAction = @"userProfileAction:";
         [section2 addElement:userProfileLabel];
     }
@@ -62,7 +62,7 @@
     QLabelElement *feedbackLabel = [[QLabelElement alloc] initWithTitle:@"意见反馈" Value:nil];
     feedbackLabel.controllerAction = @"feedbackAction:";
     [section3 addElement:feedbackLabel];
-    QLabelElement *starredLabel = [[QLabelElement alloc] initWithTitle:@"五星支持挖段子" Value:nil];
+    QLabelElement *starredLabel = [[QLabelElement alloc] initWithTitle:@"支持挖段子" Value:nil];
     starredLabel.controllerAction = @"starredAction:";
     [section3 addElement:starredLabel];
     QLabelElement *aboutLabel = [[QLabelElement alloc] initWithTitle:@"关于挖段子" Value:nil];
@@ -93,14 +93,17 @@
     QAppearance *appearance = root.appearance;
     appearance.entryFont = [UIFont systemFontOfSize:16.0f];
     appearance.labelFont = [UIFont systemFontOfSize:16.0f];
+    appearance.sectionFooterColor = [UIColor lightGrayColor];
+    appearance.sectionFooterFont = [UIFont systemFontOfSize:12.0f];
     [root setAppearance:appearance];
     
     
     QSection *textFieldSection = [[QSection alloc] init];
+    textFieldSection.footer = @"账号为3-30个字符，密码为3-30个字符";
     [root addSection:textFieldSection];
     textFieldSection.headerImage = @"login_logo.png";
     CGRect logoViewFrame = textFieldSection.headerView.frame;
-    logoViewFrame.size.height = 160.0f;
+    logoViewFrame.size.height = 145.0f;
     textFieldSection.headerView.frame = logoViewFrame;
     textFieldSection.headerView.contentMode = UIViewContentModeScaleAspectFit;
     
@@ -113,8 +116,10 @@
     passwordTextField.key = @"key_password";
     passwordTextField.secureTextEntry = YES;
     passwordTextField.bind = @"textValue:password";
+    passwordTextField.returnKeyType = UIReturnKeyDone;
     [textFieldSection addElement:passwordTextField];
     usernameTextField.height = passwordTextField.height = 44.0f;
+    
     
     QSection *buttonSection = [[QSection alloc] init];
     [root addSection:buttonSection];
@@ -154,7 +159,7 @@
     [root addSection:textFieldSection];
     textFieldSection.headerImage = @"login_logo.png";
     CGRect logoViewFrame = textFieldSection.headerView.frame;
-    logoViewFrame.size.height = 160.0f;
+    logoViewFrame.size.height = 145.0f;
     textFieldSection.headerView.frame = logoViewFrame;
     textFieldSection.headerView.contentMode = UIViewContentModeScaleAspectFit;
     
@@ -166,6 +171,7 @@
     passwordTextField.key = @"key_password";
     passwordTextField.secureTextEntry = YES;
     passwordTextField.bind = @"textValue:password";
+    passwordTextField.returnKeyType = UIReturnKeyDone;
     [textFieldSection addElement:usernameTextField];
     usernameTextField.height = passwordTextField.height = 44.0f;
     [textFieldSection addElement:passwordTextField];
@@ -192,7 +198,7 @@
 + (QRootElement *) createUserProfileElements
 {
     QRootElement *root = [[QRootElement alloc] init];
-    root.presentationMode = QPresentationModeModalForm;
+    root.presentationMode = QPresentationModeModalPage;
     root.grouped = YES;
     root.title = @"我的资料";
     root.controllerName = @"UserProfileViewController";
@@ -209,11 +215,18 @@
     
     QSection *section1 = [[QSection alloc] initWithTitle:@"个人信息"];
     [root addSection:section1];
-    QBadgeElement *scoreLabel = [[QBadgeElement alloc] initWithTitle:@"我的积分" Value:[user.score stringValue]];
+    QLabelElement *accountLabel = [[QLabelElement alloc] initWithTitle:@"账号" Value:user.username];
+    accountLabel.key = @"key_user_account";
+    [section1 addElement:accountLabel];
+    QBadgeElement *scoreLabel = [[QBadgeElement alloc] initWithTitle:@"积分" Value:[user.score stringValue]];
     scoreLabel.key = @"key_user_score";
     [section1 addElement:scoreLabel];
-    QLabelElement *websiteLabel = [[QLabelElement alloc] initWithTitle:@"主页" Value:user.website];
-    [section1 addElement:websiteLabel];
+    QLabelElement *nicknameLabel = [[QLabelElement alloc] initWithTitle:@"昵称" Value:user.screen_name];
+    nicknameLabel.key = @"key_nickname";
+    nicknameLabel.controllerAction = @"updateNickname:";
+    [section1 addElement:nicknameLabel];
+//    QLabelElement *websiteLabel = [[QLabelElement alloc] initWithTitle:@"主页" Value:user.website];
+//    [section1 addElement:websiteLabel];
     
     QSection *shareSection = [[QSection alloc] initWithTitle:@"分享账号"];
     [root addSection:shareSection];
@@ -238,6 +251,7 @@
     QSection *section2 = [[QSection alloc] initWithTitle:@"个人介绍"];
     [root addSection:section2];
     QTextElement *descText = [[QTextElement alloc] initWithText:user.desc];
+    descText.color = [UIColor grayColor];
     [section2 addElement:descText];
     
     QSection *section3 = [[QSection alloc] init];
@@ -247,6 +261,66 @@
     logoutButton.controllerAction = @"logoutAction:";
     logoutButton.height = 43.0f;
     [section3 addElement:logoutButton];
+    
+    return root;
+}
+
++ (QRootElement *) createPublishElements
+{
+    QRootElement *root = [[QRootElement alloc] init];
+    root.presentationMode = QPresentationModeModalForm;
+    root.grouped = YES;
+    root.title = @"我的账号";
+    root.controllerName = @"PublishViewController";
+    
+    
+    QAppearance *appearance = root.appearance;
+    appearance.labelFont = [UIFont systemFontOfSize:16.0f];
+    appearance.entryFont = [UIFont systemFontOfSize:14.0f];
+    appearance.sectionTitleFont = [UIFont systemFontOfSize:14.0f];
+    appearance.sectionFooterColor = [UIColor lightGrayColor];
+    [root setAppearance:appearance];
+    
+    QSection *section = [[QSection alloc] init];
+    [root addSection:section];
+    QTextElement *contentElement = [[QTextElement alloc] initWithText:@"xx"];
+    contentElement.height = 100;
+    [section addElement:contentElement];
+    
+    return root;
+}
+
++ (QRootElement *) createUpdateProfileElements
+{
+    QRootElement *root = [[QRootElement alloc] init];
+    root.presentationMode = QPresentationModeModalForm;
+    root.grouped = YES;
+    root.title = @"修改资料";
+    root.controllerName = @"UpdateProfileViewController";
+    
+    
+    QAppearance *appearance = root.appearance;
+    appearance.labelFont = [UIFont systemFontOfSize:16.0f];
+    appearance.entryFont = [UIFont systemFontOfSize:14.0f];
+    appearance.sectionTitleFont = [UIFont systemFontOfSize:14.0f];
+    appearance.sectionFooterColor = [UIColor lightGrayColor];
+    [root setAppearance:appearance];
+    
+    CDUser *user = [CDAppUser currentUser];
+    
+    QSection *section1 = [[QSection alloc] init];
+    [root addSection:section1];
+    QEntryElement *nicknameElement = [[QEntryElement alloc] initWithTitle:nil Value:user.screen_name Placeholder:@"请输入昵称"];
+    nicknameElement.key = @"key_update_nick_name";
+    nicknameElement.returnKeyType = UIReturnKeyDone;
+    [section1 addElement:nicknameElement];
+    QSection *section2 = [[QSection alloc] init];
+    
+    [root addSection:section2];
+    QButtonElement *submitButton = [[QButtonElement alloc] initWithTitle:@"保存"];
+    submitButton.height = 42.0f;
+    submitButton.controllerAction = @"updateUserProfileAction";
+    [section2 addElement:submitButton];
     
     return root;
 }

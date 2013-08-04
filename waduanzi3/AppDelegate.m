@@ -19,6 +19,10 @@
 #import "CDUIKit.h"
 #import "UMSocial.h"
 #import "WXApi.h"
+#import "WxApiService.h"
+#import "SDWebImageManager.h"
+#import "MobClick.h"
+#import "Appirater.h"
 
 @interface AppDelegate ()
 - (void) customAppearance;
@@ -57,7 +61,7 @@
         return (BOOL)[[UMSocialSnsService sharedInstance] performSelector:@selector(handleSinaSsoOpenURL:) withObject:url];
     }
     else if([url.description hasPrefix:@"wx"]){
-        return [WXApi handleOpenURL:url delegate:(id <WXApiDelegate>)[UMSocialSnsService sharedInstance]];
+        return [WXApi handleOpenURL:url delegate:(id<WXApiDelegate>)[WxApiService shareInstance]];
     }
     else if ([url.scheme isEqualToString:@"waduanzi"]) {
         NSLog(@"waduanzi scheme");
@@ -82,6 +86,8 @@
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+    
+    [Appirater appEnteredForeground:YES];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
@@ -248,10 +254,15 @@
 - (void) afterWindowVisible
 {
     [UMSocialData openLog: CD_DEBUG];
+    [MobClick startWithAppkey:UMENG_APPKEY];
     [UMSocialData setAppKey:UMENG_APPKEY];
     [WXApi registerApp:WEIXIN_APPID];
+    [MobClick checkUpdate];
     
     [UMSocialConfig setSnsPlatformNames:@[UMShareToQzone, UMShareToSina, UMShareToTencent, UMShareToDouban, UMShareToWechatSession, UMShareToWechatTimeline, UMShareToSms, UMShareToEmail]];
+    [UMSocialConfig setFollowWeiboUids:@{UMShareToSina:OFFICIAL_SINA_WEIBO_USID}];
+    
+    [[SDWebImageManager sharedManager].imageDownloader setValue:[CDRestClient userAgent] forHTTPHeaderField:@"User-Agent"];
     
     // set WCAlertView Default style
     [WCAlertView setDefaultCustomiaztonBlock:^(WCAlertView *alertView) {
@@ -259,13 +270,22 @@
         alertView.labelTextColor = [UIColor grayColor];
         alertView.buttonTextColor = [UIColor grayColor];
     }];
+    
+    // set appirater
+    [Appirater setAppId:WADUANZI_APPLE_ID];
+    [Appirater setDaysUntilPrompt:7]; // 安装几天后弹出
+    [Appirater setUsesUntilPrompt:10]; // 到达最小安装时间后，用户有效操作事件多少次后弹出
+    [Appirater setSignificantEventsUntilPrompt:-1];
+    [Appirater setTimeBeforeReminding:7]; // 用户点了“稍后提醒我”之后再过多少天再次提醒
+    [Appirater setDebug:CD_DEBUG];
+    [Appirater appLaunched:YES];
 }
 
 - (void) setupRKObjectMapping
 {
 //    RKLogConfigureByName("RestKit/*", RKLogLevelOff);
 //    RKLogConfigureByName("RestKit/ObjectMapping", RKLogLevelTrace);
-//    RKLogConfigureByName("RestKit/Network", RKLogLevelTrace);
+    RKLogConfigureByName("RestKit/Network", RKLogLevelTrace);
 
     CDRestClient *restClient = [[CDRestClient alloc] init];
     [restClient run];
@@ -281,7 +301,6 @@
     NSString *countryCode = [[NSLocale currentLocale] objectForKey: NSLocaleCountryCode];
     
     NSDictionary *infos = [NSDictionary dictionaryWithObjectsAndKeys:CDDEVICE.model, @"model",
-                          CDDEVICE.systemName, @"sys_name",
                           CDDEVICE.name, @"device_name",
                           language , @"language",
                           countryCode, @"country", nil];

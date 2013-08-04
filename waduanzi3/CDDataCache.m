@@ -22,8 +22,8 @@
 + (CDDataCache *)shareCache
 {
     static CDDataCache *instance;
-    static dispatch_once_t once = 0;
-    dispatch_once(&once, ^{
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
         instance = [[CDDataCache alloc] init];
     });
     return instance;
@@ -118,6 +118,23 @@
     [self removePostsCache:@"myshare_posts"];
 }
 
+#pragma mark - myfeedback
+
+- (BOOL) cacheMyFeedbackPosts:(NSMutableArray *)posts
+{
+    return [self cachePosts:posts cacheKey:@"myfeedback_posts"];
+}
+
+- (NSMutableArray *) fetchMyFeedbackPosts
+{
+    return [self fetchPostsByCacheKey:@"myfeedback_posts"];
+}
+
+- (void) removeMyFeedbackPosts
+{
+    [self removePostsCache:@"myfeedback_posts"];
+}
+
 
 #pragma mark - mediatype posts
 
@@ -137,6 +154,23 @@
 {
     NSString *key = [NSString stringWithFormat:@"media_type_%d", media_type];
     [self removePostsCache:key];
+}
+
+- (BOOL) cacheLoginUserName:(NSString *)username
+{
+    NSString *cacheKey = [self generateCacheID:@"login_username"];
+    
+    if (username.length > 0)
+        [USER_DEFAULTS setObject:username forKey:cacheKey];
+    else
+        [USER_DEFAULTS removeObjectForKey:cacheKey];
+    return YES;
+}
+
+- (NSString *) fetchLoginUserName
+{
+    NSString *cacheKey = [self generateCacheID:@"login_username"];
+    return [USER_DEFAULTS stringForKey:cacheKey];
 }
 
 
@@ -219,6 +253,21 @@
 - (BOOL) fetchPostLikeState:(NSInteger)postid
 {
     NSString *key = [NSString stringWithFormat:@"post_like_state_%d", postid];
+    NSString *cacheKey = [self generateCacheID:key];
+    return [USER_DEFAULTS boolForKey:cacheKey];
+}
+
+- (BOOL) cachePostFavoriteState:(BOOL)state forPostID:(NSInteger)postid forUserID:(NSInteger)userid
+{
+    NSString *key = [NSString stringWithFormat:@"post_favorite_state_%d_%d", postid, userid];
+    NSString *cacheKey = [self generateCacheID:key];
+    [USER_DEFAULTS setBool:state forKey:cacheKey];
+    return YES;
+}
+
+- (BOOL) fetchPostFavoriteState:(NSInteger)postid forUserID:(NSInteger)userid
+{
+    NSString *key = [NSString stringWithFormat:@"post_favorite_state_%d_%d", postid, userid];
     NSString *cacheKey = [self generateCacheID:key];
     return [USER_DEFAULTS boolForKey:cacheKey];
 }

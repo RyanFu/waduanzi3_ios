@@ -30,6 +30,7 @@
 #import "UserLoginViewController.h"
 #import "CDPostToolBar.h"
 #import "UMSocial.h"
+#import "WBErrorNoticeView+WaduanziMethod.h"
 
 @interface PostDetailViewController ()
 {
@@ -279,12 +280,12 @@
     UIBarButtonItem *supportButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"mqz_detail_bottom_like.png"]
                                                                        style:UIBarButtonItemStylePlain
                                                                       target:self
-                                                                      action:@selector(bookmarkButtonDidPressed:)];
+                                                                      action:@selector(likeButtonDidPressed:)];
 //    supportButton.title = @"赞";
     UIBarButtonItem *favoriteButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"ButtonUnstarred.png"]
                                                                        style:UIBarButtonItemStylePlain
                                                                       target:self
-                                                                      action:@selector(bookmarkButtonDidPressed:)];
+                                                                      action:@selector(favoriteButtonDidPressed:)];
 //    favoriteButton.title = @"收藏";
     UIBarButtonItem *commentButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"mqz_detail_bottom_comment.png"]
                                                                        style:UIBarButtonItemStylePlain
@@ -397,7 +398,7 @@
     }];
 }
 
-- (void) bookmarkButtonDidPressed:(id)sender
+- (void) favoriteButtonDidPressed:(id)sender
 {
     if (![CDAppUser hasLogined]) {
         [CDAppUser requiredLogin];
@@ -408,22 +409,22 @@
     CDUser *user = [CDAppUser currentUser];
     NSString *userID = [user.user_id stringValue];
     
-    UIBarButtonItem *button = (UIBarButtonItem *)sender;
-    NSLog(@"stared, tag: %d", button.tag);
+    UIButton *button = (UIButton *)sender;
+    
+    // 不管成功与否，都设置相应状态
+    button.selected = !button.selected;
+    [[CDDataCache shareCache] cachePostFavoriteState:button.selected forPostID:_postID forUserID:[user.user_id integerValue]];
 
     NSString *restPath;
-    if (button.tag > 0)
-        restPath = [NSString stringWithFormat:@"/post/unlike/%d", [_post.post_id integerValue]];
-    else
+    if (button.selected)
         restPath = [NSString stringWithFormat:@"/post/like/%d", [_post.post_id integerValue]];
-    
-    
+    else
+        restPath = [NSString stringWithFormat:@"/post/unlike/%d", [_post.post_id integerValue]];
+        
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:userID, @"user_id", nil];
-
     RKObjectManager *objectManager = [RKObjectManager sharedManager];
     [objectManager.HTTPClient putPath:restPath parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"response: %@", responseObject);
-        button.tag = (button.tag > 0) ? 0 : 1;
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"error: %@", error);
     }];
@@ -452,16 +453,17 @@
     extConfig.title = _post.title;
     extConfig.mailMessage = _post.content;
     extConfig.wxDescription = _post.content;
+    extConfig.appUrl = _post.url;
     if (_middleImage || _post.middle_pic.length > 0) {
-        extConfig.wxMessageType = UMSocialWXMessageTypeApp;
-        extConfig.appUrl = @"http://www.waduanzi.com/mobile/";
-        WXImageObject *imageObject = [WXImageObject object];
-        imageObject.imageUrl = _post.middle_pic;
-        extConfig.wxMediaObject = imageObject;
+        extConfig.thumbUrl = _post.middle_pic;
+        extConfig.wxMessageType = UMSocialWXMessageTypeOther;
+        WXWebpageObject *webpageObject = [WXWebpageObject object];
+        webpageObject.webpageUrl = _post.url;
+        extConfig.wxMediaObject = webpageObject;
     }
     else
         extConfig.wxMessageType = UMSocialWXMessageTypeText;
-    
+
     UMSocialControllerService *socialDataService = [[UMSocialControllerService alloc] initWithUMSocialData:socialData];
     socialDataService.socialUIDelegate = self;
     __weak PostDetailViewController *weakSelf = self;
@@ -522,11 +524,17 @@
         
         _postToolbar = [[CDPostToolBar alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 40.0f)];
         [_postToolbar.likeButton addTarget:self action:@selector(likeButtonDidPressed:) forControlEvents:UIControlEventTouchUpInside];
+        [_postToolbar.favoriteButton addTarget:self action:@selector(favoriteButtonDidPressed:) forControlEvents:UIControlEventTouchUpInside];
         [_postToolbar.commentButton addTarget:self action:@selector(commentTextFieldBecomeFirstResponder) forControlEvents:UIControlEventTouchUpInside];
         [_postToolbar.actionButton addTarget:self action:@selector(forwardButtonDidPressed:) forControlEvents:UIControlEventTouchUpInside];
         _postToolbar.actionButton.enabled = (_post.middle_pic.length == 0) || _middleImage;
         _postToolbar.likeButton.selected = [[CDDataCache shareCache] fetchPostLikeState:_postID];
         _postToolbar.likeButton.userInteractionEnabled = !_postToolbar.likeButton.selected;
+        
+        if ([CDAppUser hasLogined]) {
+            CDUser *user = [CDAppUser currentUser];
+            _postToolbar.favoriteButton.selected = [[CDDataCache shareCache] fetchPostFavoriteState:_postID forUserID:[user.user_id integerValue]];
+        }
         [cell.contentView addSubview:_postToolbar];
         
         return cell;
@@ -873,16 +881,12 @@
                                 
                                 if (error.code == NSURLErrorCancelled) return ;
                                 
-                                [WCAlertView showAlertWithTitle:@"出错啦"
-                                                        message:@"载入数据出错。"
-                                             customizationBlock:^(WCAlertView *alertView) {
-                                                 
-                                                 alertView.style = WCAlertViewStyleWhite;
-                                                 
-                                             } completionBlock:^(NSUInteger buttonIndex, WCAlertView *alertView) {
-                                                 if (buttonIndex == 1)
-                                                     [self loadPostComments];
-                                             } cancelButtonTitle:@"关闭" otherButtonTitles:@"重试",nil];
+                                NSString *noticeTitle = @"载入评论出错";
+                                if (error.code == kCFURLErrorTimedOut)
+                                    noticeTitle = @"网络超时";
+                                
+                                [WBErrorNoticeView showErrorNoticeView:self.view title:@"提示" message:noticeTitle sticky:NO delay:2.0f dismissedBlock:nil];
+                                
                                 NSLog(@"Hit error: %@", error);
                             }];
     
@@ -908,16 +912,11 @@
                                 
                                 if (error.code == NSURLErrorCancelled) return ;
                                 
-                                [WCAlertView showAlertWithTitle:@"出错啦"
-                                                        message:@"载入数据出错。"
-                                             customizationBlock:^(WCAlertView *alertView) {
-                                                 
-                                                 alertView.style = WCAlertViewStyleWhite;
-                                                 
-                                             } completionBlock:^(NSUInteger buttonIndex, WCAlertView *alertView) {
-                                                 if (buttonIndex == 1)
-                                                     [self loadPostComments];
-                                             } cancelButtonTitle:@"关闭" otherButtonTitles:@"重试",nil];
+                                NSString *noticeTitle = @"刷新段子信息出错";
+                                if (error.code == kCFURLErrorTimedOut)
+                                    noticeTitle = @"网络超时";
+                                [WBErrorNoticeView showErrorNoticeView:self.view title:@"提示" message:noticeTitle sticky:NO delay:2.0f dismissedBlock:nil];
+
                                 NSLog(@"Hit error: %@", error);
                             }];
     
@@ -969,12 +968,14 @@
                         
                         if (error.code == NSURLErrorCancelled) return ;
                         
+                        NSString *alertMessage = @"发布评论失败。";
+                        if (error.code == kCFURLErrorTimedOut)
+                            alertMessage = @"网络超时";
+                        
                         [WCAlertView showAlertWithTitle:@"出错啦"
-                                               message:@"载入数据出错。"
+                                               message:alertMessage
                                     customizationBlock:^(WCAlertView *alertView) {
-                                        
                                         alertView.style = WCAlertViewStyleWhite;
-                                        
                                     } completionBlock:^(NSUInteger buttonIndex, WCAlertView *alertView) {
                                         if (buttonIndex == 1)
                                             [self loadPostComments];

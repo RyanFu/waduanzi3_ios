@@ -35,6 +35,10 @@
 - (NSMutableArray *)fetchMySharePosts;
 - (void) removeMySharePosts;
 
+- (BOOL) cacheMyFeedbackPosts:(NSMutableArray *)posts;
+- (NSMutableArray *)fetchMyFeedbackPosts;
+- (void) removeMyFeedbackPosts;
+
 - (BOOL) cachePostsByMediaType:(NSMutableArray *)posts mediaType:(NSInteger)media_type;
 - (NSMutableArray *)fetchPostsByMediaType:(NSInteger) media_type;
 - (void) removePostsByMediaType:(NSInteger) media_type;
@@ -45,6 +49,12 @@
 
 - (BOOL) cachePostLikeState:(BOOL)state forPostID:(NSInteger)postid;
 - (BOOL) fetchPostLikeState:(NSInteger)postid;
+
+- (BOOL) cachePostFavoriteState:(BOOL)state forPostID:(NSInteger)postid forUserID:(NSInteger)userid;
+- (BOOL) fetchPostFavoriteState:(NSInteger)postid forUserID:(NSInteger)userid;
+
+- (BOOL) cacheLoginUserName:(NSString *)username;
+- (NSString *) fetchLoginUserName;
 
 + (NSString *) cacheFilesTotalSize;
 + (BOOL) clearAllCacheFiles;

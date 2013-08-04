@@ -17,11 +17,14 @@
 #import "CDDataCache.h"
 #import "CDQuickElements.h"
 #import "CDUIKit.h"
-#import "UIImage+merge.h"
+#import "CDUserForm.h"
+#import "CDSocialKit.h"
+#import "WBErrorNoticeView+WaduanziMethod.h"
+
 
 @interface UserSignupViewController ()
 - (void) setupNavbar;
-- (void) userSingupAction;
+- (void) userSignupAction;
 @end
 
 @implementation UserSignupViewController
@@ -56,10 +59,15 @@
     
     self.quickDialogTableView.backgroundColor = [UIColor clearColor];
     
-    UIImage *image1 = [UIImage imageNamed:@"loginTexture.png"];
-    UIImage *image2 = [UIImage imageNamed:@"background.png"];
-    UIImage *backgroundImage = [UIImage mergeImage:image1 withImage:image2 withAlpha:0.5];
+    UIImage *backgroundImage = [UIImage imageNamed:@"login_background.png"];
     self.quickDialogTableView.backgroundView = [[UIImageView alloc] initWithImage:backgroundImage];
+}
+
+- (void) viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    [[RKObjectManager sharedManager] cancelAllObjectRequestOperationsWithMethod:RKRequestMethodPOST matchingPathPattern:@"/user/create"];
 }
 
 - (void)didReceiveMemoryWarning
@@ -73,12 +81,13 @@
 - (void) setupNavbar
 {
     [CDUIKit setNavigationBar:self.navigationController.navigationBar style:CDNavigationBarStyleBlack forBarMetrics:UIBarMetricsDefault];
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"关闭"
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"关闭"
                                                                              style:UIBarButtonItemStyleBordered
                                                                             target:self
                                                                             action:@selector(dismissController)];
     
-    [CDUIKit setBarButtionItem:self.navigationItem.leftBarButtonItem style:CDBarButtionItemStyleBlack forBarMetrics:UIBarMetricsDefault];
+    [CDUIKit setBackBarButtionItemStyle:CDBarButtionItemStyleBlack forBarMetrics:UIBarMetricsDefault];
+    [CDUIKit setBarButtionItem:self.navigationItem.rightBarButtonItem style:CDBarButtionItemStyleBlack forBarMetrics:UIBarMetricsDefault];
 }
 
 
@@ -122,7 +131,7 @@
 - (BOOL) QEntryShouldReturnForElement:(QEntryElement *)element andCell:(QEntryTableViewCell *)cell
 {
     if ([element.key isEqualToString:@"key_password"])
-        [self userSingupAction];
+        [self userSignupAction];
     return YES;
 }
 
@@ -130,12 +139,12 @@
 {
     QEntryElement *usernameElement = (QEntryElement *)[self.root elementWithKey:@"key_username"];
     QEntryElement *passwordElement = (QEntryElement *)[self.root elementWithKey:@"key_password"];
-    QButtonElement *submitButton = (QButtonElement *)[self.root elementWithKey:@"key_submit_login"];
+    QButtonElement *submitButton = (QButtonElement *)[self.root elementWithKey:@"key_submit_signup"];
     
-    if (usernameElement.textValue.length > 0 && passwordElement.textValue.length > 0)
-        submitButton.enabled = YES;
-    else
+    if (usernameElement.textValue.length < USER_NAME_MIN_LENGTH || passwordElement.textValue.length < USER_PASSWORD_MIN_LENGTH)
         submitButton.enabled = NO;
+    else
+        submitButton.enabled = YES;
     
     [self.quickDialogTableView reloadCellForElements:submitButton, nil];
 }
@@ -156,10 +165,75 @@
 }
 
 
-- (void) userSingupAction
+- (void) userSignupAction
 {
     NSLog(@"user signup");
-    self.navigationItem.leftBarButtonItem.enabled = NO;
+    
+    [self.view endEditing:YES];
+
+    CDUserForm *form = [[CDUserForm alloc] init];
+    [self.root fetchValueUsingBindingsIntoObject:form];
+    
+    if (form.username.length < USER_NAME_MIN_LENGTH || form.password.length < USER_PASSWORD_MIN_LENGTH) {
+        NSLog(@"please input username and password");
+        [WBErrorNoticeView showErrorNoticeView:self.view
+                                         title:@"提示"
+                                       message:@"用户名或密码的长度不正确"
+                                        sticky:NO delay:1.5f
+                                dismissedBlock:nil];
+        return;
+    }
+    
+    QButtonElement *submitButton = (QButtonElement *)[self.root elementWithKey:@"key_submit_login"];
+    submitButton.enabled = NO;
+    [self.quickDialogTableView reloadCellForElements:submitButton, nil];
+    
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:form.username, @"username",
+                            [form.password md5], @"password", nil];
+    
+    NSDictionary *parameters = [CDRestClient requestParams:params];
+    RKObjectManager *objectManager = [RKObjectManager sharedManager];
+    [objectManager postObject:nil path:@"/user/create" parameters:parameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+        submitButton.enabled = YES;
+        [self.quickDialogTableView reloadCellForElements:submitButton, nil];
+        
+        CDUser *user = [mappingResult firstObject];
+        NSLog(@"%@, %@", user.username, user.screen_name);
+        if ([user isKindOfClass:[CDUser class]]) {
+            [[CDDataCache shareCache] cacheLoginUserName:user.username];
+            [[CDDataCache shareCache] cacheLoginedUser:user];
+            [self performSelector:@selector(dismissController)];
+        }
+    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+        submitButton.enabled = YES;
+        [self.quickDialogTableView reloadCellForElements:submitButton, nil];
+        
+        if (error.code == NSURLErrorCancelled) return ;
+        
+        NSString *noticeMessage = @"账号或密码不符合要求";
+        if (error.code == NSURLErrorTimedOut)
+            noticeMessage = @"网络超时";
+        
+        NSLog(@"error: %@", error);
+        @try {
+            NSData *jsonData = [error.localizedRecoverySuggestion dataUsingEncoding:NSUTF8StringEncoding];
+            NSDictionary *errorData = [NSJSONSerialization JSONObjectWithData:jsonData options:kNilOptions error:nil];
+            NSLog(@"error: %@", errorData);
+            NSInteger errorCode = [[errorData objectForKey:@"errcode"] integerValue];
+            if (errorCode == CDUserSignupErrorAccountExist)
+                noticeMessage = @"账号已经被人抢了，换一个吧";
+            else if (errorCode == CDUserSignupErrorAccountInvalid) {
+                noticeMessage = @"账号名称不合法";
+            }
+        }
+        @catch (NSException *exception) {
+            ;
+        }
+        @finally {
+            [WBErrorNoticeView showErrorNoticeView:self.view title:@"提示" message:noticeMessage sticky:NO delay:2.0f dismissedBlock:nil];
+        }
+    }];
+    
 }
 
 @end

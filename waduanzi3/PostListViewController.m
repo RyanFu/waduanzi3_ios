@@ -12,7 +12,6 @@
 #import "PostListViewController.h"
 #import "IIViewDeckController.h"
 #import "CDPost.h"
-#import "WCAlertView.h"
 #import "UIScrollView+SVPullToRefresh.h"
 #import "UIScrollView+SVInfiniteScrolling.h"
 #import "PostDetailViewController.h"
@@ -22,6 +21,10 @@
 #import "CDConfig.h"
 #import "ImageDetailViewController.h"
 #import "CDDataCache.h"
+#import "CDAppUser.h"
+#import "WBSuccessNoticeView+WaduanziMethod.h"
+#import "WBErrorNoticeView+WaduanziMethod.h"
+#import "PublishViewController.h"
 
 @interface PostListViewController ()
 - (void) setupNavButtionItems;
@@ -55,30 +58,50 @@
     _mediaType = MEDIA_TYPE_MIXED;
     _lasttime = 0;
     _maxtime = 0;
+    _requireLogined = NO;
     NSLog(@"method: PostListViewController initData");
+}
+
+- (NSUInteger) userID
+{
+    NSInteger user_id = 0;
+    if ([CDAppUser hasLogined]) {
+        CDUser *user = [CDAppUser currentUser];
+        user_id = [user.user_id integerValue];
+    }
+    return user_id;
+}
+
+- (void) subarrayWithMaxCount:(NSUInteger)count
+{
+    if (count > 0 && _statuses.count > count) {
+        NSArray *maxCountStatuses = [_statuses subarrayWithRange:NSMakeRange(0, count)];
+        [_statuses removeAllObjects];
+        _statuses = [NSMutableArray arrayWithArray:maxCountStatuses];
+    }
 }
 
 - (NSDictionary *) latestStatusesParameters
 {
-    [NSException raise:@"Invoked abstract method" format:@"Invoked abstract method"];
+    [NSException raise:@"Invoked abstract method: latestStatusesParameters" format:@"Invoked abstract method"];
     return nil;
 }
 
 - (NSDictionary *) moreStatusesParameters
 {
-    [NSException raise:@"Invoked abstract method" format:@"Invoked abstract method"];
+    [NSException raise:@"Invoked abstract method: moreStatusesParameters" format:@"Invoked abstract method"];
     return nil;
 }
 
 - (NSString *) latestStatusesRestPath
 {
-    [NSException raise:@"Invoked abstract method" format:@"Invoked abstract method"];
+    [NSException raise:@"Invoked abstract method: latestStatusesRestPath" format:@"Invoked abstract method"];
     return nil;
 }
 
 - (NSString *) moreStatusesRestPath
 {
-    [NSException raise:@"Invoked abstract method" format:@"Invoked abstract method"];
+    [NSException raise:@"Invoked abstract method: moreStatusesRestPath" format:@"Invoked abstract method"];
     return nil;
 }
 
@@ -113,13 +136,14 @@
     leftButton.showsTouchWhenHighlighted = YES;
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:leftButton];
 
-    UIImage *composeImage = [UIImage imageNamed:@"NavBarIconCompose.png"];
-    UIButton *rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    rightButton.frame = CGRectMake(0, 0, composeImage.size.width + 20.0f, composeImage.size.height);
-    [rightButton setImage:composeImage forState:UIControlStateNormal];
-    [rightButton addTarget:self action:@selector(openLeftSlideView:) forControlEvents:UIControlEventTouchUpInside];
-    rightButton.showsTouchWhenHighlighted = YES;
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:rightButton];
+    // MARK: 第2版中添加投稿
+//    UIImage *composeImage = [UIImage imageNamed:@"NavBarIconCompose.png"];
+//    UIButton *rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
+//    rightButton.frame = CGRectMake(0, 0, composeImage.size.width + 20.0f, composeImage.size.height);
+//    [rightButton setImage:composeImage forState:UIControlStateNormal];
+//    [rightButton addTarget:self action:@selector(openPublishViewController:) forControlEvents:UIControlEventTouchUpInside];
+//    rightButton.showsTouchWhenHighlighted = YES;
+//    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:rightButton];
 }
 
 
@@ -133,10 +157,10 @@
     return YES;
 }
 
-- (void)viewDeckController:(IIViewDeckController *)viewDeckController didCloseViewSide:(IIViewDeckSide)viewDeckSide animated:(BOOL)animated
+- (void)viewDeckController:(IIViewDeckController *)viewDeckController willCloseViewSide:(IIViewDeckSide)viewDeckSide animated:(BOOL)animated
 {
     self.tableView.userInteractionEnabled = YES;
-    NSLog(@"did close");
+    NSLog(@"will close");
 }
 
 - (void) setupTableView
@@ -183,8 +207,15 @@
 - (void) setupTableViewPullScrollView
 {
     __weak PostListViewController *weakSelf = self;
+    __block BOOL _weakRequireLogined = _requireLogined;
     [self.tableView addPullToRefreshWithActionHandler:^{
-        [weakSelf loadLatestStatuses];
+        NSLog(@"xxxx: %d, %d", _weakRequireLogined, [CDAppUser hasLogined]);
+        if (!_weakRequireLogined || [CDAppUser hasLogined])
+            [weakSelf loadLatestStatuses];
+        else {
+            [weakSelf.tableView.pullToRefreshView stopAnimating];
+            [CDAppUser requiredLogin];
+        }
     }];
 
     [self.tableView.pullToRefreshView setTitle:@"下拉刷新" forState:SVPullToRefreshStateStopped];
@@ -195,8 +226,21 @@
 - (void) setupTableViewInfiniteScrollView
 {
     __weak PostListViewController *weakSelf = self;
+    __block BOOL _weakRequireLogined = _requireLogined;
+    __weak NSMutableArray *_weakStatuses = _statuses;
     [self.tableView addInfiniteScrollingWithActionHandler:^{
-        [weakSelf loadMoreStatuses];
+        if (!_weakRequireLogined || [CDAppUser hasLogined]) {
+            if (_weakStatuses.count == 0)
+                [weakSelf.tableView.infiniteScrollingView stopAnimating];
+            else
+                [weakSelf loadMoreStatuses];
+        }
+        else {
+            [weakSelf.tableView.infiniteScrollingView stopAnimating];
+            [CDAppUser requiredLogin];
+        }
+        
+     
     }];
     
     CGRect infiniteViewFrame = CGRectMake(0, 0, self.tableView.frame.size.width, 40.0f);
@@ -401,11 +445,17 @@
     [self.navigationController pushViewController:detailViewController animated:YES];
 }
 
-#pragma mark - selector
+#pragma mark - barButtionItem selector
 
 - (void) openLeftSlideView:(id) sender
 {
     [self.viewDeckController toggleLeftViewAnimated:YES];
+}
+
+- (void) openPublishViewController:(id)sender
+{
+    PublishViewController *publishController = [[PublishViewController alloc] init];
+    [ROOT_CONTROLLER presentViewController:publishController animated:YES completion:nil];
 }
 
 #pragma mark - load data
@@ -417,14 +467,14 @@
 
 - (void) latestStatusesFailed:(RKObjectRequestOperation *)operation error:(NSError *)error
 {
-    NSLog(@"method: PostListViewController latestStatusesFailed:error:");
-    [WCAlertView showAlertWithTitle:@"出错啦" message:@"载入数据出错。" customizationBlock:^(WCAlertView *alertView) {
-        alertView.style = WCAlertViewStyleWhite;
-    } completionBlock:^(NSUInteger buttonIndex, WCAlertView *alertView) {
-        if (buttonIndex == 1)
-            [self loadLatestStatuses];
-    } cancelButtonTitle:@"关闭" otherButtonTitles:@"重试",nil];
-    NSLog(@"Hit error: %@", error);
+    CDLog(@"method: PostListViewController latestStatusesFailed:error:");
+    
+    NSString *noticeMessage = @"载入最新段子出错";
+    if (error.code == kCFURLErrorTimedOut)
+        noticeMessage = @"网络超时";
+    [WBErrorNoticeView showErrorNoticeView:self.view title:@"提示" message:noticeMessage sticky:NO delay:2.0f dismissedBlock:nil];
+    
+    CDLog(@"Hit error: %@", error);
 }
 
 - (void) moreStatusesSuccess:(RKObjectRequestOperation *)operation mappingResult:(RKMappingResult *)result
@@ -434,17 +484,12 @@
 
 - (void) moreStatusesFailed:(RKObjectRequestOperation *)operation error:(NSError *)error
 {
-    [WCAlertView showAlertWithTitle:@"出错啦"
-                            message:@"载入数据出错。"
-                 customizationBlock:^(WCAlertView *alertView) {
-                     
-                     alertView.style = WCAlertViewStyleWhite;
-                     
-                 } completionBlock:^(NSUInteger buttonIndex, WCAlertView *alertView) {
-                     if (buttonIndex == 1)
-                         [self loadLatestStatuses];
-                 } cancelButtonTitle:@"关闭" otherButtonTitles:@"重试",nil];
-    NSLog(@"Hit error: %@", error);
+    NSString *noticeMessage = @"载入更多段子出错";
+    if (error.code == kCFURLErrorTimedOut)
+        noticeMessage = @"网络超时";
+    [WBErrorNoticeView showErrorNoticeView:self.view title:@"提示" message:noticeMessage sticky:NO delay:2.0f dismissedBlock:nil];
+    
+    CDLog(@"Hit error: %@", error);
 }
 
 - (void)loadLatestStatuses
@@ -455,14 +500,18 @@
                          parameters:[self latestStatusesParameters]
                             success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
                                 [self.tableView.pullToRefreshView stopAnimating];
+                                
                                 if ([self respondsToSelector:@selector(latestStatusesSuccess:mappingResult:)])
                                     [self performSelector:@selector(latestStatusesSuccess:mappingResult:) withObject:operation withObject:mappingResult];
                             }
                             failure:^(RKObjectRequestOperation *operation, NSError *error) {
                                 [self.tableView.pullToRefreshView stopAnimating];
+                                
+                                if (error.code == NSURLErrorCancelled) return ;
+                                
                                 if ([self respondsToSelector:@selector(latestStatusesFailed:error:)])
                                     [self performSelector:@selector(latestStatusesFailed:error:) withObject:operation withObject:error];
-                                NSLog(@"Hit error: %@", error);
+                                CDLog(@"Hit error: %@", error);
                             }];
     
 }
@@ -475,14 +524,18 @@
                          parameters:[self moreStatusesParameters]
                             success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
                                 [self.tableView.infiniteScrollingView stopAnimating];
+                                
                                 if ([self respondsToSelector:@selector(moreStatusesSuccess:mappingResult:)])
                                     [self performSelector:@selector(moreStatusesSuccess:mappingResult:) withObject:operation withObject:mappingResult];
                             }
                             failure:^(RKObjectRequestOperation *operation, NSError *error) {
                                 [self.tableView.infiniteScrollingView stopAnimating];
+                                
+                                if (error.code == NSURLErrorCancelled) return ;
+                                
                                 if ([self respondsToSelector:@selector(moreStatusesFailed:error:)])
                                     [self performSelector:@selector(moreStatusesFailed:error:) withObject:operation withObject:error];
-                                NSLog(@"Hit error: %@", error);
+                                CDLog(@"Hit error: %@", error);
                             }];
     
 }

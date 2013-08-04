@@ -11,9 +11,5 @@
 
 @interface CDWebViewController : QWebViewController
 
-@property (nonatomic, assign) CDToolBarStyle toolbarStyle;
-
-- (id) initWithToolbarStyle:(CDToolBarStyle)style;
-- (id)initWithHTML:(NSString *)html toolbarStyle:(CDToolBarStyle)style;
-- (id)initWithUrl:(NSString *)url toolbarStyle:(CDToolBarStyle)style;
+- (void) setNavigationBarStyle:(CDNavigationBarStyle)navigationBarStyle barButtonItemStyle:(CDBarButtionItemStyle)barButtonItemStyle toolBarStyle:(CDToolBarStyle)toolBarStyle;
 @end

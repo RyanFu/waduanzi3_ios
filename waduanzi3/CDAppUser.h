@@ -7,15 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
-
-@class CDUser;
+#import "CDSocialKit.h"
+#import "CDUser.h"
 
 @interface CDAppUser : NSObject
 
 + (CDAppUser *) shareAppUser;
 + (CDUser *) currentUser;
 + (BOOL) hasLogined;
-+ (void) logoutWithCompletion: (void (^)(CDUser *user))completion;
++ (void) logoutWithCompletion: (void (^)(void))completion;
 
 + (void) requiredLogin;
+
 @end

@@ -53,8 +53,8 @@
 {
     [super viewWillAppear:animated];
     
-    self.quickDialogTableView.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"BackgroundDark.png"]];
-    self.quickDialogTableView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"BackgroundLight.png"]];
+    self.quickDialogTableView.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"feed_table_bg.png"]];
+    self.quickDialogTableView.backgroundColor = [UIColor colorWithRed:0.90f green:0.90f blue:0.90f alpha:1.00f];
     
     NSString *cacheString = [NSString stringWithFormat:@"清除缓存 %@", [CDDataCache cacheFilesTotalSize]];
     QButtonElement *clearCacheButton = (QButtonElement *)[self.root elementWithKey:@"key_clear_cache"];
@@ -67,9 +67,13 @@
 - (void) setupNavbar
 {
     [CDUIKit setNavigationBar:self.navigationController.navigationBar style:CDNavigationBarStyleBlack forBarMetrics:UIBarMetricsDefault];
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"关闭" style:UIBarButtonItemStyleBordered target:self action:@selector(closeController)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"关闭"
+                                                                              style:UIBarButtonItemStyleBordered
+                                                                             target:self
+                                                                             action:@selector(closeController)];
     
-    [CDUIKit setBarButtionItem:self.navigationItem.leftBarButtonItem style:CDBarButtionItemStyleBlack forBarMetrics:UIBarMetricsDefault];
+    [CDUIKit setBackBarButtionItemStyle:CDBarButtionItemStyleBlack forBarMetrics:UIBarMetricsDefault];
+    [CDUIKit setBarButtionItem:self.navigationItem.rightBarButtonItem style:CDBarButtionItemStyleBlack forBarMetrics:UIBarMetricsDefault];
 }
 
 
@@ -116,24 +120,18 @@
 
 - (void) userProfileAction:(QLabelElement *)element
 {
-    [self  dismissViewControllerAnimated:YES completion:^{
-        static UINavigationController *profileNavController;
-        
-        UserProfileViewController *profileController = [[UserProfileViewController alloc] init];
-        
-        if (profileNavController == nil)
-            profileNavController = [[UINavigationController alloc] initWithRootViewController:profileController];
-        
-        profileNavController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
-        [ROOT_CONTROLLER presentViewController:profileNavController animated:YES completion:nil];
-        
-    }];
+    static UserProfileViewController *profileController;
+    if (profileController == nil)
+        profileController = [[UserProfileViewController alloc] init];
+
+    [self.navigationController pushViewController:profileController animated:YES];
     NSLog(@"user profile");
 }
 
 - (void) aboutmeAction:(QLabelElement *)element
 {
-    CDWebViewController *webController = [[CDWebViewController alloc] initWithUrl:@"http://m.waduanzi.com/about" toolbarStyle:CDToolBarStyleBlack];
+    CDWebViewController *webController = [[CDWebViewController alloc] initWithUrl:@"http://m.waduanzi.com/about"];
+    [webController setNavigationBarStyle:CDNavigationBarStyleBlack barButtonItemStyle:CDBarButtionItemStyleBlack toolBarStyle:CDToolBarStyleBlack];
     [self.navigationController pushViewController:webController animated:YES];
     
     NSLog(@"aboutme");

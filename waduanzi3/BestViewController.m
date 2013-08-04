@@ -15,6 +15,7 @@
 #import "UIScrollView+SVInfiniteScrolling.h"
 #import "UIScrollView+SVPullToRefresh.h"
 #import "CDDataCache.h"
+#import "WBSuccessNoticeView+WaduanziMethod.h"
 
 @interface BestViewController ()
 
@@ -94,7 +95,10 @@
     NSArray* statuses = (NSArray *)[result array];
     NSInteger resultCount = [statuses count];
     NSLog(@"count: %d", resultCount);
+    NSString *noticeTitle;
     if (resultCount > 0) {
+        noticeTitle = [NSString stringWithFormat:@"挖到%d条精品段子", resultCount];
+        
         [_statuses removeAllObjects];
         _statuses = [NSMutableArray arrayWithArray:statuses];
         [self.tableView reloadData];
@@ -105,7 +109,10 @@
     }
     else {
         NSLog(@"没有更多内容了");
+        noticeTitle = @"没有挖到精品段子了";
     }
+    
+    [WBSuccessNoticeView showSuccessNoticeView:self.view title:noticeTitle sticky:NO delay:2.0f dismissedBlock:nil];
 }
 
 //- (void) latestStatusesFailed:(RKObjectRequestOperation *)operation error:(NSError *)error

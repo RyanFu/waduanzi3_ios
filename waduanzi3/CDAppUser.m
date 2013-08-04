@@ -13,15 +13,15 @@
 
 @implementation CDAppUser
 
-static CDAppUser *instance;
-
 + (CDAppUser *)shareAppUser
 {
-    @synchronized(self) {
+    static CDAppUser *instance;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
         if (instance == nil) {
             instance = [[super alloc] init];
         }
-    }
+    });
     return instance;
 }
 
@@ -36,13 +36,17 @@ static CDAppUser *instance;
     return [user isKindOfClass:[CDUser class]];
 }
 
-+ (void) logoutWithCompletion: (void (^)(CDUser *user))completion;
++ (void) logoutWithCompletion: (void (^)(void))completion;
 {
     @try {
         if ([[self class] hasLogined]) {
-            CDUser *user = [CDAppUser currentUser];
             [[CDDataCache shareCache] removeLoginedUserCache];
-            completion(user);
+            [[CDDataCache shareCache] removeMySharePosts];
+            [[CDDataCache shareCache] removeFavoritePosts];
+            [[CDDataCache shareCache] removeMyFeedbackPosts];
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                completion();
+            });
         }
         
     }
@@ -53,6 +57,8 @@ static CDAppUser *instance;
 
 + (void) requiredLogin
 {
+    if ([[self class] hasLogined]) return;
+    
     UserLoginViewController *loginController = [[UserLoginViewController alloc] init];
     UINavigationController *loginNavController = [[UINavigationController alloc] initWithRootViewController:loginController];
     

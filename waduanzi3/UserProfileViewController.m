@@ -7,12 +7,17 @@
 //
 
 #import <QuartzCore/QuartzCore.h>
+#import <RestKit/RestKit.h>
 #import "UserProfileViewController.h"
 #import "CDQuickElements.h"
 #import "CDAppUser.h"
 #import "CDUIKit.h"
 #import "UMSocial.h"
 #import "WCAlertView.h"
+#import "CDDataCache.h"
+#import "UpdateProfileViewController.h"
+
+#define LOGOUT_BUTTON_TAG 99999
 
 @interface UserProfileViewController ()
 - (void) setupNavbar;
@@ -43,8 +48,8 @@
 {
     [super viewWillAppear:animated];
     
-    self.quickDialogTableView.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"BackgroundDark.png"]];
-    self.quickDialogTableView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"BackgroundLight.png"]];
+    self.quickDialogTableView.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"feed_table_bg.png"]];
+    self.quickDialogTableView.backgroundColor = [UIColor colorWithRed:0.90f green:0.90f blue:0.90f alpha:1.00f];
     
     // update sns account state
     QBooleanElement *sinaElement = (QBooleanElement *)[self.root elementWithKey:@"key_share_sina_weibo"];
@@ -75,24 +80,37 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void) viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    CDUser *sessionUser = [CDAppUser currentUser];
+    QLabelElement *nicknameElement = (QLabelElement *)[self.root elementWithKey:@"key_nickname"];
+    nicknameElement.value = sessionUser.screen_name;
+    [self.quickDialogTableView reloadCellForElements:nicknameElement, nil];
+    
+}
+
 #pragma mark - setup subviews
 
 - (void) setupNavbar
 {
     [CDUIKit setNavigationBar:self.navigationController.navigationBar style:CDNavigationBarStyleBlack forBarMetrics:UIBarMetricsDefault];
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"关闭"
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"关闭"
                                                                              style:UIBarButtonItemStyleBordered
                                                                             target:self
                                                                             action:@selector(dismissController)];
     
-    [CDUIKit setBarButtionItem:self.navigationItem.leftBarButtonItem style:CDBarButtionItemStyleBlack forBarMetrics:UIBarMetricsDefault];
+    [CDUIKit setBackBarButtionItemStyle:CDBarButtionItemStyleBlack forBarMetrics:UIBarMetricsDefault];
+    [CDUIKit setBarButtionItem:self.navigationItem.rightBarButtonItem style:CDBarButtionItemStyleBlack forBarMetrics:UIBarMetricsDefault];
 }
 
 #pragma mark - selector
 
 - (void) dismissController
 {
-    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+    [self.navigationController dismissViewControllerAnimated:YES completion:^{
+    }];
 }
 
 #pragma mark - QuickDialogStyleProvider
@@ -108,6 +126,13 @@
 
 
 #pragma mark quickdialog controllAction
+
+- (void) updateNickname:(QLabelElement *)element
+{
+    UpdateProfileViewController *updateProfileController = [[UpdateProfileViewController alloc] init];
+    [self.navigationController pushViewController:updateProfileController animated:YES];
+}
+
 
 - (void) sinaWeiboLoginAction:(QBooleanElement *)element
 {
@@ -236,13 +261,10 @@
 
 - (void) logoutAction:(QButtonElement *)element
 {
-    element.enabled = NO;
-    __weak UserProfileViewController *weakSelf = self;
-    [CDAppUser logoutWithCompletion:^(CDUser *user) {
-        [weakSelf performSelector:@selector(dismissController)];
-    }];
+    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"退出登录" otherButtonTitles:nil, nil];
+    sheet.tag = LOGOUT_BUTTON_TAG;
+    [sheet showInView:self.view];
 }
-
 
 #pragma mark - UIActionSheetDelegate
 
@@ -256,7 +278,12 @@
             [self performSelector:@selector(unOauthQzone)];
         else if (actionSheet.tag == UMSocialSnsTypeTenc)
             [self performSelector:@selector(unOauthTencent)];
-            
+        else if (actionSheet.tag == LOGOUT_BUTTON_TAG) {
+            [CDAppUser logoutWithCompletion:^{
+                [[CDSocialKit shareInstance] unOauthAllPlatforms];
+            }];
+            [self performSelector:@selector(dismissController) withObject:nil afterDelay:0.3f];
+        }
     }
 }
 

@@ -9,48 +9,44 @@
 #import "CDWebViewController.h"
 
 @interface CDWebViewController ()
-
+{
+    CDNavigationBarStyle _navigationBarStyle;
+    CDBarButtionItemStyle _barButtonItemStyle;
+    CDToolBarStyle _toolBarStyle;
+}
 @end
 
 @implementation CDWebViewController
 
-@synthesize toolbarStyle = _toolbarStyle;
-
-- (id) initWithToolbarStyle:(CDToolBarStyle)style
+- (void) setNavigationBarStyle:(CDNavigationBarStyle)navigationBarStyle barButtonItemStyle:(CDBarButtionItemStyle)barButtonItemStyle toolBarStyle:(CDToolBarStyle)toolBarStyle
 {
-    self = [super init];
-    if (self) {
-        _toolbarStyle = style;
-    }
-    return self;
-}
-
-- (id)initWithHTML:(NSString *)html toolbarStyle:(CDToolBarStyle)style
-{
-    self = [super initWithHTML:html];
-    if (self) {
-        _toolbarStyle = style;
-    }
-    return self;
-}
-
-- (id)initWithUrl:(NSString *)url toolbarStyle:(CDToolBarStyle)style
-{
-    self = [super initWithUrl:url];
-    if (self) {
-        _toolbarStyle = style;
-    }
-    return self;
+    _navigationBarStyle = navigationBarStyle;
+    _barButtonItemStyle = barButtonItemStyle;
+    _toolBarStyle = toolBarStyle;
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
-    [CDUIKit setNavigationBar:self.navigationController.navigationBar style:CDNavigationBarStyleBlack forBarMetrics:UIBarMetricsDefault];
-    [CDUIKit setBackBarButtionItemStyle:CDBarButtionItemStyleBlack forBarMetrics:UIBarMetricsDefault];
+    NSLog(@"%d", self.navigationController.viewControllers.count);
+    if (self.navigationController && self.navigationController.viewControllers.count == 1) {
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"关闭"
+                                                                                  style:UIBarButtonItemStyleBordered
+                                                                                 target:self
+                                                                                 action:@selector(dismissViewController)];
+    }
     
-    [CDUIKit setToolBar:self.navigationController.toolbar style:_toolbarStyle forToolbarPosition:UIToolbarPositionBottom forBarMetrics:UIBarMetricsDefault];
+    [CDUIKit setNavigationBar:self.navigationController.navigationBar style:_navigationBarStyle forBarMetrics:UIBarMetricsDefault];
+    [CDUIKit setBackBarButtionItemStyle:_barButtonItemStyle forBarMetrics:UIBarMetricsDefault];
+    [CDUIKit setBarButtionItem:self.navigationItem.leftBarButtonItem style:_barButtonItemStyle forBarMetrics:UIBarMetricsDefault];
+    [CDUIKit setToolBar:self.navigationController.toolbar style:_toolBarStyle forToolbarPosition:UIToolbarPositionBottom forBarMetrics:UIBarMetricsDefault];
+}
+
+- (void) dismissViewController
+{
+    [self dismissViewControllerAnimated:YES completion:^{
+        ;
+    }];
 }
 
 

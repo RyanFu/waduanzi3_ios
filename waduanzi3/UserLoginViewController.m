@@ -19,7 +19,9 @@
 #import "CDQuickElements.h"
 #import "CDUserForm.h"
 #import "CDUIKit.h"
-#import "UIImage+merge.h"
+#import "UMSocial.h"
+#import "CDSocialKit.h"
+#import "WBErrorNoticeView+WaduanziMethod.h"
 
 @interface UserLoginViewController ()
 - (void) setupNavbar;
@@ -57,10 +59,18 @@
     
     self.quickDialogTableView.backgroundColor = [UIColor clearColor];
     
-    UIImage *image1 = [UIImage imageNamed:@"loginTexture.png"];
-    UIImage *image2 = [UIImage imageNamed:@"background.png"];
-    UIImage *backgroundImage = [UIImage mergeImage:image1 withImage:image2 withAlpha:0.5];
+    UIImage *backgroundImage = [UIImage imageNamed:@"login_background.png"];
     self.quickDialogTableView.backgroundView = [[UIImageView alloc] initWithImage:backgroundImage];
+    
+    QEntryElement *usernameElement = (QEntryElement *)[self.root elementWithKey:@"key_username"];
+    usernameElement.textValue = [[CDDataCache shareCache] fetchLoginUserName];
+}
+
+- (void) viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    [[RKObjectManager sharedManager] cancelAllObjectRequestOperationsWithMethod:RKRequestMethodPOST matchingPathPattern:@"/user/login"];
 }
 
 
@@ -75,19 +85,18 @@
 - (void) setupNavbar
 {
     [CDUIKit setNavigationBar:self.navigationController.navigationBar style:CDNavigationBarStyleBlack forBarMetrics:UIBarMetricsDefault];
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"关闭"
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"关闭"
                                                                              style:UIBarButtonItemStyleBordered
                                                                             target:self
                                                                             action:@selector(dismissController)];
     
-    [CDUIKit setBarButtionItem:self.navigationItem.leftBarButtonItem style:CDBarButtionItemStyleBlack forBarMetrics:UIBarMetricsDefault];
+    [CDUIKit setBackBarButtionItemStyle:CDBarButtionItemStyleBlack forBarMetrics:UIBarMetricsDefault];
+    [CDUIKit setBarButtionItem:self.navigationItem.rightBarButtonItem style:CDBarButtionItemStyleBlack forBarMetrics:UIBarMetricsDefault];
 }
 
 
 - (void) cell:(UITableViewCell *)cell willAppearForElement:(QElement *)element atIndexPath:(NSIndexPath *)indexPath
 {
-    QButtonElement *buttonElement = (QButtonElement *)element;
-    
     if (indexPath.section == 1) {
         cell.backgroundView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"loginPrimaryButtonBackground.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 7, 0, 7)]];
         cell.selectedBackgroundView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"loginPrimaryButtonBackgroundPressed.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 7, 0, 7)]];
@@ -99,6 +108,8 @@
         cell.textLabel.textColor = element.enabled ? [UIColor colorWithRed:0.33f green:0.33f blue:0.33f alpha:1.00f] : [UIColor colorWithRed:0.67f green:0.67f blue:0.67f alpha:1.00f];
     }
     else if (indexPath.section == 2) {
+        QButtonElement *buttonElement = (QButtonElement *)element;
+        
         cell.textLabel.font = [UIFont systemFontOfSize:14.0f];
         cell.textLabel.textColor = [UIColor whiteColor];
         
@@ -150,30 +161,39 @@
     QEntryElement *passwordElement = (QEntryElement *)[self.root elementWithKey:@"key_password"];
     QButtonElement *submitButton = (QButtonElement *)[self.root elementWithKey:@"key_submit_login"];
     
-    if (usernameElement.textValue.length > 0 && passwordElement.textValue.length > 0)
-        submitButton.enabled = YES;
-    else
+    if (usernameElement.textValue.length < USER_NAME_MIN_LENGTH && passwordElement.textValue.length < USER_PASSWORD_MIN_LENGTH)
         submitButton.enabled = NO;
+    else
+        submitButton.enabled = YES;
     
     [self.quickDialogTableView reloadCellForElements:submitButton, nil];
 }
 
+- (void) QEntryDidEndEditingElement:(QEntryElement *)element andCell:(QEntryTableViewCell *)cell
+{
+    if ([element.key isEqualToString:@"key_username"]) {
+        [[CDDataCache shareCache] cacheLoginUserName:element.textValue];
+    }
+}
 
 
 #pragma mark - submit login
 
 - (void) userLoginAction
 {
-    self.navigationItem.leftBarButtonItem.enabled = NO;
-    
+    [self.view endEditing:YES];
+
     CDUserForm *form = [[CDUserForm alloc] init];
     [self.root fetchValueUsingBindingsIntoObject:form];
     
-    if (form.username.length == 0 || form.password.length == 0) {
-        NSLog(@"please input username and password");
-        self.navigationItem.leftBarButtonItem.enabled = YES;
+    if (form.username.length < USER_NAME_MIN_LENGTH || form.password.length < USER_PASSWORD_MIN_LENGTH) {
+        CDLog(@"please input username and password");
         return;
     }
+
+    QButtonElement *submitButton = (QButtonElement *)[self.root elementWithKey:@"key_submit_login"];
+    submitButton.enabled = NO;
+    [self.quickDialogTableView reloadCellForElements:submitButton, nil];
     
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:form.username, @"username",
                             [form.password md5], @"password", nil];
@@ -181,24 +201,46 @@
     NSDictionary *parameters = [CDRestClient requestParams:params];
     RKObjectManager *objectManager = [RKObjectManager sharedManager];
     [objectManager postObject:nil path:@"/user/login" parameters:parameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+        submitButton.enabled = YES;
+        [self.quickDialogTableView reloadCellForElements:submitButton, nil];
+        
         CDUser *user = [mappingResult firstObject];
         NSLog(@"%@, %@", user.username, user.screen_name);
         if ([user isKindOfClass:[CDUser class]]) {
             [[CDDataCache shareCache] cacheLoginedUser:user];
-            [[CDDataCache shareCache] removeMySharePosts];
-            [[CDDataCache shareCache] removeFavoritePosts];
-            self.navigationItem.leftBarButtonItem.enabled = YES;
             [self performSelector:@selector(dismissController)];
         }
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-        self.navigationItem.leftBarButtonItem.enabled = YES;
+        submitButton.enabled = YES;
+        [self.quickDialogTableView reloadCellForElements:submitButton, nil];
+        
+        if (error.code == NSURLErrorCancelled) return ;
+        
+        NSString *noticeMessage = @"账号或密码错误";
+        if (error.code == NSURLErrorTimedOut)
+            noticeMessage = @"网络超时";
+        
         NSLog(@"error: %@", error);
-        NSData *jsonData = [error.localizedRecoverySuggestion dataUsingEncoding:NSUTF8StringEncoding];
-        NSError *_error;
-        NSDictionary *errorData = [NSJSONSerialization JSONObjectWithData:jsonData options:kNilOptions error:&_error];
-        NSLog(@"error: %@", errorData);
-        if ([[errorData objectForKey:@"errcode"] integerValue] == CDUserErrorUserNotAuthenticated)
-            NSLog(@"username or password invalid");
+        @try {
+            NSData *jsonData = [error.localizedRecoverySuggestion dataUsingEncoding:NSUTF8StringEncoding];
+            NSDictionary *errorData = [NSJSONSerialization JSONObjectWithData:jsonData options:kNilOptions error:nil];
+            NSLog(@"error: %@", errorData);
+            NSInteger errorCode = [[errorData objectForKey:@"errcode"] integerValue];
+            if (errorCode == CDUserLoginErrorUserNotAuthenticated) {
+                noticeMessage = @"密码不正确";
+                NSLog(@"username or password invalid");
+            }
+            else if (errorCode == CDUserLoginErrorUserNotExit) {
+                noticeMessage = @"账号不存在";
+            }
+        }
+        @catch (NSException *exception) {
+            ;
+        }
+        @finally {
+            [WBErrorNoticeView showErrorNoticeView:self.view title:@"提示" message:noticeMessage sticky:NO delay:1.5f dismissedBlock:nil];
+        }
+        
     }];
 }
 

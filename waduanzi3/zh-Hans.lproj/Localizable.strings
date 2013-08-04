@@ -9,3 +9,7 @@
 "Done" = "确定";
 "Previous" = "前一项";
 "Next" = "后一项";
+
+"umUpdateTitle" = "发现新版本";
+"umUpdateCancel" = "知道了";
+"umUpdateOK" = "去更新";

@@ -15,6 +15,7 @@
 #import "UIScrollView+SVInfiniteScrolling.h"
 #import "UIScrollView+SVPullToRefresh.h"
 #import "CDDataCache.h"
+#import "WBSuccessNoticeView+WaduanziMethod.h"
 
 @interface TimelineViewController ()
 
@@ -63,10 +64,8 @@
     NSString *channel_id = [NSString stringWithFormat:@"%d", _channelID];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setObject:channel_id forKey:@"channel_id"];
-
-    // MARK: 下拉刷新只获取最新的N条，如果只想获取最新的并且插入到列表上面，注释掉以下两行注释
-//    NSString *last_time = [NSString stringWithFormat:@"%d", _lasttime];
-//    [params setObject:last_time forKey:@"lasttime"];
+    NSString *last_time = [NSString stringWithFormat:@"%d", _lasttime];
+    [params setObject:last_time forKey:@"lasttime"];
     
     return [CDRestClient requestParams:params];
 }
@@ -91,21 +90,29 @@
 #pragma mark - loadLatestStatuses
 - (void)latestStatusesSuccess:(RKObjectRequestOperation *)operation mappingResult:(RKMappingResult *)result
 {
-    NSLog(@"TimelineViewController latestStatusesSuccess:mappingResult:");
+    CDLog(@"TimelineViewController latestStatusesSuccess:mappingResult:");
     
     NSArray* statuses = (NSArray *)[result array];
     NSInteger resultCount = [statuses count];
-    NSLog(@"count: %d", resultCount);
+    CDLog(@"count: %d", resultCount);
+    NSString *noticeTitle;
     if (resultCount > 0) {
-        [_statuses removeAllObjects];
-        _statuses = [NSMutableArray arrayWithArray:statuses];
+        noticeTitle = [NSString stringWithFormat:@"挖到%d条新段子", resultCount];
+        NSArray *reverseStatuses = [[statuses reverseObjectEnumerator] allObjects];
+        for (CDPost *post in reverseStatuses) {
+            [_statuses insertObject:post atIndex:0];
+        }
+        [self subarrayWithMaxCount:POST_LIST_MAX_ROWS];
         [self.tableView reloadData];
         
         [[CDDataCache shareCache] cacheTimelinePosts:_statuses];
     }
     else {
-        NSLog(@"没有更多内容了");
+        CDLog(@"没有更多内容了");
+        noticeTitle = @"暂时没有新段子了";
     }
+    
+    [WBSuccessNoticeView showSuccessNoticeView:self.view title:noticeTitle sticky:NO delay:2.0f dismissedBlock:nil];
 }
 
 //- (void) latestStatusesFailed:(RKObjectRequestOperation *)operation error:(NSError *)error
@@ -116,7 +123,7 @@
 #pragma mark - loadMoreStatuses
 - (void)moreStatusesSuccess:(RKObjectRequestOperation *)operation mappingResult:(RKMappingResult *)result
 {
-    NSLog(@"TimelineViewController moreStatusesSuccess:mappingResult:");
+    CDLog(@"TimelineViewController moreStatusesSuccess:mappingResult:");
 
     if (result.count > 0) {
         NSArray* statuses = (NSArray *)[result array];

@@ -15,6 +15,8 @@
 #import "UIScrollView+SVInfiniteScrolling.h"
 #import "UIScrollView+SVPullToRefresh.h"
 #import "CDDataCache.h"
+#import "WBErrorNoticeView+WaduanziMethod.h"
+#import "WBSuccessNoticeView+WaduanziMethod.h"
 
 @interface HistoryViewController ()
 - (void) setupTitle;
@@ -38,6 +40,11 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
     
+}
+
+- (void) viewDeckController:(IIViewDeckController *)viewDeckController didCloseViewSide:(IIViewDeckSide)viewDeckSide animated:(BOOL)animated
+{
+    [self.tableView triggerPullToRefresh];
 }
 
 - (void) setupTitle
@@ -100,23 +107,38 @@
     NSArray* statuses = (NSArray *)[result array];
     NSInteger resultCount = [statuses count];
     NSLog(@"count: %d", resultCount);
+    NSString *noticeTitle;
     if (resultCount > 0) {
         [_statuses removeAllObjects];
         _statuses = [NSMutableArray arrayWithArray:statuses];
         [self.tableView reloadData];
         
         [[CDDataCache shareCache] cacheHistoryPosts:_statuses];
-        [self setupTitle];
+
+        CDPost *firstPost = [_statuses objectAtIndex:0];
+        NSDate *date = [NSDate dateWithTimeIntervalSince1970:[firstPost.create_time doubleValue]];
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"yyyy年MM月dd日"];
+        self.navigationItem.title = [dateFormatter stringFromDate:date];
+        noticeTitle = [NSString stringWithFormat:@"穿越到%@", [dateFormatter stringFromDate:date]];
     }
     else {
         NSLog(@"没有更多内容了");
+        noticeTitle = @"穿越错了时间，再穿一次吧";
     }
+    
+    [WBSuccessNoticeView showSuccessNoticeView:self.view title:noticeTitle sticky:NO delay:2.0f dismissedBlock:nil];
 }
 
 - (void) latestStatusesFailed:(RKObjectRequestOperation *)operation error:(NSError *)error
 {
     NSLog(@"HistoryViewController latestStatusesFailed:error:");
-    self.navigationItem.title = @"穿越失败了";
+    
+    NSString *noticeMessage = @"穿越失败了";
+    if (error.code == kCFURLErrorTimedOut)
+        noticeMessage = @"网络超时";
+    [WBErrorNoticeView showErrorNoticeView:self.view title:@"提示" message:noticeMessage sticky:NO delay:2.0f dismissedBlock:nil];
+    
 }
 
 //#pragma mark - loadMoreStatuses

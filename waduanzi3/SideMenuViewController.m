@@ -25,6 +25,7 @@
 #import "CDQuickElements.h"
 #import "CDSideTableViewCell.h"
 #import "CDUIKit.h"
+#import "MyFeedbackViewController.h"
 
 @interface SideMenuViewController ()
 {
@@ -214,23 +215,25 @@
             }
         }
         else if (indexPath.section == 2) {
-            CDUser *user = [CDAppUser currentUser];
-            NSInteger userID = [user.user_id integerValue];
-            
             static MyshareViewController *myshareController;
             static MyFavoriteViewController *favoriteController;
+            static MyFeedbackViewController *feedbackController;
             switch (indexPath.row) {
                 case 0:
                     if (favoriteController == nil)
-                        favoriteController = [[MyFavoriteViewController alloc] initWithUserID:userID];
+                        favoriteController = [[MyFavoriteViewController alloc] init];
                     centerViewController = [[UINavigationController alloc] initWithRootViewController:favoriteController];
                     self.viewDeckController.centerController = centerViewController;
                     break;
                 case 1:
+                    if (feedbackController == nil)
+                        feedbackController = [[MyFeedbackViewController alloc] init];
+                    centerViewController = [[UINavigationController alloc] initWithRootViewController:feedbackController];
+                    self.viewDeckController.centerController = centerViewController;
                     break;
                 case 2:
                     if (myshareController == nil)
-                        myshareController = [[MyshareViewController alloc] initWithUserID:userID];
+                        myshareController = [[MyshareViewController alloc] init];
                     centerViewController = [[UINavigationController alloc] initWithRootViewController:myshareController];
                     self.viewDeckController.centerController = centerViewController;
                     break;

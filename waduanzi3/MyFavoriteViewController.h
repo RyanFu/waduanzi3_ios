@@ -10,9 +10,7 @@
 
 @interface MyFavoriteViewController : PostListViewController
 {
-    NSInteger _userID;
     NSInteger _page;
 }
 
-- (id) initWithUserID:(NSInteger)user_id;
 @end

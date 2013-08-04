@@ -11,6 +11,7 @@
 @interface CDPostToolBar : UIView
 
 @property (nonatomic, strong) UIButton *likeButton;
+@property (nonatomic, strong) UIButton *favoriteButton;
 @property (nonatomic, strong) UIButton *commentButton;
 @property (nonatomic, strong) UIButton *actionButton;
 @end

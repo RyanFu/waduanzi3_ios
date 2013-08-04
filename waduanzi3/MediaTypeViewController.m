@@ -15,6 +15,7 @@
 #import "UIScrollView+SVInfiniteScrolling.h"
 #import "UIScrollView+SVPullToRefresh.h"
 #import "CDDataCache.h"
+#import "WBSuccessNoticeView+WaduanziMethod.h"
 
 @interface MediaTypeViewController ()
 
@@ -73,9 +74,8 @@
     [params setObject:channel_id forKey:@"channel_id"];
     [params setObject:media_type forKey:@"media_type"];
     
-    // MARK: 下拉刷新只获取最新的N条，如果只想获取最新的并且插入到列表上面，注释掉以下两行注释
-//    NSString *last_time = [NSString stringWithFormat:@"%d", _lasttime];
-//    [params setObject:last_time forKey:@"lasttime"];
+    NSString *last_time = [NSString stringWithFormat:@"%d", _lasttime];
+    [params setObject:last_time forKey:@"lasttime"];
     
     return [CDRestClient requestParams:params];
 }
@@ -107,16 +107,25 @@
     NSArray* statuses = (NSArray *)[result array];
     NSInteger resultCount = [statuses count];
     NSLog(@"count: %d", resultCount);
+    NSString *noticeTitle;
     if (resultCount > 0) {
-        [_statuses removeAllObjects];
-        _statuses = [NSMutableArray arrayWithArray:statuses];
+        noticeTitle = [NSString stringWithFormat:@"挖到%d条新段子", resultCount];
+        NSArray *reverseStatuses = [[statuses reverseObjectEnumerator] allObjects];
+        for (CDPost *post in reverseStatuses) {
+            [_statuses insertObject:post atIndex:0];
+        }
+        [self subarrayWithMaxCount:POST_LIST_MAX_ROWS];
         [self.tableView reloadData];
         
         [[CDDataCache shareCache] cachePostsByMediaType:_statuses mediaType:_mediaType];
     }
     else {
         NSLog(@"没有更多内容了");
+        noticeTitle = @"暂时没有新段子了";
     }
+    
+    [WBSuccessNoticeView showSuccessNoticeView:self.view title:noticeTitle sticky:NO delay:2.0f dismissedBlock:nil];
+
 }
 
 //- (void) latestStatusesFailed:(RKObjectRequestOperation *)operation error:(NSError *)error

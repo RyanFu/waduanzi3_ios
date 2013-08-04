@@ -15,6 +15,9 @@
 #import "UIScrollView+SVInfiniteScrolling.h"
 #import "UIScrollView+SVPullToRefresh.h"
 #import "CDDataCache.h"
+#import "WBSuccessNoticeView+WaduanziMethod.h"
+#import "WBErrorNoticeView+WaduanziMethod.h"
+#import "CDAppUser.h"
 
 @interface MyFavoriteViewController ()
 
@@ -22,29 +25,41 @@
 
 @implementation MyFavoriteViewController
 
-- (id) initWithUserID:(NSInteger)user_id
+- (id) init
 {
     self = [super init];
     if (self) {
-        _userID = user_id;
         _page = FIRST_PAGE_ID;
+        _requireLogined = YES;
     }
     return self;
 }
 
 - (void)viewDidLoad
 {
-	// Do any additional setup after loading the view.
+    [super viewDidLoad];
+    
     self.title = @"我收藏的";
     _statuses = [[CDDataCache shareCache] fetchFavoritePosts];
-    
-    [super viewDidLoad];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void) viewDeckController:(IIViewDeckController *)viewDeckController didCloseViewSide:(IIViewDeckSide)viewDeckSide animated:(BOOL)animated
+{
+    if ([CDAppUser hasLogined]) {
+        [self.tableView triggerPullToRefresh];
+    }
+    else {
+        [_statuses removeAllObjects];
+        [self.tableView reloadData];
+        
+        [WBErrorNoticeView showErrorNoticeView:self.view title:@"提示" message:@"请先登录" sticky:NO delay:2.0f dismissedBlock:nil];
+    }
 }
 
 
@@ -63,7 +78,7 @@
 - (NSDictionary *) latestStatusesParameters
 {
     NSString *channel_id = [NSString stringWithFormat:@"%d", _channelID];
-    NSString *user_id = [NSString stringWithFormat:@"%d", _userID];
+    NSString *user_id = [NSString stringWithFormat:@"%d", [self userID]];
     NSString *page_id = [NSString stringWithFormat:@"%d", FIRST_PAGE_ID];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setObject:channel_id forKey:@"channel_id"];
@@ -77,7 +92,7 @@
 {
     NSLog(@"page id: %d", _page);
     NSString *channel_id = [NSString stringWithFormat:@"%d", _channelID];
-    NSString *user_id = [NSString stringWithFormat:@"%d", _userID];
+    NSString *user_id = [NSString stringWithFormat:@"%d", [self userID]];
     NSString *page_id = [NSString stringWithFormat:@"%d", _page];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setObject:channel_id forKey:@"channel_id"];
@@ -107,7 +122,11 @@
     }
     else {
         NSLog(@"没有更多内容了");
+        NSString *noticeTitle = @"您的收藏夹里还没有段子哦";
+        [WBSuccessNoticeView showSuccessNoticeView:self.view title:noticeTitle sticky:NO delay:2.0f dismissedBlock:nil];
     }
+    
+
 }
 
 //- (void) latestStatusesFailed:(RKObjectRequestOperation *)operation error:(NSError *)error

@@ -6,6 +6,10 @@
 //  Copyright (c) 2013年 chendong. All rights reserved.
 //
 
+#ifndef waduanzi3_CDDefine_h
+#define waduanzi3_CDDefine_h
+
+#warning 此处编译上线版本时要修改为NO
 #define CD_DEBUG YES
 
 #define USER_DEFAULTS   [NSUserDefaults standardUserDefaults]
@@ -17,7 +21,10 @@
 #define APP_VERSION     [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"] ?: [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey]
 
 #define APP_STORE_URL @"itms-apps://itunes.apple.com/cn/app//id486268988?mt=8"
+#define OFFICIAL_SITE @"http://www.waduanzi.com";
+#define OFFICIAL_MOBILE_SITE @"http://m.waduanzi.com";
 
+#define WADUANZI_APPLE_ID @"486268988"
 #define MOGO_ADID  @"299f9bceb40a4aa785b6104d3d962378"
 #define UMENG_APPKEY @"4ebd31185270156770000001"
 #define WEIXIN_APPID @"wx22fe21179d1d00d0"
@@ -26,14 +33,8 @@
 
 
 
-
-
-
-
-#ifndef waduanzi3_CDDefine_h
-#define waduanzi3_CDDefine_h
-
 #define FIRST_PAGE_ID 1
+#define POST_LIST_MAX_ROWS 200
 
 #define DECK_LEFT_SIZE 80.0f
 
@@ -79,14 +80,28 @@ typedef NS_ENUM (NSInteger, CD_MEDIA_TYPE) {
 #define USERNAME_TEXTFIELD_TAG 1
 #define PASSWORD_TEXTFIELD_TAG 2
 
-typedef NS_ENUM (NSInteger, CDUserError) {
-    CDUserErrorUserNotExit = 20001,
-    CDUserErrorUserNotAuthenticated = 20002
+typedef NS_ENUM (NSInteger, CDUserLoginError) {
+    CDUserLoginErrorUserNotExit = 20001,
+    CDUserLoginErrorUserNotAuthenticated = 20002,
+    CDUserloginErrorUserNameInvalid = 20010
 };
 
+typedef NS_ENUM (NSInteger, CDUserSignupError) {
+    CDUserSignupErrorAccountInvalid = 20010,
+    CDUserSignupErrorAccountExist = 20011
+};
+
+typedef NS_ENUM (NSInteger, CDUpdateUserProfileError) {
+    CDUpdateUserProfileErrorNickExist = 20021
+};
+
+
+#define USER_NAME_MIN_LENGTH 3
+#define USER_NAME_MAX_LENGTH 30
+#define USER_PASSWORD_MIN_LENGTH 3
+#define USER_PASSWORD_MAX_LENGTH 30
+
 #endif
-
-
 
 
 

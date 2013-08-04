@@ -21,10 +21,14 @@
     NSInteger _mediaType;
     NSInteger _lasttime;
     NSInteger _maxtime;
+    BOOL _requireLogined;
 }
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) UIView *adView;
+
+- (NSUInteger) userID;
+- (void) subarrayWithMaxCount:(NSUInteger)count;
 
 - (void) initData;
 - (NSDictionary *) latestStatusesParameters;

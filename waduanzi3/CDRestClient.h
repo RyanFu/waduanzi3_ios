@@ -16,7 +16,11 @@
 }
 
 - (void) run;
+- (void) checkNetwork;
+
 + (NSDictionary *) defaultParams;
 + (NSDictionary *) requestParams:(NSDictionary *)params;
 + (NSString *) generateSignatureByParams:(NSDictionary *) params;
++ (NSString *) userAgent;
+
 @end
