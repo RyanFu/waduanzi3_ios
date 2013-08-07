@@ -6,12 +6,17 @@
 //  Copyright (c) 2013年 chendong. All rights reserved.
 //
 
+#ifdef DEBUG
+#define CD_DEBUG YES
+#else
+#define CD_DEBUG NO
+#endif
+
+
 #ifndef waduanzi3_CDDefine_h
 #define waduanzi3_CDDefine_h
 
-#warning 此处编译上线版本时要修改为NO
-#define CD_DEBUG YES
-
+#define OPEN_UDID       [OpenUDID value]
 #define USER_DEFAULTS   [NSUserDefaults standardUserDefaults]
 #define CDDEVICE        [UIDevice currentDevice]
 #define CDSCREEN        [UIScreen mainScreen]
@@ -21,6 +26,7 @@
 #define APP_VERSION     [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"] ?: [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey]
 
 #define APP_STORE_URL @"itms-apps://itunes.apple.com/cn/app//id486268988?mt=8"
+#define APP_STORE_REVIEW_URL_TPL @"itms-apps://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=APP_ID"
 #define OFFICIAL_SITE @"http://www.waduanzi.com";
 #define OFFICIAL_MOBILE_SITE @"http://m.waduanzi.com";
 
@@ -100,6 +106,18 @@ typedef NS_ENUM (NSInteger, CDUpdateUserProfileError) {
 #define USER_NAME_MAX_LENGTH 30
 #define USER_PASSWORD_MIN_LENGTH 3
 #define USER_PASSWORD_MAX_LENGTH 30
+
+
+
+/*
+ *  System Versioning Preprocessor Macros
+ */
+#define OS_VERSION_EQUAL_TO(v)([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch]==NSOrderedSame)
+#define OS_VERSION_GREATER_THAN(v)([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch]==NSOrderedDescending)
+#define OS_VERSION_GREATER_THAN_OR_EQUAL_TO(v)([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch]!=NSOrderedAscending)
+#define OS_VERSION_LESS_THAN(v)([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch]==NSOrderedAscending)
+#define OS_VERSION_LESS_THAN_OR_EQUAL_TO(v)([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch]!=NSOrderedDescending)
+
 
 #endif
 

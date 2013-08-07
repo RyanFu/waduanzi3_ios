@@ -184,6 +184,7 @@
                 case 2:
                     if (historyViewController == nil)
                         historyViewController = [[HistoryViewController alloc] init];
+                    historyViewController.forceRefresh = YES;
                     centerViewController = [[UINavigationController alloc] initWithRootViewController:historyViewController];
                     self.viewDeckController.centerController = centerViewController;
                 default:
@@ -222,18 +223,21 @@
                 case 0:
                     if (favoriteController == nil)
                         favoriteController = [[MyFavoriteViewController alloc] init];
+                    favoriteController.forceRefresh = YES;
                     centerViewController = [[UINavigationController alloc] initWithRootViewController:favoriteController];
                     self.viewDeckController.centerController = centerViewController;
                     break;
                 case 1:
                     if (feedbackController == nil)
                         feedbackController = [[MyFeedbackViewController alloc] init];
+                    feedbackController.forceRefresh = YES;
                     centerViewController = [[UINavigationController alloc] initWithRootViewController:feedbackController];
                     self.viewDeckController.centerController = centerViewController;
                     break;
                 case 2:
                     if (myshareController == nil)
                         myshareController = [[MyshareViewController alloc] init];
+                    myshareController.forceRefresh = YES;
                     centerViewController = [[UINavigationController alloc] initWithRootViewController:myshareController];
                     self.viewDeckController.centerController = centerViewController;
                     break;

@@ -13,6 +13,7 @@
 #import "OpenUDID.h"
 #import "CDRestError.h"
 #import "WCAlertView.h"
+#import "CDAppUser.h"
 
 
 @interface CDRestClient ()
@@ -50,10 +51,16 @@
 
 - (void) setHttpDefaultHeaders
 {
+    NSString *userToken = @"";
+    if ([CDAppUser hasLogined]) {
+        CDUser *user = [CDAppUser currentUser];
+        userToken = user.token;
+    }
+    
     [_client setDefaultHeader:@"User-Agent" value:[CDRestClient userAgent]];
     [_client setDefaultHeader:@"Accept" value:RKMIMETypeJSON];
     [_client setDefaultHeader:@"Device-UDID" value:[OpenUDID value]];
-    [_client setDefaultHeader:@"User-Token" value:@""];
+    [_client setDefaultHeader:@"User-Token" value:userToken];
     
     [_client setDefaultHeader:@"OS-Version" value:CDDEVICE.systemVersion];
     [_client setDefaultHeader:@"App-Version" value:APP_VERSION];

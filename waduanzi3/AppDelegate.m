@@ -68,7 +68,7 @@
         return YES;
     }
     else
-        return NO;
+        return YES;
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application

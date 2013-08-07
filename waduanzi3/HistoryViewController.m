@@ -44,7 +44,10 @@
 
 - (void) viewDeckController:(IIViewDeckController *)viewDeckController didCloseViewSide:(IIViewDeckSide)viewDeckSide animated:(BOOL)animated
 {
-    [self.tableView triggerPullToRefresh];
+    if (self.forceRefresh) {
+        [self.tableView triggerPullToRefresh];
+        self.forceRefresh = NO;
+    }
 }
 
 - (void) setupTitle

@@ -39,6 +39,7 @@
 
 @synthesize tableView = _tableView;
 @synthesize adView = _adView;
+@synthesize forceRefresh = _forceRefresh;
 
 - (id) init
 {
@@ -153,14 +154,20 @@
 - (BOOL) viewDeckController:(IIViewDeckController *)viewDeckController shouldOpenViewSide:(IIViewDeckSide)viewDeckSide
 {
     self.tableView.userInteractionEnabled = NO;
-    NSLog(@"shold open");
+    CDLog(@"should open");
     return YES;
 }
 
 - (void)viewDeckController:(IIViewDeckController *)viewDeckController willCloseViewSide:(IIViewDeckSide)viewDeckSide animated:(BOOL)animated
 {
     self.tableView.userInteractionEnabled = YES;
-    NSLog(@"will close");
+    CDLog(@"will close");
+}
+
+- (void) viewDeckController:(IIViewDeckController *)viewDeckController didCloseViewSide:(IIViewDeckSide)viewDeckSide animated:(BOOL)animated
+{
+    self.tableView.userInteractionEnabled = YES;
+    CDLog(@"did close");
 }
 
 - (void) setupTableView

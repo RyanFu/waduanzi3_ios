@@ -19,7 +19,7 @@
 @property (nonatomic, copy) NSString * mini_avatar;
 @property (nonatomic, copy) NSString * screen_name;
 @property (nonatomic, copy) NSString * small_avatar;
-@property (nonatomic, strong) NSNumber * token;
+@property (nonatomic, copy) NSString * token;
 @property (nonatomic, copy) NSString * username;
 @property (nonatomic, copy) NSString * website;
 @property (nonatomic, copy) NSNumber * score;

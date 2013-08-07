@@ -74,8 +74,6 @@
     QSection *section4 = [[QSection alloc] init];
     [root addSection:section4];
     QBadgeElement *checkVersionLabel = [[QBadgeElement alloc] initWithTitle:@"当前版本" Value:APP_VERSION];
-    checkVersionLabel.key = @"key_check_version";
-    messagePush.controllerAction = @"checkVersionAction:";
     [section4 addElement:checkVersionLabel];
     
     section4.footer = @"waduanzi.com";

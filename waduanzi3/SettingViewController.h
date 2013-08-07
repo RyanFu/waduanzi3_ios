@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <StoreKit/StoreKit.h>
 
-@interface SettingViewController : QuickDialogController <QuickDialogStyleProvider>
+@interface SettingViewController : QuickDialogController <QuickDialogStyleProvider, SKStoreProductViewControllerDelegate>
 
 @end

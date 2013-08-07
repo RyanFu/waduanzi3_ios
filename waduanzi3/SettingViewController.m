@@ -7,6 +7,7 @@
 //
 
 #import <QuartzCore/QuartzCore.h>
+#import <RestKit/RestKit.h>
 #import "CDDefine.h"
 #import "SettingViewController.h"
 #import "CDDataCache.h"
@@ -16,6 +17,9 @@
 #import "CDUIKit.h"
 #import "CDWebViewController.h"
 #import "TestViewController.h"
+#import "UserConfig.h"
+#import "FeedbackViewController.h"
+#import "Appirater.h"
 
 @interface SettingViewController ()
 - (void) setupNavbar;
@@ -93,6 +97,13 @@
     }];
 }
 
+#pragma mark - SKStoreProductViewControllerDelegate
+
+- (void) productViewControllerDidFinish:(SKStoreProductViewController *)viewController
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 
 #pragma mark - QuickDialog Element Actions
 
@@ -110,12 +121,23 @@
 - (void) feedbackAction:(QLabelElement *)element
 {
     NSLog(@"feedback");
+    FeedbackViewController *feedbackController = [[FeedbackViewController alloc] initWithTitle:@"意见反馈"];
+    [self.navigationController pushViewController:feedbackController animated:YES];
 }
 
 - (void) starredAction:(QLabelElement *)element
 {
-    [CDAPPLICATION openURL:[NSURL URLWithString:APP_STORE_URL]];
-    NSLog(@"starred");
+    if (NSStringFromClass([SKStoreProductViewController class]) == nil) {
+        NSLog(@"less than 6.0");
+        [CDAPPLICATION openURL:[NSURL URLWithString:[APP_STORE_REVIEW_URL_TPL stringByReplacingOccurrencesOfString:@"APP_ID" withString:WADUANZI_APPLE_ID]]];
+    }
+    else {
+        NSLog(@"greater than 6.0");
+        SKStoreProductViewController *storeProductController = [[SKStoreProductViewController alloc] init];
+        storeProductController.delegate = self;
+        [storeProductController loadProductWithParameters:@{SKStoreProductParameterITunesItemIdentifier: WADUANZI_APPLE_ID} completionBlock:nil];
+        [self presentViewController:storeProductController animated:YES completion:nil];
+    }
 }
 
 - (void) userProfileAction:(QLabelElement *)element
@@ -140,6 +162,27 @@
 - (void) messagePushAction:(QBooleanElement *)element
 {
     NSLog(@"message pushed: %d", [element.numberValue integerValue]);
+    UserConfig *config = [UserConfig currentConfig];
+    config.enablePushMessage = element.boolValue;
+    [config updateCache];
+    
+    NSNumber *user_id = [NSNumber numberWithInteger:0];
+    if ([CDAppUser hasLogined]) {
+        CDUser *user = [CDAppUser currentUser];
+        user_id = user.user_id;
+    }
+    
+    NSDictionary *parameters = @{
+                             @"user_id": user_id,
+                             @"state": [NSNumber numberWithBool:element.boolValue]
+                             };
+    
+    RKObjectManager *objectManager = [RKObjectManager sharedManager];
+    [objectManager.HTTPClient postPath:@"/device/pushstate" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"user config update: %@", responseObject);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"user config update errror: %@", error);
+    }];
 }
 
 

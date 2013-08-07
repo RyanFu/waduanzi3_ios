@@ -160,6 +160,7 @@
     [super viewDidAppear:animated];
     if (_commentMode) {
         [self performSelector:@selector(commentTextFieldBecomeFirstResponder)];
+        _commentMode = NO;
     }
 }
 
