@@ -40,7 +40,7 @@
         
         self.submitButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [self addSubview:_submitButton];
-        [_submitButton setTitle:@"发布" forState:UIControlStateNormal];
+        [_submitButton setTitle:@"发送" forState:UIControlStateNormal];
         _submitButton.titleLabel.font = [UIFont boldSystemFontOfSize:14.0f];
         _submitButton.showsTouchWhenHighlighted = YES;
         UIEdgeInsets buttonImageInsets = UIEdgeInsetsMake(3, 5, 3, 5);

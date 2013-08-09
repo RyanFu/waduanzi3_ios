@@ -217,6 +217,12 @@
     __block BOOL _weakRequireLogined = _requireLogined;
     [self.tableView addPullToRefreshWithActionHandler:^{
         NSLog(@"xxxx: %d, %d", _weakRequireLogined, [CDAppUser hasLogined]);
+        
+        if (![CDRestClient checkNetworkStatus]) {
+            [weakSelf.tableView.pullToRefreshView stopAnimating];
+            return;
+        }
+        
         if (!_weakRequireLogined || [CDAppUser hasLogined])
             [weakSelf loadLatestStatuses];
         else {
@@ -236,6 +242,11 @@
     __block BOOL _weakRequireLogined = _requireLogined;
     __weak NSMutableArray *_weakStatuses = _statuses;
     [self.tableView addInfiniteScrollingWithActionHandler:^{
+        if (![CDRestClient checkNetworkStatus]) {
+            [weakSelf.tableView.infiniteScrollingView stopAnimating];
+            return;
+        }
+        
         if (!_weakRequireLogined || [CDAppUser hasLogined]) {
             if (_weakStatuses.count == 0)
                 [weakSelf.tableView.infiniteScrollingView stopAnimating];

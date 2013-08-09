@@ -229,6 +229,7 @@
 		2B8412CC17ABAC1800AFB264 /* UMSShareListController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B8412BE17ABAC1800AFB264 /* UMSShareListController.xib */; };
 		2B8412CD17ABAC1800AFB264 /* UMSocialSDKResourcesNew.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 2B8412BF17ABAC1800AFB264 /* UMSocialSDKResourcesNew.bundle */; };
 		2B8412D117ABAFA200AFB264 /* libMobClickLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B8412CF17ABAFA200AFB264 /* libMobClickLibrary.a */; };
+		2B91033817B4B19C005993B2 /* tip_error@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B91033717B4B19C005993B2 /* tip_error@2x.png */; };
 		2B924CC617951E7E00686A94 /* ButtonNavBack.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B924CC417951E7E00686A94 /* ButtonNavBack.png */; };
 		2B924CC717951E7E00686A94 /* ButtonNavBack@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B924CC517951E7E00686A94 /* ButtonNavBack@2x.png */; };
 		2B924CD11795270400686A94 /* ButtonUnread@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B924CC91795270400686A94 /* ButtonUnread@2x.png */; };
@@ -649,6 +650,7 @@
 		2B8412C017ABAC1800AFB264 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/UMSocialLocalizable.strings"; sourceTree = "<group>"; };
 		2B8412CF17ABAFA200AFB264 /* libMobClickLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libMobClickLibrary.a; sourceTree = "<group>"; };
 		2B8412D017ABAFA200AFB264 /* MobClick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobClick.h; sourceTree = "<group>"; };
+		2B91033717B4B19C005993B2 /* tip_error@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tip_error@2x.png"; sourceTree = "<group>"; };
 		2B924CC417951E7E00686A94 /* ButtonNavBack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonNavBack.png; sourceTree = "<group>"; };
 		2B924CC517951E7E00686A94 /* ButtonNavBack@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ButtonNavBack@2x.png"; sourceTree = "<group>"; };
 		2B924CC91795270400686A94 /* ButtonUnread@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ButtonUnread@2x.png"; sourceTree = "<group>"; };
@@ -1342,6 +1344,7 @@
 		2BED82F8167B5ED20025E9C4 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				2B91033717B4B19C005993B2 /* tip_error@2x.png */,
 				2B169C2A17A8B7FB00C54E55 /* starFull.png */,
 				2B169C2B17A8B7FB00C54E55 /* starFull@2x.png */,
 				2B169C2C17A8B7FB00C54E55 /* starEmpty.png */,
@@ -1883,6 +1886,7 @@
 				2B8412CB17ABAC1800AFB264 /* UMSnsAccountViewController.xib in Resources */,
 				2B8412CC17ABAC1800AFB264 /* UMSShareListController.xib in Resources */,
 				2B8412CD17ABAC1800AFB264 /* UMSocialSDKResourcesNew.bundle in Resources */,
+				2B91033817B4B19C005993B2 /* tip_error@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2139,6 +2143,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 715D8456AEBD496A954B4265 /* Pods.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "waduanzi3/waduanzi3-Prefix.pch";
 				INFOPLIST_FILE = "waduanzi3/waduanzi3-Info.plist";
@@ -2153,6 +2159,8 @@
 					"\"$(SRCROOT)/UMAnalytics_Sdk_2.2.0.OpenUDID\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/QuickDialog\"/**";
 				WRAPPER_EXTENSION = app;
 			};

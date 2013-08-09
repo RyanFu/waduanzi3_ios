@@ -14,6 +14,7 @@
 #import "CDRestError.h"
 #import "WCAlertView.h"
 #import "CDAppUser.h"
+#import "MBProgressHUD.h"
 
 
 @interface CDRestClient ()
@@ -74,15 +75,36 @@
     [RKObjectMapping addDefaultDateFormatterForString:@"MMM-dd HH:mm" inTimeZone:nil];
     _manager.requestSerializationMIMEType = RKMIMETypeFormURLEncoded;
     
-    [self checkNetwork];
+    [self checkNetworkChange];
 }
 
-- (void) checkNetwork
+
++ (BOOL) checkNetworkStatus
+{
+    RKObjectManager *objectManager = [RKObjectManager sharedManager];
+    NSLog(@"network status: %d", objectManager.HTTPClient.networkReachabilityStatus);
+    if (objectManager.HTTPClient.networkReachabilityStatus == AFNetworkReachabilityStatusNotReachable) {
+        MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:ROOT_CONTROLLER.view];
+        [ROOT_CONTROLLER.view addSubview:hud];
+        hud.mode = MBProgressHUDModeCustomView;
+        hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"tip_error.png"]];
+        hud.alpha = 0.60f;
+        hud.detailsLabelText = @"哎呀，网络不给力呀，\n稍后再试试吧";
+        hud.detailsLabelFont = [UIFont systemFontOfSize:14.0f];
+        [hud show:YES];
+        [hud hide:YES afterDelay:2.0f];
+        return NO;
+    }
+    else
+        return YES;
+}
+
+- (void) checkNetworkChange
 {
     // MARK: check network，需要详细处理
     [_manager.HTTPClient setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
         if (status == AFNetworkReachabilityStatusNotReachable) {
-            [WCAlertView showAlertWithTitle:@"没有网络" message:@"请检测您当前手机网络是否正常" customizationBlock:^(WCAlertView *alertView) {
+            [WCAlertView showAlertWithTitle:@"网络异常" message:@"哎呀，网络不给力呀，稍候再试试吧" customizationBlock:^(WCAlertView *alertView) {
                 alertView.style = WCAlertViewStyleWhite;
             } completionBlock:^(NSUInteger buttonIndex, WCAlertView *alertView) {
                 ;
