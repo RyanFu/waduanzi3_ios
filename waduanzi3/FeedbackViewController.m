@@ -65,8 +65,11 @@
     }
     
     @try {
-        NSDictionary *parameters = @{@"user_id": user_id, @"content": self.textView.text};
         RKObjectManager *objectManager = [RKObjectManager sharedManager];
+        NSDictionary *parameters = @{@"user_id": user_id, @"content": self.textView.text,
+                                     @"device_model": CDDEVICE.model,
+                                     @"network_status": [NSNumber numberWithInt:objectManager.HTTPClient.networkReachabilityStatus]};
+        
         [objectManager.HTTPClient postPath:@"/feedback/create" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
             NSLog(@"result: %@", responseObject);
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {

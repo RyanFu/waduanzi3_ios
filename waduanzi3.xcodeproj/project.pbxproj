@@ -2119,6 +2119,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 715D8456AEBD496A954B4265 /* Pods.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "waduanzi3/waduanzi3-Prefix.pch";
 				INFOPLIST_FILE = "waduanzi3/waduanzi3-Info.plist";
@@ -2134,6 +2135,7 @@
 				);
 				OTHER_CFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/QuickDialog\"/**";
 				WRAPPER_EXTENSION = app;
 			};
@@ -2143,8 +2145,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 715D8456AEBD496A954B4265 /* Pods.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "waduanzi3/waduanzi3-Prefix.pch";
 				INFOPLIST_FILE = "waduanzi3/waduanzi3-Info.plist";
