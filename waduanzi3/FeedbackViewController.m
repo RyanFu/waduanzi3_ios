@@ -71,13 +71,13 @@
                                      @"network_status": [NSNumber numberWithInt:objectManager.HTTPClient.networkReachabilityStatus]};
         
         [objectManager.HTTPClient postPath:@"/feedback/create" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-            NSLog(@"result: %@", responseObject);
+            CDLog(@"result: %@", responseObject);
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-            NSLog(@"error: %@", error);
+            CDLog(@"error: %@", error);
         }];
     }
     @catch (NSException *exception) {
-        NSLog(@"exception: %@", exception);
+        CDLog(@"exception: %@", exception);
     }
     @finally {
         _hub.labelText = @"感谢您的反馈！";

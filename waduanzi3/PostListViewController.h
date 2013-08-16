@@ -11,6 +11,8 @@
 #import "IIViewDeckController.h"
 #import "CDPostTableViewCell.h"
 #import "CDMainViewController.h"
+#import "WBNoticeView.h"
+#import "UMUFPHandleView.h"
 
 @interface PostListViewController : CDMainViewController <CDPostTableViewCellDelegate, UIGestureRecognizerDelegate, UITableViewDataSource, UITableViewDelegate, IIViewDeckControllerDelegate>
 {
@@ -22,6 +24,9 @@
     NSInteger _lasttime;
     NSInteger _maxtime;
     BOOL _requireLogined;
+    CGFloat detailFontSize;
+    WBNoticeView *_noticeView;
+    UMUFPHandleView *_mHandleView;
 }
 
 @property (nonatomic, strong) UITableView *tableView;

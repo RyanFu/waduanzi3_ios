@@ -11,6 +11,9 @@
 #import "CDAppUser.h"
 #import "CDUser.h"
 #import "UMSocial.h"
+#import "CDUserConfig.h"
+#import "PostFontPickerValueParser.h"
+#import "CommentFontPickerValueParser.h"
 
 @implementation CDQuickElements
 
@@ -31,7 +34,37 @@
     
     // section 0
     QSection *section0 = [[QSection alloc] init];
+    section0.title = @"基本设置";
     [root addSection:section0];
+    
+    PostFontPickerValueParser *postFontParser = [[PostFontPickerValueParser alloc] init];
+    NSNumber *postCurrentFontSize = [NSNumber numberWithUnsignedInteger:[CDUserConfig shareInstance].postFontSize];
+    QPickerElement *postFontElement = [[QPickerElement alloc] initWithTitle:@"正文字体大小"
+                                                                      items:@[postFontParser.stringValues]
+                                                                      value:postCurrentFontSize];
+    postFontElement.valueParser = postFontParser;
+    __weak QPickerElement *weakPostFontElement = postFontElement;
+    postFontElement.onValueChanged = ^(QRootElement *root) {
+        NSNumber *postFontSize = (NSNumber *) weakPostFontElement.value;
+        [[CDUserConfig shareInstance] setPostFontSize:postFontSize.integerValue];
+        [[CDUserConfig shareInstance] cache];
+    };
+    [section0 addElement:postFontElement];
+    
+    CommentFontPickerValueParser *commentFontParser = [[CommentFontPickerValueParser alloc] init];
+    NSNumber *commentCurrentFontSize = [NSNumber numberWithUnsignedInteger:[CDUserConfig shareInstance].commentFontSize];
+    QPickerElement *commentFontElement = [[QPickerElement alloc] initWithTitle:@"评论字体大小"
+                                                                      items:@[commentFontParser.stringValues]
+                                                                      value:commentCurrentFontSize];
+    commentFontElement.valueParser = commentFontParser;
+    __weak QPickerElement *weakCommentFontElement = commentFontElement;
+    commentFontElement.onValueChanged = ^(QRootElement *root) {
+        NSNumber *commentFontSize = (NSNumber *) weakCommentFontElement.value;
+        [[CDUserConfig shareInstance] setCommentFontSize:commentFontSize.integerValue];
+        [[CDUserConfig shareInstance] cache];
+    };
+    [section0 addElement:commentFontElement];
+    
     QBooleanElement *messagePush = [[QBooleanElement alloc] initWithTitle:@"消息推送" Value:0];
     messagePush.controllerAction = @"messagePushAction:";
     [section0 addElement:messagePush];
@@ -58,6 +91,7 @@
     
     // section 3
     QSection *section3 = [[QSection alloc] init];
+    section3.title = @"其它";
     [root addSection:section3];
     QLabelElement *feedbackLabel = [[QLabelElement alloc] initWithTitle:@"意见反馈" Value:nil];
     feedbackLabel.controllerAction = @"feedbackAction:";

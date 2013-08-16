@@ -32,6 +32,8 @@
 
 @property (nonatomic) CGFloat separatorHeight;
 @property (nonatomic) CGSize thumbSize;
+@property (nonatomic) BOOL isAnimatedGIF;
+@property (nonatomic) BOOL isLongImage;
 
 @end
 

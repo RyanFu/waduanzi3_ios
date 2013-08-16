@@ -33,6 +33,7 @@
 #define WADUANZI_APPLE_ID @"486268988"
 #define MOGO_ADID  @"299f9bceb40a4aa785b6104d3d962378"
 #define UMENG_APPKEY @"4ebd31185270156770000001"
+#define UMAPPNETWORK_APPKEY @"4ebd31185270156770000001"
 #define WEIXIN_APPID @"wx22fe21179d1d00d0"
 #define WEIXIN_APPKEY @"d0e57a648e5b3c4f1e518cf6c6185236"
 #define OFFICIAL_SINA_WEIBO_USID @"1639121454"
@@ -56,6 +57,7 @@
 #define POST_BLOCK_SPACE_HEIGHT 5.0f
 #define COMMENT_AVATAR_WIDTH 40.0f
 #define COMMENT_BLOCK_SPACE_HEIGHT 5.0f
+#define SHOW_LONG_IMAGE_ICON_MAX_HEIGHT 1500.0f // pixel
 
 #define STATUSBAR_HEIGHT 20.0f
 #define NAVBAR_HEIGHT 44.0f
@@ -99,6 +101,21 @@ typedef NS_ENUM (NSInteger, CDUserSignupError) {
 
 typedef NS_ENUM (NSInteger, CDUpdateUserProfileError) {
     CDUpdateUserProfileErrorNickExist = 20021
+};
+
+typedef NS_ENUM (NSInteger, CDCommentContentFontSize)
+{
+    CDCommentContentFontSizeSmall = 12,
+    CDCommentContentFontSizeNormal = 14,
+    CDCommentContentFontSizeBig = 16
+};
+
+typedef NS_ENUM (NSUInteger, CDPostContentFontSize)
+{
+    CDPostContentFontSizeSmall = 14,
+    CDPostContentFontSizeNormal = 16,
+    CDPostContentFontSizeBig = 18,
+    CDPostContentFontSizeBigBig = 22
 };
 
 

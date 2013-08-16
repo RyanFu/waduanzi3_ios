@@ -245,6 +245,8 @@
         @"middle_pic"          : @"middle_pic",
         @"large_pic"           : @"large_pic",
         @"pic_frames"          : @"pic_frames",
+        @"pic_width"           : @"pic_width",
+        @"pic_height"          : @"pic_height",
         @"url"                 : @"url"
      }];
     

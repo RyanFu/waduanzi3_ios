@@ -273,10 +273,10 @@
     
     // set appirater
     [Appirater setAppId:WADUANZI_APPLE_ID];
-    [Appirater setDaysUntilPrompt:7]; // 安装几天后弹出
-    [Appirater setUsesUntilPrompt:10]; // 到达最小安装时间后，用户有效操作事件多少次后弹出
+    [Appirater setDaysUntilPrompt:5]; // 安装几天后弹出
+    [Appirater setUsesUntilPrompt:5]; // 到达最小安装时间后，用户有效操作事件多少次后弹出
     [Appirater setSignificantEventsUntilPrompt:-1];
-    [Appirater setTimeBeforeReminding:7]; // 用户点了“稍后提醒我”之后再过多少天再次提醒
+    [Appirater setTimeBeforeReminding:5]; // 用户点了“稍后提醒我”之后再过多少天再次提醒
     [Appirater setDebug:CD_DEBUG];
     [Appirater appLaunched:YES];
 }

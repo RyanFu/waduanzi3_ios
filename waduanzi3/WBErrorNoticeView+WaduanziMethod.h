@@ -10,5 +10,5 @@
 
 @interface WBErrorNoticeView (WaduanziMethod)
 
-+ (void) showErrorNoticeView:(UIView *)view title:(NSString *)title message:(NSString *)message sticky:(BOOL)sticky delay:(NSTimeInterval)delay dismissedBlock:(void (^) (BOOL dismissedInteractively))dismissedblock;
++ (WBErrorNoticeView *) showErrorNoticeView:(UIView *)view title:(NSString *)title message:(NSString *)message sticky:(BOOL)sticky delay:(NSTimeInterval)delay dismissedBlock:(void (^) (BOOL dismissedInteractively))dismissedblock;
 @end

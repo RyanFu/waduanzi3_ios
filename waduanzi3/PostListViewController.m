@@ -25,10 +25,13 @@
 #import "WBSuccessNoticeView+WaduanziMethod.h"
 #import "WBErrorNoticeView+WaduanziMethod.h"
 #import "PublishViewController.h"
+#import "CDUserConfig.h"
+#import "UMUFPHandleView.h"
 
 @interface PostListViewController ()
 - (void) setupNavButtionItems;
 - (void) setupTableView;
+- (void) setupUMAppNetworkView;
 - (void) setupAdView;
 - (void) setCellSubViews:(CDPostTableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath;
 - (void) setupTableViewPullScrollView;
@@ -60,6 +63,7 @@
     _lasttime = 0;
     _maxtime = 0;
     _requireLogined = NO;
+    detailFontSize = [CDUserConfig shareInstance].postFontSize;
     NSLog(@"method: PostListViewController initData");
 }
 
@@ -118,12 +122,26 @@
     [self setupTableViewPullScrollView];
     [self setupTableViewInfiniteScrollView];
     
+    [self setupUMAppNetworkView];
+    
+    // 点击导航栏回到顶端
+    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(scrollToTableTop:)];
+    tapGestureRecognizer.numberOfTapsRequired = 1;
+    [self.navigationController.navigationBar addGestureRecognizer:tapGestureRecognizer];
+    
     if (_statuses.count == 0) {
         NSLog(@"count = 0, data from remote");
-        [self.tableView triggerPullToRefresh];
+        [_tableView triggerPullToRefresh];
     }
     else
         NSLog(@"count > 0, data from cache");
+}
+
+- (void) scrollToTableTop:(UITapGestureRecognizer *)recognizer
+{
+    CDLog(@"scroll to top, contentOffset.y: %f", _tableView.contentOffset.y);
+    if ([self respondsToSelector:@selector(tableView)] && _tableView.contentOffset.y > 0)
+        [_tableView setContentOffset:CGPointMake(0, 0) animated:YES];
 }
 
 - (void) setupNavButtionItems
@@ -185,6 +203,28 @@
     _tableView.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"pullToRefreshBg.png"]];
 }
 
+- (void) setupUMAppNetworkView
+{
+    @try {
+        _mHandleView = [[UMUFPHandleView alloc] initWithFrame:CGRectMake(0, _tableView.bounds.size.height - 88.0f, 32.0f, 88.0f)
+                                                       appKey:UMAPPNETWORK_APPKEY
+                                                       slotId:nil
+                                        currentViewController:self];
+        _mHandleView.mContentType = ContentTypeApp;
+        _mHandleView.delegate = (id<UMUFPHandleViewDelegate>)self;
+        _mHandleView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin;
+        [_mHandleView setHandleViewBackgroundImage:[UIImage imageNamed:@"UMUFP.bundle/um_handle_placeholder.png"]];
+        [self.view addSubview:_mHandleView];
+    }
+    @catch (NSException *exception) {
+        CDLog(@"setup umeng app network exception: %@", exception);
+    }
+    @finally {
+        CDLog(@"setup umeng app network success");
+    }
+}
+
+
 - (void) setupAdView
 {
     CGRect tableViewFrame = self.view.bounds;
@@ -209,7 +249,24 @@
         self.adView = nil;
     }
     _tableView.frame = tableViewFrame;
+    
+    CGFloat newDetailFontSize = [CDUserConfig shareInstance].postFontSize;
+    if (newDetailFontSize != detailFontSize) {
+        detailFontSize = newDetailFontSize;
+        [self.tableView reloadData];
+    }
+    
+    [_mHandleView requestPromoterDataInBackground];
 }
+
+- (void) viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    
+    if (_noticeView != nil)
+        [_noticeView dismissNotice];
+}
+
 
 - (void) setupTableViewPullScrollView
 {
@@ -311,6 +368,7 @@
     
     CDPost *post = [_statuses objectAtIndex:indexPath.row];
     cell.detailTextLabel.text = [post summary];
+    cell.detailTextLabel.font = [UIFont systemFontOfSize:detailFontSize];
     cell.authorTextLabel.text = post.author_name;
     cell.datetimeTextLabel.text = post.create_time_at;
     
@@ -318,6 +376,8 @@
     
     if (post.small_pic.length > 0) {
         cell.imageView.tag = indexPath.row;
+        cell.isAnimatedGIF = [post isAnimatedGIF];
+        cell.isLongImage = [post isLongImage];
         NSURL *imageUrl = [NSURL URLWithString:post.small_pic];
         UIImage *placeImage = [UIImage imageNamed:@"thumb_placeholder.png"];
         [cell.imageView setImageWithURL:imageUrl placeholderImage:placeImage options:SDWebImageRetryFailed completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
@@ -328,6 +388,8 @@
     else {
         cell.textLabel.text = post.title;
         cell.imageView.image = nil;
+        cell.isAnimatedGIF = NO;
+        cell.isLongImage = NO;
     }
     
     cell.upButton.tag = cell.commentButton.tag = indexPath.row;
@@ -346,7 +408,6 @@
     cell.thumbSize = CGSizeMake(THUMB_WIDTH, THUMB_HEIGHT);
     
     cell.textLabel.font = [UIFont systemFontOfSize:16.0f];
-    cell.detailTextLabel.font = [UIFont systemFontOfSize:16.0f];
     cell.authorTextLabel.font = [UIFont boldSystemFontOfSize:16.0f];
     cell.datetimeTextLabel.font = [UIFont systemFontOfSize:12.0f];
 
@@ -437,7 +498,7 @@
                                    constrainedToSize:CGSizeMake(contentWidth, 9999.0)
                                        lineBreakMode:UILineBreakModeCharacterWrap];
     
-    CGSize detailLabelSize = [[post summary] sizeWithFont:[UIFont systemFontOfSize:16.0f]
+    CGSize detailLabelSize = [[post summary] sizeWithFont:[UIFont systemFontOfSize:detailFontSize]
                                       constrainedToSize:CGSizeMake(contentWidth, 9999.0)
                                           lineBreakMode:UILineBreakModeCharacterWrap];
     
@@ -490,7 +551,7 @@
     NSString *noticeMessage = @"载入最新段子出错";
     if (error.code == kCFURLErrorTimedOut)
         noticeMessage = @"网络超时";
-    [WBErrorNoticeView showErrorNoticeView:self.view title:@"提示" message:noticeMessage sticky:NO delay:2.0f dismissedBlock:nil];
+    _noticeView = [WBErrorNoticeView showErrorNoticeView:self.view title:@"提示" message:noticeMessage sticky:NO delay:2.0f dismissedBlock:nil];
     
     CDLog(@"Hit error: %@", error);
 }
@@ -505,7 +566,7 @@
     NSString *noticeMessage = @"载入更多段子出错";
     if (error.code == kCFURLErrorTimedOut)
         noticeMessage = @"网络超时";
-    [WBErrorNoticeView showErrorNoticeView:self.view title:@"提示" message:noticeMessage sticky:NO delay:2.0f dismissedBlock:nil];
+    _noticeView = [WBErrorNoticeView showErrorNoticeView:self.view title:@"提示" message:noticeMessage sticky:NO delay:2.0f dismissedBlock:nil];
     
     CDLog(@"Hit error: %@", error);
 }

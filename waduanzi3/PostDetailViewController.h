@@ -10,15 +10,18 @@
 #import "MBProgressHUD.h"
 #import "IIViewDeckController.h"
 #import "UMSocialControllerService.h"
+#import "CDMainViewController.h"
 
 @class CDPost;
 @class CDPostDetailView;
 
-@interface PostDetailViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate, UIGestureRecognizerDelegate, MBProgressHUDDelegate, UITextFieldDelegate, IIViewDeckControllerDelegate, UMSocialUIDelegate>
+@interface PostDetailViewController : CDMainViewController <UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate, UIGestureRecognizerDelegate, MBProgressHUDDelegate, UITextFieldDelegate, IIViewDeckControllerDelegate, UMSocialUIDelegate>
 {
     NSMutableArray *_comments;
     NSInteger _lasttime;
     UIToolbar *_bottomToolbar;
+    CGFloat detailFontSize;
+    CGFloat commentFontSize;
 }
 
 @property (nonatomic, strong) UITableView *tableView;

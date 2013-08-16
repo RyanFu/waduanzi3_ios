@@ -2,12 +2,13 @@
 <Bucket
    type = "0"
    version = "1.0">
-   <SymbolicBreakpoints>
-      <AddressBreakpoint
+   <ExceptionBreakpoints>
+      <ExceptionBreakpoint
          shouldBeEnabled = "Yes"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         symbolName = "*0x1036841">
-      </AddressBreakpoint>
-   </SymbolicBreakpoints>
+         scope = "0"
+         stopOnStyle = "0">
+      </ExceptionBreakpoint>
+   </ExceptionBreakpoints>
 </Bucket>

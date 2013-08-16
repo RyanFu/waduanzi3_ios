@@ -59,7 +59,7 @@
         [_statuses removeAllObjects];
         [self.tableView reloadData];
         
-        [WBErrorNoticeView showErrorNoticeView:self.view title:@"提示" message:@"请先登录" sticky:NO delay:2.0f dismissedBlock:nil];
+        _noticeView = [WBErrorNoticeView showErrorNoticeView:self.view title:@"提示" message:@"请先登录" sticky:NO delay:2.0f dismissedBlock:nil];
     }
 }
 
@@ -124,7 +124,7 @@
     else {
         NSLog(@"没有更多内容了");
         NSString *noticeTitle = @"您还没有发表过评论......";
-        [WBSuccessNoticeView showSuccessNoticeView:self.view title:noticeTitle sticky:NO delay:2.0f dismissedBlock:nil];
+        _noticeView = [WBSuccessNoticeView showSuccessNoticeView:self.view title:noticeTitle sticky:NO delay:2.0f dismissedBlock:nil];
     }
 }
 

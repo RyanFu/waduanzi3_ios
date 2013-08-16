@@ -104,15 +104,17 @@
         }
         [self subarrayWithMaxCount:POST_LIST_MAX_ROWS];
         [self.tableView reloadData];
-        
-        [[CDDataCache shareCache] cacheTimelinePosts:_statuses];
     }
     else {
         CDLog(@"没有更多内容了");
         noticeTitle = @"暂时没有新段子了";
     }
     
-    [WBSuccessNoticeView showSuccessNoticeView:self.view title:noticeTitle sticky:NO delay:2.0f dismissedBlock:nil];
+    // 之所以不管有没有新段子，都重新缓存一下的原因是因为如果用户发表评论后，评论数量并没有缓存。
+    if (_statuses.count > 0)
+        [[CDDataCache shareCache] cacheTimelinePosts:_statuses];
+    
+    _noticeView = [WBSuccessNoticeView showSuccessNoticeView:self.view title:noticeTitle sticky:NO delay:2.0f dismissedBlock:nil];
 }
 
 //- (void) latestStatusesFailed:(RKObjectRequestOperation *)operation error:(NSError *)error

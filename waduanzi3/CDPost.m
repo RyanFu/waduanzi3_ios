@@ -8,6 +8,7 @@
 
 #import "CDPost.h"
 #import "CDUser.h"
+#import "CDDataCache.h"
 
 @implementation CDPost
 
@@ -28,6 +29,8 @@
 @synthesize tags = _tags;
 @synthesize create_time_at = _create_time_at;
 @synthesize pic_frames = _pic_frames;
+@synthesize pic_width = _pic_width;
+@synthesize pic_height = _pic_height;
 @synthesize url = _url;
 @synthesize user = _user;
 
@@ -52,6 +55,8 @@
         self.tags = [decoder decodeObjectForKey:@"tags"];
         self.create_time_at = [decoder decodeObjectForKey:@"create_time_at"];
         self.pic_frames = [decoder decodeObjectForKey:@"pic_frames"];
+        self.pic_width = [decoder decodeObjectForKey:@"pic_width"];
+        self.pic_height = [decoder decodeObjectForKey:@"pic_height"];
         self.url = [decoder decodeObjectForKey:@"url"];
         self.user = [decoder decodeObjectForKey:@"user"];
     }
@@ -77,6 +82,8 @@
     [encoder encodeObject:_tags forKey:@"tags"];
     [encoder encodeObject:_create_time_at forKey:@"create_time_at"];
     [encoder encodeObject:_pic_frames forKey:@"pic_frames"];
+    [encoder encodeObject:_pic_width forKey:@"pic_width"];
+    [encoder encodeObject:_pic_height forKey:@"pic_height"];
     [encoder encodeObject:_url forKey:@"url"];
     [encoder encodeObject:_user forKey:@"user"];
 }
@@ -105,6 +112,23 @@
     else
         return nil;
 }
+
+- (BOOL) isAnimatedGIF
+{
+    return self.pic_frames.integerValue > 1;
+}
+
+- (BOOL) isLongImage
+{
+    if (self.pic_width.integerValue > 0 && self.pic_height.integerValue > 0) {
+        CGFloat height = self.pic_height.integerValue * CDSCREEN_SIZE.width * CDSCREEN.scale / self.pic_width.integerValue;
+        return height > SHOW_LONG_IMAGE_ICON_MAX_HEIGHT;
+    }
+    else
+        return NO;
+}
+
+
 
 @end
 

@@ -31,6 +31,7 @@
 #import "CDPostToolBar.h"
 #import "UMSocial.h"
 #import "WBErrorNoticeView+WaduanziMethod.h"
+#import "CDUserConfig.h"
 
 @interface PostDetailViewController ()
 {
@@ -42,7 +43,6 @@
 
 - (void) initData;
 - (void) loadPostComments;
-- (void) loadPostDetail;
 - (NSDictionary *) commentsParameters;
 - (NSDictionary *) createCommentParameters;
 - (void) setupNavButtionItems;
@@ -76,6 +76,8 @@
     _comments = [NSMutableArray array];
     _lasttime = 0;
     _commentMode = NO;
+    detailFontSize = [CDUserConfig shareInstance].postFontSize;
+    commentFontSize = [CDUserConfig shareInstance].commentFontSize;
 }
 
 - (id)initWithPostID:(NSInteger)post_id
@@ -118,24 +120,33 @@
     self.view.userInteractionEnabled = YES;
     self.view.exclusiveTouch = YES;
 
+    // 设置导航栏组件
     [self setupNavButtionItems];
+    // 设置UITableView
     [self setupTableView];
+    // 设置评论框组件视图
     [self setupCommentFormView];
+    
 //    [self setupBottomToolBar];
 
+    // 右滑回到段子列表
     UISwipeGestureRecognizer *swipGestureRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwips:)];
     swipGestureRecognizer.delegate = self;
     swipGestureRecognizer.direction = UISwipeGestureRecognizerDirectionRight;
     swipGestureRecognizer.numberOfTouchesRequired = 1;
     [self.view addGestureRecognizer:swipGestureRecognizer];
-
+    
+    // 设置下滑和下滑视图
     [self setupTableViewPullAndInfiniteScrollView];
     [self.tableView triggerInfiniteScrolling];
 }
 
+
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    // 设置键盘显示和隐藏的通知
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
     
@@ -146,11 +157,14 @@
 {
     [super viewWillDisappear:animated];
     
+    // 移除键盘显示和隐藏的通知
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
     
+    // 取消当前大图片下载进程
     [_detailView.imageView cancelCurrentImageLoad];
     
+    // 终止评论获取进程和更新段子信息进程
     [[RKObjectManager sharedManager] cancelAllObjectRequestOperationsWithMethod:RKRequestMethodGET matchingPathPattern:@"/comment/show/:post_id"];
     [[RKObjectManager sharedManager] cancelAllObjectRequestOperationsWithMethod:RKRequestMethodGET matchingPathPattern:@"/post/show/:post_id"];
 }
@@ -158,12 +172,23 @@
 - (void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    
+    // 判断用户是否修改了字体大小，如果修改了应用新字体大小
+    CGFloat newCommentFontSize = [CDUserConfig shareInstance].commentFontSize;
+    CGFloat newDetailFontSize = [CDUserConfig shareInstance].postFontSize;
+    if (newDetailFontSize != detailFontSize || newCommentFontSize != commentFontSize) {
+        commentFontSize = newCommentFontSize;
+        [self.tableView reloadData];
+    }
+    
+    // 如果进入此窗口的动作是评论，则显示内容后直接进入评论状态
     if (_commentMode) {
         [self performSelector:@selector(commentTextFieldBecomeFirstResponder)];
         _commentMode = NO;
     }
 }
 
+// 当键盘显示时
 - (void) keyboardWillShow:(NSNotification*)notification
 {
     _tableView.userInteractionEnabled = NO;
@@ -184,6 +209,7 @@
     [UIView commitAnimations];
 }
 
+// 当键盘隐藏时
 - (void) keyboardWillHide:(NSNotification*)notification
 {
     _tableView.userInteractionEnabled = YES;
@@ -194,13 +220,13 @@
     _formView.frame = formViewFrame;
 }
 
+// 此容器右滑不打开左边栏
 - (BOOL) viewDeckController:(IIViewDeckController *)viewDeckController shouldOpenViewSide:(IIViewDeckSide)viewDeckSide
 {
-    NSLog(@"xxxx");
     return NO;
 }
 
-
+// 定义视图滑动手势动作，右滑返回段子列表，其它手势无动作
 - (void) handleSwips:(UISwipeGestureRecognizer *)recognizer
 {
     NSLog(@"direction: %d", recognizer.direction);
@@ -315,13 +341,6 @@
 - (void) setupTableViewPullAndInfiniteScrollView
 {
     __weak PostDetailViewController *weakSelf = self;
-    [self.tableView addPullToRefreshWithActionHandler:^{
-        [weakSelf loadPostDetail];
-    }];
-    [self.tableView.pullToRefreshView setTitle:@"下拉刷新" forState:SVPullToRefreshStateStopped];
-    [self.tableView.pullToRefreshView setTitle:@"载入中" forState:SVPullToRefreshStateLoading];
-    [self.tableView.pullToRefreshView setTitle:@"释放立即刷新" forState:SVPullToRefreshStateTriggered];
-    
     [self.tableView addInfiniteScrollingWithActionHandler:^{
         [weakSelf loadPostComments];
     }];
@@ -549,6 +568,7 @@
             cell.selectionStyle = UITableViewCellSelectionStyleGray;
             [self setCommentCellSubViews:cell forRowAtIndexPath:indexPath];
         }
+        cell.textLabel.font = [UIFont systemFontOfSize:commentFontSize];
         
         CDComment *comment = [_comments objectAtIndex:indexPath.row];
         cell.textLabel.text = comment.content;
@@ -568,6 +588,7 @@
     [_detailView removeFromSuperview];
     _detailView = nil;
     _detailView = [[CDPostDetailView alloc] initWithFrame:cell.contentView.bounds];
+    _detailView.detailTextLabel.font = [UIFont systemFontOfSize:detailFontSize];
     [cell.contentView addSubview:_detailView];
     _detailView.padding = POST_DETAIL_CELL_PADDING;
 
@@ -608,28 +629,37 @@
         __weak PostDetailViewController *weakSelf = self;
         __weak MBProgressHUD *weakHUD = _HUD;
         __weak UIImageView *weakImageView = _detailView.imageView;
-        NSURL *imageUrl = [NSURL URLWithString:_post.middle_pic];
         __weak CDPostToolBar *weakToolbar = _postToolbar;
-        [_detailView.imageView setImageWithURL:imageUrl placeholderImage:_smallImage options:SDWebImageRetryFailed progress:^(NSUInteger receivedSize, long long expectedSize) {
-            NSLog(@"expected size: %lld", expectedSize);
-            if (expectedSize <= 0) {
-                weakHUD.mode = MBProgressHUDModeDeterminate;
-                [weakHUD show:YES];
-            }
-            else
-                weakHUD.progress = receivedSize / (expectedSize + 0.0);
-        } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-            [weakHUD hide:YES];
-            if (error) {
-                [weakImageView cancelCurrentImageLoad];
-                NSLog(@"picture download failed:%@", error);
-            }
-            else {
-                weakSelf.middleImage = image;
-                [weakSelf.tableView reloadData];
-                weakSelf.navigationItem.rightBarButtonItem.enabled = weakToolbar.actionButton.enabled = YES;
-            }
-        }];
+        @try {
+            NSURL *imageUrl = [NSURL URLWithString:_post.middle_pic];
+            [_detailView.imageView setImageWithURL:imageUrl placeholderImage:_smallImage options:SDWebImageRetryFailed progress:^(NSUInteger receivedSize, long long expectedSize) {
+                CDLog(@"expected size: %d/%lld", receivedSize, expectedSize);
+                if (expectedSize <= 0) {
+                    weakHUD.mode = MBProgressHUDModeDeterminate;
+                    [weakHUD show:YES];
+                }
+                else
+                    weakHUD.progress = receivedSize / (expectedSize + 0.0);
+            } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+                [weakHUD hide:YES];
+                if (error) {
+                    [weakImageView cancelCurrentImageLoad];
+                    NSLog(@"picture download failed:%@", error);
+                }
+                else {
+                    weakSelf.middleImage = image;
+                    [weakSelf.tableView reloadData];
+                    weakSelf.navigationItem.rightBarButtonItem.enabled = weakToolbar.actionButton.enabled = YES;
+                }
+            }];
+        }
+        @catch (NSException *exception) {
+            [weakImageView cancelCurrentImageLoad];
+            CDLog(@"download big image exception: %@", exception);
+        }
+        @finally {
+            ;
+        }
         // 如果是趣图，不显示标题，只显示内容
         _detailView.textLabel.text = nil;
     }
@@ -893,37 +923,6 @@
     
 }
 
-- (void) loadPostDetail
-{
-    // Load the object model via RestKit
-    RKObjectManager *objectManager = [RKObjectManager sharedManager];
-    [objectManager getObjectsAtPath:[NSString stringWithFormat:@"/post/show/%d", _postID]
-                         parameters:nil
-                            success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-                                [self.tableView.pullToRefreshView stopAnimating];
-                                
-                                self.post = (CDPost *) [mappingResult firstObject];
-                                if (self.isViewLoaded) {
-                                    NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:0];
-                                    [self.tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationNone];
-                                }
-                            }
-                            failure:^(RKObjectRequestOperation *operation, NSError *error) {
-                                [self.tableView.pullToRefreshView stopAnimating];
-                                
-                                if (error.code == NSURLErrorCancelled) return ;
-                                
-                                NSString *noticeTitle = @"刷新段子信息出错";
-                                if (error.code == kCFURLErrorTimedOut)
-                                    noticeTitle = @"网络超时";
-                                [WBErrorNoticeView showErrorNoticeView:self.view title:@"提示" message:noticeTitle sticky:NO delay:2.0f dismissedBlock:nil];
-
-                                NSLog(@"Hit error: %@", error);
-                            }];
-    
-}
-
-
 - (NSDictionary *) createCommentParameters
 {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
@@ -947,14 +946,15 @@
         return;
     
     [self.view endEditing:YES];
-    
     // Load the object model via RestKit
     RKObjectManager *objectManager = [RKObjectManager sharedManager];
     [objectManager postObject:nil path:@"comment/create"
                    parameters:[self createCommentParameters] success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
                        _formView.submitButton.enabled = YES;
+                       _post.comment_count = [NSNumber numberWithInteger:_post.comment_count.integerValue+1];
+                       
                         CDComment *comment = (CDComment *) [mappingResult firstObject];
-                        NSLog(@"%@", comment.author_name);
+                       
                         if (self.isViewLoaded) {
                             NSIndexPath *newIndexPath = [NSIndexPath indexPathForRow:_comments.count inSection:2];
                             NSArray *insertIndexPaths = [NSArray arrayWithObjects:newIndexPath, nil];

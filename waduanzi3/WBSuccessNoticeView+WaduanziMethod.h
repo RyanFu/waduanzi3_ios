@@ -10,5 +10,5 @@
 
 @interface WBSuccessNoticeView (WaduanziMethod)
 
-+ (void) showSuccessNoticeView:(UIView *)view title:(NSString *)title sticky:(BOOL)sticky delay:(NSTimeInterval)delay dismissedBlock:(void (^) (BOOL dismissedInteractively))dismissedblock;
++ (WBSuccessNoticeView *) showSuccessNoticeView:(UIView *)view title:(NSString *)title sticky:(BOOL)sticky delay:(NSTimeInterval)delay dismissedBlock:(void (^) (BOOL dismissedInteractively))dismissedblock;
 @end

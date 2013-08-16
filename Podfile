@@ -6,3 +6,5 @@ pod 'RestKit/Testing', '~>0.20.0'
 pod 'RestKit/Search', '~> 0.20.0'
 pod 'NoticeView', '~> 3.0.7'
 pod "Appirater"
+pod "SDWebImage"
+pod "MBProgressHUD"

@@ -11,7 +11,7 @@
 
 @implementation WBSuccessNoticeView (WaduanziMethod)
 
-+ (void) showSuccessNoticeView:(UIView *)view title:(NSString *)title sticky:(BOOL)sticky delay:(NSTimeInterval)delay dismissedBlock:(void (^)(BOOL))dismissedblock
++ (WBSuccessNoticeView *) showSuccessNoticeView:(UIView *)view title:(NSString *)title sticky:(BOOL)sticky delay:(NSTimeInterval)delay dismissedBlock:(void (^)(BOOL))dismissedblock
 {
     WBSuccessNoticeView *noticeView = [WBSuccessNoticeView successNoticeInView:view title:title];
     noticeView.delay = delay;
@@ -20,5 +20,7 @@
     if (dismissedblock != nil)
         [noticeView setDismissalBlock:dismissedblock];
     [noticeView show];
+    
+    return noticeView;
 }
 @end

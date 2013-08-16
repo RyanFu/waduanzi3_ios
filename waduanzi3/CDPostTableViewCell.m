@@ -11,6 +11,10 @@
 #import "CDDefine.h"
 
 @interface CDPostTableViewCell ()
+{
+    UIImageView *_gifImageIconView;
+    UIImageView *_longImageIconView;
+}
 - (void) setupTableCellStyle;
 - (void) setupSubviewsDefaultStyle;
 @end
@@ -27,6 +31,8 @@
 @synthesize contentMargin = _contentMargin;
 @synthesize contentPadding = _contentPadding;
 @synthesize separatorHeight = _separatorHeight;
+@synthesize isAnimatedGIF = _isAnimatedGIF;
+@synthesize isLongImage = _isLongImage;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -34,6 +40,8 @@
     if (self) {
         self.multipleTouchEnabled = YES;
         self.userInteractionEnabled = YES;
+        self.isAnimatedGIF = NO;
+        self.isLongImage = NO;
         
         self.separatorHeight = POST_LIST_CELL_FRAGMENT_PADDING;
         self.contentMargin = POST_LIST_CELL_CONTENT_MARGIN;
@@ -54,6 +62,12 @@
         [self.contentView addSubview:_commentButton];
         // MARK: 以后添加列表中的更多按钮
 //        [self.contentView addSubview:_moreButton];
+        
+        _gifImageIconView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mqz_img_gif.png"]];
+        [_gifImageIconView sizeToFit];
+        _longImageIconView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mqz_img_long.png"]];
+        [_longImageIconView sizeToFit];
+
         
         
         [self setupTableCellStyle];
@@ -93,7 +107,6 @@
     // imageView
     self.imageView.contentMode = UIViewContentModeScaleToFill;
     self.imageView.opaque = YES;
-    
     
     self.upButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     self.commentButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
@@ -178,6 +191,27 @@
         CGRect imageViewFrame = CGRectMake(_contentPadding.left, widgetY, _thumbSize.width, widgetHeight);
         [self.imageView setFrame: imageViewFrame];
         
+        if (_gifImageIconView.superview != nil)
+            [_gifImageIconView removeFromSuperview];
+        if (_longImageIconView.superview != nil)
+            [_longImageIconView removeFromSuperview];
+        
+        if (_isAnimatedGIF) {
+            CGRect gifImageFrame = _gifImageIconView.frame;
+            gifImageFrame.origin.x = self.imageView.frame.size.width - gifImageFrame.size.width;
+            gifImageFrame.origin.y = self.imageView.frame.size.height - gifImageFrame.size.height;
+            _gifImageIconView.frame = gifImageFrame;
+            [self.imageView addSubview:_gifImageIconView];
+        }
+        else if (_isLongImage) {
+            CGRect longImageFrame = _longImageIconView.frame;
+            longImageFrame.origin.x = self.imageView.frame.size.width - longImageFrame.size.width;
+            longImageFrame.origin.y = self.imageView.frame.size.height - longImageFrame.size.height;
+            _longImageIconView.frame = longImageFrame;
+
+            [self.imageView addSubview:_longImageIconView];
+        }
+
         if (self.delegate && [self.delegate respondsToSelector:@selector(thumbImageViewDidTapFinished:)]) {
             self.imageView.userInteractionEnabled = YES;
             UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self.delegate action:@selector(thumbImageViewDidTapFinished:)];

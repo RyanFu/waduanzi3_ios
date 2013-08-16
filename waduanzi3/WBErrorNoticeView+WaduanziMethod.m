@@ -10,7 +10,7 @@
 
 @implementation WBErrorNoticeView (WaduanziMethod)
 
-+ (void) showErrorNoticeView:(UIView *)view title:(NSString *)title message:(NSString *)message sticky:(BOOL)sticky delay:(NSTimeInterval)delay dismissedBlock:(void (^)(BOOL))dismissedblock
++ (WBErrorNoticeView *) showErrorNoticeView:(UIView *)view title:(NSString *)title message:(NSString *)message sticky:(BOOL)sticky delay:(NSTimeInterval)delay dismissedBlock:(void (^)(BOOL))dismissedblock
 {
     WBErrorNoticeView *noticeView = [WBErrorNoticeView errorNoticeInView:view title:title message:message];
     noticeView.delay = delay;
@@ -19,5 +19,7 @@
     if (dismissedblock != nil)
         [noticeView setDismissalBlock:dismissedblock];
     [noticeView show];
+    
+    return noticeView;
 }
 @end

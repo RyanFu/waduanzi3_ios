@@ -125,26 +125,36 @@
         __weak MBProgressHUD *weakHUD = _HUD;
         __weak UIImageView *weakImageShowView = imageShowView;
 
-        [imageShowView setImageWithURL:_originalPicUrl placeholderImage:_thumbnail options:SDWebImageRetryFailed progress:^(NSUInteger receivedSize, long long expectedSize) {
-            if (expectedSize <= 0) {
-                weakHUD.mode = MBProgressHUDModeDeterminate;
-                [weakHUD show:YES];
-            }
-            else
-                weakHUD.progress = receivedSize / (expectedSize + 0.0);
-        } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-            [weakHUD hide:YES];
-            if (error) {
-                [weakImageShowView cancelCurrentImageLoad];
-                NSLog(@"picture download failed:%@", error);
-            }
-            else {
-                weakSaveButton.hidden = NO;
-                weakSelf.originaPic = image;
-                [weakSelf adjustImageViewSize];
-                NSLog(@"picture download success");
-            }
-        }];
+        @try {
+            [imageShowView setImageWithURL:_originalPicUrl placeholderImage:_thumbnail options:SDWebImageRetryFailed progress:^(NSUInteger receivedSize, long long expectedSize) {
+                if (expectedSize <= 0) {
+                    weakHUD.mode = MBProgressHUDModeDeterminate;
+                    [weakHUD show:YES];
+                }
+                else
+                    weakHUD.progress = receivedSize / (expectedSize + 0.0);
+            } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+                [weakHUD hide:YES];
+                if (error) {
+                    [weakImageShowView cancelCurrentImageLoad];
+                    NSLog(@"picture download failed:%@", error);
+                }
+                else {
+                    weakSaveButton.hidden = NO;
+                    weakSelf.originaPic = image;
+                    [weakSelf adjustImageViewSize];
+                    NSLog(@"picture download success");
+                }
+            }];
+        }
+        @catch (NSException *exception) {
+            [weakImageShowView cancelCurrentImageLoad];
+            CDLog(@"download big image exception: %@", exception);
+        }
+        @finally {
+            ;
+        }
+        
     }
 }
 
