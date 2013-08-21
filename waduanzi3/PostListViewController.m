@@ -124,24 +124,12 @@
     
     [self setupUMAppNetworkView];
     
-    // 点击导航栏回到顶端
-    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(scrollToTableTop:)];
-    tapGestureRecognizer.numberOfTapsRequired = 1;
-    [self.navigationController.navigationBar addGestureRecognizer:tapGestureRecognizer];
-    
     if (_statuses.count == 0) {
         NSLog(@"count = 0, data from remote");
         [_tableView triggerPullToRefresh];
     }
     else
         NSLog(@"count > 0, data from cache");
-}
-
-- (void) scrollToTableTop:(UITapGestureRecognizer *)recognizer
-{
-    CDLog(@"scroll to top, contentOffset.y: %f", _tableView.contentOffset.y);
-    if ([self respondsToSelector:@selector(tableView)] && _tableView.contentOffset.y > 0)
-        [_tableView setContentOffset:CGPointMake(0, 0) animated:YES];
 }
 
 - (void) setupNavButtionItems

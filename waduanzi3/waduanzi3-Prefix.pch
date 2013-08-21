@@ -14,12 +14,12 @@
     #import <CoreData/CoreData.h>
 #endif
 
-#import <QuickDialog/QuickDialog.h>
-
 // AFHTTPClient
 #import <SystemConfiguration/SystemConfiguration.h>
 #import <MobileCoreServices/MobileCoreServices.h>
 
+// QuickDialog
+#import "QuickDialog.h"
 
 #import "CDDefine.h"
 #import "CDCommon.h"

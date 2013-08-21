@@ -125,6 +125,7 @@
     QAppearance *appearance = root.appearance;
     appearance.entryFont = [UIFont systemFontOfSize:16.0f];
     appearance.labelFont = [UIFont systemFontOfSize:16.0f];
+    appearance.valueAlignment = NSTextAlignmentLeft;
     appearance.sectionFooterColor = [UIColor lightGrayColor];
     appearance.sectionFooterFont = [UIFont systemFontOfSize:12.0f];
     [root setAppearance:appearance];
@@ -183,7 +184,10 @@
     
     QAppearance *appearance = root.appearance;
     appearance.entryFont = [UIFont systemFontOfSize:16.0f];
+    appearance.valueAlignment = NSTextAlignmentLeft;
     appearance.labelFont = [UIFont systemFontOfSize:16.0f];
+    appearance.sectionFooterColor = [UIColor lightGrayColor];
+    appearance.sectionFooterFont = [UIFont systemFontOfSize:12.0f];
     [root setAppearance:appearance];
     
     

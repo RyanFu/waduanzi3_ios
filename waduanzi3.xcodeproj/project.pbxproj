@@ -72,7 +72,6 @@
 		2B169C3417A8BC9700C54E55 /* MyFeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B169C3317A8BC9700C54E55 /* MyFeedbackViewController.m */; };
 		2B1B4D9C16DBBCDE009D79ED /* OpenUDID.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1B4D9B16DBBCDE009D79ED /* OpenUDID.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		2B1FDDF3177C935900CD1135 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B1FDDF2177C935900CD1135 /* CoreLocation.framework */; };
-		2B1FDDF4177C936000CD1135 /* libQuickDialog.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B1FDDEF177C931300CD1135 /* libQuickDialog.a */; };
 		2B1FDDF7177C95F400CD1135 /* CDQuickElements.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FDDF6177C95F400CD1135 /* CDQuickElements.m */; };
 		2B1FDDFA177CB87900CD1135 /* CDSideTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FDDF9177CB87900CD1135 /* CDSideTableViewCell.m */; };
 		2B232B3B175ED659007803C0 /* PostDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B232B3A175ED659007803C0 /* PostDetailViewController.m */; };
@@ -199,6 +198,8 @@
 		2B623B9D1792F73D00D3270D /* ButtonStarred@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B623B911792F73D00D3270D /* ButtonStarred@2x.png */; };
 		2B623B9E1792F73D00D3270D /* ButtonUnstarred.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B623B921792F73D00D3270D /* ButtonUnstarred.png */; };
 		2B623B9F1792F73D00D3270D /* ButtonUnstarred@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B623B931792F73D00D3270D /* ButtonUnstarred@2x.png */; };
+		2B64538117C252EE005F6ED2 /* WebTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B64538017C252EE005F6ED2 /* WebTestViewController.m */; };
+		2B64538417C27013005F6ED2 /* DTCoreTextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B64538317C27013005F6ED2 /* DTCoreTextViewController.m */; };
 		2B6519AB1767318F0080D632 /* CDConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B6519AA1767318F0080D632 /* CDConfig.m */; };
 		2B7C719117A21E5600482207 /* WxApiService.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B7C719017A21E5600482207 /* WxApiService.m */; };
 		2B7C719417A2A2EE00482207 /* chat_bg_default.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2B7C719317A2A2EE00482207 /* chat_bg_default.jpg */; };
@@ -342,6 +343,7 @@
 		2BEDFE3117A6602B003498A7 /* login_background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BEDFE2F17A6602B003498A7 /* login_background@2x.png */; };
 		2BF5BE92178D5AE200220DDF /* post_cell_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BF5BE8E178D5ADD00220DDF /* post_cell_bg.png */; };
 		2BF5BE93178D5AE200220DDF /* post_cell_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BF5BE8F178D5ADF00220DDF /* post_cell_bg@2x.png */; };
+		2BF6531A17C2971C0096541A /* About.html in Resources */ = {isa = PBXBuildFile; fileRef = 2BF6531917C2971C0096541A /* About.html */; };
 		2BFC742B177752C80027F9B3 /* CDDataCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BFC742A177752C80027F9B3 /* CDDataCache.m */; };
 		2BFE175D17BE0A76004AF130 /* libUMAppNetwork_3.5.5.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BFE175317BE0A76004AF130 /* libUMAppNetwork_3.5.5.a */; };
 		2BFE175E17BE0A76004AF130 /* UMUFP.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 2BFE175417BE0A76004AF130 /* UMUFP.bundle */; };
@@ -351,30 +353,6 @@
 		2BFEBD8316E7848C00D8D363 /* menu_cell_separator.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BFEBD8216E7848C00D8D363 /* menu_cell_separator.png */; };
 		ACED23B1EEC6484FB1432C16 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3457177890EA467497A4E122 /* libPods.a */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		2B1FDDEC177C931300CD1135 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2B1FDDE7177C931300CD1135 /* QuickDialog.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = D80B0E3313E052DF00FA85CA;
-			remoteInfo = QuickDialogExample;
-		};
-		2B1FDDEE177C931300CD1135 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2B1FDDE7177C931300CD1135 /* QuickDialog.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 2C542393145ADEBD0026A152;
-			remoteInfo = QuickDialog;
-		};
-		2B1FDDF0177C932F00CD1135 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2B1FDDE7177C931300CD1135 /* QuickDialog.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 2C542392145ADEBD0026A152;
-			remoteInfo = QuickDialog;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		2B0929EA1773950C0051D1DC /* NSString+MD5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+MD5.h"; sourceTree = "<group>"; };
@@ -447,7 +425,6 @@
 		2B169C3317A8BC9700C54E55 /* MyFeedbackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyFeedbackViewController.m; sourceTree = "<group>"; };
 		2B1B4D9A16DBBCDE009D79ED /* OpenUDID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenUDID.h; sourceTree = "<group>"; };
 		2B1B4D9B16DBBCDE009D79ED /* OpenUDID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenUDID.m; sourceTree = "<group>"; };
-		2B1FDDE7177C931300CD1135 /* QuickDialog.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = QuickDialog.xcodeproj; path = QuickDialog/QuickDialog.xcodeproj; sourceTree = "<group>"; };
 		2B1FDDF2177C935900CD1135 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		2B1FDDF5177C95F400CD1135 /* CDQuickElements.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDQuickElements.h; sourceTree = "<group>"; };
 		2B1FDDF6177C95F400CD1135 /* CDQuickElements.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDQuickElements.m; sourceTree = "<group>"; };
@@ -592,6 +569,10 @@
 		2B623B911792F73D00D3270D /* ButtonStarred@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ButtonStarred@2x.png"; sourceTree = "<group>"; };
 		2B623B921792F73D00D3270D /* ButtonUnstarred.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonUnstarred.png; sourceTree = "<group>"; };
 		2B623B931792F73D00D3270D /* ButtonUnstarred@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ButtonUnstarred@2x.png"; sourceTree = "<group>"; };
+		2B64537F17C252EE005F6ED2 /* WebTestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebTestViewController.h; sourceTree = "<group>"; };
+		2B64538017C252EE005F6ED2 /* WebTestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebTestViewController.m; sourceTree = "<group>"; };
+		2B64538217C27013005F6ED2 /* DTCoreTextViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTCoreTextViewController.h; sourceTree = "<group>"; };
+		2B64538317C27013005F6ED2 /* DTCoreTextViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTCoreTextViewController.m; sourceTree = "<group>"; };
 		2B6519A91767318F0080D632 /* CDConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDConfig.h; sourceTree = "<group>"; };
 		2B6519AA1767318F0080D632 /* CDConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDConfig.m; sourceTree = "<group>"; };
 		2B7C718F17A21E5600482207 /* WxApiService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WxApiService.h; sourceTree = "<group>"; };
@@ -816,6 +797,7 @@
 		2BEDFE2F17A6602B003498A7 /* login_background@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "login_background@2x.png"; sourceTree = "<group>"; };
 		2BF5BE8E178D5ADD00220DDF /* post_cell_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = post_cell_bg.png; sourceTree = "<group>"; };
 		2BF5BE8F178D5ADF00220DDF /* post_cell_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "post_cell_bg@2x.png"; sourceTree = "<group>"; };
+		2BF6531917C2971C0096541A /* About.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = About.html; sourceTree = "<group>"; };
 		2BFC7429177752C80027F9B3 /* CDDataCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDDataCache.h; sourceTree = "<group>"; };
 		2BFC742A177752C80027F9B3 /* CDDataCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDDataCache.m; sourceTree = "<group>"; };
 		2BFE175317BE0A76004AF130 /* libUMAppNetwork_3.5.5.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libUMAppNetwork_3.5.5.a; sourceTree = "<group>"; };
@@ -844,7 +826,6 @@
 				2BCB1D7717AEA7C9008BC470 /* StoreKit.framework in Frameworks */,
 				2BCB1D7417AEA7C1008BC470 /* CFNetwork.framework in Frameworks */,
 				2BDD70AA177F980A00421915 /* CoreText.framework in Frameworks */,
-				2B1FDDF4177C936000CD1135 /* libQuickDialog.a in Frameworks */,
 				2B1FDDF3177C935900CD1135 /* CoreLocation.framework in Frameworks */,
 				2BC4D4FD1762558F0098151C /* MapKit.framework in Frameworks */,
 				2BED82F6167B5E400025E9C4 /* MobileCoreServices.framework in Frameworks */,
@@ -876,15 +857,6 @@
 				2B1B4D9B16DBBCDE009D79ED /* OpenUDID.m */,
 			);
 			path = OpenUDID;
-			sourceTree = "<group>";
-		};
-		2B1FDDE8177C931300CD1135 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				2B1FDDED177C931300CD1135 /* QuickDialogExample.app */,
-				2B1FDDEF177C931300CD1135 /* libQuickDialog.a */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		2B48FF0A1756025F00FFF85B /* MTStatusBarOverlay */ = {
@@ -922,6 +894,22 @@
 				2B98782817AF95130061E344 /* UserConfig.m */,
 			);
 			name = Models;
+			sourceTree = "<group>";
+		};
+		2B64537D17C25297005F6ED2 /* Demos */ = {
+			isa = PBXGroup;
+			children = (
+				2BDD70A6177F971700421915 /* MGBoxViewController.h */,
+				2BDD70A7177F971700421915 /* MGBoxViewController.m */,
+				2BB60F901756470F00290F69 /* TestViewController.h */,
+				2BB60F911756470F00290F69 /* TestViewController.m */,
+				2B64537F17C252EE005F6ED2 /* WebTestViewController.h */,
+				2B64538017C252EE005F6ED2 /* WebTestViewController.m */,
+				2B64538217C27013005F6ED2 /* DTCoreTextViewController.h */,
+				2B64538317C27013005F6ED2 /* DTCoreTextViewController.m */,
+				2BF6531917C2971C0096541A /* About.html */,
+			);
+			name = Demos;
 			sourceTree = "<group>";
 		};
 		2B8412A117ABAC1700AFB264 /* UMSocial_Sdk_2.2.1.1 */ = {
@@ -1017,8 +1005,6 @@
 				2BCFA8CA16E4E12500521DEC /* SideMenuViewController.m */,
 				2BCFA8CC16E4E2CF00521DEC /* PostListViewController.h */,
 				2BCFA8CD16E4E2CF00521DEC /* PostListViewController.m */,
-				2BB60F901756470F00290F69 /* TestViewController.h */,
-				2BB60F911756470F00290F69 /* TestViewController.m */,
 				2B232B39175ED659007803C0 /* PostDetailViewController.h */,
 				2B232B3A175ED659007803C0 /* PostDetailViewController.m */,
 				2B569B9F176F3D9100B34E0C /* TimelineViewController.h */,
@@ -1051,8 +1037,6 @@
 				2B1FDDF9177CB87900CD1135 /* CDSideTableViewCell.m */,
 				2BC4D4A8176201270098151C /* CDCommentTableViewCell.h */,
 				2BC4D4A7176201270098151C /* CDCommentTableViewCell.m */,
-				2BDD70A6177F971700421915 /* MGBoxViewController.h */,
-				2BDD70A7177F971700421915 /* MGBoxViewController.m */,
 				2BDE2F90178C1360007736A8 /* CDCommentFormView.h */,
 				2BDE2F91178C1360007736A8 /* CDCommentFormView.m */,
 				2BDA2654179400DE00838973 /* CDViewController.h */,
@@ -1139,7 +1123,6 @@
 		2BED81F5167B573E0025E9C4 = {
 			isa = PBXGroup;
 			children = (
-				2B1FDDE7177C931300CD1135 /* QuickDialog.xcodeproj */,
 				2BED8226167B59320025E9C4 /* Vendors */,
 				2BED820C167B573E0025E9C4 /* waduanzi3 */,
 				2BED8203167B573E0025E9C4 /* Frameworks */,
@@ -1183,6 +1166,7 @@
 		2BED820C167B573E0025E9C4 /* waduanzi3 */ = {
 			isa = PBXGroup;
 			children = (
+				2B64537D17C25297005F6ED2 /* Demos */,
 				2B48FF33175605E500FFF85B /* Models */,
 				2BED82F8167B5ED20025E9C4 /* Resources */,
 				2BED82F7167B5ECC0025E9C4 /* Common */,
@@ -1546,7 +1530,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				2B1FDDF1177C932F00CD1135 /* PBXTargetDependency */,
 			);
 			name = waduanzi3;
 			productName = waduanzi3;
@@ -1573,35 +1556,12 @@
 			mainGroup = 2BED81F5167B573E0025E9C4;
 			productRefGroup = 2BED8201167B573E0025E9C4 /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 2B1FDDE8177C931300CD1135 /* Products */;
-					ProjectRef = 2B1FDDE7177C931300CD1135 /* QuickDialog.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				2BED81FF167B573E0025E9C4 /* waduanzi3 */,
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		2B1FDDED177C931300CD1135 /* QuickDialogExample.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = QuickDialogExample.app;
-			remoteRef = 2B1FDDEC177C931300CD1135 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		2B1FDDEF177C931300CD1135 /* libQuickDialog.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libQuickDialog.a;
-			remoteRef = 2B1FDDEE177C931300CD1135 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		2BED81FE167B573E0025E9C4 /* Resources */ = {
@@ -1846,6 +1806,7 @@
 				2B8412CD17ABAC1800AFB264 /* UMSocialSDKResourcesNew.bundle in Resources */,
 				2B91033817B4B19C005993B2 /* tip_error@2x.png in Resources */,
 				2BFE175E17BE0A76004AF130 /* UMUFP.bundle in Resources */,
+				2BF6531A17C2971C0096541A /* About.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1970,18 +1931,12 @@
 				2BAC67E917BB62D300B9768E /* CDUserConfig.m in Sources */,
 				2BAC67F317BBC66400B9768E /* PostFontPickerValueParser.m in Sources */,
 				2BAC67F617BBCD1200B9768E /* CommentFontPickerValueParser.m in Sources */,
+				2B64538117C252EE005F6ED2 /* WebTestViewController.m in Sources */,
+				2B64538417C27013005F6ED2 /* DTCoreTextViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		2B1FDDF1177C932F00CD1135 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = QuickDialog;
-			targetProxy = 2B1FDDF0177C932F00CD1135 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		2B804830179E5638006F332F /* Localizable.strings */ = {

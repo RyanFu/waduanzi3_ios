@@ -13,8 +13,6 @@
 #import "SideMenuViewController.h"
 #import "TimelineViewController.h"
 #import "CDRestClient.h"
-#import "TestViewController.h"
-#import "MGBoxViewController.h"
 #import "WCAlertView.h"
 #import "CDUIKit.h"
 #import "UMSocial.h"
@@ -23,6 +21,12 @@
 #import "SDWebImageManager.h"
 #import "MobClick.h"
 #import "Appirater.h"
+
+#import "TestViewController.h"
+#import "WebTestViewController.h"
+#import "MGBoxViewController.h"
+#import "DTCoreTextViewController.h"
+
 
 @interface AppDelegate ()
 - (void) customAppearance;
@@ -241,14 +245,22 @@
 
 - (void) setupTestRootController
 {
-    MGBoxViewController *mgboxController = [[MGBoxViewController alloc] init];
-    self.window.rootViewController = mgboxController;
-    
+    DTCoreTextViewController *coreTextController = [[DTCoreTextViewController alloc] init];
+    self.window.rootViewController = coreTextController;
     return;
     
-    TestViewController *testController = [[TestViewController alloc] initWithStyle:UITableViewStylePlain];
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:testController];
-    self.window.rootViewController = navController;
+//    MGBoxViewController *mgboxController = [[MGBoxViewController alloc] init];
+//    self.window.rootViewController = mgboxController;
+//    
+//    return;
+    
+//    WebTestViewController *webTestController = [[WebTestViewController alloc] init];
+//    self.window.rootViewController = webTestController;
+//    return;
+//    
+//    TestViewController *testController = [[TestViewController alloc] initWithStyle:UITableViewStylePlain];
+//    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:testController];
+//    self.window.rootViewController = navController;
 }
 
 - (void) afterWindowVisible

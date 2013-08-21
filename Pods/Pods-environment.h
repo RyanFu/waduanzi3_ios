@@ -18,6 +18,30 @@
 #define COCOAPODS_VERSION_MINOR_Appirater 0
 #define COCOAPODS_VERSION_PATCH_Appirater 5
 
+// DTCoreText
+#define COCOAPODS_POD_AVAILABLE_DTCoreText
+#define COCOAPODS_VERSION_MAJOR_DTCoreText 1
+#define COCOAPODS_VERSION_MINOR_DTCoreText 6
+#define COCOAPODS_VERSION_PATCH_DTCoreText 4
+
+// DTFoundation/Core
+#define COCOAPODS_POD_AVAILABLE_DTFoundation_Core
+#define COCOAPODS_VERSION_MAJOR_DTFoundation_Core 1
+#define COCOAPODS_VERSION_MINOR_DTFoundation_Core 5
+#define COCOAPODS_VERSION_PATCH_DTFoundation_Core 2
+
+// DTFoundation/DTHTMLParser
+#define COCOAPODS_POD_AVAILABLE_DTFoundation_DTHTMLParser
+#define COCOAPODS_VERSION_MAJOR_DTFoundation_DTHTMLParser 1
+#define COCOAPODS_VERSION_MINOR_DTFoundation_DTHTMLParser 5
+#define COCOAPODS_VERSION_PATCH_DTFoundation_DTHTMLParser 2
+
+// DTFoundation/UIKit
+#define COCOAPODS_POD_AVAILABLE_DTFoundation_UIKit
+#define COCOAPODS_VERSION_MAJOR_DTFoundation_UIKit 1
+#define COCOAPODS_VERSION_MINOR_DTFoundation_UIKit 5
+#define COCOAPODS_VERSION_PATCH_DTFoundation_UIKit 2
+
 // MBProgressHUD
 #define COCOAPODS_POD_AVAILABLE_MBProgressHUD
 #define COCOAPODS_VERSION_MAJOR_MBProgressHUD 0
@@ -29,6 +53,12 @@
 #define COCOAPODS_VERSION_MAJOR_NoticeView 3
 #define COCOAPODS_VERSION_MINOR_NoticeView 0
 #define COCOAPODS_VERSION_PATCH_NoticeView 7
+
+// QuickDialog
+#define COCOAPODS_POD_AVAILABLE_QuickDialog
+#define COCOAPODS_VERSION_MAJOR_QuickDialog 0
+#define COCOAPODS_VERSION_MINOR_QuickDialog 8
+#define COCOAPODS_VERSION_PATCH_QuickDialog 0
 
 // RestKit
 #define COCOAPODS_POD_AVAILABLE_RestKit
