@@ -130,7 +130,7 @@
         noticeTitle = @"穿越错了时间，再穿一次吧";
     }
     
-    _noticeView = [WBSuccessNoticeView showSuccessNoticeView:self.view title:noticeTitle sticky:NO delay:2.0f dismissedBlock:nil];
+    _noticeView = [WBSuccessNoticeView showSuccessNoticeView:self.view title:noticeTitle sticky:NO delay:1.0f dismissedBlock:nil];
 }
 
 - (void) latestStatusesFailed:(RKObjectRequestOperation *)operation error:(NSError *)error
@@ -140,7 +140,7 @@
     NSString *noticeMessage = @"穿越失败了";
     if (error.code == kCFURLErrorTimedOut)
         noticeMessage = @"网络超时";
-    _noticeView = [WBErrorNoticeView showErrorNoticeView:self.view title:@"提示" message:noticeMessage sticky:NO delay:2.0f dismissedBlock:nil];
+    _noticeView = [WBErrorNoticeView showErrorNoticeView:self.view title:@"提示" message:noticeMessage sticky:NO delay:1.0f dismissedBlock:nil];
     
 }
 

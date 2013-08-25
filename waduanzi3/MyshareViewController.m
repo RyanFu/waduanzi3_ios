@@ -62,7 +62,7 @@
         [_statuses removeAllObjects];
         [self.tableView reloadData];
         
-        _noticeView = [WBErrorNoticeView showErrorNoticeView:self.view title:@"提示" message:@"请先登录" sticky:NO delay:2.0f dismissedBlock:nil];
+        _noticeView = [WBErrorNoticeView showErrorNoticeView:self.view title:@"提示" message:@"请先登录" sticky:NO delay:1.0f dismissedBlock:nil];
     }
 }
 

@@ -66,7 +66,10 @@
 #define AD_BANNER_HEIGHT 50.0f
 
 // channel ID
-#define CHANNEL_FUNNY 1
+typedef NS_ENUM (NSInteger, CD_CHANNEL) {
+    CHANNEL_FUNNY = 1,
+    CHANNEL_FOCUS = 2
+};
 
 // media type
 typedef NS_ENUM (NSInteger, CD_MEDIA_TYPE) {
@@ -123,6 +126,9 @@ typedef NS_ENUM (NSUInteger, CDPostContentFontSize)
 #define USER_NAME_MAX_LENGTH 30
 #define USER_PASSWORD_MIN_LENGTH 3
 #define USER_PASSWORD_MAX_LENGTH 30
+
+#define FZLTHK_FONT_FAMILY @"FZLanTingHei-R-GBK"
+#define FZLTHK_FONT_NAME @"FZLTHK--GBK1-0"
 
 
 

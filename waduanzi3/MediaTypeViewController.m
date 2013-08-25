@@ -126,7 +126,7 @@
     if (_statuses.count > 0)
         [[CDDataCache shareCache] cachePostsByMediaType:_statuses mediaType:_mediaType];
     
-    _noticeView = [WBSuccessNoticeView showSuccessNoticeView:self.view title:noticeTitle sticky:NO delay:2.0f dismissedBlock:nil];
+    _noticeView = [WBSuccessNoticeView showSuccessNoticeView:self.view title:noticeTitle sticky:NO delay:1.0f dismissedBlock:nil];
 
 }
 

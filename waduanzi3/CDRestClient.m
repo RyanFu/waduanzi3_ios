@@ -231,6 +231,7 @@
         @"channel_id"          : @"channel_id",
         @"title"               : @"title",
         @"content"             : @"content",
+        @"content_html"        : @"content_html",
         @"create_time"         : @"create_time",
         @"create_time_at"      : @"create_time_at",
         @"up_count"            : @"up_count",

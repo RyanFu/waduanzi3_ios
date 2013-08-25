@@ -11,9 +11,10 @@
 #import "IIViewDeckController.h"
 #import "UMSocialControllerService.h"
 #import "CDMainViewController.h"
+#import "CDCommentFormView.h"
+#import "CDPostToolBar.h"
 
 @class CDPost;
-@class CDPostDetailView;
 
 @interface PostDetailViewController : CDMainViewController <UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate, UIGestureRecognizerDelegate, MBProgressHUDDelegate, UITextFieldDelegate, IIViewDeckControllerDelegate, UMSocialUIDelegate>
 {
@@ -22,6 +23,9 @@
     UIToolbar *_bottomToolbar;
     CGFloat detailFontSize;
     CGFloat commentFontSize;
+    MBProgressHUD *_HUD;
+    CDCommentFormView *_formView;
+    CDPostToolBar *_postToolbar;
 }
 
 @property (nonatomic, strong) UITableView *tableView;
@@ -33,5 +37,10 @@
 
 - (id)initWithPost:(CDPost *)post;
 - (id)initWithPostID:(NSInteger)post_id;
+
+- (UITableViewCell *) setupPostDetailViewCell:(NSIndexPath *)indexPath;
+- (CGFloat) tableView:(UITableView *)tableView detailViewCellheightForRowAtIndexPath:(NSIndexPath *)indexPath;
+- (void) setupHUDInView:(UIView *)view;
+- (void) backButtonDidPressed:(id)sender;
 
 @end

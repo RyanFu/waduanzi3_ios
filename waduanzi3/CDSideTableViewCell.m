@@ -38,7 +38,7 @@
     self.textLabel.backgroundColor = [UIColor clearColor];
     self.contentView.backgroundColor = [UIColor clearColor];
     self.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"accessory_arrow.png"]];
-    self.textLabel.font = [UIFont systemFontOfSize:16.0f];
+    self.textLabel.font = [UIFont fontWithName:FZLTHK_FONT_NAME size:16.0f];
 }
 
 - (void) layoutSubviews

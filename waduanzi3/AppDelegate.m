@@ -265,8 +265,11 @@
 
 - (void) afterWindowVisible
 {
+    [DTTextAttachment registerClass:[DTObjectTextAttachment class] forTagName:@"waduanzi"];
+    
     [UMSocialData openLog: CD_DEBUG];
     [MobClick startWithAppkey:UMENG_APPKEY];
+    [MobClick updateOnlineConfig];
     [UMSocialData setAppKey:UMENG_APPKEY];
     [WXApi registerApp:WEIXIN_APPID];
     [MobClick checkUpdate];
@@ -295,9 +298,13 @@
 
 - (void) setupRKObjectMapping
 {
-//    RKLogConfigureByName("RestKit/*", RKLogLevelOff);
-//    RKLogConfigureByName("RestKit/ObjectMapping", RKLogLevelTrace);
-    RKLogConfigureByName("RestKit/Network", RKLogLevelTrace);
+    if (CD_DEBUG) {
+//        RKLogConfigureByName("RestKit/ObjectMapping", RKLogLevelTrace);
+        RKLogConfigureByName("RestKit/Network", RKLogLevelTrace);
+    }
+    else
+        RKLogConfigureByName("RestKit/*", RKLogLevelOff);
+    
 
     CDRestClient *restClient = [[CDRestClient alloc] init];
     [restClient run];

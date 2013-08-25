@@ -28,34 +28,22 @@
 #import "ImageDetailViewController.h"
 #import "CDCommentFormView.h"
 #import "UserLoginViewController.h"
-#import "CDPostToolBar.h"
 #import "UMSocial.h"
 #import "WBErrorNoticeView+WaduanziMethod.h"
 #import "CDUserConfig.h"
 
 @interface PostDetailViewController ()
-{
-    MBProgressHUD *_HUD;
-    CDPostDetailView *_detailView;
-    CDCommentFormView *_formView;
-    CDPostToolBar *_postToolbar;
-}
-
 - (void) initData;
 - (void) loadPostComments;
 - (NSDictionary *) commentsParameters;
 - (NSDictionary *) createCommentParameters;
 - (void) setupNavButtionItems;
 - (void) setupTableView;
-- (void) setupPostDetailViewInCell:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath;
-- (void) setupPostDetailViewInCellData:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath;
 - (void) setCommentCellSubViews:(CDCommentTableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath;
 - (void) supportComment:(NSInteger) index;
 - (void) copyComment:(NSInteger) index;
 - (void) reportComment:(NSInteger) index;
 - (void) setupTableViewPullAndInfiniteScrollView;
-- (void) setupBottomToolBar;
-- (void) setupHUDInView:(UIView *)view;
 - (void) setupCommentFormView;
 - (void) sendComment;
 
@@ -116,7 +104,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.title = @"查看笑话";
+    self.title = @"查看详情";
     self.view.userInteractionEnabled = YES;
     self.view.exclusiveTouch = YES;
 
@@ -127,7 +115,6 @@
     // 设置评论框组件视图
     [self setupCommentFormView];
     
-//    [self setupBottomToolBar];
 
     // 右滑回到段子列表
     UISwipeGestureRecognizer *swipGestureRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwips:)];
@@ -149,8 +136,6 @@
     // 设置键盘显示和隐藏的通知
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
-    
-    self.navigationItem.rightBarButtonItem.enabled = (_post.middle_pic.length == 0) || _middleImage;
 }
 
 - (void) viewWillDisappear:(BOOL)animated
@@ -160,9 +145,6 @@
     // 移除键盘显示和隐藏的通知
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
-    
-    // 取消当前大图片下载进程
-    [_detailView.imageView cancelCurrentImageLoad];
     
     // 终止评论获取进程和更新段子信息进程
     [[RKObjectManager sharedManager] cancelAllObjectRequestOperationsWithMethod:RKRequestMethodGET matchingPathPattern:@"/comment/show/:post_id"];
@@ -284,60 +266,6 @@
 
 }
 
-// MARK: 暂时不使用
-- (void) setupBottomToolBar
-{
-    CGRect toolbarFrame = CGRectMake(0, _tableView.frame.origin.y + _tableView.frame.size.height, self.view.frame.size.width, TOOLBAR_HEIGHT);
-    _bottomToolbar = [[UIToolbar alloc] initWithFrame:toolbarFrame];
-    _bottomToolbar.barStyle = UIBarStyleBlackTranslucent;
-    _bottomToolbar.backgroundColor = [UIColor clearColor];
-    _bottomToolbar.clipsToBounds = YES;
-    _bottomToolbar.layer.borderWidth = 1.0f;
-    _bottomToolbar.layer.borderColor = [UIColor colorWithWhite:0.85f alpha:1.0f].CGColor;
-    _bottomToolbar.tintColor = [UIColor colorWithRed:0.85f green:0.85f blue:0.85f alpha:1.00f];
-    [_bottomToolbar setBackgroundImage:[UIImage imageNamed:@"qqusb_bottombar.png"]
-                    forToolbarPosition:UIToolbarPositionBottom
-                            barMetrics:UIBarMetricsDefault];
-    
-    // set button items
-    UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"ButtonNavBack.png"]
-                                                                       style:UIBarButtonItemStylePlain
-                                                                      target:self
-                                                                      action:@selector(backButtonDidPressed:)];
-    UIBarButtonItem *supportButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"mqz_detail_bottom_like.png"]
-                                                                       style:UIBarButtonItemStylePlain
-                                                                      target:self
-                                                                      action:@selector(likeButtonDidPressed:)];
-//    supportButton.title = @"赞";
-    UIBarButtonItem *favoriteButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"ButtonUnstarred.png"]
-                                                                       style:UIBarButtonItemStylePlain
-                                                                      target:self
-                                                                      action:@selector(favoriteButtonDidPressed:)];
-//    favoriteButton.title = @"收藏";
-    UIBarButtonItem *commentButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"mqz_detail_bottom_comment.png"]
-                                                                       style:UIBarButtonItemStylePlain
-                                                                      target:self
-                                                                      action:@selector(setupCommentFormView)];
-//    commentButtonItem.title = @"吐槽";
-    UIBarButtonItem *forwardButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"mqz_detail_bottom_share.png"]
-                                                                          style:UIBarButtonItemStylePlain
-                                                                         target:self
-                                                                         action:@selector(forwardButtonDidPressed:)];
-//    forwardButtonItem.title = @"分享";
-    UIBarButtonItem *flexButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-
-    NSArray *items = [NSArray arrayWithObjects:backButtonItem, flexButtonItem,
-                      supportButton, flexButtonItem,
-                      commentButtonItem, flexButtonItem,
-                      favoriteButton, flexButtonItem,
-                      forwardButtonItem,
-                      nil];
-    
-    [_bottomToolbar setItems:items];
-    backButtonItem.tintColor = supportButton.tintColor = commentButtonItem.tintColor = favoriteButton.tintColor = forwardButtonItem.tintColor = [UIColor colorWithRed:0.43f green:0.50f blue:0.65f alpha:1.0f];
-    [self.view addSubview:_bottomToolbar];
-}
-
 - (void) setupTableViewPullAndInfiniteScrollView
 {
     __weak PostDetailViewController *weakSelf = self;
@@ -397,7 +325,6 @@
 
 - (void) backButtonDidPressed:(id)sender
 {
-    [_detailView.imageView cancelCurrentImageLoad];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -518,19 +445,7 @@
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 0) {
-        static NSString *PostDetailCellIdentifier = @"PostDetailCell";
-        
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:PostDetailCellIdentifier];
-        if (cell == nil) {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:PostDetailCellIdentifier];
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            cell.contentView.backgroundColor = [UIColor whiteColor];
-        }
-        
-        [self setupPostDetailViewInCell:cell indexPath:indexPath];
-        [self setupHUDInView:cell];
-        [self setupPostDetailViewInCellData:cell indexPath:indexPath];
-        
+        UITableViewCell *cell = [self setupPostDetailViewCell:indexPath];
         return cell;
     }
     else if (indexPath.section == 1) {
@@ -547,7 +462,6 @@
         [_postToolbar.favoriteButton addTarget:self action:@selector(favoriteButtonDidPressed:) forControlEvents:UIControlEventTouchUpInside];
         [_postToolbar.commentButton addTarget:self action:@selector(commentTextFieldBecomeFirstResponder) forControlEvents:UIControlEventTouchUpInside];
         [_postToolbar.actionButton addTarget:self action:@selector(forwardButtonDidPressed:) forControlEvents:UIControlEventTouchUpInside];
-        _postToolbar.actionButton.enabled = (_post.middle_pic.length == 0) || _middleImage;
         _postToolbar.likeButton.selected = [[CDDataCache shareCache] fetchPostLikeState:_postID];
         _postToolbar.likeButton.userInteractionEnabled = !_postToolbar.likeButton.selected;
         
@@ -583,99 +497,10 @@
     
 }
 
-- (void) setupPostDetailViewInCell:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath
+- (UITableViewCell *) setupPostDetailViewCell:(NSIndexPath *)indexPath
 {
-    [_detailView removeFromSuperview];
-    _detailView = nil;
-    _detailView = [[CDPostDetailView alloc] initWithFrame:cell.contentView.bounds];
-    _detailView.detailTextLabel.font = [UIFont systemFontOfSize:detailFontSize];
-    [cell.contentView addSubview:_detailView];
-    _detailView.padding = POST_DETAIL_CELL_PADDING;
-
-    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showFullscreenImage:)];
-    [_detailView.imageView addGestureRecognizer:tapGestureRecognizer];
-    tapGestureRecognizer.delegate = self;
-}
-
-- (void) setupPostDetailViewInCellData:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath
-{
-    CGFloat contentWidth = _detailView.frame.size.width - POST_DETAIL_CELL_PADDING * 2;
-    CGFloat imageViewHeight = 0;
-    if (_middleImage) {
-        CGSize middleImageSize = CGSizeMake(_middleImage.size.width / 2, _middleImage.size.height / 2);
-        // 引处按照将图片宽度全部拉伸为contentWidth
-        imageViewHeight =  contentWidth * middleImageSize.height / middleImageSize.width;
-    }
-    else if (_smallImage) {
-        CGSize smallImageSize = CGSizeMake(_smallImage.size.width / 2, _smallImage.size.height / 2);
-        imageViewHeight =  contentWidth * smallImageSize.height / smallImageSize.width;
-    }
-    else
-        imageViewHeight = DETAIL_THUMB_HEIGHT;
-    _detailView.imageSize = CGSizeMake(contentWidth, imageViewHeight);
-    _detailView.detailTextLabel.text = _post.content;
-    _detailView.authorTextLabel.text = _post.author_name;
-    _detailView.datetimeTextLabel.text = _post.create_time_at;
-    [_detailView.avatarImageView setImageWithURL:[NSURL URLWithString:_post.user.small_avatar] placeholderImage:[UIImage imageNamed:@"avatar_placeholder.png"]];
-    
-    if (_middleImage) {
-        _detailView.imageView.image = _middleImage;
-        _detailView.textLabel.text = nil;
-    }
-    else if (_post.middle_pic.length > 0) {
-        if (_smallImage == nil)
-            self.smallImage = [UIImage imageNamed:@"thumb_placeholder.png"];
-        
-        __weak PostDetailViewController *weakSelf = self;
-        __weak MBProgressHUD *weakHUD = _HUD;
-        __weak UIImageView *weakImageView = _detailView.imageView;
-        __weak CDPostToolBar *weakToolbar = _postToolbar;
-        @try {
-            NSURL *imageUrl = [NSURL URLWithString:_post.middle_pic];
-            [_detailView.imageView setImageWithURL:imageUrl placeholderImage:_smallImage options:SDWebImageRetryFailed progress:^(NSUInteger receivedSize, long long expectedSize) {
-                CDLog(@"expected size: %d/%lld", receivedSize, expectedSize);
-                if (expectedSize <= 0) {
-                    weakHUD.mode = MBProgressHUDModeDeterminate;
-                    [weakHUD show:YES];
-                }
-                else
-                    weakHUD.progress = receivedSize / (expectedSize + 0.0);
-            } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-                [weakHUD hide:YES];
-                if (error) {
-                    [weakImageView cancelCurrentImageLoad];
-                    NSLog(@"picture download failed:%@", error);
-                }
-                else {
-                    weakSelf.middleImage = image;
-                    [weakSelf.tableView reloadData];
-                    weakSelf.navigationItem.rightBarButtonItem.enabled = weakToolbar.actionButton.enabled = YES;
-                }
-            }];
-        }
-        @catch (NSException *exception) {
-            [weakImageView cancelCurrentImageLoad];
-            CDLog(@"download big image exception: %@", exception);
-        }
-        @finally {
-            ;
-        }
-        // 如果是趣图，不显示标题，只显示内容
-        _detailView.textLabel.text = nil;
-    }
-    else {
-        _detailView.textLabel.text = _post.title;
-        _detailView.imageView.image = nil;
-    }
-}
-
-- (void) showFullscreenImage:(UITapGestureRecognizer *) recognizer
-{
-    ImageDetailViewController *imageViewController = [[ImageDetailViewController alloc] init];
-    imageViewController.thumbnail = _smallImage;
-    imageViewController.originaPic = _middleImage;
-    imageViewController.originalPicUrl = [NSURL URLWithString:_post.middle_pic];
-    [self presentViewController:imageViewController animated:NO completion:NULL];
+    [NSException raise:@"Invoked abstract method" format:@"Invoked abstract method"];
+    return nil;
 }
 
 
@@ -687,36 +512,7 @@
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 0) {
-        CGFloat contentWidth = tableView.frame.size.width - POST_DETAIL_CELL_PADDING*2;
-        CGSize titleLabelSize = [_post.title sizeWithFont:[UIFont systemFontOfSize:16.0f]
-                                       constrainedToSize:CGSizeMake(contentWidth, 9999.0)
-                                           lineBreakMode:UILineBreakModeWordWrap];
-        
-        CGSize detailLabelSize = [_post.content sizeWithFont:[UIFont systemFontOfSize:16.0f]
-                                          constrainedToSize:CGSizeMake(contentWidth, 9999.0)
-                                              lineBreakMode:UILineBreakModeWordWrap];
-        
-        CGFloat cellHeight = POST_DETAIL_CELL_PADDING + POST_AVATAR_SIZE.height + POST_DETAIL_CELL_PADDING + detailLabelSize.height;
-        
-        CGFloat imageViewHeight = 0;
-        if (_middleImage) {
-            CGSize middleImageSize = CGSizeMake(_middleImage.size.width / 2, _middleImage.size.height / 2);
-            // 引处按照将图片宽度全部拉伸为contentWidth
-            imageViewHeight =  contentWidth * middleImageSize.height / middleImageSize.width;
-        }
-        else if (_smallImage) {
-            CGSize smallImageSize = CGSizeMake(_smallImage.size.width / 2, _smallImage.size.height / 2);
-            imageViewHeight =  contentWidth * smallImageSize.height / smallImageSize.width;
-        }
-        else if (_post.middle_pic.length > 0)
-            imageViewHeight = THUMB_HEIGHT;
-        
-        if (imageViewHeight > 0)
-            cellHeight += imageViewHeight + POST_DETAIL_CELL_PADDING;
-        else
-            cellHeight += titleLabelSize.height + POST_DETAIL_CELL_PADDING;
-
-        return cellHeight + POST_DETAIL_CELL_PADDING * 2;
+        return [self tableView:tableView detailViewCellheightForRowAtIndexPath:indexPath];
     }
     else if (indexPath.section == 1) {
         return 40.0f;
@@ -736,6 +532,12 @@
     }
     else
         return 40.0f;
+}
+
+- (CGFloat) tableView:(UITableView *)tableView detailViewCellheightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [NSException raise:@"Invoked abstract method" format:@"Invoked abstract method"];
+    return 0;
 }
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

@@ -26,6 +26,7 @@
 #import "CDSideTableViewCell.h"
 #import "CDUIKit.h"
 #import "MyFeedbackViewController.h"
+#import "FocusListViewController.h"
 
 @interface SideMenuViewController ()
 {
@@ -143,7 +144,7 @@
     UIImageView *imgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"FBMenuSectionHeaderBackground.png"]];
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10.0f, 0.0f, 100, 32.0f)];
     titleLabel.text = [_sectionHeaderTitles objectAtIndex:section];
-    titleLabel.font = [UIFont systemFontOfSize:14.0f];
+    titleLabel.font = [UIFont fontWithName:FZLTHK_FONT_NAME size:14.0f];
     titleLabel.textColor = [UIColor colorWithRed:0.61f green:0.64f blue:0.70f alpha:1.00f];
     titleLabel.backgroundColor = [UIColor clearColor];
     [imgView addSubview:titleLabel];
@@ -193,6 +194,7 @@
         }
         else if (indexPath.section == 1) {
             static MediaTypeViewController *textJokeViewController, *imageJokeViewController;
+            static FocusListViewController *articleViewController;
             
             switch (indexPath.row) {
                 case 0:
@@ -209,6 +211,12 @@
                         imageJokeViewController.title = @"挖趣图";
                     }
                     centerViewController = [[UINavigationController alloc] initWithRootViewController:imageJokeViewController];
+                    self.viewDeckController.centerController = centerViewController;
+                    break;
+                case 2:
+                    if (articleViewController == nil)
+                        articleViewController = [[FocusListViewController alloc] init];
+                    centerViewController = [[UINavigationController alloc] initWithRootViewController:articleViewController];
                     self.viewDeckController.centerController = centerViewController;
                     break;
                 default:

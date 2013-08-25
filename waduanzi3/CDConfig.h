@@ -11,4 +11,5 @@
 @interface CDConfig : NSObject
 
 + (BOOL) enabledAdvert;
++ (BOOL) enabledUMHandle;
 @end

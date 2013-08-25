@@ -14,7 +14,7 @@
 #import "WBNoticeView.h"
 #import "UMUFPHandleView.h"
 
-@interface PostListViewController : CDMainViewController <CDPostTableViewCellDelegate, UIGestureRecognizerDelegate, UITableViewDataSource, UITableViewDelegate, IIViewDeckControllerDelegate>
+@interface PostListViewController : CDMainViewController <CDPostTableViewCellDelegate, UIGestureRecognizerDelegate, UITableViewDataSource, UITableViewDelegate, IIViewDeckControllerDelegate, UMUFPHandleViewDelegate>
 {
     NSMutableArray *_statuses;
     NSMutableDictionary *_parameters;

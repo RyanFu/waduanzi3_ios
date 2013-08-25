@@ -5,7 +5,7 @@
 	<array>
 		<dict>
 			<key>name</key>
-			<string>随边逛逛</string>
+			<string>每日更新</string>
 			<key>tag</key>
 			<integer>0</integer>
 			<key>icon</key>
@@ -44,6 +44,14 @@
 			<integer>20</integer>
 			<key>icon</key>
 			<string>photos.png</string>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>挖热点</string>
+			<key>tag</key>
+			<integer>2</integer>
+			<key>icon</key>
+			<string>places.png</string>
 		</dict>
 	</array>
 	<array>

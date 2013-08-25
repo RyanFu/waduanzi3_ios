@@ -18,6 +18,7 @@
 @property (nonatomic, strong) NSNumber * channel_id;
 @property (nonatomic, copy) NSString * title;
 @property (nonatomic, copy) NSString * content;
+@property (nonatomic, copy) NSString * content_html;
 @property (nonatomic, strong) NSNumber * up_count;
 @property (nonatomic, strong) NSNumber * down_count;
 @property (nonatomic, strong) NSNumber * create_time;

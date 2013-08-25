@@ -14,7 +14,7 @@
 #import "CDPost.h"
 #import "UIScrollView+SVPullToRefresh.h"
 #import "UIScrollView+SVInfiniteScrolling.h"
-#import "PostDetailViewController.h"
+#import "FunnyDetailViewController.h"
 #import "CDRestClient.h"
 #import "CDPostTableViewCell.h"
 #import "UIImageView+WebCache.h"
@@ -27,6 +27,7 @@
 #import "PublishViewController.h"
 #import "CDUserConfig.h"
 #import "UMUFPHandleView.h"
+#import "UMUFPBadgeView.h"
 
 @interface PostListViewController ()
 - (void) setupNavButtionItems;
@@ -117,7 +118,6 @@
     
     [self setupNavButtionItems];
     [self setupTableView];
-    [self setupAdView];
 
     [self setupTableViewPullScrollView];
     [self setupTableViewInfiniteScrollView];
@@ -193,16 +193,23 @@
 
 - (void) setupUMAppNetworkView
 {
+    if (![CDConfig enabledUMHandle])
+        return;
+    
     @try {
-        _mHandleView = [[UMUFPHandleView alloc] initWithFrame:CGRectMake(0, _tableView.bounds.size.height - 88.0f, 32.0f, 88.0f)
+        _mHandleView = [[UMUFPHandleView alloc] initWithFrame:CGRectMake(0, _tableView.bounds.size.height - 64.0f, 32.0f, 64.0f)
                                                        appKey:UMAPPNETWORK_APPKEY
                                                        slotId:nil
                                         currentViewController:self];
-        _mHandleView.mContentType = ContentTypeApp;
-        _mHandleView.delegate = (id<UMUFPHandleViewDelegate>)self;
-        _mHandleView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin;
-        [_mHandleView setHandleViewBackgroundImage:[UIImage imageNamed:@"UMUFP.bundle/um_handle_placeholder.png"]];
         [self.view addSubview:_mHandleView];
+        _mHandleView.mContentType = ContentTypeApp;
+        _mHandleView.delegate = self;
+        _mHandleView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin;
+        [_mHandleView setHandleViewBackgroundImage:[UIImage imageNamed:@"umeng_ad_handle.png"]];
+        CGRect badgeFrame = _mHandleView.mBadgeView.frame;
+        badgeFrame.origin.x = 7.5f;
+        _mHandleView.mBadgeView.frame = badgeFrame;
+        [_mHandleView requestPromoterDataInBackground];
     }
     @catch (NSException *exception) {
         CDLog(@"setup umeng app network exception: %@", exception);
@@ -230,11 +237,13 @@
 //    NSLog(@"h: %f", tableViewFrame.size.height);
     if (enableAdvert) {
         tableViewFrame.size.height -= AD_BANNER_HEIGHT;
-        [self setupAdView];
+        if (self.adView == nil)
+            [self setupAdView];
+        else
+            self.adView.hidden = NO;
     }
-    else {
-        [self.adView removeFromSuperview];
-        self.adView = nil;
+    else if (self.adView != nil) {
+        self.adView.hidden = YES;
     }
     _tableView.frame = tableViewFrame;
     
@@ -244,8 +253,17 @@
         [self.tableView reloadData];
     }
     
-    [_mHandleView requestPromoterDataInBackground];
+    // 如果允许显示小把手，但检查小把手的显示状态，如果是隐藏了，侧显示出来
+    if ([CDConfig enabledUMHandle]) {
+        if ([_mHandleView isKindOfClass:[UMUFPHandleView class]] && _mHandleView.hidden) {
+            _mHandleView.hidden = NO;
+            [_mHandleView requestPromoterDataInBackground];
+        }
+    }
+    else if ([_mHandleView isKindOfClass:[UMUFPHandleView class]] && !_mHandleView.hidden)
+        _mHandleView.hidden = YES;
 }
+
 
 - (void) viewDidDisappear:(BOOL)animated
 {
@@ -356,7 +374,8 @@
     
     CDPost *post = [_statuses objectAtIndex:indexPath.row];
     cell.detailTextLabel.text = [post summary];
-    cell.detailTextLabel.font = [UIFont systemFontOfSize:detailFontSize];
+//    cell.detailTextLabel.font = [UIFont systemFontOfSize:detailFontSize];
+    cell.detailTextLabel.font = cell.textLabel.font = [UIFont fontWithName:FZLTHK_FONT_NAME size:detailFontSize];
     cell.authorTextLabel.text = post.author_name;
     cell.datetimeTextLabel.text = post.create_time_at;
     
@@ -395,8 +414,7 @@
 {
     cell.thumbSize = CGSizeMake(THUMB_WIDTH, THUMB_HEIGHT);
     
-    cell.textLabel.font = [UIFont systemFontOfSize:16.0f];
-    cell.authorTextLabel.font = [UIFont boldSystemFontOfSize:16.0f];
+    cell.authorTextLabel.font = [UIFont fontWithName:FZLTHK_FONT_NAME size:16.0f];
     cell.datetimeTextLabel.font = [UIFont systemFontOfSize:12.0f];
 
     cell.upButton.imageEdgeInsets = cell.commentButton.contentEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 5.0f);
@@ -482,11 +500,11 @@
     CDPost *post = [_statuses objectAtIndex:indexPath.row];
     
     CGFloat contentWidth = self.view.frame.size.width - POST_LIST_CELL_CONTENT_MARGIN.left - POST_LIST_CELL_CONTENT_MARGIN.right - POST_LIST_CELL_CONTENT_PADDING.left - POST_LIST_CELL_CONTENT_PADDING.right;
-    CGSize titleLabelSize = [post.title sizeWithFont:[UIFont systemFontOfSize:16.0f]
+    CGSize titleLabelSize = [post.title sizeWithFont:[UIFont fontWithName:FZLTHK_FONT_NAME size:16.0f]
                                    constrainedToSize:CGSizeMake(contentWidth, 9999.0)
                                        lineBreakMode:UILineBreakModeCharacterWrap];
     
-    CGSize detailLabelSize = [[post summary] sizeWithFont:[UIFont systemFontOfSize:detailFontSize]
+    CGSize detailLabelSize = [[post summary] sizeWithFont:[UIFont fontWithName:FZLTHK_FONT_NAME size:detailFontSize]
                                       constrainedToSize:CGSizeMake(contentWidth, 9999.0)
                                           lineBreakMode:UILineBreakModeCharacterWrap];
     
@@ -504,12 +522,20 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    CDPost *post = [_statuses objectAtIndex:indexPath.row];
-    PostDetailViewController *detailViewController = [[PostDetailViewController alloc] initWithPost:post];
-    CDPostTableViewCell *cell = (CDPostTableViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
-    if (cell.imageView.image != nil)
-        detailViewController.smallImage = cell.imageView.image;
-    [self.navigationController pushViewController:detailViewController animated:YES];
+    @try {
+        CDPost *post = [_statuses objectAtIndex:indexPath.row];
+        FunnyDetailViewController *detailViewController = [[FunnyDetailViewController alloc] initWithPost:post];
+        CDPostTableViewCell *cell = (CDPostTableViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+        if (cell.imageView.image != nil)
+            detailViewController.smallImage = cell.imageView.image;
+        [self.navigationController pushViewController:detailViewController animated:YES];
+    }
+    @catch (NSException *exception) {
+        CDLog(@"exception: %@", exception);
+    }
+    @finally {
+        ;
+    }
 }
 
 #pragma mark - barButtionItem selector

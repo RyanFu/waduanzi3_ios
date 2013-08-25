@@ -7,11 +7,18 @@
 //
 
 #import "CDConfig.h"
+#import "MobClick.h"
 
 @implementation CDConfig
 
 + (BOOL) enabledAdvert
 {
     return NO;
+}
+
++ (BOOL) enabledUMHandle
+{
+    NSString *switcher = [MobClick getConfigParams:@"enable_umhandle"];
+    return [switcher isEqualToString:@"on"];
 }
 @end

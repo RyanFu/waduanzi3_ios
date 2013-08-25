@@ -18,6 +18,7 @@
 @synthesize down_count = _down_count;
 @synthesize up_count = _up_count;
 @synthesize content = _content;
+@synthesize content_html = _content_html;
 @synthesize create_time = _create_time;
 @synthesize author_name = _author_name;
 @synthesize author_id = _author_id;
@@ -44,6 +45,7 @@
         self.down_count = [decoder decodeObjectForKey:@"down_count"];
         self.up_count = [decoder decodeObjectForKey:@"up_count"];
         self.content = [decoder decodeObjectForKey:@"content"];
+        self.content_html = [decoder decodeObjectForKey:@"content_html"];
         self.create_time = [decoder decodeObjectForKey:@"create_time"];
         self.author_name = [decoder decodeObjectForKey:@"author_name"];
         self.author_id = [decoder decodeObjectForKey:@"author_id"];
@@ -71,6 +73,7 @@
     [encoder encodeObject:_down_count forKey:@"down_count"];
     [encoder encodeObject:_up_count forKey:@"up_count"];
     [encoder encodeObject:_content forKey:@"content"];
+    [encoder encodeObject:_content_html forKey:@"content_html"];
     [encoder encodeObject:_create_time forKey:@"create_time"];
     [encoder encodeObject:_author_name forKey:@"author_name"];
     [encoder encodeObject:_author_id forKey:@"author_id"];

@@ -114,7 +114,7 @@
     if (_statuses.count > 0)
         [[CDDataCache shareCache] cacheTimelinePosts:_statuses];
     
-    _noticeView = [WBSuccessNoticeView showSuccessNoticeView:self.view title:noticeTitle sticky:NO delay:2.0f dismissedBlock:nil];
+    _noticeView = [WBSuccessNoticeView showSuccessNoticeView:self.view title:noticeTitle sticky:NO delay:1.0f dismissedBlock:nil];
 }
 
 //- (void) latestStatusesFailed:(RKObjectRequestOperation *)operation error:(NSError *)error

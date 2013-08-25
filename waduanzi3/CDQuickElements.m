@@ -25,10 +25,10 @@
     root.grouped = YES;
     
     QAppearance *appearance = root.appearance;
-    appearance.labelFont = [UIFont systemFontOfSize:16.0f];
+    appearance.labelFont = [UIFont fontWithName:FZLTHK_FONT_NAME size:16.0f];
     appearance.labelColorEnabled = [UIColor blackColor];
     appearance.actionColorEnabled = [UIColor blackColor];
-    appearance.sectionTitleFont = [UIFont systemFontOfSize:14.0f];
+    appearance.sectionTitleFont = [UIFont fontWithName:FZLTHK_FONT_NAME size:14.0f];
     appearance.sectionFooterColor = [UIColor lightGrayColor];
     [root setAppearance:appearance];
     
@@ -123,11 +123,11 @@
     root.controllerName = @"UserSingupViewController";
     
     QAppearance *appearance = root.appearance;
-    appearance.entryFont = [UIFont systemFontOfSize:16.0f];
-    appearance.labelFont = [UIFont systemFontOfSize:16.0f];
+    appearance.entryFont = [UIFont fontWithName:FZLTHK_FONT_NAME size:16.0f];
+    appearance.labelFont = [UIFont fontWithName:FZLTHK_FONT_NAME size:16.0f];
     appearance.valueAlignment = NSTextAlignmentLeft;
     appearance.sectionFooterColor = [UIColor lightGrayColor];
-    appearance.sectionFooterFont = [UIFont systemFontOfSize:12.0f];
+    appearance.sectionFooterFont = [UIFont fontWithName:FZLTHK_FONT_NAME size:12.0f];
     [root setAppearance:appearance];
     
     
@@ -183,11 +183,11 @@
     root.controllerName = @"UserLoginViewController";
     
     QAppearance *appearance = root.appearance;
-    appearance.entryFont = [UIFont systemFontOfSize:16.0f];
+    appearance.entryFont = [UIFont fontWithName:FZLTHK_FONT_NAME size:16.0f];
     appearance.valueAlignment = NSTextAlignmentLeft;
-    appearance.labelFont = [UIFont systemFontOfSize:16.0f];
+    appearance.labelFont = [UIFont fontWithName:FZLTHK_FONT_NAME size:16.0f];
     appearance.sectionFooterColor = [UIColor lightGrayColor];
-    appearance.sectionFooterFont = [UIFont systemFontOfSize:12.0f];
+    appearance.sectionFooterFont = [UIFont fontWithName:FZLTHK_FONT_NAME size:12.0f];
     [root setAppearance:appearance];
     
     
@@ -241,9 +241,9 @@
     
     
     QAppearance *appearance = root.appearance;
-    appearance.labelFont = [UIFont systemFontOfSize:16.0f];
-    appearance.entryFont = [UIFont systemFontOfSize:14.0f];
-    appearance.sectionTitleFont = [UIFont systemFontOfSize:14.0f];
+    appearance.labelFont = [UIFont fontWithName:FZLTHK_FONT_NAME size:16.0f];
+    appearance.entryFont = [UIFont fontWithName:FZLTHK_FONT_NAME size:14.0f];
+    appearance.sectionTitleFont = [UIFont fontWithName:FZLTHK_FONT_NAME size:14.0f];
     appearance.sectionFooterColor = [UIColor lightGrayColor];
     [root setAppearance:appearance];
     
@@ -311,9 +311,9 @@
     
     
     QAppearance *appearance = root.appearance;
-    appearance.labelFont = [UIFont systemFontOfSize:16.0f];
-    appearance.entryFont = [UIFont systemFontOfSize:14.0f];
-    appearance.sectionTitleFont = [UIFont systemFontOfSize:14.0f];
+    appearance.labelFont = [UIFont fontWithName:FZLTHK_FONT_NAME size:16.0f];
+    appearance.entryFont = [UIFont fontWithName:FZLTHK_FONT_NAME size:14.0f];
+    appearance.sectionTitleFont = [UIFont fontWithName:FZLTHK_FONT_NAME size:14.0f];
     appearance.sectionFooterColor = [UIColor lightGrayColor];
     [root setAppearance:appearance];
     
@@ -336,9 +336,9 @@
     
     
     QAppearance *appearance = root.appearance;
-    appearance.labelFont = [UIFont systemFontOfSize:16.0f];
-    appearance.entryFont = [UIFont systemFontOfSize:14.0f];
-    appearance.sectionTitleFont = [UIFont systemFontOfSize:14.0f];
+    appearance.labelFont = [UIFont fontWithName:FZLTHK_FONT_NAME size:16.0f];
+    appearance.entryFont = [UIFont fontWithName:FZLTHK_FONT_NAME size:14.0f];
+    appearance.sectionTitleFont = [UIFont fontWithName:FZLTHK_FONT_NAME size:14.0f];
     appearance.sectionFooterColor = [UIColor lightGrayColor];
     [root setAppearance:appearance];
     

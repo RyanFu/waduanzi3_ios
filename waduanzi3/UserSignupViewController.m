@@ -102,11 +102,11 @@
         cell.textLabel.highlightedTextColor = [UIColor colorWithRed:0.33f green:0.33f blue:0.33f alpha:1.00f];
         cell.textLabel.shadowColor = [UIColor colorWithRed:0.86f green:0.87f blue:0.89f alpha:1.00f];
         cell.textLabel.shadowOffset = CGSizeMake(0, 2);
-        cell.textLabel.font = [UIFont boldSystemFontOfSize:16.0f];
+        cell.textLabel.font = [UIFont fontWithName:FZLTHK_FONT_FAMILY size:16.0f];
         cell.textLabel.textColor = element.enabled ? [UIColor colorWithRed:0.33f green:0.33f blue:0.33f alpha:1.00f] : [UIColor colorWithRed:0.67f green:0.67f blue:0.67f alpha:1.00f];
     }
     else if (indexPath.section == 2) {
-        cell.textLabel.font = [UIFont systemFontOfSize:14.0f];
+        cell.textLabel.font = [UIFont fontWithName:FZLTHK_FONT_FAMILY size:14.0f];
         cell.textLabel.textColor = [UIColor whiteColor];
         
         UIView *backgroundView = [[UIView alloc] init];

@@ -126,7 +126,7 @@
     else {
         NSLog(@"没有更多内容了");
         NSString *noticeTitle = @"您的收藏夹里还没有段子哦";
-        _noticeView = [WBSuccessNoticeView showSuccessNoticeView:self.view title:noticeTitle sticky:NO delay:2.0f dismissedBlock:nil];
+        _noticeView = [WBSuccessNoticeView showSuccessNoticeView:self.view title:noticeTitle sticky:NO delay:1.0f dismissedBlock:nil];
     }
     
 

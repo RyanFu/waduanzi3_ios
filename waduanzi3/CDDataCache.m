@@ -29,21 +29,38 @@
     return instance;
 }
 
+#pragma mark - focus
+
+- (BOOL) cacheFocusPosts:(NSMutableArray *)posts
+{
+    return [self cachePosts:posts cacheKey:@"latest_focus_posts"];
+}
+
+- (NSMutableArray *)fetchFocusPosts
+{
+    return [self fetchPostsByCacheKey:@"latest_focus_posts"];
+}
+
+- (void) removeFocusPosts
+{
+    [self removePostsCache:@"latest_focus_posts"];
+}
+
 #pragma mark - timeline
 
 - (BOOL) cacheTimelinePosts:(NSMutableArray *)posts
 {
-    return [self cachePosts:posts cacheKey:@"latest_posts"];
+    return [self cachePosts:posts cacheKey:@"latest_funny_posts"];
 }
 
 - (NSMutableArray *)fetchTimelinePosts
 {
-    return [self fetchPostsByCacheKey:@"latest_posts"];
+    return [self fetchPostsByCacheKey:@"latest_funny_posts"];
 }
 
 - (void) removeTimelinePosts
 {
-    [self removePostsCache:@"latest_posts"];
+    [self removePostsCache:@"latest_funny_posts"];
 }
 
 

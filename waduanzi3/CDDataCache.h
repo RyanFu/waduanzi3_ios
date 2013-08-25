@@ -14,6 +14,11 @@
 
 + (CDDataCache *) shareCache;
 
+
+- (BOOL) cacheFocusPosts:(NSMutableArray *)posts;
+- (NSMutableArray *)fetchFocusPosts;
+- (void) removeFocusPosts;
+
 - (BOOL) cacheTimelinePosts:(NSMutableArray *)posts;
 - (NSMutableArray *)fetchTimelinePosts;
 - (void) removeTimelinePosts;
