@@ -27,7 +27,7 @@
 - (void)viewDidLoad
 {
     // Do any additional setup after loading the view.
-    self.title = @"穿越";
+    self.title = @"随机穿越";
     
     _statuses = [[CDDataCache shareCache] fetchHistoryPosts];
     [self setupTitle];

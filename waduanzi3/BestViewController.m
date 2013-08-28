@@ -29,7 +29,7 @@
     _hours = 24;
     
     // Do any additional setup after loading the view.
-    self.title = @"精华";
+    self.title = @"精华推荐";
     
     _statuses = [[CDDataCache shareCache] fetchBestPosts];
     

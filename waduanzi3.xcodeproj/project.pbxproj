@@ -290,6 +290,7 @@
 		2BD0350717A0D79C00AFD3FB /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BD0350417A0D79C00AFD3FB /* Default@2x.png */; };
 		2BD0350817A0D79C00AFD3FB /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BD0350517A0D79C00AFD3FB /* Default.png */; };
 		2BD0350917A0D79C00AFD3FB /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BD0350617A0D79C00AFD3FB /* Default-568h@2x.png */; };
+		2BD4587317CDA34200CB2B01 /* MACAddress.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BD4587217CDA34200CB2B01 /* MACAddress.m */; };
 		2BD65029178A6EE900EFE5B7 /* CDUserForm.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BD65028178A6EE900EFE5B7 /* CDUserForm.m */; };
 		2BDA2656179400DE00838973 /* CDViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BDA2655179400DE00838973 /* CDViewController.m */; };
 		2BDA265A1794011B00838973 /* navibarcancel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BDA26581794011B00838973 /* navibarcancel@2x.png */; };
@@ -725,6 +726,8 @@
 		2BD0350417A0D79C00AFD3FB /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		2BD0350517A0D79C00AFD3FB /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		2BD0350617A0D79C00AFD3FB /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		2BD4587117CDA34200CB2B01 /* MACAddress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MACAddress.h; sourceTree = "<group>"; };
+		2BD4587217CDA34200CB2B01 /* MACAddress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MACAddress.m; sourceTree = "<group>"; };
 		2BD65027178A6EE900EFE5B7 /* CDUserForm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDUserForm.h; sourceTree = "<group>"; };
 		2BD65028178A6EE900EFE5B7 /* CDUserForm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDUserForm.m; sourceTree = "<group>"; };
 		2BDA2654179400DE00838973 /* CDViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDViewController.h; sourceTree = "<group>"; };
@@ -1098,6 +1101,15 @@
 			name = Classes;
 			sourceTree = "<group>";
 		};
+		2BD4587017CDA34200CB2B01 /* MACAddress */ = {
+			isa = PBXGroup;
+			children = (
+				2BD4587117CDA34200CB2B01 /* MACAddress.h */,
+				2BD4587217CDA34200CB2B01 /* MACAddress.m */,
+			);
+			path = MACAddress;
+			sourceTree = "<group>";
+		};
 		2BDD7071177F96D100421915 /* MGBox */ = {
 			isa = PBXGroup;
 			children = (
@@ -1234,6 +1246,7 @@
 		2BED8226167B59320025E9C4 /* Vendors */ = {
 			isa = PBXGroup;
 			children = (
+				2BD4587017CDA34200CB2B01 /* MACAddress */,
 				2BFE175217BE0A76004AF130 /* UMAppNetwork_SDK_3.5.5 */,
 				2B8412CE17ABAFA100AFB264 /* UMAnalytics_Sdk_2.2.0.OpenUDID */,
 				2B8412A117ABAC1700AFB264 /* UMSocial_Sdk_2.2.1.1 */,
@@ -1999,6 +2012,7 @@
 				2BD0116C17C9E78800825869 /* ArticleDetailViewController.m in Sources */,
 				2BD0116F17C9EB1100825869 /* FocusListViewController.m in Sources */,
 				2BD0117217CA252F00825869 /* FunnyDetailViewController.m in Sources */,
+				2BD4587317CDA34200CB2B01 /* MACAddress.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

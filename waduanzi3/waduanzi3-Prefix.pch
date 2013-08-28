@@ -24,5 +24,6 @@
 // QuickDialog
 #import "QuickDialog.h"
 
+#import "OpenUDID.h"
 #import "CDDefine.h"
 #import "CDCommon.h"

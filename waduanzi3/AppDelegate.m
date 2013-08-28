@@ -266,7 +266,7 @@
 - (void) afterWindowVisible
 {
     [DTTextAttachment registerClass:[DTObjectTextAttachment class] forTagName:@"waduanzi"];
-    
+
     [UMSocialData openLog: CD_DEBUG];
     [MobClick startWithAppkey:UMENG_APPKEY];
     [MobClick updateOnlineConfig];

@@ -148,7 +148,7 @@
         CGRect detailLabelFrame = CGRectMake(subContentViewX, widgetY, subContentViewWidth, widgetHeight);
         [self.detailTextLabel setFrame:detailLabelFrame];
         
-        widgetY += widgetHeight + _padding;
+//        widgetY += widgetHeight + _padding;
     }
     
     

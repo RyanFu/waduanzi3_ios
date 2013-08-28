@@ -15,6 +15,7 @@
 @interface ArticleDetailViewController ()
 {
     DTAttributedTextView *_coreTextView;
+    NSCache *_cellCache;
 }
 - (DTAttributedTextCell *)tableView:(UITableView *)tableView preparedCellForIndexPath:(NSIndexPath *)indexPath;
 @end
@@ -27,7 +28,9 @@
 	// Do any additional setup after loading the view.
     
     [DTAttributedTextContentView setLayerClass:[DTTiledLayerWithoutFade class]];
-    self.title = @"查看新闻";
+    self.title = @"查看详情";
+    
+    _cellCache = [[NSCache alloc] init];
 }
 
 - (void)didReceiveMemoryWarning
@@ -46,9 +49,11 @@
 - (DTAttributedTextCell *)tableView:(UITableView *)tableView preparedCellForIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *detailViewCellIdentifier = @"PostDetailHtmlCell";
+    
+    NSString *cacheKey = [NSString stringWithFormat:@"attributed_text_cell_pid_%d", self.postID];
+    DTAttributedTextCell *cell = [_cellCache objectForKey:cacheKey];
 
-    DTAttributedTextCell *cell = [self.tableView dequeueReusableCellWithIdentifier:detailViewCellIdentifier];
-    if (cell == nil) {
+    if (!cell) {
         cell = [[DTAttributedTextCell alloc] initWithReuseIdentifier:detailViewCellIdentifier];
         cell.textDelegate = self;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -57,6 +62,8 @@
         
         cell.attributedTextContextView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
         cell.attributedTextContextView.edgeInsets = UIEdgeInsetsMake(15.0f, 10.0f, 15.0f, 10.0f);
+        
+        [_cellCache setObject:cell forKey:cacheKey];
     }
 
     NSString *csspath = [[NSBundle mainBundle] pathForResource:@"default" ofType:@"css"];
@@ -89,8 +96,6 @@
 - (UIView *) attributedTextContentView:(DTAttributedTextContentView *)attributedTextContentView viewForAttachment:(DTTextAttachment *)attachment frame:(CGRect)frame
 {
     if ([attachment isKindOfClass:[DTImageTextAttachment class]]) {
-//        NSLog(@"contentURL: %@, x:%f, y:%f, w:%f, h:%f", attachment.contentURL,frame.origin.x, frame.origin.y, frame.size.width, frame.size.height);
-        
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:frame];
         imageView.layer.cornerRadius = 3.0f;
         imageView.contentMode = UIViewContentModeScaleAspectFill;
@@ -104,9 +109,7 @@
         [loadingView startAnimating];
         __weak UIActivityIndicatorView *weakLoadingView = loadingView;
         [imageView setImageWithURL:attachment.contentURL placeholderImage:[UIImage imageNamed:@"thumb_placeholder.png"] options:SDWebImageRetryFailed progress:^(NSUInteger receivedSize, long long expectedSize) {
-            if (receivedSize == expectedSize) {
-                [weakLoadingView stopAnimating];
-            }
+            ;
         } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
             [weakLoadingView stopAnimating];
         }];

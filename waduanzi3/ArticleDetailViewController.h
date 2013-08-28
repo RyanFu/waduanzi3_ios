@@ -7,7 +7,6 @@
 //
 
 #import "PostDetailViewController.h"
-#import <DTCoreText/DTCoreText.h>
 
 @interface ArticleDetailViewController : PostDetailViewController <DTAttributedTextContentViewDelegate>
 

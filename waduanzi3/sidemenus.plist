@@ -13,7 +13,7 @@
 		</dict>
 		<dict>
 			<key>name</key>
-			<string>精华</string>
+			<string>精华推荐</string>
 			<key>tag</key>
 			<integer>1</integer>
 			<key>icon</key>
@@ -21,7 +21,7 @@
 		</dict>
 		<dict>
 			<key>name</key>
-			<string>穿越</string>
+			<string>随机穿越</string>
 			<key>tag</key>
 			<integer>2</integer>
 			<key>icon</key>

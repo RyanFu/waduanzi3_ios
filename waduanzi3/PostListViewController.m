@@ -28,6 +28,9 @@
 #import "CDUserConfig.h"
 #import "UMUFPHandleView.h"
 #import "UMUFPBadgeView.h"
+#import "FunnyDetailViewController.h"
+#import "ArticleDetailViewController.h"
+#import "MACAddress.h"
 
 @interface PostListViewController ()
 - (void) setupNavButtionItems;
@@ -191,6 +194,10 @@
     _tableView.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"pullToRefreshBg.png"]];
 }
 
+
+/**
+ 设置友盟应用联盟，左下方的小把手
+ */
 - (void) setupUMAppNetworkView
 {
     if (![CDConfig enabledUMHandle])
@@ -482,14 +489,23 @@
     UIButton *btn = (UIButton *)sender;
     [btn addTarget:self action:nil forControlEvents:UIControlEventTouchUpInside];
     CDPost *post = [_statuses objectAtIndex:btn.tag];
-    PostDetailViewController *detailViewController = [[PostDetailViewController alloc] initWithPost:post];
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:btn.tag inSection:0];
-    CDPostTableViewCell *cell = (CDPostTableViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
-    if (cell.imageView.image != nil)
-        detailViewController.smallImage = cell.imageView.image;
-    detailViewController.commentMode = YES;
     
-    [self.navigationController pushViewController:detailViewController animated:YES];
+    if (post.channel_id.integerValue == CHANNEL_FUNNY) {
+        FunnyDetailViewController *funnyDetailViewController = [[FunnyDetailViewController alloc] initWithPost:post];
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:btn.tag inSection:0];
+        CDPostTableViewCell *cell = (CDPostTableViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+        if (cell.imageView.image != nil)
+            funnyDetailViewController.smallImage = cell.imageView.image;
+        funnyDetailViewController.commentMode = YES;
+        
+        [self.navigationController pushViewController:funnyDetailViewController animated:YES];
+    }
+    else if (post.channel_id.integerValue == CHANNEL_FOCUS) {
+        ArticleDetailViewController *articleDetailViewController = [[ArticleDetailViewController alloc] initWithPost:post];
+        articleDetailViewController.commentMode = YES;
+        
+        [self.navigationController pushViewController:articleDetailViewController animated:YES];
+    }
 }
 
 
@@ -630,6 +646,34 @@
                                     [self performSelector:@selector(moreStatusesFailed:error:) withObject:operation withObject:error];
                                 CDLog(@"Hit error: %@", error);
                             }];
+    
+}
+
+#pragma mark - UMUFPHandleViewDelegate
+
+- (void) didClickedPromoterAtIndex:(UMUFPHandleView *)handleView index:(NSInteger)promoterIndex promoterData:(NSDictionary *)promoterData
+{
+    @try {
+        NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary:promoterData];
+        [params setObject:OPEN_UDID forKey:@"open_udid"];
+        [params setObject:APP_VERSION forKey:@"waduanzi_version"];
+        [params setObject:[MACAddress address] forKey:@"mac_address"];
+        
+        CDLog(@"index:%d, data:%@", promoterIndex, params);
+        
+        RKObjectManager *objectManager = [RKObjectManager sharedManager];
+        [objectManager.HTTPClient postPath:@"/ad/click" parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            CDLog(@"ad click response data: %@", responseObject);
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            CDLog(@"ad click error: %@", error);
+        }];
+    }
+    @catch (NSException *exception) {
+        CDLog(@"ad click exception: %@", exception);
+    }
+    @finally {
+        ;
+    }
     
 }
 
