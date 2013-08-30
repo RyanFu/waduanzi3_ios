@@ -21,6 +21,7 @@
 #import "SDWebImageManager.h"
 #import "MobClick.h"
 #import "Appirater.h"
+#import "CDDataCache.h"
 
 #import "TestViewController.h"
 #import "WebTestViewController.h"
@@ -265,6 +266,10 @@
 
 - (void) afterWindowVisible
 {
+    // 记录第一次启动时间
+    if ([[CDDataCache shareCache] fetchAppFirstBootTime] == 0)
+        [[CDDataCache shareCache] cacheAppFirstBootTime];
+    
     [DTTextAttachment registerClass:[DTObjectTextAttachment class] forTagName:@"waduanzi"];
 
     [UMSocialData openLog: CD_DEBUG];

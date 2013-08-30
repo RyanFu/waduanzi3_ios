@@ -16,6 +16,8 @@
 #ifndef waduanzi3_CDDefine_h
 #define waduanzi3_CDDefine_h
 
+#define DAY_SECONDS 86400
+
 #define OPEN_UDID       [OpenUDID value]
 #define USER_DEFAULTS   [NSUserDefaults standardUserDefaults]
 #define CDDEVICE        [UIDevice currentDevice]

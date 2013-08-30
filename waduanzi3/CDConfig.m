@@ -8,6 +8,7 @@
 
 #import "CDConfig.h"
 #import "MobClick.h"
+#import "CDDataCache.h"
 
 @implementation CDConfig
 
@@ -18,6 +19,10 @@
 
 + (BOOL) enabledUMHandle
 {
+    double firstBootTime = [[CDDataCache shareCache] fetchAppFirstBootTime];
+    if (firstBootTime > CFAbsoluteTimeGetCurrent() - DAY_SECONDS)
+        return NO;
+    
     NSString *switcher = [MobClick getConfigParams:@"enable_umhandle"];
     return [switcher isEqualToString:@"on"];
 }

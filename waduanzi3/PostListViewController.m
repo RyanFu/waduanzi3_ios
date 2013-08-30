@@ -146,16 +146,22 @@
     leftButton.showsTouchWhenHighlighted = YES;
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:leftButton];
 
-    // MARK: 第2版中添加投稿
-//    UIImage *composeImage = [UIImage imageNamed:@"NavBarIconCompose.png"];
-//    UIButton *rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
-//    rightButton.frame = CGRectMake(0, 0, composeImage.size.width + 20.0f, composeImage.size.height);
-//    [rightButton setImage:composeImage forState:UIControlStateNormal];
-//    [rightButton addTarget:self action:@selector(openPublishViewController:) forControlEvents:UIControlEventTouchUpInside];
-//    rightButton.showsTouchWhenHighlighted = YES;
-//    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:rightButton];
+    UIImage *composeImage = [UIImage imageNamed:@"mqz_lbs_poi_refresh.png"];
+    UIButton *rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    rightButton.frame = CGRectMake(0, 0, composeImage.size.width + 20.0f, composeImage.size.height);
+    [rightButton setImage:composeImage forState:UIControlStateNormal];
+    [rightButton addTarget:self action:@selector(refreshLatestPosts:) forControlEvents:UIControlEventTouchUpInside];
+    rightButton.showsTouchWhenHighlighted = YES;
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:rightButton];
 }
 
+- (void) refreshLatestPosts:(id)sender
+{
+    if (self.tableView.pullToRefreshView) {
+        [self.tableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
+        [self.tableView triggerPullToRefresh];
+    }
+}
 
 
 #pragma mark - viewDeckControllerDelegate
@@ -604,16 +610,19 @@
 - (void)loadLatestStatuses
 {
     // Load the object model via RestKit
+    self.navigationItem.rightBarButtonItem.enabled = NO;
     RKObjectManager *objectManager = [RKObjectManager sharedManager];
     [objectManager getObjectsAtPath:[self latestStatusesRestPath]
                          parameters:[self latestStatusesParameters]
                             success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+                                self.navigationItem.rightBarButtonItem.enabled = YES;
                                 [self.tableView.pullToRefreshView stopAnimating];
                                 
                                 if ([self respondsToSelector:@selector(latestStatusesSuccess:mappingResult:)])
                                     [self performSelector:@selector(latestStatusesSuccess:mappingResult:) withObject:operation withObject:mappingResult];
                             }
                             failure:^(RKObjectRequestOperation *operation, NSError *error) {
+                                self.navigationItem.rightBarButtonItem.enabled = YES;
                                 [self.tableView.pullToRefreshView stopAnimating];
                                 
                                 if (error.code == NSURLErrorCancelled) return ;

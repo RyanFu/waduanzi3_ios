@@ -14,6 +14,8 @@
 
 + (CDDataCache *) shareCache;
 
+- (void) cacheAppFirstBootTime;
+- (double) fetchAppFirstBootTime;
 
 - (BOOL) cacheFocusPosts:(NSMutableArray *)posts;
 - (NSMutableArray *)fetchFocusPosts;

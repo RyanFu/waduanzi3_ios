@@ -29,6 +29,18 @@
     return instance;
 }
 
+- (void) cacheAppFirstBootTime
+{
+    NSString *cacheKey = [self generateCacheID:@"app_first_boot_time"];
+    [USER_DEFAULTS setDouble:CFAbsoluteTimeGetCurrent() forKey:cacheKey];
+}
+
+- (double) fetchAppFirstBootTime
+{
+    NSString *cacheKey = [self generateCacheID:@"app_first_boot_time"];
+    return [USER_DEFAULTS doubleForKey:cacheKey];
+}
+
 #pragma mark - focus
 
 - (BOOL) cacheFocusPosts:(NSMutableArray *)posts

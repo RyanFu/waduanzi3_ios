@@ -245,6 +245,7 @@
 		2BA1972617A6A7CB00BB8FC9 /* WBErrorNoticeView+WaduanziMethod.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BA1972517A6A7CB00BB8FC9 /* WBErrorNoticeView+WaduanziMethod.m */; };
 		2BA6348917761D4700AE5DDA /* MyshareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BA6348817761D4700AE5DDA /* MyshareViewController.m */; };
 		2BA6348C177621EE00AE5DDA /* MyFavoriteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BA6348B177621EE00AE5DDA /* MyFavoriteViewController.m */; };
+		2BA887B317CE266100E2A094 /* navBar_refresh@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BA887B217CE266100E2A094 /* navBar_refresh@2x.png */; };
 		2BAC67E917BB62D300B9768E /* CDUserConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BAC67E817BB62D300B9768E /* CDUserConfig.m */; };
 		2BAC67F317BBC66400B9768E /* PostFontPickerValueParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BAC67F217BBC66300B9768E /* PostFontPickerValueParser.m */; };
 		2BAC67F617BBCD1200B9768E /* CommentFontPickerValueParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BAC67F517BBCD1200B9768E /* CommentFontPickerValueParser.m */; };
@@ -658,6 +659,7 @@
 		2BA6348817761D4700AE5DDA /* MyshareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyshareViewController.m; sourceTree = "<group>"; };
 		2BA6348A177621EE00AE5DDA /* MyFavoriteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyFavoriteViewController.h; sourceTree = "<group>"; };
 		2BA6348B177621EE00AE5DDA /* MyFavoriteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyFavoriteViewController.m; sourceTree = "<group>"; };
+		2BA887B217CE266100E2A094 /* navBar_refresh@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "navBar_refresh@2x.png"; sourceTree = "<group>"; };
 		2BAC67E717BB62D300B9768E /* CDUserConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDUserConfig.h; sourceTree = "<group>"; };
 		2BAC67E817BB62D300B9768E /* CDUserConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDUserConfig.m; sourceTree = "<group>"; };
 		2BAC67F117BBC66300B9768E /* PostFontPickerValueParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostFontPickerValueParser.h; sourceTree = "<group>"; };
@@ -1321,6 +1323,7 @@
 		2BED82F8167B5ED20025E9C4 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				2BA887B217CE266100E2A094 /* navBar_refresh@2x.png */,
 				2BD0117A17CA723300825869 /* FZLTHK.TTF */,
 				2BB46CFF17C5D49F00C35084 /* umeng_ad_handle_night.png */,
 				2BD0117617CA5F7700825869 /* places.png */,
@@ -1883,6 +1886,7 @@
 				2BD0117817CA5F7700825869 /* places.png in Resources */,
 				2BD0117917CA5F7700825869 /* places@2x.png in Resources */,
 				2BD0117B17CA723300825869 /* FZLTHK.TTF in Resources */,
+				2BA887B317CE266100E2A094 /* navBar_refresh@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
