@@ -117,7 +117,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-//    self.view.backgroundColor = [UIColor grayColor];
     
     [self setupNavButtionItems];
     [self setupTableView];
@@ -161,28 +160,6 @@
         [self.tableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
         [self.tableView triggerPullToRefresh];
     }
-}
-
-
-#pragma mark - viewDeckControllerDelegate
-
-- (BOOL) viewDeckController:(IIViewDeckController *)viewDeckController shouldOpenViewSide:(IIViewDeckSide)viewDeckSide
-{
-    self.tableView.userInteractionEnabled = NO;
-    CDLog(@"should open");
-    return YES;
-}
-
-- (void)viewDeckController:(IIViewDeckController *)viewDeckController willCloseViewSide:(IIViewDeckSide)viewDeckSide animated:(BOOL)animated
-{
-    self.tableView.userInteractionEnabled = YES;
-    CDLog(@"will close");
-}
-
-- (void) viewDeckController:(IIViewDeckController *)viewDeckController didCloseViewSide:(IIViewDeckSide)viewDeckSide animated:(BOOL)animated
-{
-    self.tableView.userInteractionEnabled = YES;
-    CDLog(@"did close");
 }
 
 - (void) setupTableView

@@ -233,7 +233,7 @@
     deckController.leftSize = DECK_LEFT_SIZE;
     deckController.sizeMode = IIViewDeckLedgeSizeMode;
     deckController.navigationControllerBehavior = IIViewDeckNavigationControllerContained;
-    deckController.panningMode = IIViewDeckNavigationBarOrOpenCenterPanning;
+    deckController.panningMode = IIViewDeckFullViewPanning;
     deckController.centerhiddenInteractivity = IIViewDeckCenterHiddenNotUserInteractiveWithTapToClose;
     deckController.openSlideAnimationDuration = 0.2f;
     deckController.closeSlideAnimationDuration = 0.25f;

@@ -120,26 +120,34 @@
         [self adjustImageViewSize];
     }
     else {
-        __weak ImageDetailViewController *weakSelf = self;
-        __weak UIButton *weakSaveButton = saveButton;
-        __weak MBProgressHUD *weakHUD = _HUD;
         __weak UIImageView *weakImageShowView = imageShowView;
-
+        
         @try {
+            __weak ImageDetailViewController *weakSelf = self;
+            __weak UIButton *weakSaveButton = saveButton;
+            __weak MBProgressHUD *weakHUD = _HUD;
+            
+            _HUD.mode = MBProgressHUDModeDeterminate;
+            [_HUD show:YES];
             [imageShowView setImageWithURL:_originalPicUrl placeholderImage:_thumbnail options:SDWebImageRetryFailed progress:^(NSUInteger receivedSize, long long expectedSize) {
-                if (expectedSize <= 0) {
-                    weakHUD.mode = MBProgressHUDModeDeterminate;
-                    [weakHUD show:YES];
-                }
-                else
+                CDLog(@"expected size: %d/%lld", receivedSize, expectedSize);
+                if (expectedSize > 0)
                     weakHUD.progress = receivedSize / (expectedSize + 0.0);
+                
             } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-                [weakHUD hide:YES];
                 if (error) {
                     [weakImageShowView cancelCurrentImageLoad];
+                    weakHUD.mode = MBProgressHUDModeText;
+                    if (error.domain == NSURLErrorDomain && error.code == kCFURLErrorTimedOut)
+                        weakHUD.labelText = @"下载超时";
+                    else
+                        weakHUD.labelText = @"下载出错";
+                    
+                    [weakHUD hide:YES afterDelay:1.5f];
                     NSLog(@"picture download failed:%@", error);
                 }
                 else {
+                    [weakHUD hide:YES];
                     weakSaveButton.hidden = NO;
                     weakSelf.originaPic = image;
                     [weakSelf adjustImageViewSize];
@@ -238,7 +246,7 @@
         _HUD.mode = MBProgressHUDModeCustomView;
         _HUD.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"checkmark.png"]];
         [_HUD show:YES];
-        [_HUD hide:YES afterDelay:0.5f];
+        [_HUD hide:YES afterDelay:1.0f];
     }
     saveButton.enabled = YES;
 }

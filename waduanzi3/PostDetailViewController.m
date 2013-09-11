@@ -6,9 +6,6 @@
 //  Copyright (c) 2013年 chendong. All rights reserved.
 //
 
-#define FORWARD_ACTIONSHEET_TAG 999999
-
-
 #import <QuartzCore/QuartzCore.h>
 #import <RestKit/RestKit.h>
 #import "PostDetailViewController.h"
@@ -43,7 +40,7 @@
 - (void) supportComment:(NSInteger) index;
 - (void) copyComment:(NSInteger) index;
 - (void) reportComment:(NSInteger) index;
-- (void) setupTableViewPullAndInfiniteScrollView;
+- (void) setupTableViewInfiniteScrollView;
 - (void) setupCommentFormView;
 - (void) sendComment;
 
@@ -124,7 +121,7 @@
     [self.view addGestureRecognizer:swipGestureRecognizer];
     
     // 设置下滑和下滑视图
-    [self setupTableViewPullAndInfiniteScrollView];
+    [self setupTableViewInfiniteScrollView];
     [self.tableView triggerInfiniteScrolling];
 }
 
@@ -266,7 +263,7 @@
 
 }
 
-- (void) setupTableViewPullAndInfiniteScrollView
+- (void) setupTableViewInfiniteScrollView
 {
     __weak PostDetailViewController *weakSelf = self;
     [self.tableView addInfiniteScrollingWithActionHandler:^{
@@ -564,39 +561,18 @@
 - (void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     NSLog(@"action sheet tag: %d,  buttonIndex: %d", actionSheet.tag, buttonIndex);
-    if (actionSheet.tag == FORWARD_ACTIONSHEET_TAG) {
-        switch (buttonIndex) {
-            case 0:
-                break;
-            case 1:
-                [self performSelector:@selector(socialShareToSina)];
-                break;
-            case 4:
-                [self performSelector:@selector(socialShareToWeichatSession)];
-                break;
-            case 5:
-                [self performSelector:@selector(socialShareToWeichatTimeline)];
-                break;
-            default:
-                break;
-        }
-        
-        NSLog(@"forward button pressed");
-    }
-    else {
-        switch (buttonIndex) {
-            case 0:
-                [self supportComment:actionSheet.tag];
-                break;
-            case 1:
-                [self copyComment:actionSheet.tag];
-                break;
-            case 2:
-                [self reportComment:actionSheet.tag];
-                break;
-            default:
-                break;
-        }
+    switch (buttonIndex) {
+        case 0:
+            [self supportComment:actionSheet.tag];
+            break;
+        case 1:
+            [self copyComment:actionSheet.tag];
+            break;
+        case 2:
+            [self reportComment:actionSheet.tag];
+            break;
+        default:
+            break;
     }
 }
 
@@ -641,36 +617,6 @@
     UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
     [pasteboard setString:text];
 }
-
-#pragma mark - sns share selector
-
-- (void) socialShareToSina
-{
-    UMSocialSnsPlatform *snsPlatform = [UMSocialSnsPlatformManager getSocialPlatformWithName:UMShareToSina];
-    snsPlatform.loginClickHandler(self, [UMSocialControllerService defaultControllerService], YES, ^(UMSocialResponseEntity *response){
-        NSLog(@"response is %@",response);
-    });
-}
-
-- (void) socialShareToWeichatSession
-{
-    UMSocialIconActionSheet *iconActionSheet = [[UMSocialControllerService defaultControllerService] getSocialIconActionSheetInController:self];
-    [iconActionSheet showInView:self.view];
-    
-//    UMSocialSnsPlatform *snsPlatform = [UMSocialSnsPlatformManager getSocialPlatformWithName:UMShareToWechatSession];
-//    snsPlatform.loginClickHandler(self, [UMSocialControllerService defaultControllerService], YES, ^(UMSocialResponseEntity *response){
-//        NSLog(@"response is %@",response);
-//    });
-}
-
-- (void) socialShareToWeichatTimeline
-{
-    UMSocialSnsPlatform *snsPlatform = [UMSocialSnsPlatformManager getSocialPlatformWithName:UMShareToWechatTimeline];
-    snsPlatform.loginClickHandler(self, [UMSocialControllerService defaultControllerService], YES, ^(UMSocialResponseEntity *response){
-        NSLog(@"response is %@",response);
-    });
-}
-
 
 #pragma mark - load data
 

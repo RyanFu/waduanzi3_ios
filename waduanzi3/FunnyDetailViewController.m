@@ -147,27 +147,34 @@
         if (self.smallImage == nil)
             self.smallImage = [UIImage imageNamed:@"thumb_placeholder.png"];
         
-        __weak PostDetailViewController *weakSelf = self;
-        __weak MBProgressHUD *weakHUD = _HUD;
         __weak UIImageView *weakImageView = _detailView.imageView;
-        __weak CDPostToolBar *weakToolbar = _postToolbar;
+        
         @try {
+            __weak PostDetailViewController *weakSelf = self;
+            __weak MBProgressHUD *weakHUD = _HUD;
+            __weak CDPostToolBar *weakToolbar = _postToolbar;
+            
+            _HUD.mode = MBProgressHUDModeDeterminate;
+            [_HUD show:YES];
             NSURL *imageUrl = [NSURL URLWithString:self.post.middle_pic];
             [_detailView.imageView setImageWithURL:imageUrl placeholderImage:self.smallImage options:SDWebImageRetryFailed progress:^(NSUInteger receivedSize, long long expectedSize) {
                 CDLog(@"expected size: %d/%lld", receivedSize, expectedSize);
-                if (expectedSize <= 0) {
-                    weakHUD.mode = MBProgressHUDModeDeterminate;
-                    [weakHUD show:YES];
-                }
-                else
+                if (expectedSize > 0)
                     weakHUD.progress = receivedSize / (expectedSize + 0.0);
             } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-                [weakHUD hide:YES];
                 if (error) {
                     [weakImageView cancelCurrentImageLoad];
+                    weakHUD.mode = MBProgressHUDModeText;
+                    if (error.domain == NSURLErrorDomain && error.code == kCFURLErrorTimedOut)
+                        weakHUD.labelText = @"下载超时";
+                    else
+                        weakHUD.labelText = @"下载出错";
+                    
+                    [weakHUD hide:YES afterDelay:1.5f];
                     NSLog(@"picture download failed:%@", error);
                 }
                 else {
+                    [weakHUD hide:YES];
                     weakSelf.middleImage = image;
                     [weakSelf.tableView reloadData];
                     weakSelf.navigationItem.rightBarButtonItem.enabled = weakToolbar.actionButton.enabled = YES;
