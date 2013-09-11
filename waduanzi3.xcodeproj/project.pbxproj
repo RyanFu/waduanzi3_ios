@@ -198,6 +198,12 @@
 		2B64538117C252EE005F6ED2 /* WebTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B64538017C252EE005F6ED2 /* WebTestViewController.m */; };
 		2B64538417C27013005F6ED2 /* DTCoreTextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B64538317C27013005F6ED2 /* DTCoreTextViewController.m */; };
 		2B6519AB1767318F0080D632 /* CDConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B6519AA1767318F0080D632 /* CDConfig.m */; };
+		2B6978EB17E0E57900606B2C /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B6978EA17E0E57800606B2C /* CoreTelephony.framework */; };
+		2B6978FB17E0E5CA00606B2C /* libBPush.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B6978EE17E0E5CA00606B2C /* libBPush.a */; };
+		2B6978FD17E0E5CA00606B2C /* GzipCompressor.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B6978F417E0E5CA00606B2C /* GzipCompressor.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		2B69790217E0E63B00606B2C /* BPushConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2B69790117E0E63B00606B2C /* BPushConfig.plist */; };
+		2B69790817E0EF7100606B2C /* Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B69790417E0EF7000606B2C /* Base64.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		2B69790D17E0F0BC00606B2C /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B69790C17E0F0BC00606B2C /* JSONKit.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		2B7C719117A21E5600482207 /* WxApiService.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B7C719017A21E5600482207 /* WxApiService.m */; };
 		2B7C719417A2A2EE00482207 /* chat_bg_default.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2B7C719317A2A2EE00482207 /* chat_bg_default.jpg */; };
 		2B7C719617A2A30E00482207 /* feed_table_bg@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2B7C719517A2A30E00482207 /* feed_table_bg@2x.jpg */; };
@@ -558,6 +564,17 @@
 		2B64538317C27013005F6ED2 /* DTCoreTextViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTCoreTextViewController.m; sourceTree = "<group>"; };
 		2B6519A91767318F0080D632 /* CDConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDConfig.h; sourceTree = "<group>"; };
 		2B6519AA1767318F0080D632 /* CDConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDConfig.m; sourceTree = "<group>"; };
+		2B6978EA17E0E57800606B2C /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		2B6978ED17E0E5CA00606B2C /* BPush.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BPush.h; sourceTree = "<group>"; };
+		2B6978EE17E0E5CA00606B2C /* libBPush.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libBPush.a; sourceTree = "<group>"; };
+		2B6978F317E0E5CA00606B2C /* GzipCompressor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GzipCompressor.h; sourceTree = "<group>"; };
+		2B6978F417E0E5CA00606B2C /* GzipCompressor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GzipCompressor.m; sourceTree = "<group>"; };
+		2B69790117E0E63B00606B2C /* BPushConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = BPushConfig.plist; sourceTree = "<group>"; };
+		2B69790317E0EF7000606B2C /* Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Base64.h; sourceTree = "<group>"; };
+		2B69790417E0EF7000606B2C /* Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Base64.m; sourceTree = "<group>"; };
+		2B69790517E0EF7000606B2C /* Base64Defines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Base64Defines.h; sourceTree = "<group>"; };
+		2B69790B17E0F0BC00606B2C /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONKit.h; sourceTree = "<group>"; };
+		2B69790C17E0F0BC00606B2C /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONKit.m; sourceTree = "<group>"; };
 		2B7C718F17A21E5600482207 /* WxApiService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WxApiService.h; sourceTree = "<group>"; };
 		2B7C719017A21E5600482207 /* WxApiService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WxApiService.m; sourceTree = "<group>"; };
 		2B7C719317A2A2EE00482207 /* chat_bg_default.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = chat_bg_default.jpg; sourceTree = "<group>"; };
@@ -774,6 +791,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2B6978EB17E0E57900606B2C /* CoreTelephony.framework in Frameworks */,
 				2BCB1D7717AEA7C9008BC470 /* StoreKit.framework in Frameworks */,
 				2BCB1D7417AEA7C1008BC470 /* CFNetwork.framework in Frameworks */,
 				2BDD70AA177F980A00421915 /* CoreText.framework in Frameworks */,
@@ -795,6 +813,7 @@
 				2B8412C417ABAC1800AFB264 /* libUMSocial_Sdk_Comment_2.2.1.1.a in Frameworks */,
 				2B8412D117ABAFA200AFB264 /* libMobClickLibrary.a in Frameworks */,
 				2BFE175D17BE0A76004AF130 /* libUMAppNetwork_3.5.5.a in Frameworks */,
+				2B6978FB17E0E5CA00606B2C /* libBPush.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -834,6 +853,37 @@
 				2BF6531917C2971C0096541A /* About.html */,
 			);
 			name = Demos;
+			sourceTree = "<group>";
+		};
+		2B6978EC17E0E5CA00606B2C /* Baidu-Push-SDK-iOS-L1-1.1.0 */ = {
+			isa = PBXGroup;
+			children = (
+				2B6978ED17E0E5CA00606B2C /* BPush.h */,
+				2B6978EE17E0E5CA00606B2C /* libBPush.a */,
+				2B6978EF17E0E5CA00606B2C /* opensource */,
+			);
+			path = "Baidu-Push-SDK-iOS-L1-1.1.0";
+			sourceTree = "<group>";
+		};
+		2B6978EF17E0E5CA00606B2C /* opensource */ = {
+			isa = PBXGroup;
+			children = (
+				2B69790317E0EF7000606B2C /* Base64.h */,
+				2B69790417E0EF7000606B2C /* Base64.m */,
+				2B69790517E0EF7000606B2C /* Base64Defines.h */,
+				2B6978F317E0E5CA00606B2C /* GzipCompressor.h */,
+				2B6978F417E0E5CA00606B2C /* GzipCompressor.m */,
+			);
+			path = opensource;
+			sourceTree = "<group>";
+		};
+		2B69790A17E0F0BC00606B2C /* JSONKit */ = {
+			isa = PBXGroup;
+			children = (
+				2B69790B17E0F0BC00606B2C /* JSONKit.h */,
+				2B69790C17E0F0BC00606B2C /* JSONKit.m */,
+			);
+			path = JSONKit;
 			sourceTree = "<group>";
 		};
 		2B8412A117ABAC1700AFB264 /* UMSocial_Sdk_2.2.1.1 */ = {
@@ -1007,6 +1057,7 @@
 		2BED8203167B573E0025E9C4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2B6978EA17E0E57800606B2C /* CoreTelephony.framework */,
 				2BCB1D7617AEA7C9008BC470 /* StoreKit.framework */,
 				2BCB1D7317AEA7C1008BC470 /* CFNetwork.framework */,
 				2BDD70A9177F980A00421915 /* CoreText.framework */,
@@ -1053,6 +1104,7 @@
 				2BED8214167B573E0025E9C4 /* waduanzi3-Prefix.pch */,
 				2BFEBD6E16E76E0C00D8D363 /* sidemenus.plist */,
 				2B804830179E5638006F332F /* Localizable.strings */,
+				2B69790117E0E63B00606B2C /* BPushConfig.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -1060,6 +1112,8 @@
 		2BED8226167B59320025E9C4 /* Vendors */ = {
 			isa = PBXGroup;
 			children = (
+				2B69790A17E0F0BC00606B2C /* JSONKit */,
+				2B6978EC17E0E5CA00606B2C /* Baidu-Push-SDK-iOS-L1-1.1.0 */,
 				2BD4587017CDA34200CB2B01 /* MACAddress */,
 				2BFE175217BE0A76004AF130 /* UMAppNetwork_SDK_3.5.5 */,
 				2B8412CE17ABAFA100AFB264 /* UMAnalytics_Sdk_2.2.0.OpenUDID */,
@@ -1677,6 +1731,7 @@
 				2BD0117917CA5F7700825869 /* places@2x.png in Resources */,
 				2BD0117B17CA723300825869 /* FZLTHK.TTF in Resources */,
 				2BA887B317CE266100E2A094 /* navBar_refresh@2x.png in Resources */,
+				2B69790217E0E63B00606B2C /* BPushConfig.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1779,6 +1834,9 @@
 				2BD0116F17C9EB1100825869 /* FocusListViewController.m in Sources */,
 				2BD0117217CA252F00825869 /* FunnyDetailViewController.m in Sources */,
 				2BD4587317CDA34200CB2B01 /* MACAddress.m in Sources */,
+				2B6978FD17E0E5CA00606B2C /* GzipCompressor.m in Sources */,
+				2B69790817E0EF7100606B2C /* Base64.m in Sources */,
+				2B69790D17E0F0BC00606B2C /* JSONKit.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1880,6 +1938,7 @@
 					"\"$(SRCROOT)/UMSocial_Sdk_2.2.1.1\"",
 					"\"$(SRCROOT)/UMAnalytics_Sdk_2.2.0.OpenUDID\"",
 					"\"$(SRCROOT)/UMAppNetwork_SDK_3.5.5\"",
+					"\"$(SRCROOT)/Baidu-Push-SDK-iOS-L1-1.1.0\"",
 				);
 				OTHER_CFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1906,6 +1965,7 @@
 					"\"$(SRCROOT)/UMSocial_Sdk_2.2.1.1\"",
 					"\"$(SRCROOT)/UMAnalytics_Sdk_2.2.0.OpenUDID\"",
 					"\"$(SRCROOT)/UMAppNetwork_SDK_3.5.5\"",
+					"\"$(SRCROOT)/Baidu-Push-SDK-iOS-L1-1.1.0\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";

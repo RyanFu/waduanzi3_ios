@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "WXApi.h"
+#import "BPush.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate, WXApiDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate, WXApiDelegate, BPushDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 

@@ -145,10 +145,10 @@
     leftButton.showsTouchWhenHighlighted = YES;
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:leftButton];
 
-    UIImage *composeImage = [UIImage imageNamed:@"mqz_lbs_poi_refresh.png"];
+    UIImage *refreshImage = [UIImage imageNamed:@"navBar_refresh.png"];
     UIButton *rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    rightButton.frame = CGRectMake(0, 0, composeImage.size.width + 20.0f, composeImage.size.height);
-    [rightButton setImage:composeImage forState:UIControlStateNormal];
+    rightButton.frame = CGRectMake(0, 0, refreshImage.size.width + 20.0f, refreshImage.size.height);
+    [rightButton setImage:refreshImage forState:UIControlStateNormal];
     [rightButton addTarget:self action:@selector(refreshLatestPosts:) forControlEvents:UIControlEventTouchUpInside];
     rightButton.showsTouchWhenHighlighted = YES;
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:rightButton];
@@ -157,7 +157,7 @@
 - (void) refreshLatestPosts:(id)sender
 {
     if (self.tableView.pullToRefreshView) {
-        [self.tableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
+        [self.tableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:NO];
         [self.tableView triggerPullToRefresh];
     }
 }

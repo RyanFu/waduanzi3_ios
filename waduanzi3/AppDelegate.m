@@ -22,6 +22,7 @@
 #import "MobClick.h"
 #import "Appirater.h"
 #import "CDDataCache.h"
+#import "BPush.h"
 
 #import "TestViewController.h"
 #import "WebTestViewController.h"
@@ -31,8 +32,8 @@
 
 @interface AppDelegate ()
 - (void) customAppearance;
-- (void) setupWindowView;
-- (void) afterWindowVisible;
+- (void) setupWindowView:(UIApplication *)application;
+- (void) afterWindowVisible:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions;
 - (void) setupRKObjectMapping;
 
 - (void) setupTestRootController;
@@ -51,12 +52,14 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     [self customAppearance];
     [self setupRKObjectMapping];
-    [self setupWindowView];
+    [self setupWindowView:application];
     
 //    [self setupTestRootController];
     
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
+    [self afterWindowVisible:application didFinishLaunchingWithOptions:launchOptions];
+    
     return YES;
 }
 
@@ -74,6 +77,19 @@
     }
     else
         return YES;
+}
+
+- (void) application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
+{
+    CDLog(@"device token: %@", [[NSString alloc] initWithData:deviceToken encoding:NSUTF8StringEncoding]);
+    [BPush registerDeviceToken:deviceToken];
+    [BPush bindChannel];
+}
+
+- (void) application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
+{
+    CDLog(@"userInfo: %@", userInfo);
+    [BPush handleNotification:userInfo];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
@@ -99,6 +115,7 @@
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     
+    application.applicationIconBadgeNumber = 0;
     [UMSocialSnsService applicationDidBecomeActive];
 }
 
@@ -221,7 +238,7 @@
 //    [[UIBarButtonItem appearanceWhenContainedIn:[UIToolbar class], nil] setTintColor:[UIColor colorWithRed:0.43f green:0.50f blue:0.65f alpha:1.0f]];
 }
 
-- (void) setupWindowView
+- (void) setupWindowView:(UIApplication *)application
 {
     SideMenuViewController *menuController = [[SideMenuViewController alloc] initWithStyle:UITableViewStylePlain];
     UINavigationController *sideController = [[UINavigationController alloc] initWithRootViewController:menuController];
@@ -240,8 +257,6 @@
     deckController.delegateMode = IIViewDeckDelegateAndSubControllers;
 
     self.window.rootViewController = deckController;
-    
-    [self afterWindowVisible];
 }
 
 - (void) setupTestRootController
@@ -264,11 +279,13 @@
 //    self.window.rootViewController = navController;
 }
 
-- (void) afterWindowVisible
+- (void) afterWindowVisible:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // 记录第一次启动时间
     if ([[CDDataCache shareCache] fetchAppFirstBootTime] == 0)
         [[CDDataCache shareCache] cacheAppFirstBootTime];
+    
+    application.applicationIconBadgeNumber = 0;
     
     [DTTextAttachment registerClass:[DTObjectTextAttachment class] forTagName:@"waduanzi"];
 
@@ -299,6 +316,12 @@
     [Appirater setTimeBeforeReminding:5]; // 用户点了“稍后提醒我”之后再过多少天再次提醒
     [Appirater setDebug:CD_DEBUG];
     [Appirater appLaunched:YES];
+    
+    // set Baidu Push
+    [BPush setupChannel:launchOptions];
+    [BPush setDelegate:self];
+    [application registerForRemoteNotificationTypes:UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound];
+    
 }
 
 - (void) setupRKObjectMapping
@@ -336,6 +359,22 @@
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"deivce update error: %@", error.localizedRecoverySuggestion);
     }];
+}
+
+#pragma mark - BPushDelegate
+- (void) onMethod:(NSString *)method response:(NSDictionary *)data
+{
+    if ([BPushRequestMethod_Bind isEqualToString:method]) {
+        NSDictionary* res = [[NSDictionary alloc] initWithDictionary:data];
+        
+//        NSString *appid = [res valueForKey:BPushRequestAppIdKey];
+//        NSString *userid = [res valueForKey:BPushRequestUserIdKey];
+//        NSString *channelid = [res valueForKey:BPushRequestChannelIdKey];
+//        NSString *requestid = [res valueForKey:BPushRequestRequestIdKey];
+        int returnCode = [[res valueForKey:BPushRequestErrorCodeKey] intValue];
+        
+        CDLog(@"error code: %d", returnCode);
+    }
 }
 
 @end

@@ -127,11 +127,13 @@
             __weak UIButton *weakSaveButton = saveButton;
             __weak MBProgressHUD *weakHUD = _HUD;
             
-            _HUD.mode = MBProgressHUDModeDeterminate;
-            [_HUD show:YES];
             [imageShowView setImageWithURL:_originalPicUrl placeholderImage:_thumbnail options:SDWebImageRetryFailed progress:^(NSUInteger receivedSize, long long expectedSize) {
                 CDLog(@"expected size: %d/%lld", receivedSize, expectedSize);
-                if (expectedSize > 0)
+                if (expectedSize < 0) {
+                    weakHUD.mode = MBProgressHUDModeDeterminate;
+                    [weakHUD show:YES];
+                }
+                else
                     weakHUD.progress = receivedSize / (expectedSize + 0.0);
                 
             } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
