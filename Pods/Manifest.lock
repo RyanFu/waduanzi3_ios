@@ -20,8 +20,15 @@ PODS:
   - libwebp/utils (0.3.0-rc7)
   - libwebp/webp (0.3.0-rc7)
   - MBProgressHUD (0.7)
+  - MCUIImageAdvanced (0.2.3):
+    - MGImageUtilities
+  - MGBox2 (2.0.0)
+  - MGImageUtilities (0.0.1)
+  - MTStatusBarOverlay (0.9.1)
   - NoticeView (3.0.7)
+  - OpenUDID (1.0.0)
   - QuickDialog (0.8)
+  - Reachability (3.1.1)
   - RestKit (0.20.3):
     - RestKit/Core
   - RestKit/Core (0.20.3):
@@ -46,18 +53,30 @@ PODS:
   - SDWebImage/MapKit (3.4):
     - libwebp
   - SOCKit (1.1)
+  - SVPullToRefresh (0.4.1)
   - TransitionKit (1.1.1)
+  - ViewDeck (2.3.1)
+  - WCAlertView (1.0.1)
 
 DEPENDENCIES:
   - Appirater
   - DTCoreText
   - MBProgressHUD
+  - MCUIImageAdvanced
+  - MGBox2
+  - MGImageUtilities
+  - MTStatusBarOverlay
   - NoticeView (~> 3.0.7)
+  - OpenUDID
   - QuickDialog (< 0.9)
+  - Reachability
   - RestKit (~> 0.20.0)
   - RestKit/Search (~> 0.20.0)
   - RestKit/Testing (~> 0.20.0)
   - SDWebImage
+  - SVPullToRefresh
+  - ViewDeck
+  - WCAlertView
 
 SPEC CHECKSUMS:
   AFNetworking: 7f9bcd7c287a75476cd5c61e82fd3380e93e4c54
@@ -66,11 +85,20 @@ SPEC CHECKSUMS:
   DTFoundation: 6138b5437df0217bbeba2b5cec89d5e95cf7f0e8
   libwebp: 40517fa1fd3716eded73b4696c45fc0b66e4b414
   MBProgressHUD: 1fd8591a2216d5dec6de24e09187bb03bcbe9946
+  MCUIImageAdvanced: 1d56b0a0fa7d6d8be0467cab60beaa2d563f8181
+  MGBox2: 7c09e36c2271f9af16fdb5141a0ca554ecee4d8d
+  MGImageUtilities: ab3580f2161b10f8a41331baea87aaafbd688950
+  MTStatusBarOverlay: 2cee705996e4e307191d423bf49e583b9b2c14ac
   NoticeView: f885ce90b53dacce3b19f2d5e95c6db68fe4e45d
+  OpenUDID: 13ab988776ef38dca1e2e799e961448cf83a8111
   QuickDialog: 465692c7c599ad41a0c46022c55779dd61a4d4fe
+  Reachability: 2be6bc2fd2bd31d97f5db33e75e4b29c79e95883
   RestKit: 1f181c180105a92f11ec4f6cd7de37625e516d83
   SDWebImage: f13f791e411c632489824aa7f129e230b52bf5c4
   SOCKit: 2f3bc4d07910de12dcc202815e07db68a3802581
+  SVPullToRefresh: 61a0e4bd12bd6f8e3465909810b0fbeb1a28d5f2
   TransitionKit: d0e3344aac92991395d4c2e72d9c5a8ceeb12910
+  ViewDeck: 2cdc67c4b41a10cafc7556b982f028409e33604d
+  WCAlertView: 940e47509875d85cc42abedafc41d310007f9174
 
 COCOAPODS: 0.24.0
