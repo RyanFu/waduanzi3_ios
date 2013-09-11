@@ -143,7 +143,7 @@
                     else
                         weakHUD.labelText = @"下载出错";
                     
-                    [weakHUD hide:YES afterDelay:1.5f];
+                    [weakHUD hide:YES afterDelay:1.0f];
                     NSLog(@"picture download failed:%@", error);
                 }
                 else {
