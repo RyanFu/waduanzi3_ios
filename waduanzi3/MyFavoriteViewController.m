@@ -80,11 +80,12 @@
 
 - (NSDictionary *) latestStatusesParameters
 {
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
     NSString *channel_id = [NSString stringWithFormat:@"%d", _channelID];
     NSString *user_id = [NSString stringWithFormat:@"%d", [self userID]];
     NSString *page_id = [NSString stringWithFormat:@"%d", FIRST_PAGE_ID];
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setObject:channel_id forKey:@"channel_id"];
+    [params setObject:SUPPORT_MEDIA_TYPES forKey:@"media_type"];
     [params setObject:user_id forKey:@"user_id"];
     [params setObject:page_id forKey:@"page"];
     
@@ -94,11 +95,12 @@
 - (NSDictionary *) moreStatusesParameters
 {
     NSLog(@"page id: %d", _page);
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
     NSString *channel_id = [NSString stringWithFormat:@"%d", _channelID];
     NSString *user_id = [NSString stringWithFormat:@"%d", [self userID]];
     NSString *page_id = [NSString stringWithFormat:@"%d", _page];
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setObject:channel_id forKey:@"channel_id"];
+    [params setObject:SUPPORT_MEDIA_TYPES forKey:@"media_type"];
     [params setObject:user_id forKey:@"user_id"];
     [params setObject:page_id forKey:@"page"];
     

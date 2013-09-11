@@ -82,22 +82,20 @@
 
 - (NSDictionary *) latestStatusesParameters
 {
-    NSString *channel_id = [NSString stringWithFormat:@"%d", _channelID];
-    NSString *media_type = [NSString stringWithFormat:@"%d", _mediaType];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    NSString *channel_id = [NSString stringWithFormat:@"%d", _channelID];
     [params setObject:channel_id forKey:@"channel_id"];
-    [params setObject:media_type forKey:@"media_type"];
+    [params setObject:SUPPORT_MEDIA_TYPES forKey:@"media_type"];
     
     return [CDRestClient requestParams:params];
 }
 
 - (NSDictionary *) moreStatusesParameters
 {
-    NSString *channel_id = [NSString stringWithFormat:@"%d", _channelID];
-    NSString *media_type = [NSString stringWithFormat:@"%d", _mediaType];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    NSString *channel_id = [NSString stringWithFormat:@"%d", _channelID];
     [params setObject:channel_id forKey:@"channel_id"];
-    [params setObject:media_type forKey:@"media_type"];
+    [params setObject:SUPPORT_MEDIA_TYPES forKey:@"media_type"];
     
     return [CDRestClient requestParams:params];
 }

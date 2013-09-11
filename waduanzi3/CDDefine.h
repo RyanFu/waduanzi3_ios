@@ -82,6 +82,7 @@ typedef NS_ENUM (NSInteger, CD_MEDIA_TYPE) {
     MEDIA_TYPE_VIDEO = 40
 };
 
+#define SUPPORT_MEDIA_TYPES [NSString stringWithFormat:@"%d,%d,%d", MEDIA_TYPE_TEXT, MEDIA_TYPE_IMAGE, MEDIA_TYPE_VIDEO]
 
 // user login and signup
 #define VIEW_PADDING 20.0f

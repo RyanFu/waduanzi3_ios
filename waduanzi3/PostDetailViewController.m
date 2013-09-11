@@ -334,6 +334,7 @@
     NSLog(@"state: %d", button.state);
     button.selected = YES;
     [[CDDataCache shareCache] cachePostLikeState:YES forPostID:_postID];
+    button.userInteractionEnabled = NO;
     
     RKObjectManager *objectManager = [RKObjectManager sharedManager];
     NSString *restPath = [NSString stringWithFormat:@"/post/support/%d", [_post.post_id integerValue]];
@@ -459,6 +460,8 @@
         
         _postToolbar = [[CDPostToolBar alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 40.0f)];
         [_postToolbar.likeButton addTarget:self action:@selector(likeButtonDidPressed:) forControlEvents:UIControlEventTouchUpInside];
+        _postToolbar.likeButton.selected = [[CDDataCache shareCache] fetchPostLikeState:_postID];
+        _postToolbar.likeButton.userInteractionEnabled = !_postToolbar.likeButton.selected;
         [_postToolbar.favoriteButton addTarget:self action:@selector(favoriteButtonDidPressed:) forControlEvents:UIControlEventTouchUpInside];
         [_postToolbar.commentButton addTarget:self action:@selector(commentTextFieldBecomeFirstResponder) forControlEvents:UIControlEventTouchUpInside];
         [_postToolbar.actionButton addTarget:self action:@selector(forwardButtonDidPressed:) forControlEvents:UIControlEventTouchUpInside];

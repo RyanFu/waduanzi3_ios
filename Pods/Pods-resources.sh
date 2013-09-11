@@ -18,8 +18,8 @@ install_resource()
     *.framework)
       echo "mkdir -p ${CONFIGURATION_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}"
       mkdir -p "${CONFIGURATION_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}"
-      echo "cp -fpR ${PODS_ROOT}/$1 ${CONFIGURATION_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}"
-      cp -fpR "${PODS_ROOT}/$1" "${CONFIGURATION_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}"
+      echo "rsync -av ${PODS_ROOT}/$1 ${CONFIGURATION_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}"
+      rsync -av "${PODS_ROOT}/$1" "${CONFIGURATION_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}"
       ;;
     *.xcdatamodel)
       echo "xcrun momc \"${PODS_ROOT}/$1\" \"${CONFIGURATION_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/`basename "$1"`.mom\""
@@ -39,33 +39,8 @@ install_resource()
       ;;
   esac
 }
-install_resource "Appirater/ca.lproj"
-install_resource "Appirater/cs.lproj"
-install_resource "Appirater/da.lproj"
-install_resource "Appirater/de.lproj"
-install_resource "Appirater/el.lproj"
-install_resource "Appirater/en.lproj"
-install_resource "Appirater/es.lproj"
-install_resource "Appirater/fi.lproj"
-install_resource "Appirater/fr.lproj"
-install_resource "Appirater/he.lproj"
-install_resource "Appirater/hu.lproj"
-install_resource "Appirater/id.lproj"
-install_resource "Appirater/it.lproj"
-install_resource "Appirater/ja.lproj"
-install_resource "Appirater/ko.lproj"
-install_resource "Appirater/nb.lproj"
-install_resource "Appirater/nl.lproj"
-install_resource "Appirater/pl.lproj"
-install_resource "Appirater/pt.lproj"
-install_resource "Appirater/ro.lproj"
-install_resource "Appirater/ru.lproj"
-install_resource "Appirater/sk.lproj"
-install_resource "Appirater/sv.lproj"
-install_resource "Appirater/tr.lproj"
-install_resource "Appirater/zh-Hans.lproj"
-install_resource "Appirater/zh-Hant.lproj"
 install_resource "NoticeView/NoticeView/WBNoticeView/NoticeView.bundle"
+install_resource "${TARGET_BUILD_DIR}/Appirater.bundle"
 
 rsync -avr --no-relative --exclude '*/.svn/*' --files-from="$RESOURCES_TO_COPY" / "${CONFIGURATION_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}"
 rm -f "$RESOURCES_TO_COPY"

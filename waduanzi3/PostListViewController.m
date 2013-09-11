@@ -292,7 +292,7 @@
     __weak PostListViewController *weakSelf = self;
     __block BOOL _weakRequireLogined = _requireLogined;
     [self.tableView addPullToRefreshWithActionHandler:^{
-        NSLog(@"xxxx: %d, %d", _weakRequireLogined, [CDAppUser hasLogined]);
+        CDLog(@"requiredLogined: %d, hasLogined: %d", _weakRequireLogined, [CDAppUser hasLogined]);
         
         if (![CDRestClient checkNetworkStatus]) {
             [weakSelf.tableView.pullToRefreshView stopAnimating];
@@ -435,8 +435,8 @@
     cell.upButton.titleLabel.font = cell.commentButton.titleLabel.font = [UIFont systemFontOfSize:12.0f];
     cell.upButton.adjustsImageWhenHighlighted = cell.commentButton.adjustsImageWhenHighlighted = NO;
     
-    [cell.upButton setImage:[UIImage imageNamed:@"mqz_feed_like.png"] forState:UIControlStateNormal];
-    [cell.upButton setImage:[UIImage imageNamed:@"mqz_feed_like_disable.png"] forState:UIControlStateDisabled];
+    [cell.upButton setImage:[UIImage imageNamed:@"mqz_feed_like_disable.png"] forState:UIControlStateNormal];
+    [cell.upButton setImage:[UIImage imageNamed:@"mqz_feed_like.png"] forState:UIControlStateDisabled];
     [cell.upButton setTitleColor:[UIColor colorWithRed:0.45f green:0.51f blue:0.64f alpha:1.00f] forState:UIControlStateNormal];
     [cell.upButton addTarget:self action:@selector(upButtonTouchUpInside:) forControlEvents:UIControlEventTouchUpInside];
 
@@ -477,7 +477,7 @@
     CDPost *post = [_statuses objectAtIndex:button.tag];
     post.up_count = [NSNumber numberWithInteger:[post.up_count integerValue] + 1];
     [_statuses replaceObjectAtIndex:button.tag withObject:post];
-    [button setTitle:[post.up_count stringValue] forState:UIControlStateDisabled];
+    [button setTitle:[post.up_count stringValue] forState:UIControlStateNormal];
     [[CDDataCache shareCache] cachePostLikeState:YES forPostID:[post.post_id integerValue]];
     
     RKObjectManager *objectManager = [RKObjectManager sharedManager];

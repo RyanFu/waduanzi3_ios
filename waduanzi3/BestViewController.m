@@ -65,6 +65,7 @@
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setObject:channel_id forKey:@"channel_id"];
+    [params setObject:SUPPORT_MEDIA_TYPES forKey:@"media_type"];
     [params setObject:page_id forKey:@"page"];
     [params setObject:inhours forKey:@"hours"];
     
@@ -80,6 +81,7 @@
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setObject:channel_id forKey:@"channel_id"];
+    [params setObject:SUPPORT_MEDIA_TYPES forKey:@"media_type"];
     [params setObject:page_id forKey:@"page"];
     [params setObject:inhours forKey:@"hours"];
     

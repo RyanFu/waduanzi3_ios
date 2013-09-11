@@ -68,9 +68,9 @@
         _lasttime = [firstPost.create_time integerValue];
     }
     
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
     NSString *channel_id = [NSString stringWithFormat:@"%d", _channelID];
     NSString *media_type = [NSString stringWithFormat:@"%d", _mediaType];
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setObject:channel_id forKey:@"channel_id"];
     [params setObject:media_type forKey:@"media_type"];
     
@@ -87,10 +87,10 @@
         _maxtime = [lastPost.create_time integerValue];
     }
     
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
     NSString *channel_id = [NSString stringWithFormat:@"%d", _channelID];
     NSString *media_type = [NSString stringWithFormat:@"%d", _mediaType];
     NSString *max_time = [NSString stringWithFormat:@"%d", _maxtime];
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setObject:channel_id forKey:@"channel_id"];
     [params setObject:media_type forKey:@"media_type"];
     [params setObject:max_time forKey:@"maxtime"];

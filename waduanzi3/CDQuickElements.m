@@ -24,13 +24,13 @@
     root.title = @"设置";
     root.grouped = YES;
     
-    QAppearance *appearance = root.appearance;
-    appearance.labelFont = [UIFont fontWithName:FZLTHK_FONT_NAME size:16.0f];
-    appearance.labelColorEnabled = [UIColor blackColor];
-    appearance.actionColorEnabled = [UIColor blackColor];
-    appearance.sectionTitleFont = [UIFont fontWithName:FZLTHK_FONT_NAME size:14.0f];
-    appearance.sectionFooterColor = [UIColor lightGrayColor];
-    [root setAppearance:appearance];
+    root.appearance = [root.appearance copy];
+    root.appearance.labelFont = [UIFont fontWithName:FZLTHK_FONT_NAME size:16.0f];
+    root.appearance.labelColorEnabled = [UIColor blackColor];
+    root.appearance.actionColorEnabled = [UIColor blackColor];
+    root.appearance.sectionTitleFont = [UIFont fontWithName:FZLTHK_FONT_NAME size:14.0f];
+    root.appearance.sectionFooterColor = [UIColor lightGrayColor];
+    [root setAppearance:root.appearance];
     
     // section 0
     QSection *section0 = [[QSection alloc] init];
@@ -122,13 +122,12 @@
     root.title = @"注册";
     root.controllerName = @"UserSingupViewController";
     
-    QAppearance *appearance = root.appearance;
-    appearance.entryFont = [UIFont fontWithName:FZLTHK_FONT_NAME size:16.0f];
-    appearance.labelFont = [UIFont fontWithName:FZLTHK_FONT_NAME size:16.0f];
-    appearance.valueAlignment = NSTextAlignmentLeft;
-    appearance.sectionFooterColor = [UIColor lightGrayColor];
-    appearance.sectionFooterFont = [UIFont fontWithName:FZLTHK_FONT_NAME size:12.0f];
-    [root setAppearance:appearance];
+    root.appearance = [root.appearance copy];
+    root.appearance.entryFont = [UIFont fontWithName:FZLTHK_FONT_NAME size:16.0f];
+    root.appearance.labelFont = [UIFont fontWithName:FZLTHK_FONT_NAME size:16.0f];
+    root.appearance.valueAlignment = NSTextAlignmentLeft;
+    root.appearance.sectionFooterColor = [UIColor lightGrayColor];
+    root.appearance.sectionFooterFont = [UIFont fontWithName:FZLTHK_FONT_NAME size:12.0f];
     
     
     QSection *textFieldSection = [[QSection alloc] init];
@@ -182,13 +181,12 @@
     root.title = @"登录";
     root.controllerName = @"UserLoginViewController";
     
-    QAppearance *appearance = root.appearance;
-    appearance.entryFont = [UIFont fontWithName:FZLTHK_FONT_NAME size:16.0f];
-    appearance.valueAlignment = NSTextAlignmentLeft;
-    appearance.labelFont = [UIFont fontWithName:FZLTHK_FONT_NAME size:16.0f];
-    appearance.sectionFooterColor = [UIColor lightGrayColor];
-    appearance.sectionFooterFont = [UIFont fontWithName:FZLTHK_FONT_NAME size:12.0f];
-    [root setAppearance:appearance];
+    root.appearance = [root.appearance copy];
+    root.appearance.entryFont = [UIFont fontWithName:FZLTHK_FONT_NAME size:16.0f];
+    root.appearance.valueAlignment = NSTextAlignmentLeft;
+    root.appearance.labelFont = [UIFont fontWithName:FZLTHK_FONT_NAME size:16.0f];
+    root.appearance.sectionFooterColor = [UIColor lightGrayColor];
+    root.appearance.sectionFooterFont = [UIFont fontWithName:FZLTHK_FONT_NAME size:12.0f];
     
     
     QSection *textFieldSection = [[QSection alloc] init];
@@ -240,12 +238,11 @@
     root.controllerName = @"UserProfileViewController";
     
     
-    QAppearance *appearance = root.appearance;
-    appearance.labelFont = [UIFont fontWithName:FZLTHK_FONT_NAME size:16.0f];
-    appearance.entryFont = [UIFont fontWithName:FZLTHK_FONT_NAME size:14.0f];
-    appearance.sectionTitleFont = [UIFont fontWithName:FZLTHK_FONT_NAME size:14.0f];
-    appearance.sectionFooterColor = [UIColor lightGrayColor];
-    [root setAppearance:appearance];
+    root.appearance = [root.appearance copy];
+    root.appearance.labelFont = [UIFont fontWithName:FZLTHK_FONT_NAME size:16.0f];
+    root.appearance.entryFont = [UIFont fontWithName:FZLTHK_FONT_NAME size:14.0f];
+    root.appearance.sectionTitleFont = [UIFont fontWithName:FZLTHK_FONT_NAME size:14.0f];
+    root.appearance.sectionFooterColor = [UIColor lightGrayColor];
     
     CDUser *user = [CDAppUser currentUser];
     
@@ -310,12 +307,11 @@
     root.controllerName = @"PublishViewController";
     
     
-    QAppearance *appearance = root.appearance;
-    appearance.labelFont = [UIFont fontWithName:FZLTHK_FONT_NAME size:16.0f];
-    appearance.entryFont = [UIFont fontWithName:FZLTHK_FONT_NAME size:14.0f];
-    appearance.sectionTitleFont = [UIFont fontWithName:FZLTHK_FONT_NAME size:14.0f];
-    appearance.sectionFooterColor = [UIColor lightGrayColor];
-    [root setAppearance:appearance];
+    root.appearance = [root.appearance copy];
+    root.appearance.labelFont = [UIFont fontWithName:FZLTHK_FONT_NAME size:16.0f];
+    root.appearance.entryFont = [UIFont fontWithName:FZLTHK_FONT_NAME size:14.0f];
+    root.appearance.sectionTitleFont = [UIFont fontWithName:FZLTHK_FONT_NAME size:14.0f];
+    root.appearance.sectionFooterColor = [UIColor lightGrayColor];
     
     QSection *section = [[QSection alloc] init];
     [root addSection:section];
@@ -335,12 +331,12 @@
     root.controllerName = @"UpdateProfileViewController";
     
     
-    QAppearance *appearance = root.appearance;
-    appearance.labelFont = [UIFont fontWithName:FZLTHK_FONT_NAME size:16.0f];
-    appearance.entryFont = [UIFont fontWithName:FZLTHK_FONT_NAME size:14.0f];
-    appearance.sectionTitleFont = [UIFont fontWithName:FZLTHK_FONT_NAME size:14.0f];
-    appearance.sectionFooterColor = [UIColor lightGrayColor];
-    [root setAppearance:appearance];
+    root.appearance = [root.appearance copy];
+    root.appearance.labelFont = [UIFont fontWithName:FZLTHK_FONT_NAME size:16.0f];
+    root.appearance.entryFont = [UIFont fontWithName:FZLTHK_FONT_NAME size:14.0f];
+    root.appearance.sectionTitleFont = [UIFont fontWithName:FZLTHK_FONT_NAME size:14.0f];
+    root.appearance.sectionFooterColor = [UIColor lightGrayColor];
+    [root setAppearance:root.appearance];
     
     CDUser *user = [CDAppUser currentUser];
     

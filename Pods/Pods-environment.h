@@ -14,15 +14,15 @@
 
 // Appirater
 #define COCOAPODS_POD_AVAILABLE_Appirater
-#define COCOAPODS_VERSION_MAJOR_Appirater 1
+#define COCOAPODS_VERSION_MAJOR_Appirater 2
 #define COCOAPODS_VERSION_MINOR_Appirater 0
-#define COCOAPODS_VERSION_PATCH_Appirater 5
+#define COCOAPODS_VERSION_PATCH_Appirater 1
 
 // DTCoreText
 #define COCOAPODS_POD_AVAILABLE_DTCoreText
 #define COCOAPODS_VERSION_MAJOR_DTCoreText 1
 #define COCOAPODS_VERSION_MINOR_DTCoreText 6
-#define COCOAPODS_VERSION_PATCH_DTCoreText 4
+#define COCOAPODS_VERSION_PATCH_DTCoreText 6
 
 // DTFoundation/Core
 #define COCOAPODS_POD_AVAILABLE_DTFoundation_Core
