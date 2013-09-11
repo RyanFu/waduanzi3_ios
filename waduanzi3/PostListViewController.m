@@ -666,7 +666,7 @@
         NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary:promoterData];
         [params setObject:OPEN_UDID forKey:@"open_udid"];
         [params setObject:APP_VERSION forKey:@"waduanzi_version"];
-        [params setObject:[MACAddress address] forKey:@"mac_address"];
+        [params setObject:macAddress() forKey:@"mac_address"];
         
         CDLog(@"index:%d, data:%@", promoterIndex, params);
         

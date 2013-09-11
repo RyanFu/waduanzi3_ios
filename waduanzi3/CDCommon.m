@@ -8,6 +8,7 @@
 
 #import "CDCommon.h"
 #import "CDDefine.h"
+#import "MACAddress.h"
 
 
 void CDLog(NSString *format, ...)
@@ -18,4 +19,15 @@ void CDLog(NSString *format, ...)
         NSLogv(format, ap);
         va_end(ap);
     }
+}
+
+NSString *macAddress()
+{
+    NSString *address;
+    if (OS_VERSION_LESS_THAN(@"7.0"))
+        address = [MACAddress address];
+    else
+        address = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
+    
+    return address;
 }

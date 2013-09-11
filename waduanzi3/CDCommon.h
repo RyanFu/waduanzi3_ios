@@ -9,3 +9,5 @@
 #import <Foundation/Foundation.h>
 
 extern void CDLog(NSString *format, ...);
+
+extern NSString * macAddress();
