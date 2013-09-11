@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0460"
+   LastUpgradeVersion = "0500"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "65623D3932D146AE8121E4EC"
+               BlueprintIdentifier = "CE1CD3DFB397472B92782491"
                BuildableName = "libPods-MCUIImageAdvanced.a"
                BlueprintName = "Pods-MCUIImageAdvanced"
                ReferencedContainer = "container:Pods.xcodeproj">

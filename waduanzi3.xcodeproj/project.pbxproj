@@ -244,6 +244,10 @@
 		2B924CDA179533DE00686A94 /* mqz_bottom_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B924CD9179533DE00686A94 /* mqz_bottom_bg@2x.png */; };
 		2B98782917AF95130061E344 /* UserConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B98782817AF95130061E344 /* UserConfig.m */; };
 		2B98782D17AFE2C50061E344 /* FeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B98782C17AFE2C50061E344 /* FeedbackViewController.m */; };
+		2B9C27DF17E1064E00C823EC /* Icon-120x120.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B9C27DE17E1064E00C823EC /* Icon-120x120.png */; };
+		2B9C27E317E1070A00C823EC /* Icon-29x29.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B9C27E017E1070A00C823EC /* Icon-29x29.png */; };
+		2B9C27E417E1070A00C823EC /* Icon-58x58.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B9C27E117E1070A00C823EC /* Icon-58x58.png */; };
+		2B9C27E517E1070A00C823EC /* Icon-80x80.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B9C27E217E1070A00C823EC /* Icon-80x80.png */; };
 		2BA1972317A6A41900BB8FC9 /* WBSuccessNoticeView+WaduanziMethod.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BA1972217A6A41900BB8FC9 /* WBSuccessNoticeView+WaduanziMethod.m */; };
 		2BA1972617A6A7CB00BB8FC9 /* WBErrorNoticeView+WaduanziMethod.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BA1972517A6A7CB00BB8FC9 /* WBErrorNoticeView+WaduanziMethod.m */; };
 		2BA6348917761D4700AE5DDA /* MyshareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BA6348817761D4700AE5DDA /* MyshareViewController.m */; };
@@ -274,7 +278,6 @@
 		2BCA0A0117578704000DD9FF /* CDComment.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BCA0A0017578704000DD9FF /* CDComment.m */; };
 		2BCB1D7017AE0E02008BC470 /* CDCommon.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BCB1D6F17AE0E01008BC470 /* CDCommon.m */; };
 		2BCB1D7417AEA7C1008BC470 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BCB1D7317AEA7C1008BC470 /* CFNetwork.framework */; };
-		2BCB1D7717AEA7C9008BC470 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BCB1D7617AEA7C9008BC470 /* StoreKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		2BCFA8CB16E4E12500521DEC /* SideMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BCFA8CA16E4E12500521DEC /* SideMenuViewController.m */; };
 		2BCFA8CE16E4E2CF00521DEC /* PostListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BCFA8CD16E4E2CF00521DEC /* PostListViewController.m */; };
 		2BD0116C17C9E78800825869 /* ArticleDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BD0116B17C9E78800825869 /* ArticleDetailViewController.m */; };
@@ -634,6 +637,10 @@
 		2B98782817AF95130061E344 /* UserConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserConfig.m; sourceTree = "<group>"; };
 		2B98782B17AFE2C50061E344 /* FeedbackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedbackViewController.h; sourceTree = "<group>"; };
 		2B98782C17AFE2C50061E344 /* FeedbackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedbackViewController.m; sourceTree = "<group>"; };
+		2B9C27DE17E1064E00C823EC /* Icon-120x120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-120x120.png"; sourceTree = "<group>"; };
+		2B9C27E017E1070A00C823EC /* Icon-29x29.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-29x29.png"; sourceTree = "<group>"; };
+		2B9C27E117E1070A00C823EC /* Icon-58x58.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-58x58.png"; sourceTree = "<group>"; };
+		2B9C27E217E1070A00C823EC /* Icon-80x80.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-80x80.png"; sourceTree = "<group>"; };
 		2BA1972117A6A41900BB8FC9 /* WBSuccessNoticeView+WaduanziMethod.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "WBSuccessNoticeView+WaduanziMethod.h"; sourceTree = "<group>"; };
 		2BA1972217A6A41900BB8FC9 /* WBSuccessNoticeView+WaduanziMethod.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "WBSuccessNoticeView+WaduanziMethod.m"; sourceTree = "<group>"; };
 		2BA1972417A6A7CB00BB8FC9 /* WBErrorNoticeView+WaduanziMethod.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "WBErrorNoticeView+WaduanziMethod.h"; sourceTree = "<group>"; };
@@ -683,7 +690,6 @@
 		2BCB1D6E17AE0E01008BC470 /* CDCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDCommon.h; sourceTree = "<group>"; };
 		2BCB1D6F17AE0E01008BC470 /* CDCommon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDCommon.m; sourceTree = "<group>"; };
 		2BCB1D7317AEA7C1008BC470 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
-		2BCB1D7617AEA7C9008BC470 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		2BCFA8C916E4E12500521DEC /* SideMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SideMenuViewController.h; sourceTree = "<group>"; };
 		2BCFA8CA16E4E12500521DEC /* SideMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SideMenuViewController.m; sourceTree = "<group>"; };
 		2BCFA8CC16E4E2CF00521DEC /* PostListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostListViewController.h; sourceTree = "<group>"; };
@@ -792,7 +798,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				2B6978EB17E0E57900606B2C /* CoreTelephony.framework in Frameworks */,
-				2BCB1D7717AEA7C9008BC470 /* StoreKit.framework in Frameworks */,
 				2BCB1D7417AEA7C1008BC470 /* CFNetwork.framework in Frameworks */,
 				2BDD70AA177F980A00421915 /* CoreText.framework in Frameworks */,
 				2B1FDDF3177C935900CD1135 /* CoreLocation.framework in Frameworks */,
@@ -1058,7 +1063,6 @@
 			isa = PBXGroup;
 			children = (
 				2B6978EA17E0E57800606B2C /* CoreTelephony.framework */,
-				2BCB1D7617AEA7C9008BC470 /* StoreKit.framework */,
 				2BCB1D7317AEA7C1008BC470 /* CFNetwork.framework */,
 				2BDD70A9177F980A00421915 /* CoreText.framework */,
 				2B1FDDF2177C935900CD1135 /* CoreLocation.framework */,
@@ -1193,8 +1197,12 @@
 				2BD0350417A0D79C00AFD3FB /* Default@2x.png */,
 				2BD0350517A0D79C00AFD3FB /* Default.png */,
 				2BD0350617A0D79C00AFD3FB /* Default-568h@2x.png */,
+				2B9C27E017E1070A00C823EC /* Icon-29x29.png */,
+				2B9C27E117E1070A00C823EC /* Icon-58x58.png */,
+				2B9C27E217E1070A00C823EC /* Icon-80x80.png */,
 				2BD0350017A0D07E00AFD3FB /* Icon.png */,
 				2BD0350117A0D07E00AFD3FB /* Icon@2x.png */,
+				2B9C27DE17E1064E00C823EC /* Icon-120x120.png */,
 				2BD034FB17A0B8E800AFD3FB /* toolbar_bg_black.png */,
 				2BD034FC17A0B8E800AFD3FB /* toolbar_bg_black@2x.png */,
 				2BE3D31F179FC15C00975503 /* imgOff.png */,
@@ -1453,8 +1461,18 @@
 		2BED81F7167B573E0025E9C4 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0450;
+				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = chendong;
+				TargetAttributes = {
+					2BED81FF167B573E0025E9C4 = {
+						DevelopmentTeam = 7653TR3H74;
+						SystemCapabilities = {
+							com.apple.InAppPurchase = {
+								enabled = 0;
+							};
+						};
+					};
+				};
 			};
 			buildConfigurationList = 2BED81FA167B573E0025E9C4 /* Build configuration list for PBXProject "waduanzi3" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -1551,6 +1569,7 @@
 				2B623B6E1792F09800D3270D /* camera_bg.png in Resources */,
 				2B623B6F1792F09800D3270D /* camera_bg@2x.png in Resources */,
 				2B623B701792F09800D3270D /* camera_focus.png in Resources */,
+				2B9C27E317E1070A00C823EC /* Icon-29x29.png in Resources */,
 				2B623B711792F09800D3270D /* camera_focus@2x.png in Resources */,
 				2B623B721792F09800D3270D /* camera_normal_iphone5.png in Resources */,
 				2B623B731792F09800D3270D /* camera_normal.png in Resources */,
@@ -1615,6 +1634,7 @@
 				2B0AEC3A17979F0200AFBAFA /* NavBarIconCompose@2x.png in Resources */,
 				2B0AEC3D1797B0DA00AFBAFA /* background.png in Resources */,
 				2B0AEC3E1797B0DA00AFBAFA /* background@2x.png in Resources */,
+				2B9C27E417E1070A00C823EC /* Icon-58x58.png in Resources */,
 				2B0AEC4B1797BE8300AFBAFA /* events.png in Resources */,
 				2B0AEC4C1797BE8300AFBAFA /* events@2x.png in Resources */,
 				2B0AEC511797C01A00AFBAFA /* messages.png in Resources */,
@@ -1628,6 +1648,7 @@
 				2B0AEC671797C2F200AFBAFA /* NavBarBackButtonPortraitPressed.png in Resources */,
 				2B0AEC681797C2F200AFBAFA /* NavBarBackButtonPortraitPressed@2x.png in Resources */,
 				2B0AEC691797C2F200AFBAFA /* NavBarButtonArrow.png in Resources */,
+				2B9C27DF17E1064E00C823EC /* Icon-120x120.png in Resources */,
 				2B0AEC6A1797C2F200AFBAFA /* NavBarButtonArrow@2x.png in Resources */,
 				2B0AEC6B1797C2F200AFBAFA /* NavBarButtonArrowHighlighted.png in Resources */,
 				2B0AEC6C1797C2F200AFBAFA /* NavBarButtonArrowHighlighted@2x.png in Resources */,
@@ -1689,6 +1710,7 @@
 				2BE3D321179FC15C00975503 /* imgOff.png in Resources */,
 				2BE3D322179FC15C00975503 /* imgOn.png in Resources */,
 				2BD034FD17A0B8E800AFD3FB /* toolbar_bg_black.png in Resources */,
+				2B9C27E517E1070A00C823EC /* Icon-80x80.png in Resources */,
 				2BD034FE17A0B8E800AFD3FB /* toolbar_bg_black@2x.png in Resources */,
 				2BD0350217A0D07E00AFD3FB /* Icon.png in Resources */,
 				2BD0350317A0D07E00AFD3FB /* Icon@2x.png in Resources */,
@@ -1895,7 +1917,8 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -1915,7 +1938,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -1952,7 +1975,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 715D8456AEBD496A954B4265 /* Pods.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "waduanzi3/waduanzi3-Prefix.pch";

@@ -227,12 +227,22 @@
 
 - (void) customAppearance
 {
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque];
+    [[UIApplication sharedApplication] setStatusBarStyle:OS_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0") ? UIStatusBarStyleLightContent : UIStatusBarStyleBlackOpaque];
     
     [[UINavigationBar appearance] setBarStyle:UIBarStyleDefault];
+    [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
+    
     [CDUIKit setNavigationBar:[UINavigationBar appearance] style:CDNavigationBarStyleBlue forBarMetrics:UIBarMetricsDefault];
     [CDUIKit setBarButtionItem:[UIBarButtonItem appearance] style:CDBarButtionItemStyleBlue forBarMetrics:UIBarMetricsDefault];
     [CDUIKit setBackBarButtionItemStyle:CDBarButtionItemStyleBlue forBarMetrics:UIBarMetricsDefault];
+    
+    if (OS_VERSION_GREATER_THAN_OR_EQUAL_TO(@"6.0")) {
+        NSDictionary *titleTextAttributes = @{
+                                          NSForegroundColorAttributeName: [UIColor whiteColor],
+                                          NSFontAttributeName: [UIFont fontWithName:FZLTHK_FONT_NAME size:16.0f]
+                                          };
+        [[UINavigationBar appearance] setTitleTextAttributes:titleTextAttributes];
+    }
     
     // UIToolBar
 //    [[UIBarButtonItem appearanceWhenContainedIn:[UIToolbar class], nil] setTintColor:[UIColor colorWithRed:0.43f green:0.50f blue:0.65f alpha:1.0f]];

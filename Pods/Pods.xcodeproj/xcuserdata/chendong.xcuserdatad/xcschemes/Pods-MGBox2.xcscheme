@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0460"
+   LastUpgradeVersion = "0500"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "CB56A9EB618E471F89D4E97C"
+               BlueprintIdentifier = "2B26F739FECA41F4BE897949"
                BuildableName = "libPods-MGBox2.a"
                BlueprintName = "Pods-MGBox2"
                ReferencedContainer = "container:Pods.xcodeproj">
