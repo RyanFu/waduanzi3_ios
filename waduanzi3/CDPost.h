@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "CDUser.h"
+#import "CDVideo.h"
 
 #define SUMMARY_LEN 100
 #define CONTENT_SUB_THRESHOLD_LEN 200
@@ -36,7 +37,9 @@
 @property (nonatomic, strong) NSNumber * pic_height;
 @property (nonatomic, copy) NSString * url;
 
+@property (nonatomic, strong) CDVideo *video;
 @property (nonatomic, strong) CDUser *user;
+
 
 - (NSString *) summary;
 - (NSString *) shareContentWithLength:(NSUInteger)length withPrefix:(NSString *)prefix withSuffix:(NSString *)suffix;

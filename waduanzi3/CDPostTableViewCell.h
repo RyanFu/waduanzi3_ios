@@ -13,6 +13,7 @@
 @optional
 - (void) thumbImageViewDidTapFinished:(UITapGestureRecognizer *) gestureRecognizer;
 - (void) avatarImageViewDidTapFinished:(UITapGestureRecognizer *) gestureRecognizer;
+- (void) videoImageViewDidTapFinished:(UITapGestureRecognizer *) gestureRecognizer;
 @end
 
 
@@ -34,6 +35,9 @@
 @property (nonatomic) CGSize thumbSize;
 @property (nonatomic) BOOL isAnimatedGIF;
 @property (nonatomic) BOOL isLongImage;
+@property (nonatomic) BOOL isVideo;
+
+- (CGFloat) realHeight;
 
 @end
 

@@ -63,6 +63,14 @@
 		2B0AEC9F179832F700AFBAFA /* pullToRefreshBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B0AEC9D179832F600AFBAFA /* pullToRefreshBg@2x.png */; };
 		2B0AECA2179843BD00AFBAFA /* GrowingComposerInputBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B0AECA0179843BB00AFBAFA /* GrowingComposerInputBackground.png */; };
 		2B0AECA3179843BD00AFBAFA /* GrowingComposerInputBackground@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B0AECA1179843BC00AFBAFA /* GrowingComposerInputBackground@2x.png */; };
+		2B0C2D5317E2ED0400A1AE26 /* newsfeedVideoPlayIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B0C2D4F17E2ED0400A1AE26 /* newsfeedVideoPlayIcon.png */; };
+		2B0C2D5417E2ED0400A1AE26 /* newsfeedVideoPlayIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B0C2D5017E2ED0400A1AE26 /* newsfeedVideoPlayIcon@2x.png */; };
+		2B0C2D5517E2ED0400A1AE26 /* newsfeedVideoPlayIconPressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B0C2D5117E2ED0400A1AE26 /* newsfeedVideoPlayIconPressed.png */; };
+		2B0C2D5617E2ED0400A1AE26 /* newsfeedVideoPlayIconPressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B0C2D5217E2ED0400A1AE26 /* newsfeedVideoPlayIconPressed@2x.png */; };
+		2B0C2D5817E2F38A00A1AE26 /* black.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B0C2D5717E2F38A00A1AE26 /* black.png */; };
+		2B0C2D5B17E313FB00A1AE26 /* CDWebVideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B0C2D5A17E313FB00A1AE26 /* CDWebVideoViewController.m */; };
+		2B0C2D6617E3203A00A1AE26 /* videos.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B0C2D6417E3203A00A1AE26 /* videos.png */; };
+		2B0C2D6717E3203A00A1AE26 /* videos@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B0C2D6517E3203A00A1AE26 /* videos@2x.png */; };
 		2B169BFE17A8A3F500C54E55 /* login_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B169BFC17A8A3F500C54E55 /* login_logo.png */; };
 		2B169BFF17A8A3F500C54E55 /* login_logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B169BFD17A8A3F500C54E55 /* login_logo@2x.png */; };
 		2B169C2E17A8B7FB00C54E55 /* starFull.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B169C2A17A8B7FB00C54E55 /* starFull.png */; };
@@ -268,6 +276,7 @@
 		2BB60F8F1756437D00290F69 /* CDPost.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BB60F8E1756437D00290F69 /* CDPost.m */; };
 		2BB60F921756470F00290F69 /* TestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BB60F911756470F00290F69 /* TestViewController.m */; };
 		2BB60F9517565CD900290F69 /* CDRestClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BB60F9417565CD900290F69 /* CDRestClient.m */; };
+		2BC17A6C17E1ED29006BB510 /* CDVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BC17A6B17E1ED29006BB510 /* CDVideo.m */; };
 		2BC4D4A9176201280098151C /* CDCommentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BC4D4A7176201270098151C /* CDCommentTableViewCell.m */; };
 		2BC4D4FD1762558F0098151C /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BC4D4FC1762558E0098151C /* MapKit.framework */; };
 		2BC955261771D65B00568E54 /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BC955251771D65B00568E54 /* SettingViewController.m */; };
@@ -413,6 +422,15 @@
 		2B0AEC9D179832F600AFBAFA /* pullToRefreshBg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pullToRefreshBg@2x.png"; sourceTree = "<group>"; };
 		2B0AECA0179843BB00AFBAFA /* GrowingComposerInputBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GrowingComposerInputBackground.png; sourceTree = "<group>"; };
 		2B0AECA1179843BC00AFBAFA /* GrowingComposerInputBackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "GrowingComposerInputBackground@2x.png"; sourceTree = "<group>"; };
+		2B0C2D4F17E2ED0400A1AE26 /* newsfeedVideoPlayIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = newsfeedVideoPlayIcon.png; sourceTree = "<group>"; };
+		2B0C2D5017E2ED0400A1AE26 /* newsfeedVideoPlayIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "newsfeedVideoPlayIcon@2x.png"; sourceTree = "<group>"; };
+		2B0C2D5117E2ED0400A1AE26 /* newsfeedVideoPlayIconPressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = newsfeedVideoPlayIconPressed.png; sourceTree = "<group>"; };
+		2B0C2D5217E2ED0400A1AE26 /* newsfeedVideoPlayIconPressed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "newsfeedVideoPlayIconPressed@2x.png"; sourceTree = "<group>"; };
+		2B0C2D5717E2F38A00A1AE26 /* black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = black.png; sourceTree = "<group>"; };
+		2B0C2D5917E313FB00A1AE26 /* CDWebVideoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDWebVideoViewController.h; sourceTree = "<group>"; };
+		2B0C2D5A17E313FB00A1AE26 /* CDWebVideoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDWebVideoViewController.m; sourceTree = "<group>"; };
+		2B0C2D6417E3203A00A1AE26 /* videos.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = videos.png; sourceTree = "<group>"; };
+		2B0C2D6517E3203A00A1AE26 /* videos@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "videos@2x.png"; sourceTree = "<group>"; };
 		2B169BFC17A8A3F500C54E55 /* login_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = login_logo.png; sourceTree = "<group>"; };
 		2B169BFD17A8A3F500C54E55 /* login_logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "login_logo@2x.png"; sourceTree = "<group>"; };
 		2B169C2A17A8B7FB00C54E55 /* starFull.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = starFull.png; sourceTree = "<group>"; };
@@ -672,6 +690,8 @@
 		2BB60F911756470F00290F69 /* TestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestViewController.m; sourceTree = "<group>"; };
 		2BB60F9317565CD900290F69 /* CDRestClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDRestClient.h; sourceTree = "<group>"; };
 		2BB60F9417565CD900290F69 /* CDRestClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDRestClient.m; sourceTree = "<group>"; };
+		2BC17A6A17E1ED29006BB510 /* CDVideo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVideo.h; sourceTree = "<group>"; };
+		2BC17A6B17E1ED29006BB510 /* CDVideo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDVideo.m; sourceTree = "<group>"; };
 		2BC4D4A7176201270098151C /* CDCommentTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDCommentTableViewCell.m; sourceTree = "<group>"; };
 		2BC4D4A8176201270098151C /* CDCommentTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDCommentTableViewCell.h; sourceTree = "<group>"; };
 		2BC4D4FC1762558E0098151C /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -840,6 +860,8 @@
 				2BD65028178A6EE900EFE5B7 /* CDUserForm.m */,
 				2B98782717AF95130061E344 /* UserConfig.h */,
 				2B98782817AF95130061E344 /* UserConfig.m */,
+				2BC17A6A17E1ED29006BB510 /* CDVideo.h */,
+				2BC17A6B17E1ED29006BB510 /* CDVideo.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -1019,6 +1041,8 @@
 				2B375EA717992F6300A6CB39 /* CDPostToolBar.m */,
 				2B3954CD179AA6DE005998D0 /* CDWebViewController.h */,
 				2B3954CE179AA6DE005998D0 /* CDWebViewController.m */,
+				2B0C2D5917E313FB00A1AE26 /* CDWebVideoViewController.h */,
+				2B0C2D5A17E313FB00A1AE26 /* CDWebVideoViewController.m */,
 				2B7C718F17A21E5600482207 /* WxApiService.h */,
 				2B7C719017A21E5600482207 /* WxApiService.m */,
 				2BEA373B17A7C4ED004EDCBC /* PublishViewController.h */,
@@ -1171,6 +1195,13 @@
 		2BED82F8167B5ED20025E9C4 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				2B0C2D5717E2F38A00A1AE26 /* black.png */,
+				2B0C2D6417E3203A00A1AE26 /* videos.png */,
+				2B0C2D6517E3203A00A1AE26 /* videos@2x.png */,
+				2B0C2D4F17E2ED0400A1AE26 /* newsfeedVideoPlayIcon.png */,
+				2B0C2D5017E2ED0400A1AE26 /* newsfeedVideoPlayIcon@2x.png */,
+				2B0C2D5117E2ED0400A1AE26 /* newsfeedVideoPlayIconPressed.png */,
+				2B0C2D5217E2ED0400A1AE26 /* newsfeedVideoPlayIconPressed@2x.png */,
 				2BA887B217CE266100E2A094 /* navBar_refresh@2x.png */,
 				2BD0117A17CA723300825869 /* FZLTHK.TTF */,
 				2BB46CFF17C5D49F00C35084 /* umeng_ad_handle_night.png */,
@@ -1505,6 +1536,7 @@
 				2B492B86167B626700BBA956 /* button_save@2x.png in Resources */,
 				2B492B97167B626700BBA956 /* thumb_placeholder.png in Resources */,
 				2B492B98167B626700BBA956 /* thumb_placeholder@2x.png in Resources */,
+				2B0C2D5617E2ED0400A1AE26 /* newsfeedVideoPlayIconPressed@2x.png in Resources */,
 				2B492B99167B626700BBA956 /* table_bg.png in Resources */,
 				2B492B9A167B626700BBA956 /* table_bg@2x.png in Resources */,
 				2BFEBD6F16E76E0C00D8D363 /* sidemenus.plist in Resources */,
@@ -1559,6 +1591,7 @@
 				2B623B641792F09800D3270D /* btn_black_normal@2x.png in Resources */,
 				2B623B651792F09800D3270D /* btn_black_press.png in Resources */,
 				2B623B661792F09800D3270D /* btn_black_press@2x.png in Resources */,
+				2B0C2D6617E3203A00A1AE26 /* videos.png in Resources */,
 				2B623B671792F09800D3270D /* camera icon_disable.png in Resources */,
 				2B623B681792F09800D3270D /* camera icon_disable@2x.png in Resources */,
 				2B623B691792F09800D3270D /* camera icon.png in Resources */,
@@ -1571,6 +1604,7 @@
 				2B623B701792F09800D3270D /* camera_focus.png in Resources */,
 				2B9C27E317E1070A00C823EC /* Icon-29x29.png in Resources */,
 				2B623B711792F09800D3270D /* camera_focus@2x.png in Resources */,
+				2B0C2D6717E3203A00A1AE26 /* videos@2x.png in Resources */,
 				2B623B721792F09800D3270D /* camera_normal_iphone5.png in Resources */,
 				2B623B731792F09800D3270D /* camera_normal.png in Resources */,
 				2B623B741792F09800D3270D /* camera_normal@2x.png in Resources */,
@@ -1632,6 +1666,7 @@
 				2B0AEC361797976F00AFBAFA /* NavBarIconLauncherHighlighted@2x.png in Resources */,
 				2B0AEC3917979F0200AFBAFA /* NavBarIconCompose.png in Resources */,
 				2B0AEC3A17979F0200AFBAFA /* NavBarIconCompose@2x.png in Resources */,
+				2B0C2D5417E2ED0400A1AE26 /* newsfeedVideoPlayIcon@2x.png in Resources */,
 				2B0AEC3D1797B0DA00AFBAFA /* background.png in Resources */,
 				2B0AEC3E1797B0DA00AFBAFA /* background@2x.png in Resources */,
 				2B9C27E417E1070A00C823EC /* Icon-58x58.png in Resources */,
@@ -1680,11 +1715,13 @@
 				2B375EBB179931A500A6CB39 /* newsfeed_StoryFeedback_Icon_Comment_Normal@2x.png in Resources */,
 				2B375EBC179931A500A6CB39 /* newsfeed_StoryFeedback_Icon_Like_Highlighted.png in Resources */,
 				2B375EBD179931A500A6CB39 /* newsfeed_StoryFeedback_Icon_Like_Highlighted@2x.png in Resources */,
+				2B0C2D5317E2ED0400A1AE26 /* newsfeedVideoPlayIcon.png in Resources */,
 				2B375EBE179931A500A6CB39 /* newsfeed_StoryFeedback_Icon_Like_Normal.png in Resources */,
 				2B375EBF179931A500A6CB39 /* newsfeed_StoryFeedback_Icon_Like_Normal@2x.png in Resources */,
 				2B375EC0179931A500A6CB39 /* newsfeed_StoryFeedback_Icon_Like_Selected.png in Resources */,
 				2B375EC1179931A500A6CB39 /* newsfeed_StoryFeedback_Icon_Like_Selected@2x.png in Resources */,
 				2B375EC2179931A500A6CB39 /* newsfeed_StoryFeedback_Icon_Share_Highlighted.png in Resources */,
+				2B0C2D5817E2F38A00A1AE26 /* black.png in Resources */,
 				2B375EC3179931A500A6CB39 /* newsfeed_StoryFeedback_Icon_Share_Highlighted@2x.png in Resources */,
 				2B375EC4179931A500A6CB39 /* newsfeed_StoryFeedback_Icon_Share_Normal.png in Resources */,
 				2B375EC5179931A500A6CB39 /* newsfeed_StoryFeedback_Icon_Share_Normal@2x.png in Resources */,
@@ -1727,6 +1764,7 @@
 				2B169C2F17A8B7FB00C54E55 /* starFull@2x.png in Resources */,
 				2B169C3017A8B7FB00C54E55 /* starEmpty.png in Resources */,
 				2B169C3117A8B7FB00C54E55 /* starEmpty@2x.png in Resources */,
+				2B0C2D5517E2ED0400A1AE26 /* newsfeedVideoPlayIconPressed.png in Resources */,
 				2B8412C117ABAC1800AFB264 /* UMSocialLocalizable.strings in Resources */,
 				2B8412C517ABAC1800AFB264 /* UMSCommentDetailController.xib in Resources */,
 				2B8412C617ABAC1800AFB264 /* UMSCommentInputController.xib in Resources */,
@@ -1807,6 +1845,7 @@
 				2BCA0A0117578704000DD9FF /* CDComment.m in Sources */,
 				2B232B3B175ED659007803C0 /* PostDetailViewController.m in Sources */,
 				2B232B3E175F365B007803C0 /* CDRestError.m in Sources */,
+				2B0C2D5B17E313FB00A1AE26 /* CDWebVideoViewController.m in Sources */,
 				2B551F0C17607C9200C68E43 /* CDPostTableViewCell.m in Sources */,
 				2BC4D4A9176201280098151C /* CDCommentTableViewCell.m in Sources */,
 				2B37B9001764F8DA00A026DA /* CDPostDetailView.m in Sources */,
@@ -1821,6 +1860,7 @@
 				2BC9552F1771E4AE00568E54 /* UserSignupViewController.m in Sources */,
 				2BC955321771F59D00568E54 /* CDTextField.m in Sources */,
 				2B0929EC1773950C0051D1DC /* NSString+MD5.m in Sources */,
+				2BC17A6C17E1ED29006BB510 /* CDVideo.m in Sources */,
 				2B0929EF177395430051D1DC /* NSData+MD5.m in Sources */,
 				2BA6348917761D4700AE5DDA /* MyshareViewController.m in Sources */,
 				2BA6348C177621EE00AE5DDA /* MyFavoriteViewController.m in Sources */,

@@ -47,7 +47,15 @@
 		</dict>
 		<dict>
 			<key>name</key>
-			<string>挖热点</string>
+			<string>挖视频</string>
+			<key>tag</key>
+			<integer>40</integer>
+			<key>icon</key>
+			<string>videos.png</string>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>挖热门</string>
 			<key>tag</key>
 			<integer>2</integer>
 			<key>icon</key>

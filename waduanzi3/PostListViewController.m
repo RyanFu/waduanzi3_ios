@@ -31,6 +31,8 @@
 #import "FunnyDetailViewController.h"
 #import "ArticleDetailViewController.h"
 #import "MACAddress.h"
+#import "CDWebVideoViewController.h"
+#import "CDVideo.h"
 
 @interface PostListViewController ()
 - (void) setupNavButtionItems;
@@ -40,6 +42,8 @@
 - (void) setCellSubViews:(CDPostTableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath;
 - (void) setupTableViewPullScrollView;
 - (void) setupTableViewInfiniteScrollView;
+- (CDPostTableViewCell *)tableView:(UITableView *)tableView preparedCellForIndexPath:(NSIndexPath *)indexPath;
+- (void) didVideoSelectRowAtIndex:(NSInteger)index;
 @end
 
 @implementation PostListViewController
@@ -117,6 +121,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    _cellCache = [[NSCache alloc] init];
     
     [self setupNavButtionItems];
     [self setupTableView];
@@ -353,42 +359,64 @@
 
 - (CDPostTableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    return [self tableView:tableView preparedCellForIndexPath:indexPath];
+}
+
+
+- (CDPostTableViewCell *)tableView:(UITableView *)tableView preparedCellForIndexPath:(NSIndexPath *)indexPath;
+{
     static NSString *reuseIdentifier = @"PostCell";
-    CDPostTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
-    if (nil == cell) {
-        cell = [[CDPostTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:reuseIdentifier];
-        cell.delegate = self;
-        cell.tag = indexPath.row;
-        [self setCellSubViews:cell forRowAtIndexPath:indexPath];
-    }
     
     CDPost *post = [_statuses objectAtIndex:indexPath.row];
+    
+    NSString *cacheKey = [NSString stringWithFormat:@"post_list_cell_pid_%d", post.post_id.intValue];
+    CDPostTableViewCell *cell = [_cellCache objectForKey:cacheKey];
+    
+    if (!cell) {
+        cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
+        if (cell == nil)
+            cell = [[CDPostTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:reuseIdentifier];
+        
+        cell.delegate = self;
+        
+        [self setCellSubViews:cell forRowAtIndexPath:indexPath];
+        
+        [_cellCache setObject:cell forKey:cacheKey];
+    }
+
+    cell.tag = cell.imageView.tag = indexPath.row;
+    
     cell.detailTextLabel.text = [post summary];
-//    cell.detailTextLabel.font = [UIFont systemFontOfSize:detailFontSize];
     cell.detailTextLabel.font = cell.textLabel.font = [UIFont fontWithName:FZLTHK_FONT_NAME size:detailFontSize];
     cell.authorTextLabel.text = post.author_name;
     cell.datetimeTextLabel.text = post.create_time_at;
+    cell.textLabel.text = nil;
     
     [cell.avatarImageView setImageWithURL:[NSURL URLWithString:post.user.small_avatar] placeholderImage:[UIImage imageNamed:@"avatar_placeholder.png"]];
+    cell.isVideo = [post.video isKindOfClass:[CDVideo class]];
     
     if (post.small_pic.length > 0) {
-        cell.imageView.tag = indexPath.row;
         cell.isAnimatedGIF = [post isAnimatedGIF];
         cell.isLongImage = [post isLongImage];
+        
         NSURL *imageUrl = [NSURL URLWithString:post.small_pic];
         UIImage *placeImage = [UIImage imageNamed:@"thumb_placeholder.png"];
         [cell.imageView setImageWithURL:imageUrl placeholderImage:placeImage options:SDWebImageRetryFailed completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
             ;
         }];
-        cell.textLabel.text = nil;
+    }
+    else if (cell.isVideo) {
+        cell.isAnimatedGIF = cell.isLongImage = NO;
+        cell.imageView.image = [UIImage imageNamed:@"black.png"];
     }
     else {
         cell.textLabel.text = post.title;
         cell.imageView.image = nil;
         cell.isAnimatedGIF = NO;
         cell.isLongImage = NO;
+        cell.isVideo = NO;
     }
-    
+
     cell.upButton.tag = cell.commentButton.tag = indexPath.row;
     cell.upButton.enabled = ![[CDDataCache shareCache] fetchPostLikeState:[post.post_id integerValue]];
     [cell.upButton setTitle:[post.up_count stringValue] forState:UIControlStateNormal];
@@ -400,9 +428,11 @@
     return cell;
 }
 
+
 - (void) setCellSubViews:(CDPostTableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    cell.thumbSize = CGSizeMake(THUMB_WIDTH, THUMB_HEIGHT);
+    CDPost *post = [_statuses objectAtIndex:indexPath.row];
+    cell.thumbSize = post.video ? VIDEO_THUMB_SIZE : CGSizeMake(THUMB_WIDTH, THUMB_HEIGHT);;
     
     cell.authorTextLabel.font = [UIFont fontWithName:FZLTHK_FONT_NAME size:16.0f];
     cell.datetimeTextLabel.font = [UIFont systemFontOfSize:12.0f];
@@ -422,10 +452,6 @@
     [cell.commentButton addTarget:self action:@selector(commentButtonTouchUpInside:) forControlEvents:UIControlEventTouchUpInside];
 }
 
-- (void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    
-}
 
 #pragma mark - CDPostTableViewCellDelegate
 
@@ -439,6 +465,13 @@
     imageViewController.originalPicUrl = originaUrl;
     
     [self presentModalViewController:imageViewController animated:NO];
+}
+
+- (void) videoImageViewDidTapFinished:(UITapGestureRecognizer *)gestureRecognizer
+{
+    UIImageView *imageView = (UIImageView *)gestureRecognizer.view;
+
+    [self didVideoSelectRowAtIndex:imageView.tag];
 }
 
 #pragma mark - cell buttion event selector
@@ -496,33 +529,16 @@
 
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    CDPost *post = [_statuses objectAtIndex:indexPath.row];
+    CDPostTableViewCell *cell = [self tableView:tableView preparedCellForIndexPath:indexPath];
     
-    CGFloat contentWidth = self.view.frame.size.width - POST_LIST_CELL_CONTENT_MARGIN.left - POST_LIST_CELL_CONTENT_MARGIN.right - POST_LIST_CELL_CONTENT_PADDING.left - POST_LIST_CELL_CONTENT_PADDING.right;
-    CGSize titleLabelSize = [post.title sizeWithFont:[UIFont fontWithName:FZLTHK_FONT_NAME size:16.0f]
-                                   constrainedToSize:CGSizeMake(contentWidth, 9999.0)
-                                       lineBreakMode:UILineBreakModeCharacterWrap];
-    
-    CGSize detailLabelSize = [[post summary] sizeWithFont:[UIFont fontWithName:FZLTHK_FONT_NAME size:detailFontSize]
-                                      constrainedToSize:CGSizeMake(contentWidth, 9999.0)
-                                          lineBreakMode:UILineBreakModeCharacterWrap];
-    
-    CGFloat cellHeight = POST_LIST_CELL_CONTENT_MARGIN.top + POST_LIST_CELL_CONTENT_PADDING.top + POST_AVATAR_SIZE.height + POST_LIST_CELL_FRAGMENT_PADDING + detailLabelSize.height + POST_LIST_CELL_FRAGMENT_PADDING + CELL_BUTTON_HEIGHT;
-    
-    if (post.small_pic.length > 0)
-        cellHeight += THUMB_HEIGHT + POST_LIST_CELL_FRAGMENT_PADDING;
-    else
-        cellHeight +=  titleLabelSize.height + POST_LIST_CELL_FRAGMENT_PADDING;
-    
-    cellHeight += POST_LIST_CELL_CONTENT_PADDING.bottom + POST_LIST_CELL_CONTENT_MARGIN.bottom;
-    
-    return cellHeight;
+    return [cell realHeight];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     @try {
         CDPost *post = [_statuses objectAtIndex:indexPath.row];
+        
         FunnyDetailViewController *detailViewController = [[FunnyDetailViewController alloc] initWithPost:post];
         CDPostTableViewCell *cell = (CDPostTableViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
         if (cell.imageView.image != nil)
@@ -535,6 +551,15 @@
     @finally {
         ;
     }
+}
+
+- (void) didVideoSelectRowAtIndex:(NSInteger)index
+{
+    CDPost *post = [_statuses objectAtIndex:index];
+    CDLog(@"source url: %@", post.video);
+    CDWebVideoViewController *webVideoController = [[CDWebVideoViewController alloc] initWithUrl:post.video.source_url];
+    [webVideoController setNavigationBarStyle:CDNavigationBarStyleBlue barButtonItemStyle:CDBarButtionItemStyleBlue toolBarStyle:CDToolBarStyleBlue];
+    [self.navigationController pushViewController:webVideoController animated:YES];
 }
 
 #pragma mark - barButtionItem selector

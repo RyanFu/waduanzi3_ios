@@ -193,7 +193,7 @@
             }
         }
         else if (indexPath.section == 1) {
-            static MediaTypeViewController *textJokeViewController, *imageJokeViewController;
+            static MediaTypeViewController *textJokeViewController, *imageJokeViewController, *videoJokeViewController;
             static FocusListViewController *articleViewController;
             
             switch (indexPath.row) {
@@ -214,8 +214,18 @@
                     self.viewDeckController.centerController = centerViewController;
                     break;
                 case 2:
-                    if (articleViewController == nil)
+                    if (videoJokeViewController == nil) {
+                        videoJokeViewController = [[MediaTypeViewController alloc] initWithMediaType:MEDIA_TYPE_VIDEO];
+                        videoJokeViewController.title = @"挖视频";
+                    }
+                    centerViewController = [[UINavigationController alloc] initWithRootViewController:videoJokeViewController];
+                    self.viewDeckController.centerController = centerViewController;
+                    break;
+                case 3:
+                    if (articleViewController == nil) {
                         articleViewController = [[FocusListViewController alloc] init];
+                        articleViewController.title = @"挖热门";
+                    }
                     centerViewController = [[UINavigationController alloc] initWithRootViewController:articleViewController];
                     self.viewDeckController.centerController = centerViewController;
                     break;

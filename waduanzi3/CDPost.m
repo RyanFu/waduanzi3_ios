@@ -34,6 +34,7 @@
 @synthesize pic_height = _pic_height;
 @synthesize url = _url;
 @synthesize user = _user;
+@synthesize video = _video;
 
 - (id)initWithCoder:(NSCoder *)decoder
 {
@@ -61,6 +62,7 @@
         self.pic_height = [decoder decodeObjectForKey:@"pic_height"];
         self.url = [decoder decodeObjectForKey:@"url"];
         self.user = [decoder decodeObjectForKey:@"user"];
+        self.video = [decoder decodeObjectForKey:@"video"];
     }
     return self;
 }
@@ -89,6 +91,7 @@
     [encoder encodeObject:_pic_height forKey:@"pic_height"];
     [encoder encodeObject:_url forKey:@"url"];
     [encoder encodeObject:_user forKey:@"user"];
+    [encoder encodeObject:_video forKey:@"video"];
 }
 
 - (NSString *) summary

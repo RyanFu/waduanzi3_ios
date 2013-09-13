@@ -27,6 +27,7 @@
     CGFloat detailFontSize;
     WBNoticeView *_noticeView;
     UMUFPHandleView *_mHandleView;
+    NSCache *_cellCache;
 }
 
 @property (nonatomic, strong) UITableView *tableView;

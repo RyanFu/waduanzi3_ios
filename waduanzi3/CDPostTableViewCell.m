@@ -14,7 +14,9 @@
 {
     UIImageView *_gifImageIconView;
     UIImageView *_longImageIconView;
+    UIImageView *_videoIconView;
 }
+
 - (void) setupTableCellStyle;
 - (void) setupSubviewsDefaultStyle;
 @end
@@ -33,6 +35,7 @@
 @synthesize separatorHeight = _separatorHeight;
 @synthesize isAnimatedGIF = _isAnimatedGIF;
 @synthesize isLongImage = _isLongImage;
+@synthesize isVideo = _isVideo;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -67,7 +70,8 @@
         [_gifImageIconView sizeToFit];
         _longImageIconView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mqz_img_long.png"]];
         [_longImageIconView sizeToFit];
-
+        _videoIconView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"newsfeedVideoPlayIcon.png"] highlightedImage:[UIImage imageNamed:@"newsfeedVideoPlayIconPressed.png"]];
+        [_videoIconView sizeToFit];
         
         
         [self setupTableCellStyle];
@@ -78,6 +82,10 @@
 
 - (void) setupSubviewsDefaultStyle
 {
+    self.contentView.layer.cornerRadius = 3.0f;
+    self.contentView.layer.borderColor = [UIColor colorWithRed:0.76f green:0.77f blue:0.78f alpha:1.00f].CGColor;
+    self.contentView.layer.borderWidth = 1.0f;
+    
     // avatarImageView
     _avatarImageView.contentMode = UIViewContentModeScaleAspectFit;
     _avatarImageView.opaque = YES;
@@ -129,14 +137,10 @@
     contentViewFrame.size.width -= _contentMargin.left + _contentMargin.right;
     contentViewFrame.size.height -= _contentMargin.top + _contentMargin.bottom;
     self.contentView.frame = contentViewFrame;
-    self.contentView.layer.cornerRadius = 3.0f;
-    self.contentView.layer.borderColor = [UIColor colorWithRed:0.76f green:0.77f blue:0.78f alpha:1.00f].CGColor;
-    self.contentView.layer.borderWidth = 1.0f;
     
     
-    CGSize contentViewSize = self.contentView.frame.size;
-    CGFloat containerViewWidth = contentViewSize.width;
-    CGFloat contentBlockWidth = containerViewWidth  - _contentPadding.left - _contentPadding.right;
+    CGSize contentViewSize = contentViewFrame.size;
+    CGFloat contentBlockWidth = contentViewSize.width  - _contentPadding.left - _contentPadding.right;
     
     CGFloat widgetY = _contentPadding.top;
     CGFloat widgetHeight = POST_AVATAR_SIZE.height;
@@ -152,7 +156,6 @@
     [_datetimeTextLabel sizeToFit];
 
     // authorLabel
-//    CGFloat authorLabelWidth = containerViewWidth - timeLabelSize.width - widgetHeight - _separatorHeight*2;
     CGRect authorLabelFrame = CGRectMake(_contentPadding.left + widgetHeight + _separatorHeight, widgetY, 0, 0);
     [self.authorTextLabel setFrame:authorLabelFrame];
     [_authorTextLabel sizeToFit];
@@ -195,8 +198,17 @@
             [_gifImageIconView removeFromSuperview];
         if (_longImageIconView.superview != nil)
             [_longImageIconView removeFromSuperview];
+        if (_videoIconView.superview != nil)
+            [_videoIconView removeFromSuperview];
         
-        if (_isAnimatedGIF) {
+        if (_isVideo) {
+            CGRect videoImageFrame = _videoIconView.frame;
+            videoImageFrame.origin.x = self.imageView.frame.size.width/2 - videoImageFrame.size.width/2;
+            videoImageFrame.origin.y = self.imageView.frame.size.height/2 - videoImageFrame.size.height/2;
+            _videoIconView.frame = videoImageFrame;
+            [self.imageView addSubview:_videoIconView];
+        }
+        else if (_isAnimatedGIF) {
             CGRect gifImageFrame = _gifImageIconView.frame;
             gifImageFrame.origin.x = self.imageView.frame.size.width - gifImageFrame.size.width;
             gifImageFrame.origin.y = self.imageView.frame.size.height - gifImageFrame.size.height;
@@ -211,25 +223,38 @@
 
             [self.imageView addSubview:_longImageIconView];
         }
-
-        if (self.delegate && [self.delegate respondsToSelector:@selector(thumbImageViewDidTapFinished:)]) {
+        
+        if (self.imageView.image && self.delegate) {
+            UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] init];
             self.imageView.userInteractionEnabled = YES;
-            UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self.delegate action:@selector(thumbImageViewDidTapFinished:)];
             tapGestureRecognizer.numberOfTapsRequired = 1;
             
-            [self.imageView addGestureRecognizer:tapGestureRecognizer];
+            if (_isVideo && [self.delegate respondsToSelector:@selector(videoImageViewDidTapFinished:)]) {
+                [tapGestureRecognizer addTarget:self.delegate action:@selector(videoImageViewDidTapFinished:)];
+                [self.imageView addGestureRecognizer:tapGestureRecognizer];
+            }
+            else if ([self.delegate respondsToSelector:@selector(thumbImageViewDidTapFinished:)]) {
+                [tapGestureRecognizer addTarget:self.delegate action:@selector(thumbImageViewDidTapFinished:)];
+                [self.imageView addGestureRecognizer:tapGestureRecognizer];
+            }
         }
+        else
+            self.imageView.userInteractionEnabled = NO;
         
         widgetY += widgetHeight + _separatorHeight;
     }
 
-    CGRect buttonFrame = CGRectMake(contentViewSize.width - _contentMargin.right - _contentPadding.right - 70.0f, widgetY, 70.0f, 30);
+    widgetHeight = POST_LIST_CELL_BOTTOM_BUTTON_HEIGHT;
+    CGRect buttonFrame = CGRectMake(contentViewSize.width - _contentMargin.right - _contentPadding.right - 70.0f, widgetY, 70.0f, widgetHeight);
     // MARK: 以后添加列表中的更多按钮
 //    [_moreButton setFrame:buttonFrame];
 //    buttonFrame.origin.x -= buttonFrame.size.width;
     [_commentButton setFrame:buttonFrame];
     buttonFrame.origin.x -= buttonFrame.size.width;
     [_upButton setFrame:buttonFrame];
+    
+    
+    widgetY += widgetHeight + _separatorHeight;
     
 }
 
@@ -239,6 +264,43 @@
     self.contentView.backgroundColor = [UIColor whiteColor];
 }
 
+
+
+- (CGFloat) realHeight
+{
+    CGFloat contentBlockWidth = self.frame.size.width - _contentMargin.left - _contentMargin.right  - _contentPadding.left - _contentPadding.right;
+    
+    CGFloat height = _contentMargin.top + _contentPadding.top + POST_AVATAR_SIZE.height + _separatorHeight;
+    
+    // textLabel
+    if (self.textLabel.text.length > 0) {
+        CGSize titleLabelSize = [self.textLabel.text sizeWithFont:self.textLabel.font
+                                                constrainedToSize:CGSizeMake(contentBlockWidth, 9999.0)
+                                                    lineBreakMode:UILineBreakModeCharacterWrap];
+        
+        height += titleLabelSize.height + _separatorHeight;
+    }
+    
+    // detailLabel
+    if (self.detailTextLabel.text.length > 0) {
+        CGSize detailLabelSize = [self.detailTextLabel.text sizeWithFont:self.detailTextLabel.font
+                                                       constrainedToSize:CGSizeMake(contentBlockWidth, 9999.0)
+                                                           lineBreakMode:UILineBreakModeCharacterWrap];
+        height += detailLabelSize.height + _separatorHeight;
+    }
+    
+    // imageView
+    if (self.imageView.image)
+        height += _thumbSize.height + _separatorHeight;
+    
+    // buttons
+    height += POST_LIST_CELL_BOTTOM_BUTTON_HEIGHT; // 最后一个不加 _separatorHeight
+    
+    return height + _contentPadding.bottom + _contentMargin.bottom;
+}
+
 @end
+
+
 
 

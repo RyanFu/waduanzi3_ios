@@ -10,6 +10,7 @@
 #import "CDRestClient.h"
 #import "CDPost.h"
 #import "CDComment.h"
+#import "CDVideo.h"
 #import "OpenUDID.h"
 #import "CDRestError.h"
 #import "WCAlertView.h"
@@ -25,6 +26,7 @@
 - (RKObjectMapping *) setPostObjectMapping;
 - (RKObjectMapping *) setUserObjectMapping;
 - (RKObjectMapping *) setCommentObjectMapping;
+- (RKObjectMapping *) setVideoObjectMapping;
 - (RKObjectMapping *) setErrorObjectMapping;
 @end
 
@@ -118,17 +120,23 @@
     RKObjectMapping *postMapping = [self setPostObjectMapping];
     RKObjectMapping *userMapping = [self setUserObjectMapping];
     RKObjectMapping *commentMapping = [self setCommentObjectMapping];
+    RKObjectMapping *videoMapping = [self setVideoObjectMapping];
     
     /*
      * RelationshipMapping
      */
     // user relationship mapping
-    RKRelationshipMapping* userRelationShipMapping = [RKRelationshipMapping relationshipMappingFromKeyPath:@"user"
+    RKRelationshipMapping *userRelationShipMapping = [RKRelationshipMapping relationshipMappingFromKeyPath:@"user"
                                                                                                  toKeyPath:@"user"
                                                                                                withMapping:userMapping];
     
+    RKRelationshipMapping *videoRelationShipMapping = [RKRelationshipMapping relationshipMappingFromKeyPath:@"video"
+                                                                                                  toKeyPath:@"video"
+                                                                                                withMapping:videoMapping];
+    
     // add user relationShipMapping
     [postMapping addPropertyMapping:userRelationShipMapping];
+    [postMapping addPropertyMapping:videoRelationShipMapping];
     [commentMapping addPropertyMapping:[userRelationShipMapping copy]];
     
     
@@ -252,6 +260,21 @@
      }];
     
     return postMapping;
+}
+
+- (RKObjectMapping *) setVideoObjectMapping
+{
+    RKObjectMapping *videoMapping = [RKObjectMapping mappingForClass:[CDVideo class]];
+    [videoMapping addAttributeMappingsFromDictionary:@{
+        @"post_id"             : @"post_id",
+        @"video_id"            : @"video_id",
+        @"html5_url"           : @"html5_url",
+        @"flash_url"           : @"flash_url",
+        @"source_url"          : @"source_url",
+        @"desc"                : @"desc"
+    }];
+    
+    return videoMapping;
 }
 
 - (RKObjectMapping *) setUserObjectMapping
