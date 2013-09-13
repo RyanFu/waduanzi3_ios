@@ -373,12 +373,8 @@
     CDPostTableViewCell *cell = [_cellCache objectForKey:cacheKey];
     
     if (!cell) {
-        cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
-        if (cell == nil)
-            cell = [[CDPostTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:reuseIdentifier];
-        
+        cell = [[CDPostTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:reuseIdentifier];
         cell.delegate = self;
-        
         [self setCellSubViews:cell forRowAtIndexPath:indexPath];
         
         [_cellCache setObject:cell forKey:cacheKey];
@@ -556,10 +552,11 @@
 - (void) didVideoSelectRowAtIndex:(NSInteger)index
 {
     CDPost *post = [_statuses objectAtIndex:index];
-    CDLog(@"source url: %@", post.video);
+    CDLog(@"source url: %@", post.video.source_url);
     CDWebVideoViewController *webVideoController = [[CDWebVideoViewController alloc] initWithUrl:post.video.source_url];
     [webVideoController setNavigationBarStyle:CDNavigationBarStyleBlue barButtonItemStyle:CDBarButtionItemStyleBlue toolBarStyle:CDToolBarStyleBlue];
-    [self.navigationController pushViewController:webVideoController animated:YES];
+    UINavigationController *navWebVideoController = [[UINavigationController alloc] initWithRootViewController:webVideoController];
+    [self presentViewController:navWebVideoController animated:YES completion:nil];
 }
 
 #pragma mark - barButtionItem selector

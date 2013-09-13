@@ -9,7 +9,6 @@
 #import <QuartzCore/QuartzCore.h>
 #import <RestKit/RestKit.h>
 #import "PostDetailViewController.h"
-#import "WCAlertView.h"
 #import "UIScrollView+SVPullToRefresh.h"
 #import "UIScrollView+SVInfiniteScrolling.h"
 #import "CDComment.h"
@@ -721,17 +720,10 @@
                         if (error.code == NSURLErrorCancelled) return ;
                         
                         NSString *alertMessage = @"发布评论失败。";
-                        if (error.code == kCFURLErrorTimedOut)
+                        if (error.domain == NSURLErrorDomain && error.code == kCFURLErrorTimedOut)
                             alertMessage = @"网络超时";
                         
-                        [WCAlertView showAlertWithTitle:@"出错啦"
-                                               message:alertMessage
-                                    customizationBlock:^(WCAlertView *alertView) {
-                                        alertView.style = WCAlertViewStyleWhite;
-                                    } completionBlock:^(NSUInteger buttonIndex, WCAlertView *alertView) {
-                                        if (buttonIndex == 1)
-                                            [self loadPostComments];
-                                    } cancelButtonTitle:@"关闭" otherButtonTitles:@"重试",nil];
+                        
                         NSLog(@"Hit error: %@", error);
                    }];
 }

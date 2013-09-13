@@ -13,12 +13,12 @@
 #import "CDVideo.h"
 #import "OpenUDID.h"
 #import "CDRestError.h"
-#import "WCAlertView.h"
 #import "CDAppUser.h"
-#import "MBProgressHUD.h"
+#import "MBProgressHUD+Custom.h"
 
 
 @interface CDRestClient ()
+- (void) checkNetworkChange;
 - (void) initHttpClient;
 - (void) setHttpDefaultHeaders;
 - (void) initObjectManager;
@@ -86,15 +86,8 @@
     RKObjectManager *objectManager = [RKObjectManager sharedManager];
     NSLog(@"network status: %d", objectManager.HTTPClient.networkReachabilityStatus);
     if (objectManager.HTTPClient.networkReachabilityStatus == AFNetworkReachabilityStatusNotReachable) {
-        MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:ROOT_CONTROLLER.view];
-        [ROOT_CONTROLLER.view addSubview:hud];
-        hud.mode = MBProgressHUDModeCustomView;
-        hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"tip_error.png"]];
-        hud.alpha = 0.60f;
-        hud.detailsLabelText = @"哎呀，网络不给力呀，\n稍后再试试吧";
-        hud.detailsLabelFont = [UIFont systemFontOfSize:14.0f];
-        [hud show:YES];
-        [hud hide:YES afterDelay:2.0f];
+        [MBProgressHUD show:YES errorMessage:@"哎呀，网络不给力呀，\n稍后再试试吧" inView:ROOT_CONTROLLER.view alpha:0.6f hide:YES afterDelay:1.5f];
+        
         return NO;
     }
     else
@@ -106,11 +99,16 @@
     // MARK: check network，需要详细处理
     [_manager.HTTPClient setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
         if (status == AFNetworkReachabilityStatusNotReachable) {
-            [WCAlertView showAlertWithTitle:@"网络异常" message:@"哎呀，网络不给力呀，稍候再试试吧" customizationBlock:^(WCAlertView *alertView) {
-                alertView.style = WCAlertViewStyleWhite;
-            } completionBlock:^(NSUInteger buttonIndex, WCAlertView *alertView) {
-                ;
-            } cancelButtonTitle:@"关闭" otherButtonTitles:nil, nil];
+            NSLog(@"network status: not reachable");
+        }
+        else if (status == AFNetworkReachabilityStatusReachableViaWWAN ) {
+            NSLog(@"network status: reachable via WWAN");
+        }
+        else if (status == AFNetworkReachabilityStatusReachableViaWiFi) {
+            NSLog(@"network status: reachable via WIFI");
+        }
+        else if (status == AFNetworkReachabilityStatusUnknown) {
+            NSLog(@"network status:  unknown");
         }
     }];
 }

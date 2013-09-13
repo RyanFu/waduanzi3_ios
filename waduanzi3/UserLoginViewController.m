@@ -10,7 +10,6 @@
 #import <RestKit/RestKit.h>
 #import "CDDefine.h"
 #import "UserLoginViewController.h"
-#import "WCAlertView.h"
 #import "UserSignupViewController.h"
 #import "NSString+MD5.h"
 #import "CDUser.h"

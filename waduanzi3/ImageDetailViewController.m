@@ -9,7 +9,6 @@
 #import "CDDefine.h"
 #import "ImageDetailViewController.h"
 #import "UIImageView+WebCache.h"
-#import "WCAlertView.h"
 #import "MBProgressHUD.h"
 
 @interface ImageDetailViewController ()
@@ -241,7 +240,9 @@
             message = @"您当前的设置不允许保存图片，请打开 设置-隐私-照片 来进行设置\n";
             
         }
-        [WCAlertView showAlertWithTitle:@"提示" message:message customizationBlock:NULL completionBlock:NULL cancelButtonTitle:@"知道了～" otherButtonTitles:nil, nil];
+        
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"提示" message:message delegate:nil cancelButtonTitle:@"知道了～" otherButtonTitles:nil, nil];
+        [alertView show];
     }
     else {
         _HUD.labelText = @"保存成功";

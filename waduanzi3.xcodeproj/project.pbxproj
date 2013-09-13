@@ -206,6 +206,7 @@
 		2B64538117C252EE005F6ED2 /* WebTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B64538017C252EE005F6ED2 /* WebTestViewController.m */; };
 		2B64538417C27013005F6ED2 /* DTCoreTextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B64538317C27013005F6ED2 /* DTCoreTextViewController.m */; };
 		2B6519AB1767318F0080D632 /* CDConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B6519AA1767318F0080D632 /* CDConfig.m */; };
+		2B69665A17E36683001A5DF6 /* MBProgressHUD+Custom.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B69665917E36683001A5DF6 /* MBProgressHUD+Custom.m */; };
 		2B6978EB17E0E57900606B2C /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B6978EA17E0E57800606B2C /* CoreTelephony.framework */; };
 		2B6978FB17E0E5CA00606B2C /* libBPush.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B6978EE17E0E5CA00606B2C /* libBPush.a */; };
 		2B6978FD17E0E5CA00606B2C /* GzipCompressor.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B6978F417E0E5CA00606B2C /* GzipCompressor.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -585,6 +586,8 @@
 		2B64538317C27013005F6ED2 /* DTCoreTextViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTCoreTextViewController.m; sourceTree = "<group>"; };
 		2B6519A91767318F0080D632 /* CDConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDConfig.h; sourceTree = "<group>"; };
 		2B6519AA1767318F0080D632 /* CDConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDConfig.m; sourceTree = "<group>"; };
+		2B69665817E36683001A5DF6 /* MBProgressHUD+Custom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MBProgressHUD+Custom.h"; sourceTree = "<group>"; };
+		2B69665917E36683001A5DF6 /* MBProgressHUD+Custom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MBProgressHUD+Custom.m"; sourceTree = "<group>"; };
 		2B6978EA17E0E57800606B2C /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		2B6978ED17E0E5CA00606B2C /* BPush.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BPush.h; sourceTree = "<group>"; };
 		2B6978EE17E0E5CA00606B2C /* libBPush.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libBPush.a; sourceTree = "<group>"; };
@@ -1188,6 +1191,8 @@
 				2BAC67F217BBC66300B9768E /* PostFontPickerValueParser.m */,
 				2BAC67F417BBCD1100B9768E /* CommentFontPickerValueParser.h */,
 				2BAC67F517BBCD1200B9768E /* CommentFontPickerValueParser.m */,
+				2B69665817E36683001A5DF6 /* MBProgressHUD+Custom.h */,
+				2B69665917E36683001A5DF6 /* MBProgressHUD+Custom.m */,
 			);
 			name = Common;
 			sourceTree = "<group>";
@@ -1867,6 +1872,7 @@
 				2BFC742B177752C80027F9B3 /* CDDataCache.m in Sources */,
 				2B5B19C8177B888F0042398E /* CDAppUser.m in Sources */,
 				2B1FDDF7177C95F400CD1135 /* CDQuickElements.m in Sources */,
+				2B69665A17E36683001A5DF6 /* MBProgressHUD+Custom.m in Sources */,
 				2B1FDDFA177CB87900CD1135 /* CDSideTableViewCell.m in Sources */,
 				2BDD70A8177F971700421915 /* MGBoxViewController.m in Sources */,
 				2B2BEC611783CE5F008038B0 /* ImageDetailViewController.m in Sources */,

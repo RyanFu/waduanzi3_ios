@@ -13,9 +13,9 @@
 #import "CDAppUser.h"
 #import "CDUIKit.h"
 #import "UMSocial.h"
-#import "WCAlertView.h"
 #import "CDDataCache.h"
 #import "UpdateProfileViewController.h"
+#import "MBProgressHUD+Custom.h"
 
 #define LOGOUT_BUTTON_TAG 99999
 
@@ -161,11 +161,8 @@
                 }
                 else {
                     element.boolValue = NO;
-                    [WCAlertView showAlertWithTitle:@"提示" message:@"新浪微博授权出错，请重新授权一次" customizationBlock:^(WCAlertView *alertView) {
-                        ;
-                    } completionBlock:^(NSUInteger buttonIndex, WCAlertView *alertView) {
-                        ;
-                    } cancelButtonTitle:@"取消" otherButtonTitles:nil, nil];
+                    
+                    [MBProgressHUD show:YES errorMessage:@"新浪微博授权出错，请重新授权一次" inView:self.view alpha:0.6f hide:YES afterDelay:1.5f];
                 }
             }
             else
@@ -202,11 +199,8 @@
                 }
                 else {
                     element.boolValue = NO;
-                    [WCAlertView showAlertWithTitle:@"提示" message:@"QQ空间授权出错，请重新授权一次" customizationBlock:^(WCAlertView *alertView) {
-                        ;
-                    } completionBlock:^(NSUInteger buttonIndex, WCAlertView *alertView) {
-                        ;
-                    } cancelButtonTitle:@"取消" otherButtonTitles:nil, nil];
+                    
+                    [MBProgressHUD show:YES errorMessage:@"QQ空间授权出错，请重新授权一次" inView:self.view alpha:0.6f hide:YES afterDelay:1.5f];
                 }
             }
             else
@@ -243,11 +237,8 @@
                 }
                 else {
                     element.boolValue = NO;
-                    [WCAlertView showAlertWithTitle:@"提示" message:@"腾讯微博授权出错，请重新授权一次" customizationBlock:^(WCAlertView *alertView) {
-                        ;
-                    } completionBlock:^(NSUInteger buttonIndex, WCAlertView *alertView) {
-                        ;
-                    } cancelButtonTitle:@"取消" otherButtonTitles:nil, nil];
+                    
+                    [[MBProgressHUD showHUDAddedTo:self.view animated:YES] hide:YES afterDelay:1.0f];
                 }
             }
             else

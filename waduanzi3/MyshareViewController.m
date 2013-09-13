@@ -11,7 +11,6 @@
 #import "CDDefine.h"
 #import "CDPost.h"
 #import "CDRestClient.h"
-#import "WCAlertView.h"
 #import "CDAppUser.h"
 #import "UIScrollView+SVInfiniteScrolling.h"
 #import "UIScrollView+SVPullToRefresh.h"

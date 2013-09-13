@@ -13,7 +13,6 @@
 #import "SideMenuViewController.h"
 #import "TimelineViewController.h"
 #import "CDRestClient.h"
-#import "WCAlertView.h"
 #import "CDUIKit.h"
 #import "UMSocial.h"
 #import "WXApi.h"
@@ -311,13 +310,6 @@
     
     [[SDWebImageManager sharedManager].imageDownloader setValue:[CDRestClient userAgent] forHTTPHeaderField:@"User-Agent"];
     
-    // set WCAlertView Default style
-    [WCAlertView setDefaultCustomiaztonBlock:^(WCAlertView *alertView) {
-        alertView.style = WCAlertViewStyleWhite;
-        alertView.labelTextColor = [UIColor grayColor];
-        alertView.buttonTextColor = [UIColor grayColor];
-    }];
-    
     // set appirater
     [Appirater setAppId:WADUANZI_APPLE_ID];
     [Appirater setDaysUntilPrompt:5]; // 安装几天后弹出
@@ -337,7 +329,7 @@
 - (void) setupRKObjectMapping
 {
     if (CD_DEBUG) {
-        RKLogConfigureByName("RestKit/ObjectMapping", RKLogLevelDebug);
+//        RKLogConfigureByName("RestKit/ObjectMapping", RKLogLevelDebug);
         RKLogConfigureByName("RestKit/Network", RKLogLevelTrace);
     }
     else

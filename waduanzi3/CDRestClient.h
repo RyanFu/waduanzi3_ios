@@ -16,7 +16,6 @@
 }
 
 - (void) run;
-- (void) checkNetworkChange;
 
 + (NSDictionary *) defaultParams;
 + (NSDictionary *) requestParams:(NSDictionary *)params;

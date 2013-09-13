@@ -9,7 +9,17 @@
 #import "QWebViewController.h"
 #import "CDUIKit.h"
 
-@interface CDWebVideoViewController : QWebViewController
+typedef NS_ENUM(NSInteger, CDVideoViewMode) {
+    CDVideoViewModeDefault,
+    CDVideoViewModeClassic
+};
+
+@interface CDWebVideoViewController : QWebViewController {
+
+@private
+    CDVideoViewMode viewMode;
+
+}
 
 - (void) setNavigationBarStyle:(CDNavigationBarStyle)navigationBarStyle barButtonItemStyle:(CDBarButtionItemStyle)barButtonItemStyle toolBarStyle:(CDToolBarStyle)toolBarStyle;
 @end

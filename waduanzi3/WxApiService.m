@@ -10,7 +10,7 @@
 #import "UserProfileViewController.h"
 #import "WXApi.h"
 #import "CDWebViewController.h"
-#import "WCAlertView.h"
+#import "MBProgressHUD+Custom.h"
 
 @interface WxApiService ()
 
@@ -96,11 +96,7 @@
         }];
     }
     else {
-        [WCAlertView showAlertWithTitle:@"提示" message:@"无效的URL地址" customizationBlock:^(WCAlertView *alertView) {
-            ;
-        } completionBlock:^(NSUInteger buttonIndex, WCAlertView *alertView) {
-            ;
-        } cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+        [MBProgressHUD show:YES errorMessage:@"无效的URL地址" inView:ROOT_CONTROLLER.view alpha:0.6f hide:YES afterDelay:1.5f];
     }
 }
 
@@ -116,11 +112,7 @@
         }];
     }
     else {
-        [WCAlertView showAlertWithTitle:@"提示" message:@"无效的URL地址" customizationBlock:^(WCAlertView *alertView) {
-            ;
-        } completionBlock:^(NSUInteger buttonIndex, WCAlertView *alertView) {
-            ;
-        } cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+        [MBProgressHUD show:YES errorMessage:@"无效的URL地址" inView:ROOT_CONTROLLER.view alpha:0.6f hide:YES afterDelay:1.5f];
     }
 }
 
