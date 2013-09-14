@@ -20,6 +20,7 @@
 #import "UserConfig.h"
 #import "FeedbackViewController.h"
 #import "Appirater.h"
+#import "CDKit.h"
 
 @interface SettingViewController ()
 - (void) setupNavbar;
@@ -101,7 +102,7 @@
 
 - (void) productViewControllerDidFinish:(SKStoreProductViewController *)viewController
 {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [viewController dismissViewControllerAnimated:YES completion:nil];
 }
 
 
@@ -127,17 +128,7 @@
 
 - (void) starredAction:(QLabelElement *)element
 {
-    if (NSStringFromClass([SKStoreProductViewController class]) == nil) {
-        NSLog(@"less than 6.0");
-        [CDAPPLICATION openURL:[NSURL URLWithString:[APP_STORE_REVIEW_URL_TPL stringByReplacingOccurrencesOfString:@"APP_ID" withString:WADUANZI_APPLE_ID]]];
-    }
-    else {
-        NSLog(@"greater than 6.0");
-        SKStoreProductViewController *storeProductController = [[SKStoreProductViewController alloc] init];
-        storeProductController.delegate = self;
-        [storeProductController loadProductWithParameters:@{SKStoreProductParameterITunesItemIdentifier: WADUANZI_APPLE_ID} completionBlock:nil];
-        [self presentViewController:storeProductController animated:YES completion:nil];
-    }
+    [CDKit openAppStoreByAppID:WADUANZI_APPLE_ID review:YES target:self delegate:self];
 }
 
 - (void) userProfileAction:(QLabelElement *)element

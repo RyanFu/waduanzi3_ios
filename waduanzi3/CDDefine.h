@@ -27,10 +27,11 @@
 #define ROOT_CONTROLLER [[[UIApplication sharedApplication] keyWindow] rootViewController]
 #define APP_VERSION     [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"] ?: [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey]
 
-#define APP_STORE_URL @"itms-apps://itunes.apple.com/cn/app//id486268988?mt=8"
-#define APP_STORE_REVIEW_URL_TPL @"itms-apps://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=APP_ID"
+#define WDZ_APP_STORE_URL @"itms-apps://itunes.apple.com/cn/app//id486268988?mt=8"
 #define OFFICIAL_SITE @"http://www.waduanzi.com";
 #define OFFICIAL_MOBILE_SITE @"http://m.waduanzi.com";
+#define APP_STORE_URL(APP_ID) [NSString stringWithFormat:@"itms-apps://itunes.apple.com/cn/app//id%@?mt=8", APP_ID]
+#define APP_STORE_REVIEW_URL(APP_ID) [NSString stringWithFormat:@"itms-apps://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=%@", APP_ID]
 
 #define WADUANZI_APPLE_ID @"486268988"
 #define MOGO_ADID  @"299f9bceb40a4aa785b6104d3d962378"

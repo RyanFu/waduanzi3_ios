@@ -33,16 +33,20 @@
 #import "MACAddress.h"
 #import "CDWebVideoViewController.h"
 #import "CDVideo.h"
+#import "CDAdvertTableViewCell.h"
+#import "CDKit.h"
 
 @interface PostListViewController ()
 - (void) setupNavButtionItems;
 - (void) setupTableView;
 - (void) setupUMAppNetworkView;
 - (void) setupAdView;
-- (void) setCellSubViews:(CDPostTableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath;
+- (void) setPostCellSubViews:(CDPostTableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath;
+- (void) setAdvertCellSubViews:(CDAdvertTableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath;
 - (void) setupTableViewPullScrollView;
 - (void) setupTableViewInfiniteScrollView;
-- (CDPostTableViewCell *)tableView:(UITableView *)tableView preparedCellForIndexPath:(NSIndexPath *)indexPath;
+- (CDPostTableViewCell *)tableView:(UITableView *)tableView preparedPostCellForIndexPath:(NSIndexPath *)indexPath;
+- (CDAdvertTableViewCell *)tableView:(UITableView *)tableView preparedAdvertCellForIndexPath:(NSIndexPath *)indexPath;
 - (void) didVideoSelectRowAtIndex:(NSInteger)index;
 @end
 
@@ -357,25 +361,69 @@
     return [_statuses count];
 }
 
-- (CDPostTableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return [self tableView:tableView preparedCellForIndexPath:indexPath];
+    return (indexPath.row > 0)
+        ? [self tableView:tableView preparedPostCellForIndexPath:indexPath]
+        : [self tableView:tableView preparedAdvertCellForIndexPath:indexPath];
 }
 
+- (CDAdvertTableViewCell *)tableView:(UITableView *)tableView preparedAdvertCellForIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *reuseIdentifier = @"AdvertCell";
+    
+    CDPost *post = [_statuses objectAtIndex:indexPath.row];
+    
+    NSString *cacheKey = [NSString stringWithFormat:@"post_list_advert_cell_id_%d", post.post_id.intValue];
+    CDAdvertTableViewCell *cell = [_cellCache objectForKey:cacheKey];
+    
+    if (!cell) {
+        cell = [[CDAdvertTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:reuseIdentifier];
+        cell.delegate = self;
+        [self setAdvertCellSubViews:cell forRowAtIndexPath:indexPath];
+        
+        [_cellCache setObject:cell forKey:cacheKey];
+    }
+    
+    cell.tag = cell.imageView.tag = indexPath.row;
+    cell.appNameLabel.text = post.title;
+    cell.detailTextLabel.text = [post summary];
+    cell.detailTextLabel.font = cell.textLabel.font = [UIFont fontWithName:FZLTHK_FONT_NAME size:detailFontSize];
+    cell.authorTextLabel.text = post.author_name;
+    cell.textLabel.text = nil;
+    
+    [cell.avatarImageView setImageWithURL:[NSURL URLWithString:post.user.small_avatar] placeholderImage:[UIImage imageNamed:@"avatar_placeholder.png"]];
+    
+    if (post.small_pic.length > 0) {
+        NSURL *imageUrl = [NSURL URLWithString:post.small_pic];
+        UIImage *placeImage = [UIImage imageNamed:@"thumb_placeholder.png"];
+        [cell.imageView setImageWithURL:imageUrl placeholderImage:placeImage options:SDWebImageRetryFailed completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+            ;
+        }];
+    }
+    else {
+        cell.textLabel.text = post.title;
+        cell.imageView.image = nil;
+    }
+    
+    post = nil;
+    
+    return cell;
+}
 
-- (CDPostTableViewCell *)tableView:(UITableView *)tableView preparedCellForIndexPath:(NSIndexPath *)indexPath;
+- (CDPostTableViewCell *)tableView:(UITableView *)tableView preparedPostCellForIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *reuseIdentifier = @"PostCell";
     
     CDPost *post = [_statuses objectAtIndex:indexPath.row];
     
-    NSString *cacheKey = [NSString stringWithFormat:@"post_list_cell_pid_%d", post.post_id.intValue];
+    NSString *cacheKey = [NSString stringWithFormat:@"post_list_post_cell_pid_%d", post.post_id.intValue];
     CDPostTableViewCell *cell = [_cellCache objectForKey:cacheKey];
     
     if (!cell) {
         cell = [[CDPostTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:reuseIdentifier];
         cell.delegate = self;
-        [self setCellSubViews:cell forRowAtIndexPath:indexPath];
+        [self setPostCellSubViews:cell forRowAtIndexPath:indexPath];
         
         [_cellCache setObject:cell forKey:cacheKey];
     }
@@ -424,8 +472,15 @@
     return cell;
 }
 
+- (void) setAdvertCellSubViews:(CDAdvertTableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+//    CDPost *post = [_statuses objectAtIndex:indexPath.row];
+    
+    cell.authorTextLabel.font = [UIFont fontWithName:FZLTHK_FONT_NAME size:16.0f];
+}
 
-- (void) setCellSubViews:(CDPostTableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+
+- (void) setPostCellSubViews:(CDPostTableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     CDPost *post = [_statuses objectAtIndex:indexPath.row];
     cell.thumbSize = post.video ? VIDEO_THUMB_SIZE : CGSizeMake(THUMB_WIDTH, THUMB_HEIGHT);;
@@ -468,6 +523,21 @@
     UIImageView *imageView = (UIImageView *)gestureRecognizer.view;
 
     [self didVideoSelectRowAtIndex:imageView.tag];
+}
+
+- (void) advertImageViewDidTapFinished:(UITapGestureRecognizer *)gestureRecognizer
+{
+    UIImageView *imageView = (UIImageView *)gestureRecognizer.view;
+    CDLog(@"advert clicked: %d", imageView.tag);
+    
+    [CDKit openAppStoreByAppID:WADUANZI_APPLE_ID review:YES target:self delegate:self];
+}
+
+#pragma mark - SKStoreProductViewControllerDelegate
+
+- (void) productViewControllerDidFinish:(SKStoreProductViewController *)viewController
+{
+    [viewController dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - cell buttion event selector
@@ -525,9 +595,14 @@
 
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    CDPostTableViewCell *cell = [self tableView:tableView preparedCellForIndexPath:indexPath];
-    
-    return [cell realHeight];
+    if (indexPath.row > 0) {
+        CDPostTableViewCell *cell = [self tableView:tableView preparedPostCellForIndexPath:indexPath];
+        return [cell realHeight];
+    }
+    else {
+        CDAdvertTableViewCell *cell = [self tableView:tableView preparedAdvertCellForIndexPath:indexPath];
+        return [cell realHeight];
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

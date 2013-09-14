@@ -7,14 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <RestKit/RestKit.h>
+#include <StoreKit/SKStoreProductViewController.h>
 #import "IIViewDeckController.h"
 #import "CDPostTableViewCell.h"
+#import "CDAdvertTableViewCell.h"
 #import "CDMainViewController.h"
 #import "WBNoticeView.h"
 #import "UMUFPHandleView.h"
 
-@interface PostListViewController : CDMainViewController <CDPostTableViewCellDelegate, UIGestureRecognizerDelegate, UITableViewDataSource, UITableViewDelegate, IIViewDeckControllerDelegate, UMUFPHandleViewDelegate>
+@interface PostListViewController : CDMainViewController <CDPostTableViewCellDelegate, CDAdvertTableViewCellDelegate, UIGestureRecognizerDelegate, UITableViewDataSource, UITableViewDelegate, IIViewDeckControllerDelegate, UMUFPHandleViewDelegate, SKStoreProductViewControllerDelegate>
 {
     NSMutableArray *_statuses;
     NSMutableDictionary *_parameters;

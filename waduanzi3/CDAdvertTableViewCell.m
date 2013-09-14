@@ -7,35 +7,28 @@
 //
 
 #import <QuartzCore/QuartzCore.h>
-#import "CDPostTableViewCell.h"
-#import "CDDefine.h"
+#import "CDAdvertTableViewCell.h"
 
-@interface CDPostTableViewCell ()
-{
-    UIImageView *_gifImageIconView;
-    UIImageView *_longImageIconView;
-    UIImageView *_videoIconView;
-}
+#define ADVERT_IMAGE_HEIGHT 350.0f
+#define INSTALL_VIEW_EDGEINSETS UIEdgeInsetsMake(10.0f, 10.0f, 10.0f, 10.0f)
+#define INSTALL_BUTTON_SIZE  CGSizeMake(73.0f, 35.0f)
+
+
+@interface CDAdvertTableViewCell ()
 
 - (void) setupTableCellStyle;
 - (void) setupSubviewsDefaultStyle;
 @end
 
-@implementation CDPostTableViewCell
+@implementation CDAdvertTableViewCell
 
-@synthesize thumbSize = _thumbSize;
 @synthesize avatarImageView = _avatarImageView;
 @synthesize authorTextLabel = _authorTextLabel;
-@synthesize datetimeTextLabel = _datetimeTextLabel;
-@synthesize upButton = _upButton;
-@synthesize commentButton = _commentButton;
-@synthesize moreButton = _moreButton;
+@synthesize appNameLabel = _appNameLabel;
+@synthesize installButton = _installButton;
 @synthesize contentMargin = _contentMargin;
 @synthesize contentPadding = _contentPadding;
 @synthesize separatorHeight = _separatorHeight;
-@synthesize isAnimatedGIF = _isAnimatedGIF;
-@synthesize isLongImage = _isLongImage;
-@synthesize isVideo = _isVideo;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -43,36 +36,24 @@
     if (self) {
         self.multipleTouchEnabled = YES;
         self.userInteractionEnabled = YES;
-        self.isAnimatedGIF = NO;
-        self.isLongImage = NO;
         
         self.separatorHeight = POST_LIST_CELL_FRAGMENT_PADDING;
         self.contentMargin = POST_LIST_CELL_CONTENT_MARGIN;
         self.contentPadding = POST_LIST_CELL_CONTENT_PADDING;
-        self.thumbSize = CGSizeMake(THUMB_WIDTH, THUMB_HEIGHT);
         
         self.avatarImageView = [[UIImageView alloc] init];
         self.authorTextLabel = [[UILabel alloc] init];
-        self.datetimeTextLabel = [[UILabel alloc] init];
-        self.upButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        self.commentButton = [[UIButton alloc] init];
-        self.moreButton = [[UIButton alloc] init];
-        
         [self.contentView addSubview:_avatarImageView];
         [self.contentView addSubview:_authorTextLabel];
-        [self.contentView addSubview:_datetimeTextLabel];
-        [self.contentView addSubview:_upButton];
-        [self.contentView addSubview:_commentButton];
-        // MARK: 以后添加列表中的更多按钮
-//        [self.contentView addSubview:_moreButton];
         
-        _gifImageIconView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mqz_img_gif.png"]];
-        [_gifImageIconView sizeToFit];
-        _longImageIconView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mqz_img_long.png"]];
-        [_longImageIconView sizeToFit];
-        _videoIconView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"newsfeedVideoPlayIcon.png"] highlightedImage:[UIImage imageNamed:@"newsfeedVideoPlayIconPressed.png"]];
-        [_videoIconView sizeToFit];
+        _installView = [[UIView alloc] init];
+        [self.contentView addSubview:_installView];
         
+        self.appNameLabel = [[UILabel alloc] init];
+        [_installView addSubview:_appNameLabel];
+        
+        self.installButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_installView addSubview:_installButton];
         
         [self setupTableCellStyle];
         [self setupSubviewsDefaultStyle];
@@ -86,15 +67,13 @@
     self.contentView.layer.borderColor = [UIColor colorWithRed:0.76f green:0.77f blue:0.78f alpha:1.00f].CGColor;
     self.contentView.layer.borderWidth = 1.0f;
     
+    CGFloat contentBlockWidth = self.frame.size.width - _contentMargin.left - _contentMargin.right  - _contentPadding.left - _contentPadding.right;
+    
     // avatarImageView
     _avatarImageView.contentMode = UIViewContentModeScaleAspectFit;
     _avatarImageView.opaque = YES;
     _avatarImageView.layer.cornerRadius = 3.0f;
     _avatarImageView.clipsToBounds = YES;
-    
-    // datetimeTextLabel
-    _datetimeTextLabel.backgroundColor = [UIColor clearColor];
-    _datetimeTextLabel.textColor = [UIColor colorWithRed:0.65f green:0.65f blue:0.65f alpha:1.00f];
     
     // authorTextLabel
     _authorTextLabel.backgroundColor = [UIColor clearColor];
@@ -116,9 +95,27 @@
     self.imageView.contentMode = UIViewContentModeScaleToFill;
     self.imageView.opaque = YES;
     
-    self.upButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-    self.commentButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-    self.moreButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    _installView.frame = CGRectMake(_contentPadding.left, 0, contentBlockWidth, INSTALL_BUTTON_SIZE.height + INSTALL_VIEW_EDGEINSETS.top + INSTALL_VIEW_EDGEINSETS.bottom);
+    _installView.backgroundColor = [UIColor colorWithRed:0.94f green:0.95f blue:0.96f alpha:1.00f];
+    _appNameLabel.frame = CGRectMake(INSTALL_VIEW_EDGEINSETS.left,
+                                     INSTALL_VIEW_EDGEINSETS.top,
+                                     contentBlockWidth - INSTALL_VIEW_EDGEINSETS.left*2 - INSTALL_VIEW_EDGEINSETS.right-INSTALL_BUTTON_SIZE.width,
+                                     INSTALL_BUTTON_SIZE.height);
+    _appNameLabel.backgroundColor = [UIColor clearColor];
+    _appNameLabel.textColor = [UIColor blackColor];
+    _appNameLabel.lineBreakMode = UILineBreakModeTailTruncation;
+    _appNameLabel.font = [UIFont boldSystemFontOfSize:14.0f];
+    
+    _installButton.frame = CGRectMake(contentBlockWidth - INSTALL_VIEW_EDGEINSETS.right - INSTALL_BUTTON_SIZE.width,
+                                      INSTALL_VIEW_EDGEINSETS.top,
+                                      INSTALL_BUTTON_SIZE.width,
+                                      INSTALL_BUTTON_SIZE.height);
+    UIImage *buttonBackgroundImage = [[UIImage imageNamed:@"installnow_gray_button_background.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(25, 5, 5, 5)];
+    [_installButton setBackgroundImage:buttonBackgroundImage forState:UIControlStateNormal];
+    _installButton.userInteractionEnabled = NO;
+    [_installButton setTitle:@"立即安装" forState:UIControlStateNormal];
+    [_installButton setTitleColor:[UIColor colorWithRed:0.27f green:0.27f blue:0.27f alpha:1.00f] forState:UIControlStateNormal];
+    _installButton.titleLabel.font = [UIFont systemFontOfSize:14.0f];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
@@ -149,12 +146,6 @@
     CGRect avatarViewFrame = CGRectMake(_contentPadding.left, widgetY, POST_AVATAR_SIZE.width, POST_AVATAR_SIZE.height);
     [_avatarImageView setFrame:avatarViewFrame];
     
-    // timeLabel
-    CGSize timeLabelSize = [self.datetimeTextLabel.text sizeWithFont:self.datetimeTextLabel.font];
-    CGRect timeLabelFrame = CGRectMake(contentViewSize.width - _contentPadding.right - timeLabelSize.width, widgetY, timeLabelSize.width, 0);
-    [_datetimeTextLabel setFrame:timeLabelFrame];
-    [_datetimeTextLabel sizeToFit];
-
     // authorLabel
     CGRect authorLabelFrame = CGRectMake(_contentPadding.left + widgetHeight + _separatorHeight, widgetY, 0, 0);
     [self.authorTextLabel setFrame:authorLabelFrame];
@@ -190,72 +181,27 @@
     
     // imageView
     if (self.imageView.image) {
-        widgetHeight = _thumbSize.height;
-        CGRect imageViewFrame = CGRectMake(_contentPadding.left, widgetY, _thumbSize.width, widgetHeight);
+        widgetHeight = ADVERT_IMAGE_HEIGHT;
+        CGRect imageViewFrame = CGRectMake(_contentPadding.left, widgetY, contentBlockWidth, widgetHeight);
         [self.imageView setFrame: imageViewFrame];
         
-        if (_gifImageIconView.superview != nil)
-            [_gifImageIconView removeFromSuperview];
-        if (_longImageIconView.superview != nil)
-            [_longImageIconView removeFromSuperview];
-        if (_videoIconView.superview != nil)
-            [_videoIconView removeFromSuperview];
-        
-        if (_isVideo) {
-            CGRect videoImageFrame = _videoIconView.frame;
-            videoImageFrame.origin.x = self.imageView.frame.size.width/2 - videoImageFrame.size.width/2;
-            videoImageFrame.origin.y = self.imageView.frame.size.height/2 - videoImageFrame.size.height/2;
-            _videoIconView.frame = videoImageFrame;
-            [self.imageView addSubview:_videoIconView];
-        }
-        else if (_isAnimatedGIF) {
-            CGRect gifImageFrame = _gifImageIconView.frame;
-            gifImageFrame.origin.x = self.imageView.frame.size.width - gifImageFrame.size.width;
-            gifImageFrame.origin.y = self.imageView.frame.size.height - gifImageFrame.size.height;
-            _gifImageIconView.frame = gifImageFrame;
-            [self.imageView addSubview:_gifImageIconView];
-        }
-        else if (_isLongImage) {
-            CGRect longImageFrame = _longImageIconView.frame;
-            longImageFrame.origin.x = self.imageView.frame.size.width - longImageFrame.size.width;
-            longImageFrame.origin.y = self.imageView.frame.size.height - longImageFrame.size.height;
-            _longImageIconView.frame = longImageFrame;
-
-            [self.imageView addSubview:_longImageIconView];
-        }
-        
-        if (self.delegate) {
-            UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] init];
+        if (self.delegate && [self.delegate respondsToSelector:@selector(advertImageViewDidTapFinished:)]) {
+            self.imageView.userInteractionEnabled = YES;
+            UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self.delegate action:@selector(advertImageViewDidTapFinished:)];
             self.imageView.userInteractionEnabled = YES;
             tapGestureRecognizer.numberOfTapsRequired = 1;
-            
-            if (_isVideo && [self.delegate respondsToSelector:@selector(videoImageViewDidTapFinished:)]) {
-                [tapGestureRecognizer addTarget:self.delegate action:@selector(videoImageViewDidTapFinished:)];
-                [self.imageView addGestureRecognizer:tapGestureRecognizer];
-            }
-            else if ([self.delegate respondsToSelector:@selector(thumbImageViewDidTapFinished:)]) {
-                [tapGestureRecognizer addTarget:self.delegate action:@selector(thumbImageViewDidTapFinished:)];
-                [self.imageView addGestureRecognizer:tapGestureRecognizer];
-            }
+            [self.imageView addGestureRecognizer:tapGestureRecognizer];
         }
         else
             self.imageView.userInteractionEnabled = NO;
         
-        widgetY += widgetHeight + _separatorHeight;
+        widgetY += widgetHeight; // 安装按钮紧跟图片下方，所以此处不加 _separatorHeight
     }
+    
+    CGRect installViewFrame = _installView.frame;
+    installViewFrame.origin.y = widgetY;
+    _installView.frame = installViewFrame;
 
-    widgetHeight = POST_LIST_CELL_BOTTOM_BUTTON_HEIGHT;
-    CGRect buttonFrame = CGRectMake(contentViewSize.width - _contentMargin.right - _contentPadding.right - 70.0f, widgetY, 70.0f, widgetHeight);
-    // MARK: 以后添加列表中的更多按钮
-//    [_moreButton setFrame:buttonFrame];
-//    buttonFrame.origin.x -= buttonFrame.size.width;
-    [_commentButton setFrame:buttonFrame];
-    buttonFrame.origin.x -= buttonFrame.size.width;
-    [_upButton setFrame:buttonFrame];
-    
-    
-    widgetY += widgetHeight + _separatorHeight;
-    
 }
 
 - (void) setupTableCellStyle
@@ -291,10 +237,12 @@
     
     // imageView
     if (self.imageView.image)
-        height += _thumbSize.height + _separatorHeight;
+        height += ADVERT_IMAGE_HEIGHT + _separatorHeight;
+    else
+        height += _separatorHeight;
     
     // buttons
-    height += POST_LIST_CELL_BOTTOM_BUTTON_HEIGHT; // 最后一个不加 _separatorHeight
+    height += _installView.frame.size.height; // 最后一个不加 _separatorHeight
     
     return height + _contentPadding.bottom + _contentMargin.bottom;
 }

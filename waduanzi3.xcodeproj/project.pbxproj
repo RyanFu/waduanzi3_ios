@@ -109,6 +109,11 @@
 		2B3954DA179AB0AF005998D0 /* FeedbackBubbleNavBarBackArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B3954D6179AB0AD005998D0 /* FeedbackBubbleNavBarBackArrow@2x.png */; };
 		2B3954DB179AB0AF005998D0 /* FeedbackBubbleNavBarBackArrowPressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B3954D7179AB0AD005998D0 /* FeedbackBubbleNavBarBackArrowPressed.png */; };
 		2B3954DC179AB0AF005998D0 /* FeedbackBubbleNavBarBackArrowPressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B3954D8179AB0AF005998D0 /* FeedbackBubbleNavBarBackArrowPressed@2x.png */; };
+		2B43D67317E415F400C48CD9 /* CDAdvertTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B43D67217E415F400C48CD9 /* CDAdvertTableViewCell.m */; };
+		2B43D67617E4191800C48CD9 /* installnow_gray_button_background.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B43D67417E4191800C48CD9 /* installnow_gray_button_background.png */; };
+		2B43D67717E4191800C48CD9 /* installnow_gray_button_background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B43D67517E4191800C48CD9 /* installnow_gray_button_background@2x.png */; };
+		2B43D67A17E4984500C48CD9 /* CDAdvert.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B43D67917E4984500C48CD9 /* CDAdvert.m */; };
+		2B43D67D17E49F3500C48CD9 /* CDKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B43D67C17E49F3500C48CD9 /* CDKit.m */; };
 		2B492B82167B626700BBA956 /* arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B492B69167B626700BBA956 /* arrow.png */; };
 		2B492B83167B626700BBA956 /* arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B492B6A167B626700BBA956 /* arrow@2x.png */; };
 		2B492B84167B626700BBA956 /* artwork_512.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B492B6B167B626700BBA956 /* artwork_512.png */; };
@@ -479,6 +484,14 @@
 		2B3954D6179AB0AD005998D0 /* FeedbackBubbleNavBarBackArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FeedbackBubbleNavBarBackArrow@2x.png"; sourceTree = "<group>"; };
 		2B3954D7179AB0AD005998D0 /* FeedbackBubbleNavBarBackArrowPressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = FeedbackBubbleNavBarBackArrowPressed.png; sourceTree = "<group>"; };
 		2B3954D8179AB0AF005998D0 /* FeedbackBubbleNavBarBackArrowPressed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FeedbackBubbleNavBarBackArrowPressed@2x.png"; sourceTree = "<group>"; };
+		2B43D67117E415F400C48CD9 /* CDAdvertTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDAdvertTableViewCell.h; sourceTree = "<group>"; };
+		2B43D67217E415F400C48CD9 /* CDAdvertTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDAdvertTableViewCell.m; sourceTree = "<group>"; };
+		2B43D67417E4191800C48CD9 /* installnow_gray_button_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = installnow_gray_button_background.png; sourceTree = "<group>"; };
+		2B43D67517E4191800C48CD9 /* installnow_gray_button_background@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "installnow_gray_button_background@2x.png"; sourceTree = "<group>"; };
+		2B43D67817E4984500C48CD9 /* CDAdvert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDAdvert.h; sourceTree = "<group>"; };
+		2B43D67917E4984500C48CD9 /* CDAdvert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDAdvert.m; sourceTree = "<group>"; };
+		2B43D67B17E49F3500C48CD9 /* CDKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDKit.h; sourceTree = "<group>"; };
+		2B43D67C17E49F3500C48CD9 /* CDKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDKit.m; sourceTree = "<group>"; };
 		2B492B69167B626700BBA956 /* arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow.png; sourceTree = "<group>"; };
 		2B492B6A167B626700BBA956 /* arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow@2x.png"; sourceTree = "<group>"; };
 		2B492B6B167B626700BBA956 /* artwork_512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = artwork_512.png; sourceTree = "<group>"; };
@@ -865,6 +878,8 @@
 				2B98782817AF95130061E344 /* UserConfig.m */,
 				2BC17A6A17E1ED29006BB510 /* CDVideo.h */,
 				2BC17A6B17E1ED29006BB510 /* CDVideo.m */,
+				2B43D67817E4984500C48CD9 /* CDAdvert.h */,
+				2B43D67917E4984500C48CD9 /* CDAdvert.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -1028,6 +1043,8 @@
 				2B169C3317A8BC9700C54E55 /* MyFeedbackViewController.m */,
 				2B551F0A17607C9200C68E43 /* CDPostTableViewCell.h */,
 				2B551F0B17607C9200C68E43 /* CDPostTableViewCell.m */,
+				2B43D67117E415F400C48CD9 /* CDAdvertTableViewCell.h */,
+				2B43D67217E415F400C48CD9 /* CDAdvertTableViewCell.m */,
 				2B37B8FE1764F8D900A026DA /* CDPostDetailView.h */,
 				2B37B8FF1764F8DA00A026DA /* CDPostDetailView.m */,
 				2B1FDDF8177CB87900CD1135 /* CDSideTableViewCell.h */,
@@ -1193,6 +1210,8 @@
 				2BAC67F517BBCD1200B9768E /* CommentFontPickerValueParser.m */,
 				2B69665817E36683001A5DF6 /* MBProgressHUD+Custom.h */,
 				2B69665917E36683001A5DF6 /* MBProgressHUD+Custom.m */,
+				2B43D67B17E49F3500C48CD9 /* CDKit.h */,
+				2B43D67C17E49F3500C48CD9 /* CDKit.m */,
 			);
 			name = Common;
 			sourceTree = "<group>";
@@ -1200,6 +1219,8 @@
 		2BED82F8167B5ED20025E9C4 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				2B43D67417E4191800C48CD9 /* installnow_gray_button_background.png */,
+				2B43D67517E4191800C48CD9 /* installnow_gray_button_background@2x.png */,
 				2B0C2D5717E2F38A00A1AE26 /* black.png */,
 				2B0C2D6417E3203A00A1AE26 /* videos.png */,
 				2B0C2D6517E3203A00A1AE26 /* videos@2x.png */,
@@ -1586,6 +1607,7 @@
 				2B623B5A1792F09800D3270D /* arrow_normal@2x.png in Resources */,
 				2B623B5B1792F09800D3270D /* arrow_press.png in Resources */,
 				2B623B5C1792F09800D3270D /* arrow_press@2x.png in Resources */,
+				2B43D67617E4191800C48CD9 /* installnow_gray_button_background.png in Resources */,
 				2B623B5D1792F09800D3270D /* back_normal.png in Resources */,
 				2B623B5E1792F09800D3270D /* back_normal@2x.png in Resources */,
 				2B623B5F1792F09800D3270D /* back_press.png in Resources */,
@@ -1772,6 +1794,7 @@
 				2B0C2D5517E2ED0400A1AE26 /* newsfeedVideoPlayIconPressed.png in Resources */,
 				2B8412C117ABAC1800AFB264 /* UMSocialLocalizable.strings in Resources */,
 				2B8412C517ABAC1800AFB264 /* UMSCommentDetailController.xib in Resources */,
+				2B43D67717E4191800C48CD9 /* installnow_gray_button_background@2x.png in Resources */,
 				2B8412C617ABAC1800AFB264 /* UMSCommentInputController.xib in Resources */,
 				2B8412C717ABAC1800AFB264 /* UMSCommentInputControlleriPad.xib in Resources */,
 				2B8412C817ABAC1800AFB264 /* UMShareEditViewController.xib in Resources */,
@@ -1848,6 +1871,7 @@
 				2BB60F921756470F00290F69 /* TestViewController.m in Sources */,
 				2BB60F9517565CD900290F69 /* CDRestClient.m in Sources */,
 				2BCA0A0117578704000DD9FF /* CDComment.m in Sources */,
+				2B43D67317E415F400C48CD9 /* CDAdvertTableViewCell.m in Sources */,
 				2B232B3B175ED659007803C0 /* PostDetailViewController.m in Sources */,
 				2B232B3E175F365B007803C0 /* CDRestError.m in Sources */,
 				2B0C2D5B17E313FB00A1AE26 /* CDWebVideoViewController.m in Sources */,
@@ -1876,6 +1900,7 @@
 				2B1FDDFA177CB87900CD1135 /* CDSideTableViewCell.m in Sources */,
 				2BDD70A8177F971700421915 /* MGBoxViewController.m in Sources */,
 				2B2BEC611783CE5F008038B0 /* ImageDetailViewController.m in Sources */,
+				2B43D67D17E49F3500C48CD9 /* CDKit.m in Sources */,
 				2BD65029178A6EE900EFE5B7 /* CDUserForm.m in Sources */,
 				2BDE2F92178C1360007736A8 /* CDCommentFormView.m in Sources */,
 				2BDA2656179400DE00838973 /* CDViewController.m in Sources */,
@@ -1886,6 +1911,7 @@
 				2B7C719117A21E5600482207 /* WxApiService.m in Sources */,
 				2BECE2DD17A3B5060005BDF6 /* CDSocialKit.m in Sources */,
 				2BA1972317A6A41900BB8FC9 /* WBSuccessNoticeView+WaduanziMethod.m in Sources */,
+				2B43D67A17E4984500C48CD9 /* CDAdvert.m in Sources */,
 				2BA1972617A6A7CB00BB8FC9 /* WBErrorNoticeView+WaduanziMethod.m in Sources */,
 				2BEA373D17A7C4ED004EDCBC /* PublishViewController.m in Sources */,
 				2BEA374117A7CB6A004EDCBC /* UpdateProfileViewController.m in Sources */,

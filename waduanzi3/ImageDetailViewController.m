@@ -87,7 +87,7 @@
 
 - (void) setupImageScrollView
 {
-    imageScrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
+    imageScrollView = [[UIScrollView alloc] initWithFrame:CDSCREEN.bounds];
     imageScrollView.scrollEnabled = YES;
     imageScrollView.delegate = self;
     imageScrollView.maximumZoomScale = 3.0;
