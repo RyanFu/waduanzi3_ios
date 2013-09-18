@@ -7,7 +7,8 @@
 //
 
 #import "QuickDialogController.h"
+#import "CDQuickDialogController.h"
 
-@interface PublishViewController : QuickDialogController
+@interface PublishViewController : CDQuickDialogController
 
 @end

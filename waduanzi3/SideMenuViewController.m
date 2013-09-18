@@ -27,6 +27,7 @@
 #import "CDUIKit.h"
 #import "MyFeedbackViewController.h"
 #import "FocusListViewController.h"
+#import "CDNavigationController.h"
 
 @interface SideMenuViewController ()
 {
@@ -163,7 +164,7 @@
     }
     
     [self.viewDeckController closeLeftViewAnimated:YES completion:^(IIViewDeckController *controller, BOOL success) {
-        UINavigationController *centerViewController;
+        CDNavigationController *centerViewController;
         
         if (indexPath.section == 0) {
             static TimelineViewController *timelineViewController;
@@ -173,20 +174,20 @@
                 case 0:
                     if (timelineViewController == nil)
                         timelineViewController = [[TimelineViewController alloc] init];
-                    centerViewController = [[UINavigationController alloc] initWithRootViewController:timelineViewController];
+                    centerViewController = [[CDNavigationController alloc] initWithRootViewController:timelineViewController];
                     self.viewDeckController.centerController = centerViewController;
                     break;
                 case 1:
                     if (bestViewController == nil)
                         bestViewController = [[BestViewController alloc] init];
-                    centerViewController = [[UINavigationController alloc] initWithRootViewController:bestViewController];
+                    centerViewController = [[CDNavigationController alloc] initWithRootViewController:bestViewController];
                     self.viewDeckController.centerController = centerViewController;
                     break;
                 case 2:
                     if (historyViewController == nil)
                         historyViewController = [[HistoryViewController alloc] init];
                     historyViewController.forceRefresh = YES;
-                    centerViewController = [[UINavigationController alloc] initWithRootViewController:historyViewController];
+                    centerViewController = [[CDNavigationController alloc] initWithRootViewController:historyViewController];
                     self.viewDeckController.centerController = centerViewController;
                 default:
                     break;
@@ -202,7 +203,7 @@
                         textJokeViewController = [[MediaTypeViewController alloc] initWithMediaType:MEDIA_TYPE_TEXT];
                         textJokeViewController.title = @"挖笑话";
                     }
-                    centerViewController = [[UINavigationController alloc] initWithRootViewController:textJokeViewController];
+                    centerViewController = [[CDNavigationController alloc] initWithRootViewController:textJokeViewController];
                     self.viewDeckController.centerController = centerViewController;
                     break;
                 case 1:
@@ -210,7 +211,7 @@
                         imageJokeViewController = [[MediaTypeViewController alloc] initWithMediaType:MEDIA_TYPE_IMAGE];
                         imageJokeViewController.title = @"挖趣图";
                     }
-                    centerViewController = [[UINavigationController alloc] initWithRootViewController:imageJokeViewController];
+                    centerViewController = [[CDNavigationController alloc] initWithRootViewController:imageJokeViewController];
                     self.viewDeckController.centerController = centerViewController;
                     break;
                 case 2:
@@ -218,7 +219,7 @@
                         videoJokeViewController = [[MediaTypeViewController alloc] initWithMediaType:MEDIA_TYPE_VIDEO];
                         videoJokeViewController.title = @"挖视频";
                     }
-                    centerViewController = [[UINavigationController alloc] initWithRootViewController:videoJokeViewController];
+                    centerViewController = [[CDNavigationController alloc] initWithRootViewController:videoJokeViewController];
                     self.viewDeckController.centerController = centerViewController;
                     break;
                 case 3:
@@ -226,7 +227,7 @@
                         articleViewController = [[FocusListViewController alloc] init];
                         articleViewController.title = @"挖热门";
                     }
-                    centerViewController = [[UINavigationController alloc] initWithRootViewController:articleViewController];
+                    centerViewController = [[CDNavigationController alloc] initWithRootViewController:articleViewController];
                     self.viewDeckController.centerController = centerViewController;
                     break;
                 default:
@@ -242,21 +243,21 @@
                     if (favoriteController == nil)
                         favoriteController = [[MyFavoriteViewController alloc] init];
                     favoriteController.forceRefresh = YES;
-                    centerViewController = [[UINavigationController alloc] initWithRootViewController:favoriteController];
+                    centerViewController = [[CDNavigationController alloc] initWithRootViewController:favoriteController];
                     self.viewDeckController.centerController = centerViewController;
                     break;
                 case 1:
                     if (feedbackController == nil)
                         feedbackController = [[MyFeedbackViewController alloc] init];
                     feedbackController.forceRefresh = YES;
-                    centerViewController = [[UINavigationController alloc] initWithRootViewController:feedbackController];
+                    centerViewController = [[CDNavigationController alloc] initWithRootViewController:feedbackController];
                     self.viewDeckController.centerController = centerViewController;
                     break;
                 case 2:
                     if (myshareController == nil)
                         myshareController = [[MyshareViewController alloc] init];
                     myshareController.forceRefresh = YES;
-                    centerViewController = [[UINavigationController alloc] initWithRootViewController:myshareController];
+                    centerViewController = [[CDNavigationController alloc] initWithRootViewController:myshareController];
                     self.viewDeckController.centerController = centerViewController;
                     break;
                     
@@ -273,7 +274,7 @@
 - (void) openSettingController:(id)sender
 {
     SettingViewController *settingController = [[SettingViewController alloc] init];
-    UINavigationController *settingNavController = [[UINavigationController alloc] initWithRootViewController:settingController];
+    CDNavigationController *settingNavController = [[CDNavigationController alloc] initWithRootViewController:settingController];
 
     [ROOT_CONTROLLER presentViewController:settingNavController animated:YES completion:^{
         ;
@@ -291,7 +292,7 @@
 - (void) openUserProfileController
 {
     UserProfileViewController *profileController = [[UserProfileViewController alloc] init];
-    UINavigationController *profileNavController = [[UINavigationController alloc] initWithRootViewController:profileController];
+    CDNavigationController *profileNavController = [[CDNavigationController alloc] initWithRootViewController:profileController];
     
     [ROOT_CONTROLLER presentViewController:profileNavController animated:YES completion:nil];
     
@@ -300,7 +301,7 @@
 - (void) openUserLoginController
 {
     UserLoginViewController *loginController = [[UserLoginViewController alloc] init];
-    UINavigationController *loginNavController = [[UINavigationController alloc] initWithRootViewController:loginController];    
+    CDNavigationController *loginNavController = [[CDNavigationController alloc] initWithRootViewController:loginController];    
     [self presentViewController:loginNavController animated:YES completion:nil];
     
 }

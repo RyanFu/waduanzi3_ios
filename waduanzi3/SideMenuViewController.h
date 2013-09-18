@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CDTableViewController.h"
 
-@interface SideMenuViewController : UITableViewController
+@interface SideMenuViewController : CDTableViewController
 {
     NSMutableArray *menuData;
 }

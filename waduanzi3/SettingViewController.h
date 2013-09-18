@@ -8,7 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import <StoreKit/StoreKit.h>
+#import "CDQuickDialogController.h"
 
-@interface SettingViewController : QuickDialogController <QuickDialogStyleProvider, SKStoreProductViewControllerDelegate>
+@interface SettingViewController : CDQuickDialogController <QuickDialogStyleProvider, SKStoreProductViewControllerDelegate>
 
 @end

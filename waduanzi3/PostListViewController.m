@@ -35,6 +35,8 @@
 #import "CDVideo.h"
 #import "CDAdvertTableViewCell.h"
 #import "CDKit.h"
+#import "UIImage+ColorImage.h"
+#import "CDNavigationController.h"
 
 @interface PostListViewController ()
 - (void) setupNavButtionItems;
@@ -451,7 +453,7 @@
     }
     else if (cell.isVideo) {
         cell.isAnimatedGIF = cell.isLongImage = NO;
-        cell.imageView.image = [UIImage imageNamed:@"black.png"];
+        cell.imageView.image = [UIImage imageWithColor:[UIColor blackColor] size:VIDEO_THUMB_SIZE];
     }
     else {
         cell.textLabel.text = post.title;
@@ -525,12 +527,12 @@
     [self didVideoSelectRowAtIndex:imageView.tag];
 }
 
-- (void) advertImageViewDidTapFinished:(UITapGestureRecognizer *)gestureRecognizer
+- (void) advert2ImageViewDidTapFinished:(UITapGestureRecognizer *)gestureRecognizer
 {
     UIImageView *imageView = (UIImageView *)gestureRecognizer.view;
     CDLog(@"advert clicked: %d", imageView.tag);
     
-    [CDKit openAppStoreByAppID:WADUANZI_APPLE_ID review:YES target:self delegate:self];
+    
 }
 
 #pragma mark - SKStoreProductViewControllerDelegate
@@ -607,6 +609,12 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (indexPath.row == 0) {
+        [CDKit openAppStoreByAppID:WADUANZI_APPLE_ID review:YES target:self delegate:self];
+        return;
+    }
+    
+    
     @try {
         CDPost *post = [_statuses objectAtIndex:indexPath.row];
         
@@ -630,8 +638,8 @@
     CDLog(@"source url: %@", post.video.source_url);
     CDWebVideoViewController *webVideoController = [[CDWebVideoViewController alloc] initWithUrl:post.video.source_url];
     [webVideoController setNavigationBarStyle:CDNavigationBarStyleBlue barButtonItemStyle:CDBarButtionItemStyleBlue toolBarStyle:CDToolBarStyleBlue];
-    UINavigationController *navWebVideoController = [[UINavigationController alloc] initWithRootViewController:webVideoController];
-    [self presentViewController:navWebVideoController animated:YES completion:nil];
+    CDNavigationController *navWebVideoController = [[CDNavigationController alloc] initWithRootViewController:webVideoController];
+    [ROOT_CONTROLLER presentViewController:navWebVideoController animated:YES completion:nil];
 }
 
 #pragma mark - barButtionItem selector

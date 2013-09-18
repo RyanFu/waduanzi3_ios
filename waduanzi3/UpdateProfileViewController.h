@@ -7,7 +7,8 @@
 //
 
 #import "QuickDialogController.h"
+#import "CDQuickDialogController.h"
 
-@interface UpdateProfileViewController : QuickDialogController <QuickDialogStyleProvider, UITextFieldDelegate, QuickDialogEntryElementDelegate>
+@interface UpdateProfileViewController : CDQuickDialogController <QuickDialogStyleProvider, UITextFieldDelegate, QuickDialogEntryElementDelegate>
 
 @end

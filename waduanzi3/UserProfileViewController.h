@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CDQuickDialogController.h"
 
-@interface UserProfileViewController : QuickDialogController <QuickDialogStyleProvider, UIActionSheetDelegate>
+@interface UserProfileViewController : CDQuickDialogController <QuickDialogStyleProvider, UIActionSheetDelegate>
 
 @end

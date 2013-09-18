@@ -48,7 +48,6 @@
 		2B0AEC771797C4DA00AFBAFA /* UISearchBarCancelButtonBackgroundPressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B0AEC731797C4D900AFBAFA /* UISearchBarCancelButtonBackgroundPressed.png */; };
 		2B0AEC781797C4DA00AFBAFA /* UISearchBarCancelButtonBackgroundPressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B0AEC741797C4DA00AFBAFA /* UISearchBarCancelButtonBackgroundPressed@2x.png */; };
 		2B0AEC7B1797C9A800AFBAFA /* CDUIKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B0AEC7A1797C9A800AFBAFA /* CDUIKit.m */; };
-		2B0AEC7E1797D6AC00AFBAFA /* CDMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B0AEC7D1797D6AC00AFBAFA /* CDMainViewController.m */; };
 		2B0AEC8617981D8000AFBAFA /* navBarActionIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B0AEC8217981D7B00AFBAFA /* navBarActionIcon.png */; };
 		2B0AEC8717981D8000AFBAFA /* navBarActionIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B0AEC8317981D7C00AFBAFA /* navBarActionIcon@2x.png */; };
 		2B0AEC8817981D8000AFBAFA /* navBarActionIconHighlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B0AEC8417981D7E00AFBAFA /* navBarActionIconHighlighted.png */; };
@@ -78,12 +77,21 @@
 		2B169C3017A8B7FB00C54E55 /* starEmpty.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B169C2C17A8B7FB00C54E55 /* starEmpty.png */; };
 		2B169C3117A8B7FB00C54E55 /* starEmpty@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B169C2D17A8B7FB00C54E55 /* starEmpty@2x.png */; };
 		2B169C3417A8BC9700C54E55 /* MyFeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B169C3317A8BC9700C54E55 /* MyFeedbackViewController.m */; };
+		2B1B14DC17E9CE2400CC0377 /* CDTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1B14DB17E9CE2400CC0377 /* CDTableViewController.m */; };
+		2B1B14E217E9CF8D00CC0377 /* CDQuickDialogController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1B14E117E9CF8D00CC0377 /* CDQuickDialogController.m */; };
+		2B1B14E517E9D28600CC0377 /* CDNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1B14E417E9D28600CC0377 /* CDNavigationController.m */; };
+		2B1B14E817E9D3D800CC0377 /* UINavigationController+Roration_iOS6.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1B14E717E9D3D800CC0377 /* UINavigationController+Roration_iOS6.m */; };
+		2B1B14ED17E9D90300CC0377 /* NavBarButtonLandscape.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B1B14E917E9D90300CC0377 /* NavBarButtonLandscape.png */; };
+		2B1B14EE17E9D90300CC0377 /* NavBarButtonLandscape@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B1B14EA17E9D90300CC0377 /* NavBarButtonLandscape@2x.png */; };
+		2B1B14EF17E9D90300CC0377 /* NavBarButtonLandscapePressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B1B14EB17E9D90300CC0377 /* NavBarButtonLandscapePressed.png */; };
+		2B1B14F017E9D90300CC0377 /* NavBarButtonLandscapePressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B1B14EC17E9D90300CC0377 /* NavBarButtonLandscapePressed@2x.png */; };
 		2B1FDDF3177C935900CD1135 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B1FDDF2177C935900CD1135 /* CoreLocation.framework */; };
 		2B1FDDF7177C95F400CD1135 /* CDQuickElements.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FDDF6177C95F400CD1135 /* CDQuickElements.m */; };
 		2B1FDDFA177CB87900CD1135 /* CDSideTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FDDF9177CB87900CD1135 /* CDSideTableViewCell.m */; };
 		2B232B3B175ED659007803C0 /* PostDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B232B3A175ED659007803C0 /* PostDetailViewController.m */; };
 		2B232B3E175F365B007803C0 /* CDRestError.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B232B3D175F365B007803C0 /* CDRestError.m */; };
 		2B2BEC611783CE5F008038B0 /* ImageDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B2BEC601783CE5F008038B0 /* ImageDetailViewController.m */; };
+		2B318A0E17E7F22000EC7B70 /* UIImage+ColorImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B318A0D17E7F22000EC7B70 /* UIImage+ColorImage.m */; };
 		2B375EA817992F6300A6CB39 /* CDPostToolBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B375EA717992F6300A6CB39 /* CDPostToolBar.m */; };
 		2B375EB8179931A500A6CB39 /* newsfeed_StoryFeedback_Icon_Comment_Highlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B375EAA179931A500A6CB39 /* newsfeed_StoryFeedback_Icon_Comment_Highlighted.png */; };
 		2B375EB9179931A500A6CB39 /* newsfeed_StoryFeedback_Icon_Comment_Highlighted@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B375EAB179931A500A6CB39 /* newsfeed_StoryFeedback_Icon_Comment_Highlighted@2x.png */; };
@@ -412,8 +420,6 @@
 		2B0AEC741797C4DA00AFBAFA /* UISearchBarCancelButtonBackgroundPressed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "UISearchBarCancelButtonBackgroundPressed@2x.png"; sourceTree = "<group>"; };
 		2B0AEC791797C9A800AFBAFA /* CDUIKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDUIKit.h; sourceTree = "<group>"; };
 		2B0AEC7A1797C9A800AFBAFA /* CDUIKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDUIKit.m; sourceTree = "<group>"; };
-		2B0AEC7C1797D6AB00AFBAFA /* CDMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDMainViewController.h; sourceTree = "<group>"; };
-		2B0AEC7D1797D6AC00AFBAFA /* CDMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDMainViewController.m; sourceTree = "<group>"; };
 		2B0AEC8217981D7B00AFBAFA /* navBarActionIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = navBarActionIcon.png; sourceTree = "<group>"; };
 		2B0AEC8317981D7C00AFBAFA /* navBarActionIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "navBarActionIcon@2x.png"; sourceTree = "<group>"; };
 		2B0AEC8417981D7E00AFBAFA /* navBarActionIconHighlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = navBarActionIconHighlighted.png; sourceTree = "<group>"; };
@@ -445,6 +451,18 @@
 		2B169C2D17A8B7FB00C54E55 /* starEmpty@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "starEmpty@2x.png"; sourceTree = "<group>"; };
 		2B169C3217A8BC9700C54E55 /* MyFeedbackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyFeedbackViewController.h; sourceTree = "<group>"; };
 		2B169C3317A8BC9700C54E55 /* MyFeedbackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyFeedbackViewController.m; sourceTree = "<group>"; };
+		2B1B14DA17E9CE2400CC0377 /* CDTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDTableViewController.h; sourceTree = "<group>"; };
+		2B1B14DB17E9CE2400CC0377 /* CDTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDTableViewController.m; sourceTree = "<group>"; };
+		2B1B14E017E9CF8D00CC0377 /* CDQuickDialogController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDQuickDialogController.h; sourceTree = "<group>"; };
+		2B1B14E117E9CF8D00CC0377 /* CDQuickDialogController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDQuickDialogController.m; sourceTree = "<group>"; };
+		2B1B14E317E9D28600CC0377 /* CDNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDNavigationController.h; sourceTree = "<group>"; };
+		2B1B14E417E9D28600CC0377 /* CDNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDNavigationController.m; sourceTree = "<group>"; };
+		2B1B14E617E9D3D800CC0377 /* UINavigationController+Roration_iOS6.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+Roration_iOS6.h"; sourceTree = "<group>"; };
+		2B1B14E717E9D3D800CC0377 /* UINavigationController+Roration_iOS6.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+Roration_iOS6.m"; sourceTree = "<group>"; };
+		2B1B14E917E9D90300CC0377 /* NavBarButtonLandscape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = NavBarButtonLandscape.png; sourceTree = "<group>"; };
+		2B1B14EA17E9D90300CC0377 /* NavBarButtonLandscape@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "NavBarButtonLandscape@2x.png"; sourceTree = "<group>"; };
+		2B1B14EB17E9D90300CC0377 /* NavBarButtonLandscapePressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = NavBarButtonLandscapePressed.png; sourceTree = "<group>"; };
+		2B1B14EC17E9D90300CC0377 /* NavBarButtonLandscapePressed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "NavBarButtonLandscapePressed@2x.png"; sourceTree = "<group>"; };
 		2B1FDDF2177C935900CD1135 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		2B1FDDF5177C95F400CD1135 /* CDQuickElements.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDQuickElements.h; sourceTree = "<group>"; };
 		2B1FDDF6177C95F400CD1135 /* CDQuickElements.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDQuickElements.m; sourceTree = "<group>"; };
@@ -456,6 +474,8 @@
 		2B232B3D175F365B007803C0 /* CDRestError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDRestError.m; sourceTree = "<group>"; };
 		2B2BEC5F1783CE5F008038B0 /* ImageDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageDetailViewController.h; sourceTree = "<group>"; };
 		2B2BEC601783CE5F008038B0 /* ImageDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageDetailViewController.m; sourceTree = "<group>"; };
+		2B318A0C17E7F22000EC7B70 /* UIImage+ColorImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ColorImage.h"; sourceTree = "<group>"; };
+		2B318A0D17E7F22000EC7B70 /* UIImage+ColorImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ColorImage.m"; sourceTree = "<group>"; };
 		2B375EA617992F6300A6CB39 /* CDPostToolBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDPostToolBar.h; sourceTree = "<group>"; };
 		2B375EA717992F6300A6CB39 /* CDPostToolBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDPostToolBar.m; sourceTree = "<group>"; };
 		2B375EAA179931A500A6CB39 /* newsfeed_StoryFeedback_Icon_Comment_Highlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = newsfeed_StoryFeedback_Icon_Comment_Highlighted.png; sourceTree = "<group>"; };
@@ -1053,10 +1073,6 @@
 				2BC4D4A7176201270098151C /* CDCommentTableViewCell.m */,
 				2BDE2F90178C1360007736A8 /* CDCommentFormView.h */,
 				2BDE2F91178C1360007736A8 /* CDCommentFormView.m */,
-				2BDA2654179400DE00838973 /* CDViewController.h */,
-				2BDA2655179400DE00838973 /* CDViewController.m */,
-				2B0AEC7C1797D6AB00AFBAFA /* CDMainViewController.h */,
-				2B0AEC7D1797D6AC00AFBAFA /* CDMainViewController.m */,
 				2B375EA617992F6300A6CB39 /* CDPostToolBar.h */,
 				2B375EA717992F6300A6CB39 /* CDPostToolBar.m */,
 				2B3954CD179AA6DE005998D0 /* CDWebViewController.h */,
@@ -1071,6 +1087,16 @@
 				2BEA374017A7CB6A004EDCBC /* UpdateProfileViewController.m */,
 				2B98782B17AFE2C50061E344 /* FeedbackViewController.h */,
 				2B98782C17AFE2C50061E344 /* FeedbackViewController.m */,
+				2BDA2654179400DE00838973 /* CDViewController.h */,
+				2BDA2655179400DE00838973 /* CDViewController.m */,
+				2B1B14DA17E9CE2400CC0377 /* CDTableViewController.h */,
+				2B1B14DB17E9CE2400CC0377 /* CDTableViewController.m */,
+				2B1B14E017E9CF8D00CC0377 /* CDQuickDialogController.h */,
+				2B1B14E117E9CF8D00CC0377 /* CDQuickDialogController.m */,
+				2B1B14E317E9D28600CC0377 /* CDNavigationController.h */,
+				2B1B14E417E9D28600CC0377 /* CDNavigationController.m */,
+				2B1B14E617E9D3D800CC0377 /* UINavigationController+Roration_iOS6.h */,
+				2B1B14E717E9D3D800CC0377 /* UINavigationController+Roration_iOS6.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -1212,6 +1238,8 @@
 				2B69665917E36683001A5DF6 /* MBProgressHUD+Custom.m */,
 				2B43D67B17E49F3500C48CD9 /* CDKit.h */,
 				2B43D67C17E49F3500C48CD9 /* CDKit.m */,
+				2B318A0C17E7F22000EC7B70 /* UIImage+ColorImage.h */,
+				2B318A0D17E7F22000EC7B70 /* UIImage+ColorImage.m */,
 			);
 			name = Common;
 			sourceTree = "<group>";
@@ -1219,6 +1247,10 @@
 		2BED82F8167B5ED20025E9C4 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				2B1B14E917E9D90300CC0377 /* NavBarButtonLandscape.png */,
+				2B1B14EA17E9D90300CC0377 /* NavBarButtonLandscape@2x.png */,
+				2B1B14EB17E9D90300CC0377 /* NavBarButtonLandscapePressed.png */,
+				2B1B14EC17E9D90300CC0377 /* NavBarButtonLandscapePressed@2x.png */,
 				2B43D67417E4191800C48CD9 /* installnow_gray_button_background.png */,
 				2B43D67517E4191800C48CD9 /* installnow_gray_button_background@2x.png */,
 				2B0C2D5717E2F38A00A1AE26 /* black.png */,
@@ -1556,6 +1588,7 @@
 			files = (
 				2BED8211167B573E0025E9C4 /* InfoPlist.strings in Resources */,
 				2B492B82167B626700BBA956 /* arrow.png in Resources */,
+				2B1B14EE17E9D90300CC0377 /* NavBarButtonLandscape@2x.png in Resources */,
 				2B492B83167B626700BBA956 /* arrow@2x.png in Resources */,
 				2B492B84167B626700BBA956 /* artwork_512.png in Resources */,
 				2B492B85167B626700BBA956 /* button_save.png in Resources */,
@@ -1641,6 +1674,8 @@
 				2B623B781792F09800D3270D /* camera_setting_right_normal.png in Resources */,
 				2B623B791792F09800D3270D /* camera_setting_right_normal@2x.png in Resources */,
 				2B623B7A1792F09800D3270D /* camera_top_toolbar_bg_iphone5.png in Resources */,
+				2B1B14ED17E9D90300CC0377 /* NavBarButtonLandscape.png in Resources */,
+				2B1B14F017E9D90300CC0377 /* NavBarButtonLandscapePressed@2x.png in Resources */,
 				2B623B7B1792F09800D3270D /* camera_transfer_iphone5.png in Resources */,
 				2B623B7C1792F09800D3270D /* cameraIris.png in Resources */,
 				2B623B7D1792F09800D3270D /* cameraIris@2x.png in Resources */,
@@ -1719,6 +1754,7 @@
 				2B0AEC6F1797C2F200AFBAFA /* NavBarButtonPortraitPressed.png in Resources */,
 				2B0AEC701797C2F200AFBAFA /* NavBarButtonPortraitPressed@2x.png in Resources */,
 				2B0AEC751797C4DA00AFBAFA /* UISearchBarCancelButtonBackground.png in Resources */,
+				2B1B14EF17E9D90300CC0377 /* NavBarButtonLandscapePressed.png in Resources */,
 				2B0AEC761797C4DA00AFBAFA /* UISearchBarCancelButtonBackground@2x.png in Resources */,
 				2B0AEC771797C4DA00AFBAFA /* UISearchBarCancelButtonBackgroundPressed.png in Resources */,
 				2B0AEC781797C4DA00AFBAFA /* UISearchBarCancelButtonBackgroundPressed@2x.png in Resources */,
@@ -1881,12 +1917,14 @@
 				2B6519AB1767318F0080D632 /* CDConfig.m in Sources */,
 				2B569BA1176F3D9100B34E0C /* TimelineViewController.m in Sources */,
 				2B569BA4176F3E6400B34E0C /* BestViewController.m in Sources */,
+				2B1B14E217E9CF8D00CC0377 /* CDQuickDialogController.m in Sources */,
 				2B569BA7176F3E7500B34E0C /* HistoryViewController.m in Sources */,
 				2B569BAA176F3E8400B34E0C /* MediaTypeViewController.m in Sources */,
 				2BC955261771D65B00568E54 /* SettingViewController.m in Sources */,
 				2BC955291771D68300568E54 /* UserProfileViewController.m in Sources */,
 				2BC9552C1771E49F00568E54 /* UserLoginViewController.m in Sources */,
 				2BC9552F1771E4AE00568E54 /* UserSignupViewController.m in Sources */,
+				2B318A0E17E7F22000EC7B70 /* UIImage+ColorImage.m in Sources */,
 				2BC955321771F59D00568E54 /* CDTextField.m in Sources */,
 				2B0929EC1773950C0051D1DC /* NSString+MD5.m in Sources */,
 				2BC17A6C17E1ED29006BB510 /* CDVideo.m in Sources */,
@@ -1896,6 +1934,7 @@
 				2BFC742B177752C80027F9B3 /* CDDataCache.m in Sources */,
 				2B5B19C8177B888F0042398E /* CDAppUser.m in Sources */,
 				2B1FDDF7177C95F400CD1135 /* CDQuickElements.m in Sources */,
+				2B1B14E517E9D28600CC0377 /* CDNavigationController.m in Sources */,
 				2B69665A17E36683001A5DF6 /* MBProgressHUD+Custom.m in Sources */,
 				2B1FDDFA177CB87900CD1135 /* CDSideTableViewCell.m in Sources */,
 				2BDD70A8177F971700421915 /* MGBoxViewController.m in Sources */,
@@ -1905,7 +1944,6 @@
 				2BDE2F92178C1360007736A8 /* CDCommentFormView.m in Sources */,
 				2BDA2656179400DE00838973 /* CDViewController.m in Sources */,
 				2B0AEC7B1797C9A800AFBAFA /* CDUIKit.m in Sources */,
-				2B0AEC7E1797D6AC00AFBAFA /* CDMainViewController.m in Sources */,
 				2B375EA817992F6300A6CB39 /* CDPostToolBar.m in Sources */,
 				2B3954CF179AA6DE005998D0 /* CDWebViewController.m in Sources */,
 				2B7C719117A21E5600482207 /* WxApiService.m in Sources */,
@@ -1924,12 +1962,14 @@
 				2BAC67F617BBCD1200B9768E /* CommentFontPickerValueParser.m in Sources */,
 				2B64538117C252EE005F6ED2 /* WebTestViewController.m in Sources */,
 				2B64538417C27013005F6ED2 /* DTCoreTextViewController.m in Sources */,
+				2B1B14DC17E9CE2400CC0377 /* CDTableViewController.m in Sources */,
 				2BD0116C17C9E78800825869 /* ArticleDetailViewController.m in Sources */,
 				2BD0116F17C9EB1100825869 /* FocusListViewController.m in Sources */,
 				2BD0117217CA252F00825869 /* FunnyDetailViewController.m in Sources */,
 				2BD4587317CDA34200CB2B01 /* MACAddress.m in Sources */,
 				2B6978FD17E0E5CA00606B2C /* GzipCompressor.m in Sources */,
 				2B69790817E0EF7100606B2C /* Base64.m in Sources */,
+				2B1B14E817E9D3D800CC0377 /* UINavigationController+Roration_iOS6.m in Sources */,
 				2B69790D17E0F0BC00606B2C /* JSONKit.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

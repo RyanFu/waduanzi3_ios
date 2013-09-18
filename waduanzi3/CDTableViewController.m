@@ -1,18 +1,18 @@
 //
-//  CDViewController.m
+//  CDTableViewController.m
 //  waduanzi3
 //
-//  Created by chendong on 13-7-15.
+//  Created by chendong on 13-9-18.
 //  Copyright (c) 2013年 chendong. All rights reserved.
 //
 
-#import "CDViewController.h"
+#import "CDTableViewController.h"
 
-@interface CDViewController ()
+@interface CDTableViewController ()
 
 @end
 
-@implementation CDViewController
+@implementation CDTableViewController
 
 // for iOS 6
 - (BOOL) shouldAutorotate

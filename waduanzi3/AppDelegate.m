@@ -22,6 +22,7 @@
 #import "Appirater.h"
 #import "CDDataCache.h"
 #import "BPush.h"
+#import "CDNavigationController.h"
 
 #import "TestViewController.h"
 #import "WebTestViewController.h"
@@ -124,6 +125,8 @@
     [self saveContext];
 }
 
+
+
 - (void)saveContext
 {
     NSError *error = nil;
@@ -220,6 +223,11 @@
 }
 
 
+- (NSUInteger) application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window
+{
+    return UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskLandscapeRight | UIInterfaceOrientationMaskLandscapeLeft;
+}
+
 
 
 #pragma mark - private methods
@@ -250,10 +258,10 @@
 - (void) setupWindowView:(UIApplication *)application
 {
     SideMenuViewController *menuController = [[SideMenuViewController alloc] initWithStyle:UITableViewStylePlain];
-    UINavigationController *sideController = [[UINavigationController alloc] initWithRootViewController:menuController];
+    CDNavigationController *sideController = [[CDNavigationController alloc] initWithRootViewController:menuController];
     
     TimelineViewController *timelineController = [[TimelineViewController alloc] init];
-    self.centerController = [[UINavigationController alloc] initWithRootViewController:timelineController];
+    self.centerController = [[CDNavigationController alloc] initWithRootViewController:timelineController];
     IIViewDeckController *deckController = [[IIViewDeckController alloc] initWithCenterViewController:_centerController leftViewController:sideController];
     
     deckController.leftSize = DECK_LEFT_SIZE;
@@ -312,8 +320,8 @@
     
     // set appirater
     [Appirater setAppId:WADUANZI_APPLE_ID];
-    [Appirater setDaysUntilPrompt:5]; // 安装几天后弹出
-    [Appirater setUsesUntilPrompt:5]; // 到达最小安装时间后，用户有效操作事件多少次后弹出
+    [Appirater setDaysUntilPrompt:3]; // 安装几天后弹出
+    [Appirater setUsesUntilPrompt:2]; // 到达最小安装时间后，用户有效操作事件多少次后弹出
     [Appirater setSignificantEventsUntilPrompt:-1];
     [Appirater setTimeBeforeReminding:5]; // 用户点了“稍后提醒我”之后再过多少天再次提醒
     [Appirater setDebug:CD_DEBUG];

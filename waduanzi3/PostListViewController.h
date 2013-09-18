@@ -11,11 +11,11 @@
 #import "IIViewDeckController.h"
 #import "CDPostTableViewCell.h"
 #import "CDAdvertTableViewCell.h"
-#import "CDMainViewController.h"
 #import "WBNoticeView.h"
 #import "UMUFPHandleView.h"
+#import "CDViewController.h"
 
-@interface PostListViewController : CDMainViewController <CDPostTableViewCellDelegate, CDAdvertTableViewCellDelegate, UIGestureRecognizerDelegate, UITableViewDataSource, UITableViewDelegate, IIViewDeckControllerDelegate, UMUFPHandleViewDelegate, SKStoreProductViewControllerDelegate>
+@interface PostListViewController : CDViewController <CDPostTableViewCellDelegate, CDAdvertTableViewCellDelegate, UIGestureRecognizerDelegate, UITableViewDataSource, UITableViewDelegate, IIViewDeckControllerDelegate, UMUFPHandleViewDelegate, SKStoreProductViewControllerDelegate>
 {
     NSMutableArray *_statuses;
     NSMutableDictionary *_parameters;

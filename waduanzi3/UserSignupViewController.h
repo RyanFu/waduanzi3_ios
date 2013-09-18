@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CDQuickDialogController.h"
 
-@interface UserSignupViewController : QuickDialogController <QuickDialogEntryElementDelegate, QuickDialogStyleProvider>
+@interface UserSignupViewController : CDQuickDialogController <QuickDialogEntryElementDelegate, QuickDialogStyleProvider>
 
 @end

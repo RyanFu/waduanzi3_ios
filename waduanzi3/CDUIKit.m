@@ -30,16 +30,30 @@
     UIEdgeInsets buttonInsets;
     switch (style) {
         case CDBarButtionItemStyleBlue:
-            buttonInsets = UIEdgeInsetsMake(0.0f, 4.0f, 0.0f, 4.0f);
-            [button setBackgroundImage:[[UIImage imageNamed:@"NavBarButtonPortrait.png"] resizableImageWithCapInsets:buttonInsets]
-                              forState:UIControlStateNormal
-                            barMetrics:barMetrics];
-            [button setBackgroundImage:[[UIImage imageNamed:@"NavBarButtonPortraitPressed.png"] resizableImageWithCapInsets:buttonInsets]
-                              forState:UIControlStateSelected
-                            barMetrics:barMetrics];
-            [button setBackgroundImage:[[UIImage imageNamed:@"NavBarButtonPortraitPressed.png"] resizableImageWithCapInsets:buttonInsets]
-                              forState:UIControlStateHighlighted
-                            barMetrics:barMetrics];
+            if (barMetrics == UIBarMetricsLandscapePhone) {
+                buttonInsets = UIEdgeInsetsMake(0.0f, 4.0f, 0.0f, 4.0f);
+                [button setBackgroundImage:[[UIImage imageNamed:@"NavBarButtonLandscape.png"] resizableImageWithCapInsets:buttonInsets]
+                                  forState:UIControlStateNormal
+                                barMetrics:barMetrics];
+                [button setBackgroundImage:[[UIImage imageNamed:@"NavBarButtonLandscapePressed.png"] resizableImageWithCapInsets:buttonInsets]
+                                  forState:UIControlStateSelected
+                                barMetrics:barMetrics];
+                [button setBackgroundImage:[[UIImage imageNamed:@"NavBarButtonLandscapePressed.png"] resizableImageWithCapInsets:buttonInsets]
+                                  forState:UIControlStateHighlighted
+                                barMetrics:barMetrics];
+            }
+            else {
+                buttonInsets = UIEdgeInsetsMake(0.0f, 4.0f, 0.0f, 4.0f);
+                [button setBackgroundImage:[[UIImage imageNamed:@"NavBarButtonPortrait.png"] resizableImageWithCapInsets:buttonInsets]
+                                  forState:UIControlStateNormal
+                                barMetrics:barMetrics];
+                [button setBackgroundImage:[[UIImage imageNamed:@"NavBarButtonPortraitPressed.png"] resizableImageWithCapInsets:buttonInsets]
+                                  forState:UIControlStateSelected
+                                barMetrics:barMetrics];
+                [button setBackgroundImage:[[UIImage imageNamed:@"NavBarButtonPortraitPressed.png"] resizableImageWithCapInsets:buttonInsets]
+                                  forState:UIControlStateHighlighted
+                                barMetrics:barMetrics];
+            }
             break;
         case CDBarButtionItemStyleBlack:
             buttonInsets = UIEdgeInsetsMake(0.0f, 4.0f, 0.0f, 4.0f);
@@ -55,13 +69,6 @@
         case CDBarButtionItemStyleDefault:
         default:
             break;
-    }
-}
-
-+ (void) setBarButtionItems:(NSArray *)buttons style:(CDBarButtionItemStyle)style forBarMetrics:(UIBarMetrics)barMetrics
-{
-    for (UIBarButtonItem *button in buttons) {
-        [[self class] setBarButtionItem:button style:style forBarMetrics:barMetrics];
     }
 }
 

@@ -12,6 +12,9 @@
 #import "CDPostDetailView.h"
 #import "ImageDetailViewController.h"
 #import "UIImageView+WebCache.h"
+#import "UIImage+ColorImage.h"
+#import "CDWebVideoViewController.h"
+#import "CDNavigationController.h"
 
 @interface FunnyDetailViewController ()
 {
@@ -22,6 +25,7 @@
 @end
 
 @implementation FunnyDetailViewController
+
 
 - (void)viewDidLoad
 {
@@ -70,6 +74,7 @@
     return cell;
 }
 
+// TODO: 此处需要将获取高度放到detailView中，然后通过预加载的方式实例化
 - (CGFloat) tableView:(UITableView *)tableView detailViewCellheightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     CGFloat contentWidth = tableView.frame.size.width - POST_DETAIL_CELL_PADDING*2;
@@ -84,17 +89,22 @@
     CGFloat cellHeight = POST_DETAIL_CELL_PADDING + POST_AVATAR_SIZE.height + POST_DETAIL_CELL_PADDING + detailLabelSize.height;
     
     CGFloat imageViewHeight = 0;
-    if (self.middleImage) {
-        CGSize middleImageSize = CGSizeMake(self.middleImage.size.width / 2, self.middleImage.size.height / 2);
-        // 引处按照将图片宽度全部拉伸为contentWidth
-        imageViewHeight =  contentWidth * middleImageSize.height / middleImageSize.width;
+    if ([self.post.video isKindOfClass:[CDVideo class]])
+        imageViewHeight = POST_DETAIL_VIDEO_THUMB_HEIGHT;
+    else
+    {
+        if (self.middleImage) {
+            CGSize middleImageSize = CGSizeMake(self.middleImage.size.width / 2, self.middleImage.size.height / 2);
+            // 引处按照将图片宽度全部拉伸为contentWidth
+            imageViewHeight =  contentWidth * middleImageSize.height / middleImageSize.width;
+        }
+        else if (self.smallImage) {
+            CGSize smallImageSize = CGSizeMake(self.smallImage.size.width / 2, self.smallImage.size.height / 2);
+            imageViewHeight =  contentWidth * smallImageSize.height / smallImageSize.width;
+        }
+        else if (self.post.middle_pic.length > 0)
+            imageViewHeight = THUMB_HEIGHT;
     }
-    else if (self.smallImage) {
-        CGSize smallImageSize = CGSizeMake(self.smallImage.size.width / 2, self.smallImage.size.height / 2);
-        imageViewHeight =  contentWidth * smallImageSize.height / smallImageSize.width;
-    }
-    else if (self.post.middle_pic.length > 0)
-        imageViewHeight = THUMB_HEIGHT;
     
     if (imageViewHeight > 0)
         cellHeight += imageViewHeight + POST_DETAIL_CELL_PADDING;
@@ -109,11 +119,18 @@
     [_detailView removeFromSuperview];
     _detailView = nil;
     _detailView = [[CDPostDetailView alloc] initWithFrame:cell.contentView.bounds];
+    _detailView.isVideo = [self.post.video isKindOfClass:[CDVideo class]];
     _detailView.detailTextLabel.font = _detailView.textLabel.font = [UIFont fontWithName:FZLTHK_FONT_NAME size:detailFontSize];
     [cell.contentView addSubview:_detailView];
     _detailView.padding = POST_DETAIL_CELL_PADDING;
     
-    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showFullscreenImage:)];
+    
+    UITapGestureRecognizer *tapGestureRecognizer;
+    if (_detailView.isVideo)
+        tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(videoImageViewDidTapFinished:)];
+    else
+        tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showFullscreenImage:)];
+    
     [_detailView.imageView addGestureRecognizer:tapGestureRecognizer];
     tapGestureRecognizer.delegate = self;
 }
@@ -121,6 +138,10 @@
 - (void) setupPostDetailViewInCellData:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath
 {
     CGFloat contentWidth = _detailView.frame.size.width - POST_DETAIL_CELL_PADDING * 2;
+    
+    if (_detailView.isVideo && [self.post.video isKindOfClass:[CDVideo class]])
+        self.middleImage = [UIImage imageWithColor:[UIColor blackColor] size:CGSizeMake(contentWidth, POST_DETAIL_VIDEO_THUMB_HEIGHT)];
+    
     CGFloat imageViewHeight = 0;
     if (self.middleImage) {
         CGSize middleImageSize = CGSizeMake(self.middleImage.size.width / 2, self.middleImage.size.height / 2);
@@ -133,6 +154,7 @@
     }
     else
         imageViewHeight = DETAIL_THUMB_HEIGHT;
+    
     _detailView.imageSize = CGSizeMake(contentWidth, imageViewHeight);
     _detailView.detailTextLabel.text = self.post.content;
     _detailView.authorTextLabel.text = self.post.author_name;
@@ -205,7 +227,17 @@
     imageViewController.thumbnail = self.smallImage;
     imageViewController.originaPic = self.middleImage;
     imageViewController.originalPicUrl = [NSURL URLWithString:self.post.middle_pic];
-    [self presentViewController:imageViewController animated:NO completion:NULL];
+    [ROOT_CONTROLLER presentViewController:imageViewController animated:NO completion:NULL];
+}
+
+- (void) videoImageViewDidTapFinished:(UITapGestureRecognizer *) recognizer
+{
+    CDLog(@"source url: %@", self.post.video.source_url);
+    CDWebVideoViewController *webVideoController = [[CDWebVideoViewController alloc] initWithUrl:self.post.video.source_url];
+    [webVideoController setNavigationBarStyle:CDNavigationBarStyleBlue barButtonItemStyle:CDBarButtionItemStyleBlue toolBarStyle:CDToolBarStyleBlue];
+    CDNavigationController *navWebVideoController = [[CDNavigationController alloc] initWithRootViewController:webVideoController];
+    
+    [ROOT_CONTROLLER presentViewController:navWebVideoController animated:YES completion:nil];
 }
 
 - (void) backButtonDidPressed:(id)sender

@@ -44,9 +44,26 @@
 
 - (void) dismissViewController
 {
-    [self dismissViewControllerAnimated:YES completion:^{
-        ;
+    [self.navigationController dismissViewControllerAnimated:YES completion:^{
+        NSLog(@"CDWebViewController closed.");
     }];
+}
+
+// for iOS 6
+- (BOOL) shouldAutorotate
+{
+    return NO;
+}
+
+- (NSUInteger) supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskPortrait;
+}
+
+// for iOS 5
+- (BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
+{
+    return toInterfaceOrientation == UIInterfaceOrientationPortrait;
 }
 
 

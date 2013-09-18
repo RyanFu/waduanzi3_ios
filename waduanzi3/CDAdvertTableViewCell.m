@@ -9,7 +9,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "CDAdvertTableViewCell.h"
 
-#define ADVERT_IMAGE_HEIGHT 350.0f
+#define ADVERT_IMAGE_HEIGHT 300.0f
 #define INSTALL_VIEW_EDGEINSETS UIEdgeInsetsMake(10.0f, 10.0f, 10.0f, 10.0f)
 #define INSTALL_BUTTON_SIZE  CGSizeMake(73.0f, 35.0f)
 

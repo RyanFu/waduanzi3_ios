@@ -19,6 +19,7 @@
 @synthesize padding = _padding;
 @synthesize imageSize = _imageSize;
 @synthesize actualHeight = _actualHeight;
+@synthesize isVideo = _isVideo;
 
 @synthesize textLabel = _textLabel;
 @synthesize detailTextLabel = _detailTextLabel;
@@ -51,6 +52,7 @@
     self.multipleTouchEnabled = YES;
     self.userInteractionEnabled = YES;
     
+    self.isVideo = NO;
     self.padding = 7.5f;
     self.imageSize = CGSizeMake(self.frame.size.width, DETAIL_THUMB_HEIGHT);
     
@@ -64,6 +66,9 @@
     [self addSubview:_avatarImageView];
     [self addSubview:_authorTextLabel];
     [self addSubview:_datetimeTextLabel];
+    
+    _videoIconView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"newsfeedVideoPlayIcon.png"] highlightedImage:[UIImage imageNamed:@"newsfeedVideoPlayIconPressed.png"]];
+    [_videoIconView sizeToFit];
     
     [self setupSubviewsDefaultStyle];
 }
@@ -174,6 +179,14 @@
         CGRect imageViewFrame = CGRectMake(_padding, widgetY, _imageSize.width, _imageSize.height);
         [_imageView setFrame: imageViewFrame];
         [self addSubview:_imageView];
+        
+        if (_isVideo) {
+            CGRect videoImageFrame = _videoIconView.frame;
+            videoImageFrame.origin.x = self.imageView.frame.size.width/2 - videoImageFrame.size.width/2;
+            videoImageFrame.origin.y = self.imageView.frame.size.height/2 - videoImageFrame.size.height/2;
+            _videoIconView.frame = videoImageFrame;
+            [self.imageView addSubview:_videoIconView];
+        }
         
         widgetY += widgetHeight + _padding;
     }

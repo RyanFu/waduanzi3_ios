@@ -1,18 +1,18 @@
 //
-//  CDViewController.m
+//  CDQuickDialogController.m
 //  waduanzi3
 //
-//  Created by chendong on 13-7-15.
+//  Created by chendong on 13-9-18.
 //  Copyright (c) 2013年 chendong. All rights reserved.
 //
 
-#import "CDViewController.h"
+#import "CDQuickDialogController.h"
 
-@interface CDViewController ()
+@interface CDQuickDialogController ()
 
 @end
 
-@implementation CDViewController
+@implementation CDQuickDialogController
 
 // for iOS 6
 - (BOOL) shouldAutorotate

@@ -9,6 +9,10 @@
 #import <UIKit/UIKit.h>
 
 @interface CDPostDetailView : UIView
+{
+    @private
+    UIImageView *_videoIconView;;
+}
 
 @property (nonatomic, strong) UILabel *textLabel;
 @property (nonatomic, strong) UILabel *detailTextLabel;
@@ -19,8 +23,8 @@
 
 @property (nonatomic) CGFloat padding;
 @property (nonatomic) CGSize imageSize;
-
 @property (nonatomic) CGFloat actualHeight;
+@property (nonatomic) BOOL isVideo;
 
 
 - (void) initSubViews;

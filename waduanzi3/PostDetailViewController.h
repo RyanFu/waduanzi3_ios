@@ -10,13 +10,13 @@
 #import "MBProgressHUD.h"
 #import "IIViewDeckController.h"
 #import "UMSocialControllerService.h"
-#import "CDMainViewController.h"
+#import "CDViewController.h"
 #import "CDCommentFormView.h"
 #import "CDPostToolBar.h"
 
 @class CDPost;
 
-@interface PostDetailViewController : CDMainViewController <UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate, UIGestureRecognizerDelegate, MBProgressHUDDelegate, UITextFieldDelegate, IIViewDeckControllerDelegate, UMSocialUIDelegate>
+@interface PostDetailViewController : CDViewController <UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate, UIGestureRecognizerDelegate, MBProgressHUDDelegate, UITextFieldDelegate, IIViewDeckControllerDelegate, UMSocialUIDelegate>
 {
     NSMutableArray *_comments;
     NSInteger _lasttime;
