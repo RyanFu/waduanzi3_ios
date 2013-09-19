@@ -57,6 +57,7 @@
 @synthesize tableView = _tableView;
 @synthesize adView = _adView;
 @synthesize forceRefresh = _forceRefresh;
+@synthesize statuses = _statuses;
 
 - (id) init
 {
@@ -305,15 +306,15 @@
 {
     __weak PostListViewController *weakSelf = self;
     __block BOOL _weakRequireLogined = _requireLogined;
-    __weak NSMutableArray *_weakStatuses = _statuses;
+
     [self.tableView addInfiniteScrollingWithActionHandler:^{
         if (![CDRestClient checkNetworkStatus]) {
             [weakSelf.tableView.infiniteScrollingView stopAnimating];
             return;
         }
-        
+        NSLog(@"statuses count: %d",weakSelf.statuses.count);
         if (!_weakRequireLogined || [CDAppUser hasLogined]) {
-            if (_weakStatuses.count == 0)
+            if (weakSelf.statuses.count == 0)
                 [weakSelf.tableView.infiniteScrollingView stopAnimating];
             else
                 [weakSelf loadMoreStatuses];
