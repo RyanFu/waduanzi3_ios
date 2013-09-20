@@ -14,6 +14,7 @@
 #import "CDUserConfig.h"
 #import "PostFontPickerValueParser.h"
 #import "CommentFontPickerValueParser.h"
+#import "QPickerElement.h"
 
 @implementation CDQuickElements
 

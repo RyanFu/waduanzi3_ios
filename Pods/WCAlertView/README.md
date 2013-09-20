@@ -1,6 +1,18 @@
 WCAlertView
 ==========
 
+## iOS 7 and above not supported !
+
+In iOS7, the UIAlertView window does not appear in -[UIApplication windows]. 
+In fact, the UIAlertView itself is never added to any window, -[UIAlertView window] is always nil. 
+Instead, the alert view manages a variety of undocumented views placed in -[UIApplication keyWindow] with no reference back to the alert view.
+ 
+[More informaction on freecoder blog](http://blog.freecoder.org/?p=260)
+ 
+[Stackoverflow issue](http://stackoverflow.com/questions/18702565/find-uialertview-without-having-reference-to-it-ios-7)
+
+## Info
+
 WCAlertView is a subclass from UIAlertView with possibility of customization.
 
 You can easly customize your UIAlertView.

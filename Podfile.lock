@@ -11,6 +11,7 @@ PODS:
     - DTFoundation/Core
   - DTFoundation/UIKit (1.5.2):
     - DTFoundation/Core
+  - EAIntroView (1.1.0)
   - MBProgressHUD (0.8)
   - MCUIImageAdvanced (0.2.3):
     - MGImageUtilities
@@ -19,7 +20,7 @@ PODS:
   - MTStatusBarOverlay (0.9.1)
   - NoticeView (3.0.7)
   - OpenUDID (1.0.0)
-  - QuickDialog (0.8)
+  - QuickDialog (0.9.1)
   - Reachability (3.1.1)
   - RestKit (0.20.3):
     - RestKit/Core
@@ -49,29 +50,50 @@ PODS:
   - WCAlertView (1.0.1)
 
 DEPENDENCIES:
-  - Appirater
+  - Appirater (from `https://github.com/arashpayan/appirater`)
   - Base64
-  - DTCoreText
-  - MBProgressHUD
-  - MCUIImageAdvanced
+  - DTCoreText (from `https://github.com/Cocoanetics/DTCoreText`)
+  - EAIntroView
+  - MBProgressHUD (from `https://github.com/jdg/MBProgressHUD`)
+  - MCUIImageAdvanced (from `https://github.com/mirego/MCUIImageAdvanced`)
   - MGBox2
   - MGImageUtilities
-  - MTStatusBarOverlay
-  - NoticeView (~> 3.0.7)
+  - MTStatusBarOverlay (from `https://github.com/myell0w/MTStatusBarOverlay`)
+  - NoticeView (from `https://github.com/tciuro/NoticeView`)
   - OpenUDID
-  - QuickDialog (< 0.9)
-  - Reachability
-  - RestKit (~> 0.20.0)
-  - RestKit/Search (~> 0.20.0)
-  - RestKit/Testing (~> 0.20.0)
+  - QuickDialog (from `https://github.com/escoz/QuickDialog`)
+  - Reachability (from `https://github.com/tonymillion/Reachability`)
+  - RestKit
+  - RestKit/Search
+  - RestKit/Testing
   - SDWebImage (from `https://github.com/rs/SDWebImage`)
-  - SVPullToRefresh
+  - SVPullToRefresh (from `https://github.com/samvermette/SVPullToRefresh`)
   - ViewDeck (= 2.2.11)
-  - WCAlertView
+  - WCAlertView (from `https://github.com/m1entus/WCAlertView`)
 
 EXTERNAL SOURCES:
+  Appirater:
+    :git: https://github.com/arashpayan/appirater
+  DTCoreText:
+    :git: https://github.com/Cocoanetics/DTCoreText
+  MBProgressHUD:
+    :git: https://github.com/jdg/MBProgressHUD
+  MCUIImageAdvanced:
+    :git: https://github.com/mirego/MCUIImageAdvanced
+  MTStatusBarOverlay:
+    :git: https://github.com/myell0w/MTStatusBarOverlay
+  NoticeView:
+    :git: https://github.com/tciuro/NoticeView
+  QuickDialog:
+    :git: https://github.com/escoz/QuickDialog
+  Reachability:
+    :git: https://github.com/tonymillion/Reachability
   SDWebImage:
     :git: https://github.com/rs/SDWebImage
+  SVPullToRefresh:
+    :git: https://github.com/samvermette/SVPullToRefresh
+  WCAlertView:
+    :git: https://github.com/m1entus/WCAlertView
 
 SPEC CHECKSUMS:
   AFNetworking: 7f9bcd7c287a75476cd5c61e82fd3380e93e4c54
@@ -79,14 +101,15 @@ SPEC CHECKSUMS:
   Base64: eaac9f2088ba659c5db1db960576eb0f2969ebaf
   DTCoreText: 1a67169c5d5b7ca8381d8ad218d8596fe5107d7d
   DTFoundation: 6138b5437df0217bbeba2b5cec89d5e95cf7f0e8
+  EAIntroView: f3d46600d5fac8acce7e407488cf227bfdef49a1
   MBProgressHUD: 2bbc6f470111daf7f3eaa4eb12b8cbf01c4c0622
   MCUIImageAdvanced: 1d56b0a0fa7d6d8be0467cab60beaa2d563f8181
   MGBox2: 7c09e36c2271f9af16fdb5141a0ca554ecee4d8d
   MGImageUtilities: ab3580f2161b10f8a41331baea87aaafbd688950
-  MTStatusBarOverlay: 2cee705996e4e307191d423bf49e583b9b2c14ac
+  MTStatusBarOverlay: e00cd3b000171748b9439d014e00ec7bbb9b82ee
   NoticeView: f885ce90b53dacce3b19f2d5e95c6db68fe4e45d
   OpenUDID: 13ab988776ef38dca1e2e799e961448cf83a8111
-  QuickDialog: 465692c7c599ad41a0c46022c55779dd61a4d4fe
+  QuickDialog: ee53d12a374e4c8bbeebcdb5172ba2e968b9c91f
   Reachability: 2be6bc2fd2bd31d97f5db33e75e4b29c79e95883
   RestKit: 1f181c180105a92f11ec4f6cd7de37625e516d83
   SDWebImage: 366188f04c019bfd712d45e3b36aa52070f4abd8

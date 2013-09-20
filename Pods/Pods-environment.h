@@ -48,6 +48,12 @@
 #define COCOAPODS_VERSION_MINOR_DTFoundation_UIKit 5
 #define COCOAPODS_VERSION_PATCH_DTFoundation_UIKit 2
 
+// EAIntroView
+#define COCOAPODS_POD_AVAILABLE_EAIntroView
+#define COCOAPODS_VERSION_MAJOR_EAIntroView 1
+#define COCOAPODS_VERSION_MINOR_EAIntroView 1
+#define COCOAPODS_VERSION_PATCH_EAIntroView 0
+
 // MBProgressHUD
 #define COCOAPODS_POD_AVAILABLE_MBProgressHUD
 #define COCOAPODS_VERSION_MAJOR_MBProgressHUD 0
@@ -93,8 +99,8 @@
 // QuickDialog
 #define COCOAPODS_POD_AVAILABLE_QuickDialog
 #define COCOAPODS_VERSION_MAJOR_QuickDialog 0
-#define COCOAPODS_VERSION_MINOR_QuickDialog 8
-#define COCOAPODS_VERSION_PATCH_QuickDialog 0
+#define COCOAPODS_VERSION_MINOR_QuickDialog 9
+#define COCOAPODS_VERSION_PATCH_QuickDialog 1
 
 // Reachability
 #define COCOAPODS_POD_AVAILABLE_Reachability

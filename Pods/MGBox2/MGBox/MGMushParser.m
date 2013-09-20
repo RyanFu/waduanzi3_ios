@@ -171,15 +171,22 @@
   CTFontRef ctBold = CTFontCreateCopyWithSymbolicTraits(ctBase, 0, NULL,
       kCTFontBoldTrait, kCTFontBoldTrait);
   CFStringRef boldName = CTFontCopyName(ctBold, kCTFontPostScriptNameKey);
-  bold = [UIFont fontWithName:(__bridge NSString *)boldName size:size];
+  bold = [UIFont fontWithName:(__bridge NSString *)boldName size:size] ?: font;
 
   // italic font
   CTFontRef ctItalic = CTFontCreateCopyWithSymbolicTraits(ctBase, 0, NULL,
       kCTFontItalicTrait, kCTFontItalicTrait);
   CFStringRef italicName = CTFontCopyName(ctItalic, kCTFontPostScriptNameKey);
-  italic = [UIFont fontWithName:(__bridge NSString *)italicName size:size];
+  italic = [UIFont fontWithName:(__bridge NSString *)italicName size:size] ?: font;
 
   monospace = [UIFont fontWithName:@"CourierNewPSMT" size:size];
+  
+  // Release CF objects no longer needed
+  CFRelease(ctBase);
+  CFRelease(ctBold);
+  CFRelease(boldName);
+  CFRelease(ctItalic);
+  CFRelease(italicName);
 }
 
 #pragma mark - Getters

@@ -15,11 +15,13 @@
 
 #import <Foundation/Foundation.h>
 
+@class QElement;
 
 typedef enum {
-    QLabelingPolicyTrimTitle,
-    QLabelingPolicyTrimValue
+    QLabelingPolicyTrimValue,
+    QLabelingPolicyTrimTitle
 } QLabelingPolicy;
+
 
 @interface QTableViewCell : UITableViewCell
 
