@@ -11,7 +11,7 @@ PODS:
     - DTFoundation/Core
   - DTFoundation/UIKit (1.5.2):
     - DTFoundation/Core
-  - MBProgressHUD (0.7)
+  - MBProgressHUD (0.8)
   - MCUIImageAdvanced (0.2.3):
     - MGImageUtilities
   - MGBox2 (2.0.0)
@@ -45,7 +45,7 @@ PODS:
   - SOCKit (1.1)
   - SVPullToRefresh (0.4.1)
   - TransitionKit (1.1.1)
-  - ViewDeck (2.3.1)
+  - ViewDeck (2.2.11)
   - WCAlertView (1.0.1)
 
 DEPENDENCIES:
@@ -66,7 +66,7 @@ DEPENDENCIES:
   - RestKit/Testing (~> 0.20.0)
   - SDWebImage (from `https://github.com/rs/SDWebImage`)
   - SVPullToRefresh
-  - ViewDeck
+  - ViewDeck (= 2.2.11)
   - WCAlertView
 
 EXTERNAL SOURCES:
@@ -79,7 +79,7 @@ SPEC CHECKSUMS:
   Base64: eaac9f2088ba659c5db1db960576eb0f2969ebaf
   DTCoreText: 1a67169c5d5b7ca8381d8ad218d8596fe5107d7d
   DTFoundation: 6138b5437df0217bbeba2b5cec89d5e95cf7f0e8
-  MBProgressHUD: 1fd8591a2216d5dec6de24e09187bb03bcbe9946
+  MBProgressHUD: 2bbc6f470111daf7f3eaa4eb12b8cbf01c4c0622
   MCUIImageAdvanced: 1d56b0a0fa7d6d8be0467cab60beaa2d563f8181
   MGBox2: 7c09e36c2271f9af16fdb5141a0ca554ecee4d8d
   MGImageUtilities: ab3580f2161b10f8a41331baea87aaafbd688950
@@ -93,7 +93,7 @@ SPEC CHECKSUMS:
   SOCKit: 2f3bc4d07910de12dcc202815e07db68a3802581
   SVPullToRefresh: 61a0e4bd12bd6f8e3465909810b0fbeb1a28d5f2
   TransitionKit: d0e3344aac92991395d4c2e72d9c5a8ceeb12910
-  ViewDeck: 2cdc67c4b41a10cafc7556b982f028409e33604d
+  ViewDeck: b5eddc8559b0e47259ab7addbf2de6768061f139
   WCAlertView: 940e47509875d85cc42abedafc41d310007f9174
 
 COCOAPODS: 0.24.0

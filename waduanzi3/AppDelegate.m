@@ -229,7 +229,6 @@
 }
 
 
-
 #pragma mark - private methods
 
 - (void) customAppearance

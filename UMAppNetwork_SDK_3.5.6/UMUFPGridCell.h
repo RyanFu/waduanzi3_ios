@@ -3,9 +3,9 @@
 //  UFP
 //
 //  Created by liu yu on 7/23/12.
-//  Updated by liu yu on 05/09/13.
+//  Updated by liu yu on 09/13/13.
 //  Copyright 2010-2013 Umeng.com. All rights reserved.
-//  Version 3.5.5
+//  Version 3.5.6
 
 #import <UIKit/UIKit.h>
 

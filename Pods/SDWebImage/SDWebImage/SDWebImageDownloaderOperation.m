@@ -73,7 +73,7 @@
         // Make sure to run the runloop in our background thread so it can process downloaded data
         // Note: we use a timeout to work around an issue with NSURLConnection cancel under iOS 5
         //       not waking up the runloop, leading to dead threads (see https://github.com/rs/SDWebImage/issues/466)
-        CFRunLoopRunInMode(kCFRunLoopDefaultMode, 120, false);
+        CFRunLoopRunInMode(kCFRunLoopDefaultMode, 300, false);
         if (!self.isFinished)
         {
             [self.connection cancel];

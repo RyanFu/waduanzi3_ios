@@ -37,6 +37,7 @@
 #import "CDKit.h"
 #import "UIImage+ColorImage.h"
 #import "CDNavigationController.h"
+#import "UIView+Border.h"
 
 @interface PostListViewController ()
 - (void) setupNavButtionItems;
@@ -128,6 +129,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.view.backgroundColor = [UIColor whiteColor];
     
     _cellCache = [[NSCache alloc] init];
     
@@ -186,7 +188,7 @@
     _tableView.delegate = self;
     _tableView.dataSource = self;
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    _tableView.backgroundColor = [UIColor underPageBackgroundColor];
+    _tableView.backgroundColor = [UIColor clearColor];
     _tableView.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"pullToRefreshBg.png"]];
 }
 

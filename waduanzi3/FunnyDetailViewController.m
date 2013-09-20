@@ -236,7 +236,7 @@
     CDWebVideoViewController *webVideoController = [[CDWebVideoViewController alloc] initWithUrl:self.post.video.source_url];
     [webVideoController setNavigationBarStyle:CDNavigationBarStyleBlue barButtonItemStyle:CDBarButtionItemStyleBlue toolBarStyle:CDToolBarStyleBlue];
     CDNavigationController *navWebVideoController = [[CDNavigationController alloc] initWithRootViewController:webVideoController];
-    
+
     [ROOT_CONTROLLER presentViewController:navWebVideoController animated:YES completion:nil];
 }
 
