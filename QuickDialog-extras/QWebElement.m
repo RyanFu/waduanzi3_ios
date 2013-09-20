@@ -12,6 +12,7 @@
 // permissions and limitations under the License.
 //
 
+#import "QWebViewController.h"
 #import "QWebElement.h"
 #import "QuickDialog.h"
 @implementation QWebElement

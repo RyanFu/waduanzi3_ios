@@ -206,6 +206,7 @@
 
 - (void) setupTableCellStyle
 {
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
     self.backgroundColor = [UIColor clearColor];
     self.contentMode = UIViewContentModeTopLeft;
     self.contentView.backgroundColor = [UIColor whiteColor];

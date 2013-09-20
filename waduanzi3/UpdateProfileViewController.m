@@ -34,8 +34,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
-    self.quickDialogTableView.styleProvider = self;
+
+    self.quickDialogTableView.delegate = self;
+    self.quickDialogTableView.deselectRowWhenViewAppears = YES;
     
     QEntryElement *nicknameElement = (QEntryElement *)[self.root elementWithKey:@"key_update_nick_name"];
     nicknameElement.delegate = self;
@@ -70,10 +71,21 @@
 }
 
 
-#pragma mark - QuickDialogStyleProvider
+#pragma mark - UITableViewDelegate
 
-- (void) cell:(UITableViewCell *)cell willAppearForElement:(QElement *)element atIndexPath:(NSIndexPath *)indexPath
+- (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    QSection *section = [self.root getVisibleSectionForIndex:indexPath.section];
+    QElement *element = [section getVisibleElementForIndex: indexPath.row];
+    
+    return ([element.key isEqualToString:@"key_save_profile"]) ? 42.0f : 44.0f;
+}
+
+- (void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    QSection *section = [self.root getVisibleSectionForIndex:indexPath.section];
+    QElement *element = [section getVisibleElementForIndex: indexPath.row];
+    
     if (indexPath.section == 0) {
         cell.textLabel.textAlignment = UITextAlignmentCenter;
         [cell becomeFirstResponder];
@@ -87,6 +99,16 @@
         cell.textLabel.shadowOffset = CGSizeMake(0, 2);
         cell.textLabel.font = [UIFont boldSystemFontOfSize:16.0f];
         cell.textLabel.textColor = element.enabled ? [UIColor colorWithRed:0.33f green:0.33f blue:0.33f alpha:1.00f] : [UIColor colorWithRed:0.67f green:0.67f blue:0.67f alpha:1.00f];
+    }
+}
+
+- (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    QSection *section = [self.root getVisibleSectionForIndex:indexPath.section];
+    QElement *element = [section getVisibleElementForIndex: indexPath.row];
+    
+    if ([element.key isEqualToString:@"key_save_profile"]) {
+        [self updateUserProfileAction];
     }
 }
 

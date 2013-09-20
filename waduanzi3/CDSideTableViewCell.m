@@ -8,6 +8,7 @@
 
 #import "CDDefine.h"
 #import "CDSideTableViewCell.h"
+#import "UIView+Border.h"
 
 @interface CDSideTableViewCell ()
 - (void) setDefaultStyle;
@@ -24,15 +25,15 @@
     return self;
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated
+- (void)setSelected:(BOOL)selected
 {
-    [super setSelected:selected animated:animated];
-
+    [super setSelected:selected];
     self.selectedBackgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"FBSideBarCellBackgroundSelected.png"]];
 }
 
 - (void) setDefaultStyle
 {
+    self.backgroundColor = [UIColor redColor];
     self.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"FBSideBarCellBackground.png"]];
     self.textLabel.textColor = [UIColor colorWithRed:0.77f green:0.80f blue:0.85f alpha:1.00f];
     self.textLabel.backgroundColor = [UIColor clearColor];

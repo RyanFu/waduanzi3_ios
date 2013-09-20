@@ -14,6 +14,7 @@
 #import "CDUserConfig.h"
 #import "PostFontPickerValueParser.h"
 #import "CommentFontPickerValueParser.h"
+#import "QWebViewController.h"
 #import "QPickerElement.h"
 
 @implementation CDQuickElements
@@ -31,6 +32,7 @@
     root.appearance.actionColorEnabled = [UIColor blackColor];
     root.appearance.sectionTitleFont = [UIFont fontWithName:FZLTHK_FONT_NAME size:14.0f];
     root.appearance.sectionFooterColor = [UIColor lightGrayColor];
+    root.appearance.buttonAlignment = NSTextAlignmentCenter;
     [root setAppearance:root.appearance];
     
     // section 0
@@ -67,6 +69,7 @@
     [section0 addElement:commentFontElement];
     
     QBooleanElement *messagePush = [[QBooleanElement alloc] initWithTitle:@"消息推送" Value:0];
+    messagePush.key = @"key_message_push";
     messagePush.controllerAction = @"messagePushAction:";
     [section0 addElement:messagePush];
 
@@ -76,7 +79,6 @@
     section1.key = @"section_key_clear_cache";
     QButtonElement *clearCacheButton = [[QButtonElement alloc] initWithTitle:@"清除缓存"];
     clearCacheButton.key = @"key_clear_cache";
-    clearCacheButton.controllerAction = @"clearCacheAction:";
     [section1 addElement:clearCacheButton];
     
     // section 2
@@ -86,7 +88,7 @@
         [root addSection:section2];
         CDUser *user = [CDAppUser currentUser];
         QLabelElement *userProfileLabel = [[QLabelElement alloc] initWithTitle:@"我的账号" Value:user.username];
-        userProfileLabel.controllerAction = @"userProfileAction:";
+        userProfileLabel.key = @"key_go_user_profile";
         [section2 addElement:userProfileLabel];
     }
     
@@ -95,14 +97,14 @@
     section3.title = @"其它";
     [root addSection:section3];
     QLabelElement *feedbackLabel = [[QLabelElement alloc] initWithTitle:@"意见反馈" Value:nil];
-    feedbackLabel.controllerAction = @"feedbackAction:";
+    feedbackLabel.key = @"key_feedback";
     [section3 addElement:feedbackLabel];
     QLabelElement *starredLabel = [[QLabelElement alloc] initWithTitle:@"支持挖段子" Value:nil];
-    starredLabel.controllerAction = @"starredAction:";
+    starredLabel.key = @"key_starred_app";
     [section3 addElement:starredLabel];
     QLabelElement *aboutLabel = [[QLabelElement alloc] initWithTitle:@"关于挖段子" Value:nil];
+    aboutLabel.key = @"key_about_us";
     [section3 addElement:aboutLabel];
-    aboutLabel.controllerAction = @"aboutmeAction:";
     
     
     // section 4
@@ -110,9 +112,9 @@
     [root addSection:section4];
     QBadgeElement *checkVersionLabel = [[QBadgeElement alloc] initWithTitle:@"当前版本" Value:APP_VERSION];
     [section4 addElement:checkVersionLabel];
-    
+
     section4.footer = @"waduanzi.com";
-    
+
     return root;
 }
 
@@ -129,7 +131,7 @@
     root.appearance.valueAlignment = NSTextAlignmentLeft;
     root.appearance.sectionFooterColor = [UIColor lightGrayColor];
     root.appearance.sectionFooterFont = [UIFont fontWithName:FZLTHK_FONT_NAME size:12.0f];
-    
+    root.appearance.buttonAlignment = NSTextAlignmentCenter;
     
     QSection *textFieldSection = [[QSection alloc] init];
     textFieldSection.footer = @"账号为3-30个字符，密码为3-30个字符";
@@ -151,24 +153,20 @@
     passwordTextField.bind = @"textValue:password";
     passwordTextField.returnKeyType = UIReturnKeyDone;
     [textFieldSection addElement:passwordTextField];
-    usernameTextField.height = passwordTextField.height = 44.0f;
     
     
     QSection *buttonSection = [[QSection alloc] init];
     [root addSection:buttonSection];
     QButtonElement *submitButton = [[QButtonElement alloc] initWithTitle:@"注册"];
-    submitButton.height = 42.0f;
     submitButton.enabled = NO;
     submitButton.key = @"key_submit_signup";
-    submitButton.controllerAction = @"userSignupAction";
     [buttonSection addElement:submitButton];
     
     
     QSection *extraButtonSection = [[QSection alloc] init];
     [root addSection:extraButtonSection];
     QButtonElement *loginButton = [[QButtonElement alloc] initWithTitle:@"已有账号，直接登录"];
-    loginButton.height = 33.0f;
-    loginButton.controllerAction = @"retrunUserLoginAction";
+    loginButton.key = @"key_go_login";
     [extraButtonSection addElement:loginButton];
     
     return root;
@@ -188,15 +186,11 @@
     root.appearance.labelFont = [UIFont fontWithName:FZLTHK_FONT_NAME size:16.0f];
     root.appearance.sectionFooterColor = [UIColor lightGrayColor];
     root.appearance.sectionFooterFont = [UIFont fontWithName:FZLTHK_FONT_NAME size:12.0f];
+    root.appearance.buttonAlignment = NSTextAlignmentCenter;
     
     
     QSection *textFieldSection = [[QSection alloc] init];
     [root addSection:textFieldSection];
-    textFieldSection.headerImage = @"login_logo.png";
-    CGRect logoViewFrame = textFieldSection.headerView.frame;
-    logoViewFrame.size.height = 145.0f;
-    textFieldSection.headerView.frame = logoViewFrame;
-    textFieldSection.headerView.contentMode = UIViewContentModeScaleAspectFit;
     
     QEntryElement *usernameTextField = [[QEntryElement alloc] initWithTitle:nil Value:nil Placeholder:@"邮箱/手机号/用户名"];
     usernameTextField.key = @"key_username";
@@ -208,23 +202,19 @@
     passwordTextField.bind = @"textValue:password";
     passwordTextField.returnKeyType = UIReturnKeyDone;
     [textFieldSection addElement:usernameTextField];
-    usernameTextField.height = passwordTextField.height = 44.0f;
     [textFieldSection addElement:passwordTextField];
 
     QSection *buttonSection = [[QSection alloc] init];
     [root addSection:buttonSection];
     QButtonElement *submitButton = [[QButtonElement alloc] initWithTitle:@"登录"];
     submitButton.key = @"key_submit_login";
-    submitButton.controllerAction = @"userLoginAction";
-    submitButton.height = 42.0f;
     submitButton.enabled = NO;
     [buttonSection addElement:submitButton];
     
     QSection *extraButtonSection = [[QSection alloc] init];
     [root addSection:extraButtonSection];
     QButtonElement *signupButton = [[QButtonElement alloc] initWithTitle:@"注册挖段子账号"];
-    signupButton.controllerAction = @"gotoUserSignupAction";
-    signupButton.height = 33.0f;
+    signupButton.key = @"key_go_signup";
     [extraButtonSection addElement:signupButton];
     
     return root;
@@ -244,6 +234,7 @@
     root.appearance.entryFont = [UIFont fontWithName:FZLTHK_FONT_NAME size:14.0f];
     root.appearance.sectionTitleFont = [UIFont fontWithName:FZLTHK_FONT_NAME size:14.0f];
     root.appearance.sectionFooterColor = [UIColor lightGrayColor];
+    root.appearance.buttonAlignment = NSTextAlignmentCenter;
     
     CDUser *user = [CDAppUser currentUser];
     
@@ -272,11 +263,8 @@
     tencentElement.key = @"key_share_tencent";
     sinaElement.onImage = qzoneElement.onImage = tencentElement.onImage = [UIImage imageNamed:@"imgOn.png"];
     sinaElement.offImage = qzoneElement.offImage = tencentElement.offImage = [UIImage imageNamed:@"imgOff.png"];
-    sinaElement.controllerAccessoryAction = @"sinaWeiboLoginAction:";
     sinaElement.controllerAction = @"sinaWeiboLoginAction:";
-    qzoneElement.controllerAccessoryAction = @"qzoneLoginAction:";
     qzoneElement.controllerAction = @"qzoneLoginAction:";
-    tencentElement.controllerAccessoryAction = @"tencentLoginAction:";
     tencentElement.controllerAction = @"tencentLoginAction:";
     [shareSection addElement:sinaElement];
     [shareSection addElement:qzoneElement];
@@ -351,7 +339,7 @@
     
     [root addSection:section2];
     QButtonElement *submitButton = [[QButtonElement alloc] initWithTitle:@"保存"];
-    submitButton.height = 42.0f;
+    submitButton.key = @"key_save_profile";
     submitButton.controllerAction = @"updateUserProfileAction";
     [section2 addElement:submitButton];
     

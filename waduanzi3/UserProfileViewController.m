@@ -38,7 +38,7 @@
 {
     [super viewDidLoad];
     
-    self.quickDialogTableView.styleProvider = self;
+    self.quickDialogTableView.delegate = self;
     self.quickDialogTableView.deselectRowWhenViewAppears = YES;
 
     [self setupNavbar];
@@ -113,9 +113,24 @@
     }];
 }
 
-#pragma mark - QuickDialogStyleProvider
-- (void) cell:(UITableViewCell *)cell willAppearForElement:(QElement *)element atIndexPath:(NSIndexPath *)indexPath
+#pragma mark - UITableViewDelegate
+
+- (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    QSection *section = [self.root getVisibleSectionForIndex:indexPath.section];
+    QElement *element = [section getVisibleElementForIndex: indexPath.row];
+    
+    if ([element.key isEqualToString:@"key_logout_button"])
+        return 43.0f;
+    else
+        return 44.0f;
+}
+
+- (void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    QSection *section = [self.root getVisibleSectionForIndex:indexPath.section];
+    QElement *element = [section getVisibleElementForIndex: indexPath.row];
+    
     if ([element.key isEqualToString:@"key_logout_button"]) {
         cell.backgroundView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"common_button_red_nor.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 11.0f, 0, 11.0f)]];
         cell.selectedBackgroundView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"common_button_red_press.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 11.0f, 0, 11.0f)]];
@@ -124,8 +139,37 @@
     }
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    QSection *section = [self.root getVisibleSectionForIndex:indexPath.section];
+    QElement *element = [section getVisibleElementForIndex: indexPath.row];
+    
+    if ([element.key isEqualToString:@"key_logout_button"]) {
+        [self logoutAction:(QButtonElement *)element];
+    }
+    else if ([element.key isEqualToString:@"key_share_sina_weibo"]) {
+        [self sinaWeiboLoginAction:(QBooleanElement *)element];
+    }
+    else if ([element.key isEqualToString:@"key_share_qzone"]) {
+        [self qzoneLoginAction:(QBooleanElement *)element];
+    }
+    else if ([element.key isEqualToString:@"key_share_tencent"]) {
+        [self tencentLoginAction:(QBooleanElement *)element];
+    }
+    else if ([element.key isEqualToString:@"key_nickname"]) {
+        [self updateNickname:(QLabelElement *)element];
+    }
+}
+
 
 #pragma mark quickdialog controllAction
+
+- (void) logoutAction:(QButtonElement *)element
+{
+    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"退出登录" otherButtonTitles:nil, nil];
+    sheet.tag = LOGOUT_BUTTON_TAG;
+    [sheet showInView:self.view];
+}
 
 - (void) updateNickname:(QLabelElement *)element
 {
@@ -137,7 +181,6 @@
 - (void) sinaWeiboLoginAction:(QBooleanElement *)element
 {
     NSLog(@"value: %d", element.boolValue);
-    element.boolValue = !element.boolValue;
     [self.quickDialogTableView reloadCellForElements:element, nil];
     
     if (element.boolValue) {
@@ -177,7 +220,6 @@
 - (void) qzoneLoginAction:(QBooleanElement *)element
 {
     NSLog(@"value: %d", element.boolValue);
-    element.boolValue = !element.boolValue;
     [self.quickDialogTableView reloadCellForElements:element, nil];
     
     if (element.boolValue) {
@@ -215,7 +257,6 @@
 - (void) tencentLoginAction:(QBooleanElement *)element
 {
     NSLog(@"value: %d", element.boolValue);
-    element.boolValue = !element.boolValue;
     [self.quickDialogTableView reloadCellForElements:element, nil];
     
     if (element.boolValue) {
@@ -249,13 +290,6 @@
     }
 }
 
-
-- (void) logoutAction:(QButtonElement *)element
-{
-    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"退出登录" otherButtonTitles:nil, nil];
-    sheet.tag = LOGOUT_BUTTON_TAG;
-    [sheet showInView:self.view];
-}
 
 #pragma mark - UIActionSheetDelegate
 

@@ -2,14 +2,14 @@ PODS:
   - AFNetworking (1.3.2)
   - Appirater (2.0.1)
   - Base64 (1.0.1)
-  - DTCoreText (1.6.6):
-    - DTFoundation/Core (~> 1.5.1)
-    - DTFoundation/DTHTMLParser (~> 1.5.1)
-    - DTFoundation/UIKit (~> 1.5.1)
-  - DTFoundation/Core (1.5.2)
-  - DTFoundation/DTHTMLParser (1.5.2):
+  - DTCoreText (1.6.7):
+    - DTFoundation/Core (~> 1.5.3)
+    - DTFoundation/DTHTMLParser (~> 1.5.3)
+    - DTFoundation/UIKit (~> 1.5.3)
+  - DTFoundation/Core (1.5.3)
+  - DTFoundation/DTHTMLParser (1.5.3):
     - DTFoundation/Core
-  - DTFoundation/UIKit (1.5.2):
+  - DTFoundation/UIKit (1.5.3):
     - DTFoundation/Core
   - EAIntroView (1.1.0)
   - MBProgressHUD (0.8)
@@ -47,19 +47,18 @@ PODS:
   - SVPullToRefresh (0.4.1)
   - TransitionKit (1.1.1)
   - ViewDeck (2.2.11)
-  - WCAlertView (1.0.1)
 
 DEPENDENCIES:
-  - Appirater (from `https://github.com/arashpayan/appirater`)
+  - Appirater
   - Base64
-  - DTCoreText (from `https://github.com/Cocoanetics/DTCoreText`)
+  - DTCoreText
   - EAIntroView
-  - MBProgressHUD (from `https://github.com/jdg/MBProgressHUD`)
+  - MBProgressHUD
   - MCUIImageAdvanced (from `https://github.com/mirego/MCUIImageAdvanced`)
   - MGBox2
   - MGImageUtilities
   - MTStatusBarOverlay (from `https://github.com/myell0w/MTStatusBarOverlay`)
-  - NoticeView (from `https://github.com/tciuro/NoticeView`)
+  - NoticeView
   - OpenUDID
   - QuickDialog (from `https://github.com/escoz/QuickDialog`)
   - Reachability (from `https://github.com/tonymillion/Reachability`)
@@ -69,21 +68,12 @@ DEPENDENCIES:
   - SDWebImage (from `https://github.com/rs/SDWebImage`)
   - SVPullToRefresh (from `https://github.com/samvermette/SVPullToRefresh`)
   - ViewDeck (= 2.2.11)
-  - WCAlertView (from `https://github.com/m1entus/WCAlertView`)
 
 EXTERNAL SOURCES:
-  Appirater:
-    :git: https://github.com/arashpayan/appirater
-  DTCoreText:
-    :git: https://github.com/Cocoanetics/DTCoreText
-  MBProgressHUD:
-    :git: https://github.com/jdg/MBProgressHUD
   MCUIImageAdvanced:
     :git: https://github.com/mirego/MCUIImageAdvanced
   MTStatusBarOverlay:
     :git: https://github.com/myell0w/MTStatusBarOverlay
-  NoticeView:
-    :git: https://github.com/tciuro/NoticeView
   QuickDialog:
     :git: https://github.com/escoz/QuickDialog
   Reachability:
@@ -92,15 +82,13 @@ EXTERNAL SOURCES:
     :git: https://github.com/rs/SDWebImage
   SVPullToRefresh:
     :git: https://github.com/samvermette/SVPullToRefresh
-  WCAlertView:
-    :git: https://github.com/m1entus/WCAlertView
 
 SPEC CHECKSUMS:
   AFNetworking: 7f9bcd7c287a75476cd5c61e82fd3380e93e4c54
   Appirater: 10cdcb23edc2d3b225afbb4a7d110539adac9b55
   Base64: eaac9f2088ba659c5db1db960576eb0f2969ebaf
-  DTCoreText: 1a67169c5d5b7ca8381d8ad218d8596fe5107d7d
-  DTFoundation: 6138b5437df0217bbeba2b5cec89d5e95cf7f0e8
+  DTCoreText: ca6bf13cb890c33bed10c4027d518d20d86d8011
+  DTFoundation: f20273c35ee95a8a4fde209f602bf305053b09b9
   EAIntroView: f3d46600d5fac8acce7e407488cf227bfdef49a1
   MBProgressHUD: 2bbc6f470111daf7f3eaa4eb12b8cbf01c4c0622
   MCUIImageAdvanced: 1d56b0a0fa7d6d8be0467cab60beaa2d563f8181
@@ -117,6 +105,5 @@ SPEC CHECKSUMS:
   SVPullToRefresh: 61a0e4bd12bd6f8e3465909810b0fbeb1a28d5f2
   TransitionKit: d0e3344aac92991395d4c2e72d9c5a8ceeb12910
   ViewDeck: b5eddc8559b0e47259ab7addbf2de6768061f139
-  WCAlertView: 940e47509875d85cc42abedafc41d310007f9174
 
 COCOAPODS: 0.24.0

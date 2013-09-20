@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "CDQuickDialogController.h"
 
-@interface UserProfileViewController : CDQuickDialogController <QuickDialogStyleProvider, UIActionSheetDelegate>
+@interface UserProfileViewController : CDQuickDialogController <UIActionSheetDelegate, UITableViewDelegate>
 
 @end

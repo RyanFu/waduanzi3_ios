@@ -10,6 +10,6 @@
 #import <StoreKit/StoreKit.h>
 #import "CDQuickDialogController.h"
 
-@interface SettingViewController : CDQuickDialogController <QuickDialogStyleProvider, SKStoreProductViewControllerDelegate>
+@interface SettingViewController : CDQuickDialogController <SKStoreProductViewControllerDelegate, UITableViewDelegate>
 
 @end

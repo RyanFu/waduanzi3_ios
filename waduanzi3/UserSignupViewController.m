@@ -19,6 +19,7 @@
 #import "CDUserForm.h"
 #import "CDSocialKit.h"
 #import "WBErrorNoticeView+WaduanziMethod.h"
+#import "UIView+Border.h"
 
 
 @interface UserSignupViewController ()
@@ -43,7 +44,8 @@
     [super viewDidLoad];
     self.title = @"注册";
     
-    self.quickDialogTableView.styleProvider = self;
+    self.quickDialogTableView.delegate = self;
+    
     QEntryElement *usernameElement = (QEntryElement *)[self.root elementWithKey:@"key_username"];
     QEntryElement *passwordElement = (QEntryElement *)[self.root elementWithKey:@"key_password"];
     usernameElement.delegate = passwordElement.delegate = self;
@@ -90,11 +92,44 @@
 }
 
 
-- (void) cell:(UITableViewCell *)cell willAppearForElement:(QElement *)element atIndexPath:(NSIndexPath *)indexPath
+#pragma mark - UITableViewDelegate
+
+-(CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    QButtonElement *buttonElement = (QButtonElement *)element;
+    QSection *section = [self.root getVisibleSectionForIndex:indexPath.section];
+    QElement *element = [section getVisibleElementForIndex: indexPath.row];
     
-    if (indexPath.section == 1) {
+    if ([element.key isEqualToString:@"key_submit_signup"])
+        return 42.0f;
+    else if ([element.key isEqualToString:@"key_go_login"])
+        return 35.0f;
+    else
+        return 44.0f;
+}
+
+- (CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return (section == 0) ? 145.0f : 0;
+}
+
+- (UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    if (section == 0) {
+        UIImageView *logoView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"login_logo.png"]];
+        logoView.contentMode = UIViewContentModeScaleAspectFit;
+        [logoView sizeToFit];
+        return logoView;
+    }
+    else
+        return nil;
+}
+
+- (void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    QSection *section = [self.root getVisibleSectionForIndex:indexPath.section];
+    QElement *element = [section getVisibleElementForIndex: indexPath.row];
+    
+    if ([element.key isEqualToString:@"key_submit_signup"]) {
         cell.backgroundView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"loginPrimaryButtonBackground.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 7, 0, 7)]];
         cell.selectedBackgroundView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"loginPrimaryButtonBackgroundPressed.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 7, 0, 7)]];
         
@@ -104,7 +139,9 @@
         cell.textLabel.font = [UIFont fontWithName:FZLTHK_FONT_FAMILY size:16.0f];
         cell.textLabel.textColor = element.enabled ? [UIColor colorWithRed:0.33f green:0.33f blue:0.33f alpha:1.00f] : [UIColor colorWithRed:0.67f green:0.67f blue:0.67f alpha:1.00f];
     }
-    else if (indexPath.section == 2) {
+    else if ([element.key isEqualToString:@"key_go_login"]) {
+        QButtonElement *buttonElement = (QButtonElement *)element;
+        
         cell.textLabel.font = [UIFont fontWithName:FZLTHK_FONT_FAMILY size:14.0f];
         cell.textLabel.textColor = [UIColor whiteColor];
         
@@ -113,7 +150,7 @@
         [backgroundView addSubview:imageView];
         CGSize textSize = [buttonElement.title sizeWithFont:cell.textLabel.font];
         CGFloat buttonWidth = textSize.width + 40.0f;
-        imageView.frame = CGRectMake((cell.contentView.frame.size.width-buttonWidth)/2, 0, buttonWidth, 35.0f);;
+        imageView.frame = CGRectMake((cell.contentView.frame.size.width-buttonWidth)/2, 0, buttonWidth+cell.textLabel.frame.origin.x, 35.0f);;
         cell.backgroundView = backgroundView;
         
         UIView *selectedBackgroundView = [[UIView alloc] init];
@@ -121,9 +158,24 @@
         [selectedBackgroundView addSubview:selectedImageView];
         selectedImageView.frame = imageView.frame;
         cell.selectedBackgroundView = selectedBackgroundView;
+        [selectedBackgroundView showBorder:1.0f color:[UIColor redColor].CGColor radius:0];
     }
 }
 
+
+- (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    QSection *section = [self.root getVisibleSectionForIndex:indexPath.section];
+    QElement *element = [section getVisibleElementForIndex: indexPath.row];
+    
+    if ([element.key isEqualToString:@"key_submit_signup"]) {
+        [self userSignupAction];
+    }
+    else if ([element.key isEqualToString:@"key_go_login"]) {
+        CDLog(@"go to login");
+        [self retrunUserLoginAction];
+    }
+}
 
 #pragma mark - QuickDialogEntryElementDelegate
 
