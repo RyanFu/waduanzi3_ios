@@ -177,11 +177,15 @@
     [self.navigationController pushViewController:updateProfileController animated:YES];
 }
 
+- (void) snsLoginStatusAction:(QBooleanElement *)element
+{
+    element.boolValue = !element.boolValue;
+    [self.quickDialogTableView reloadCellForElements:element, nil];
+}
 
 - (void) sinaWeiboLoginAction:(QBooleanElement *)element
 {
     NSLog(@"value: %d", element.boolValue);
-    [self.quickDialogTableView reloadCellForElements:element, nil];
     
     if (element.boolValue) {
         UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"新浪微博" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"解除绑定" otherButtonTitles:nil, nil];

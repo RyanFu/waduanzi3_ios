@@ -279,6 +279,7 @@
     sinaElement.controllerAction = @"sinaWeiboLoginAction:";
     qzoneElement.controllerAction = @"qzoneLoginAction:";
     tencentElement.controllerAction = @"tencentLoginAction:";
+    sinaElement.controllerAccessoryAction = qzoneElement.controllerAccessoryAction = tencentElement.controllerAccessoryAction = @"snsLoginStatusAction:";
     [shareSection addElement:sinaElement];
     [shareSection addElement:qzoneElement];
     [shareSection addElement:tencentElement];
