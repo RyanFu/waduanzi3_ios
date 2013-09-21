@@ -242,7 +242,7 @@
 
 - (void) customAppearance
 {
-    [[UIApplication sharedApplication] setStatusBarStyle:OS_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0") ? UIStatusBarStyleLightContent : UIStatusBarStyleBlackOpaque];
+    [[UIApplication sharedApplication] setStatusBarStyle: (IS_IOS7 ? UIStatusBarStyleLightContent : UIStatusBarStyleBlackOpaque)];
     
     [[UINavigationBar appearance] setBarStyle:UIBarStyleDefault];
     
@@ -257,12 +257,6 @@
     [[UINavigationBar appearance] setTitleTextAttributes:titleTextAttributes];
     [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
     
-    NSDictionary *attributes = @{
-                                 NSForegroundColorAttributeName: [UIColor whiteColor],
-                                 NSFontAttributeName: [UIFont fontWithName:FZLTHK_FONT_NAME size:10.0f]
-                                 };
-    [[UIBarItem appearance] setTitleTextAttributes:attributes forState:UIControlStateNormal];
-        
     // UIToolBar
     [[UIBarButtonItem appearanceWhenContainedIn:[UIToolbar class], nil] setTintColor:[UIColor whiteColor]];
 }
@@ -413,7 +407,6 @@
                                                                window: self.window
                                                            background: [UIColor colorWithPatternImage:[UIImage imageNamed:imageName]]
                                                             animation: YES];
-        _splashAd.delegate = self;
         
         if (_splashAd.isReady) {
             [_splashAd present];
@@ -425,27 +418,6 @@
     @finally {
         ;
     }
-    
-}
-
-- (void) dmSplashAdSuccessToLoadAd:(DMSplashAdController *)dmSplashAd
-{
-    CDLog(@"ad success loaded");
-}
-
-- (void) dmSplashAdWillPresentScreen:(DMSplashAdController *)dmSplashAd
-{
-    CDLog(@"ad will present");
-}
-
-- (void) dmSplashAdDidDismissScreen:(DMSplashAdController *)dmSplashAd
-{
-    CDLog(@"ad dismiss");
-}
-
-- (void) dmSplashAdFailToLoadAd:(DMSplashAdController *)dmSplashAd withError:(NSError *)err
-{
-    CDLog(@"ad load fail: %@", err);
 }
 
 @end

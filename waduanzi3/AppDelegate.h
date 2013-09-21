@@ -11,7 +11,7 @@
 #import "BPush.h"
 #import "DMSplashAdController.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate, WXApiDelegate, BPushDelegate, DMSplashAdControllerDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate, WXApiDelegate, BPushDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 

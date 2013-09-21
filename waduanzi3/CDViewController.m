@@ -14,6 +14,17 @@
 
 @implementation CDViewController
 
+- (void) viewDidLoad
+{
+    [super viewDidLoad];
+    
+    
+    if ([self respondsToSelector:@selector(setNeedsStatusBarAppearanceUpdate)]) {
+        CDLog(@"ios 7");
+        [self setNeedsStatusBarAppearanceUpdate];
+    }
+}
+
 // for iOS 6
 - (BOOL) shouldAutorotate
 {
@@ -34,6 +45,13 @@
 - (BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
 {
     return toInterfaceOrientation == UIInterfaceOrientationPortrait;
+}
+
+
+// for iOS 7
+- (UIStatusBarStyle) preferredStatusBarStyle
+{
+    return UIStatusBarStyleLightContent;
 }
 
 @end

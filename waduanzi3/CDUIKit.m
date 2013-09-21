@@ -7,6 +7,7 @@
 //
 
 #import "CDUIKit.h"
+#import "UIImage+ColorImage.h"
 
 @implementation CDUIKit
 
@@ -27,7 +28,15 @@
 {
     switch (style) {
         case CDNavigationBarStyleBlue:
-            [bar setBackgroundImage:[UIImage imageNamed:@"NavBarBackground.png"] forBarMetrics:barMetrics];
+            if (IS_IOS7) {
+                UIImage *navBgImage = [UIImage imageWithColor:[UIColor colorWithRed:0.27f green:0.38f blue:0.62f alpha:1.00f] size:CGSizeMake(1, NAVBAR_HEIGHT + STATUSBAR_HEIGHT)];
+                [bar setBackgroundImage:navBgImage forBarMetrics:barMetrics];
+                bar.barTintColor = [UIColor colorWithRed:0.27f green:0.38f blue:0.62f alpha:1.00f];
+                bar.tintColor = [UIColor colorWithRed:0.27f green:0.38f blue:0.62f alpha:1.00f];
+            }
+            else
+                [bar setBackgroundImage:[UIImage imageNamed:@"NavBarBackground.png"] forBarMetrics:barMetrics];
+
             break;
         case CDNavigationBarStyleBlack:
             [bar setBackgroundImage:[UIImage imageNamed:@"UISearchBarBackground.png"] forBarMetrics:barMetrics];

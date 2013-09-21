@@ -154,6 +154,7 @@ typedef NS_ENUM (NSUInteger, CDPostContentFontSize)
 #define OS_VERSION_LESS_THAN(v)([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch]==NSOrderedAscending)
 #define OS_VERSION_LESS_THAN_OR_EQUAL_TO(v)([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch]!=NSOrderedDescending)
 
+#define IS_IOS7 OS_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")
 
 #endif
 
