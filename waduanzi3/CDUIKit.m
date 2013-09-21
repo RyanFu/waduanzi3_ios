@@ -10,6 +10,19 @@
 
 @implementation CDUIKit
 
++ (void) setBarButtonItem:(UIBarButtonItem *)button titleAttributes:(NSDictionary *)attributes forBarMetrics:(UIBarMetrics)barMetrics
+{
+    if (attributes == nil) {
+        CGFloat size = (barMetrics == UIBarMetricsLandscapePhone) ? 12.0f : 14.0f;
+        attributes = @{
+                       NSForegroundColorAttributeName: [UIColor whiteColor],
+                       NSFontAttributeName: [UIFont fontWithName:FZLTHK_FONT_NAME size:size]
+                       };
+    }
+    
+    [button setTitleTextAttributes:attributes forState:UIControlStateNormal];
+}
+
 + (void) setNavigationBar:(UINavigationBar *)bar style:(CDNavigationBarStyle)style forBarMetrics:(UIBarMetrics)barMetrics
 {
     switch (style) {
@@ -66,6 +79,37 @@
             [button setBackgroundImage:[[UIImage imageNamed:@"UISearchBarCancelButtonBackgroundPressed.png"] resizableImageWithCapInsets:buttonInsets]
                               forState:UIControlStateHighlighted
                             barMetrics:barMetrics];
+            
+            break;
+            
+        case CDBarButtionItemStyleBlueBack:
+            buttonInsets = UIEdgeInsetsMake(0.0f, 14.0f, 0.0f, 4.0f);
+            [button setBackgroundImage:[[UIImage imageNamed:@"NavBarBackButtonPortrait.png"] resizableImageWithCapInsets:buttonInsets]
+                              forState:UIControlStateNormal
+                            barMetrics:barMetrics];
+            [button setBackgroundImage:[[UIImage imageNamed:@"NavBarBackButtonPortraitPressed.png"] resizableImageWithCapInsets:buttonInsets]
+                              forState:UIControlStateSelected
+                            barMetrics:barMetrics];
+            [button setBackgroundImage:[[UIImage imageNamed:@"NavBarBackButtonPortraitPressed.png"] resizableImageWithCapInsets:buttonInsets]
+                              forState:UIControlStateHighlighted
+                            barMetrics:barMetrics];
+            
+            break;
+            
+        case CDBarButtionItemStyleBlackBack:
+            buttonInsets = UIEdgeInsetsMake(0.0f, 12.0f, 0.0f, 5.0f);
+            [button setBackgroundImage:[[UIImage imageNamed:@"back_normal.png"] resizableImageWithCapInsets:buttonInsets]
+                              forState:UIControlStateNormal
+                            barMetrics:barMetrics];
+            [button setBackgroundImage:[[UIImage imageNamed:@"back_press.png"] resizableImageWithCapInsets:buttonInsets]
+                              forState:UIControlStateSelected
+                            barMetrics:barMetrics];
+            [button setBackgroundImage:[[UIImage imageNamed:@"back_press.png"] resizableImageWithCapInsets:buttonInsets]
+                              forState:UIControlStateHighlighted
+                            barMetrics:barMetrics];
+            
+            break;
+            
         case CDBarButtionItemStyleDefault:
         default:
             break;
@@ -99,6 +143,7 @@
             [[UIBarButtonItem appearance] setBackButtonBackgroundImage:[[UIImage imageNamed:@"back_press.png"] resizableImageWithCapInsets:buttonInsets]
                                                               forState:UIControlStateHighlighted
                                                             barMetrics:barMetrics];
+            break;
         case CDBarButtionItemStyleDefault:
         default:
             break;

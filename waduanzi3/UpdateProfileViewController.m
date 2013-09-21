@@ -65,9 +65,14 @@
 
 - (void) setupNavbar
 {
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStyleBordered target:self action:@selector(returnPrevController)];
+    
     [CDUIKit setNavigationBar:self.navigationController.navigationBar style:CDNavigationBarStyleBlack forBarMetrics:UIBarMetricsDefault];
     [CDUIKit setBackBarButtionItemStyle:CDBarButtionItemStyleBlack forBarMetrics:UIBarMetricsDefault];
     [CDUIKit setBarButtionItem:self.navigationItem.rightBarButtonItem style:CDBarButtionItemStyleBlack forBarMetrics:UIBarMetricsDefault];
+    [CDUIKit setBarButtionItem:self.navigationItem.leftBarButtonItem style:CDBarButtionItemStyleBlackBack forBarMetrics:UIBarMetricsDefault];
+    [UIButton appearance]
+    [CDUIKit setBarButtonItem:self.navigationItem.leftBarButtonItem titleAttributes:nil forBarMetrics:UIBarMetricsDefault];
 }
 
 
@@ -110,6 +115,13 @@
     if ([element.key isEqualToString:@"key_save_profile"]) {
         [self updateUserProfileAction];
     }
+}
+
+
+- (void) returnPrevController
+{
+    if (self.navigationController.viewControllers.count > 1)
+        [self.navigationController popViewControllerAnimated:YES];
 }
 
 

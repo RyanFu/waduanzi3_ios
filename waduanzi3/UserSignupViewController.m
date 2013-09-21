@@ -49,14 +49,14 @@
     QEntryElement *usernameElement = (QEntryElement *)[self.root elementWithKey:@"key_username"];
     QEntryElement *passwordElement = (QEntryElement *)[self.root elementWithKey:@"key_password"];
     usernameElement.delegate = passwordElement.delegate = self;
-    
-    [self setupNavbar];
 }
 
 
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    [self setupNavbar];
     
     self.quickDialogTableView.backgroundColor = [UIColor clearColor];
     self.quickDialogTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -88,8 +88,12 @@
                                                                             target:self
                                                                             action:@selector(dismissController)];
     
-    [CDUIKit setBackBarButtionItemStyle:CDBarButtionItemStyleBlack forBarMetrics:UIBarMetricsDefault];
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"登录" style:UIBarButtonItemStyleDone target:self action:@selector(retrunUserLoginAction)];
+    
     [CDUIKit setBarButtionItem:self.navigationItem.rightBarButtonItem style:CDBarButtionItemStyleBlack forBarMetrics:UIBarMetricsDefault];
+    [CDUIKit setBarButtonItem:self.navigationItem.rightBarButtonItem titleAttributes:nil forBarMetrics:UIBarMetricsDefault];
+    [CDUIKit setBarButtionItem:self.navigationItem.backBarButtonItem style:CDBarButtionItemStyleBlackBack forBarMetrics:UIBarMetricsDefault];
+    [CDUIKit setBarButtonItem:self.navigationItem.leftBarButtonItem titleAttributes:nil forBarMetrics:UIBarMetricsDefault];
 }
 
 

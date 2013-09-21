@@ -78,8 +78,8 @@
 {
     [CDUIKit setNavigationBar:self.navigationController.navigationBar style:CDNavigationBarStyleBlack forBarMetrics:UIBarMetricsDefault];
     
-    UIBarButtonItem *leftButton = [[UIBarButtonItem alloc] initWithTitle:@"登录" style:UIBarButtonItemStyleBordered target:self action:@selector(openUserViewController)];
-    self.navigationItem.leftBarButtonItem = leftButton;
+    UIBarButtonItem *_leftButton = [[UIBarButtonItem alloc] initWithTitle:@"登录" style:UIBarButtonItemStyleBordered target:self action:@selector(openUserViewController)];
+    self.navigationItem.leftBarButtonItem = _leftButton;
     
     _settingButton = [[UIBarButtonItem alloc] initWithTitle:@"设置" style:UIBarButtonItemStyleBordered target:self action:@selector(openSettingController:)];
     UIBarButtonItem *flexButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
@@ -89,6 +89,9 @@
     
     [CDUIKit setBarButtionItem:self.navigationItem.leftBarButtonItem style:CDBarButtionItemStyleBlack forBarMetrics:UIBarMetricsDefault];
     [CDUIKit setBarButtionItem:_settingButton style:CDBarButtionItemStyleBlack forBarMetrics:UIBarMetricsDefault];
+    
+    [CDUIKit setBarButtonItem:_leftButton titleAttributes:nil forBarMetrics:UIBarMetricsDefault];
+    [CDUIKit setBarButtonItem:_settingButton titleAttributes:nil forBarMetrics:UIBarMetricsDefault];
 }
 
 - (void) viewWillAppear:(BOOL)animated

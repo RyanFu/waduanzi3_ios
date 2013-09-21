@@ -17,7 +17,9 @@ typedef NS_ENUM(NSInteger, CDNavigationBarStyle) {
 typedef NS_ENUM(NSInteger, CDBarButtionItemStyle) {
     CDBarButtionItemStyleDefault,
     CDBarButtionItemStyleBlack,
-    CDBarButtionItemStyleBlue
+    CDBarButtionItemStyleBlue,
+    CDBarButtionItemStyleBlackBack,
+    CDBarButtionItemStyleBlueBack,
 };
 
 typedef NS_ENUM(NSInteger, CDToolBarStyle) {
@@ -27,6 +29,8 @@ typedef NS_ENUM(NSInteger, CDToolBarStyle) {
 };
 
 @interface CDUIKit : NSObject
+
++ (void) setBarButtonItem:(UIBarButtonItem *)button titleAttributes:(NSDictionary *)attributes forBarMetrics:(UIBarMetrics)barMetrics;
 
 + (void) setNavigationBar:(UINavigationBar *)bar style:(CDNavigationBarStyle)style forBarMetrics:(UIBarMetrics)barMetrics;
 + (void) setBarButtionItem:(UIBarButtonItem *)button style:(CDBarButtionItemStyle)style forBarMetrics:(UIBarMetrics)barMetrics;

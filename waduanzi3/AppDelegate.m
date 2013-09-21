@@ -241,15 +241,19 @@
     [CDUIKit setBarButtionItem:[UIBarButtonItem appearance] style:CDBarButtionItemStyleBlue forBarMetrics:UIBarMetricsDefault];
     [CDUIKit setBackBarButtionItemStyle:CDBarButtionItemStyleBlue forBarMetrics:UIBarMetricsDefault];
     
-    if (OS_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
-        NSDictionary *titleTextAttributes = @{
-                                          NSForegroundColorAttributeName: [UIColor whiteColor],
-                                          NSFontAttributeName: [UIFont fontWithName:FZLTHK_FONT_NAME size:16.0f]
-                                          };
-        [[UINavigationBar appearance] setTitleTextAttributes:titleTextAttributes];
-        [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
-    }
+    NSDictionary *titleTextAttributes = @{
+                                      NSForegroundColorAttributeName: [UIColor whiteColor],
+                                      NSFontAttributeName: [UIFont fontWithName:FZLTHK_FONT_NAME size:16.0f]
+                                      };
+    [[UINavigationBar appearance] setTitleTextAttributes:titleTextAttributes];
+    [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
     
+    NSDictionary *attributes = @{
+                                 NSForegroundColorAttributeName: [UIColor whiteColor],
+                                 NSFontAttributeName: [UIFont fontWithName:FZLTHK_FONT_NAME size:10.0f]
+                                 };
+    [[UIBarItem appearance] setTitleTextAttributes:attributes forState:UIControlStateNormal];
+        
     // UIToolBar
     [[UIBarButtonItem appearanceWhenContainedIn:[UIToolbar class], nil] setTintColor:[UIColor whiteColor]];
 }

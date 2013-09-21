@@ -343,6 +343,7 @@
     root.appearance.sectionFooterColor = [UIColor lightGrayColor];
     root.appearance.toolbarStyle = UIBarStyleBlack;
     root.appearance.toolbarTranslucent = YES;
+    root.appearance.buttonAlignment = NSTextAlignmentCenter;
     [root setAppearance:root.appearance];
     
     CDUser *user = [CDAppUser currentUser];
@@ -352,6 +353,7 @@
     QEntryElement *nicknameElement = [[QEntryElement alloc] initWithTitle:nil Value:user.screen_name Placeholder:@"请输入昵称"];
     nicknameElement.key = @"key_update_nick_name";
     nicknameElement.returnKeyType = UIReturnKeyDone;
+    nicknameElement.hiddenToolbar = YES;
     [section1 addElement:nicknameElement];
     QSection *section2 = [[QSection alloc] init];
     
