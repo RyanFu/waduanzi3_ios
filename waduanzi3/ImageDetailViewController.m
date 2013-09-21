@@ -75,8 +75,8 @@
     saveButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [saveButton setBackgroundImage:[UIImage imageNamed:@"button_save.png"] forState:UIControlStateNormal];
     CGRect screen = [[UIScreen mainScreen] bounds];
-    CGFloat x = (screen.size.width - 70) / 2;
-    CGFloat y = screen.size.height - 60 - STATUSBAR_HEIGHT;
+    CGFloat x = 5.0f;
+    CGFloat y = screen.size.height - 55.0f - 5.0f;
     saveButton.frame = CGRectMake(x, y, 70, 55);
     [saveButton addTarget:self action:@selector(savePicture:) forControlEvents:UIControlEventTouchUpInside];
     saveButton.alpha = 0.9;

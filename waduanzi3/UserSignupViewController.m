@@ -59,6 +59,7 @@
     [super viewWillAppear:animated];
     
     self.quickDialogTableView.backgroundColor = [UIColor clearColor];
+    self.quickDialogTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     UIImage *backgroundImage = [UIImage imageNamed:@"login_background.png"];
     self.quickDialogTableView.backgroundView = [[UIImageView alloc] initWithImage:backgroundImage];
@@ -130,6 +131,7 @@
     QElement *element = [section getVisibleElementForIndex: indexPath.row];
     
     if ([element.key isEqualToString:@"key_submit_signup"]) {
+        cell.backgroundColor = [UIColor clearColor];
         cell.backgroundView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"loginPrimaryButtonBackground.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 7, 0, 7)]];
         cell.selectedBackgroundView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"loginPrimaryButtonBackgroundPressed.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 7, 0, 7)]];
         
@@ -140,6 +142,8 @@
         cell.textLabel.textColor = element.enabled ? [UIColor colorWithRed:0.33f green:0.33f blue:0.33f alpha:1.00f] : [UIColor colorWithRed:0.67f green:0.67f blue:0.67f alpha:1.00f];
     }
     else if ([element.key isEqualToString:@"key_go_login"]) {
+        cell.backgroundColor = [UIColor clearColor];
+        
         QButtonElement *buttonElement = (QButtonElement *)element;
         
         cell.textLabel.font = [UIFont fontWithName:FZLTHK_FONT_FAMILY size:14.0f];
@@ -158,7 +162,6 @@
         [selectedBackgroundView addSubview:selectedImageView];
         selectedImageView.frame = imageView.frame;
         cell.selectedBackgroundView = selectedBackgroundView;
-        [selectedBackgroundView showBorder:1.0f color:[UIColor redColor].CGColor radius:0];
     }
 }
 

@@ -35,7 +35,7 @@
         _textField.font = [UIFont systemFontOfSize:16.0f];
         _textField.borderStyle = UITextBorderStyleRoundedRect;
         _textField.returnKeyType = UIReturnKeySend;
-        _textField.placeholder = @"吐槽点什么吧...";
+        _textField.placeholder = @"留下我的节操...";
         [self addSubview:_textField];
         
         self.submitButton = [UIButton buttonWithType:UIButtonTypeCustom];

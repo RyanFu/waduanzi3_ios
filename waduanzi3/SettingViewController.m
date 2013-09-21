@@ -21,6 +21,9 @@
 #import "FeedbackViewController.h"
 #import "Appirater.h"
 #import "CDKit.h"
+#import "QPickerElement.h"
+#import "QPickerTableViewCell.h"
+#import "CDUserConfig.h"
 
 @interface SettingViewController ()
 - (void) setupNavbar;
@@ -42,7 +45,6 @@
 {
     [super viewDidLoad];
 
-    self.quickDialogTableView.delegate = self;
     self.quickDialogTableView.deselectRowWhenViewAppears = YES;
     
     [self setupNavbar];
@@ -81,30 +83,6 @@
     [CDUIKit setBarButtionItem:self.navigationItem.rightBarButtonItem style:CDBarButtionItemStyleBlack forBarMetrics:UIBarMetricsDefault];
 }
 
-#pragma mark - UITableViewDelegate
-
-- (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    QSection *section = [self.root getVisibleSectionForIndex:indexPath.section];
-    QElement *element = [section getVisibleElementForIndex: indexPath.row];
-    
-    if ([element.key isEqualToString:@"key_about_us"]) {
-        [self aboutmeAction:(QLabelElement *)element];
-    }
-    else if ([element.key isEqualToString:@"key_starred_app"]) {
-        [self starredAction:(QLabelElement *)element];
-    }
-    else if ([element.key isEqualToString:@"key_feedback"]) {
-        [self feedbackAction:(QLabelElement *)element];
-    }
-    else if ([element.key isEqualToString:@"key_clear_cache"]) {
-        [self clearCacheAction:(QButtonElement *)element];
-    }
-    else if ([element.key isEqualToString:@"key_go_user_profile"]) {
-        [self userProfileAction:(QLabelElement *)element];
-    }
- 
-}
 
 #pragma mark - selector
 
@@ -122,7 +100,13 @@
     [viewController dismissViewControllerAnimated:YES completion:nil];
 }
 
+
 #pragma mark - QuickDialog Element Actions
+
+- (void) changePostFo2ntSize:(QPickerElement *)element
+{
+    NSLog(@"change post font size");
+}
 
 - (void) clearCacheAction:(QButtonElement *)element
 {

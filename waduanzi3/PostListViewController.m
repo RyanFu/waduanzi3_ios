@@ -181,8 +181,12 @@
 {
     // setup tableView
     CGRect tableViewFrame = self.view.bounds;
-//    NSLog(@"h: %f", tableViewFrame.size.height);
-    tableViewFrame.size.height -= NAVBAR_HEIGHT;
+
+    if (OS_VERSION_LESS_THAN(@"7.0"))
+        tableViewFrame.size.height -= NAVBAR_HEIGHT;
+    else
+        tableViewFrame.size.height -= (NAVBAR_HEIGHT + STATUSBAR_HEIGHT);
+    
     self.tableView = [[UITableView alloc] initWithFrame:tableViewFrame style:UITableViewStylePlain];
     [self.view addSubview:_tableView];
     _tableView.delegate = self;
@@ -368,9 +372,10 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return (indexPath.row > 0)
-        ? [self tableView:tableView preparedPostCellForIndexPath:indexPath]
-        : [self tableView:tableView preparedAdvertCellForIndexPath:indexPath];
+    return [self tableView:tableView preparedPostCellForIndexPath:indexPath];
+    
+    // TODO: 此处是处理广告cell，此版本暂时注释
+//    [self tableView:tableView preparedAdvertCellForIndexPath:indexPath];
 }
 
 - (CDAdvertTableViewCell *)tableView:(UITableView *)tableView preparedAdvertCellForIndexPath:(NSIndexPath *)indexPath
@@ -600,23 +605,21 @@
 
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row > 0) {
-        CDPostTableViewCell *cell = [self tableView:tableView preparedPostCellForIndexPath:indexPath];
-        return [cell realHeight];
-    }
-    else {
-        CDAdvertTableViewCell *cell = [self tableView:tableView preparedAdvertCellForIndexPath:indexPath];
-        return [cell realHeight];
-    }
+    CDPostTableViewCell *cell = [self tableView:tableView preparedPostCellForIndexPath:indexPath];
+    return [cell realHeight];
+    
+    // TODO: 此处是处理广告cell的高度，此版本暂时注释
+//    CDAdvertTableViewCell *cell = [self tableView:tableView preparedAdvertCellForIndexPath:indexPath];
+//    return [cell realHeight];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row == 0) {
-        [CDKit openAppStoreByAppID:WADUANZI_APPLE_ID review:YES target:self delegate:self];
-        return;
-    }
-    
+    // TODO: 此处是广告cell处理，此版本暂时注释
+//    if (indexPath.row == 0) {
+//        [CDKit openAppStoreByAppID:WADUANZI_APPLE_ID review:YES target:self delegate:self];
+//        return;
+//    }
     
     @try {
         CDPost *post = [_statuses objectAtIndex:indexPath.row];

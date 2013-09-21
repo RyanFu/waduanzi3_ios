@@ -193,7 +193,7 @@
     _tableView.userInteractionEnabled = YES;
     
     CGRect formViewFrame = _formView.frame;
-    formViewFrame.origin.y = self.view.frame.origin.y + self.view.frame.size.height - COMMENT_FORM_HEIGHT;
+    formViewFrame.origin.y = _tableView.frame.origin.y + _tableView.frame.size.height;
     NSLog(@"yyy: %f", self.view.frame.size.height);
     _formView.frame = formViewFrame;
 }
@@ -241,7 +241,12 @@
 - (void) setupTableView
 {
     CGRect tableViewFrame = self.view.bounds;
-    tableViewFrame.size.height -= (self.navigationController.navigationBar.frame.size.height + TOOLBAR_HEIGHT);
+    
+    if (OS_VERSION_LESS_THAN(@"7.0"))
+        tableViewFrame.size.height -= (NAVBAR_HEIGHT + COMMENT_FORM_HEIGHT);
+    else
+        tableViewFrame.size.height -= (NAVBAR_HEIGHT + STATUSBAR_HEIGHT + COMMENT_FORM_HEIGHT);
+    
     self.tableView = [[UITableView alloc] initWithFrame:tableViewFrame style:UITableViewStylePlain];
     [self.view addSubview:_tableView];
     _tableView.delegate = self;
@@ -272,7 +277,11 @@
 
 - (void) setupCommentFormView
 {
-    CGRect formFrame = CGRectMake(0, self.view.frame.size.height - COMMENT_FORM_HEIGHT - NAVBAR_HEIGHT, CDSCREEN_SIZE.width, COMMENT_FORM_HEIGHT);
+    // iOS 7 中 状态栏是视图的一部分，所以self.view.frame.origin.y为0，而以前的版本为statusbar的hegiht;
+    CGFloat formViewY = self.view.frame.size.height - COMMENT_FORM_HEIGHT - NAVBAR_HEIGHT - STATUSBAR_HEIGHT;
+    if (OS_VERSION_LESS_THAN(@"7.0"))
+        formViewY = self.view.frame.size.height - COMMENT_FORM_HEIGHT - NAVBAR_HEIGHT;
+    CGRect formFrame = CGRectMake(0, formViewY, CDSCREEN_SIZE.width, COMMENT_FORM_HEIGHT);
     _formView = [[CDCommentFormView alloc] initWithFrame:formFrame];
     [self.view addSubview:_formView];
     [_formView.submitButton addTarget:self action:@selector(submitButtonTouhcInUpside:) forControlEvents:UIControlEventTouchUpInside];

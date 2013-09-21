@@ -33,6 +33,8 @@
     root.appearance.sectionTitleFont = [UIFont fontWithName:FZLTHK_FONT_NAME size:14.0f];
     root.appearance.sectionFooterColor = [UIColor lightGrayColor];
     root.appearance.buttonAlignment = NSTextAlignmentCenter;
+    root.appearance.toolbarStyle = UIBarStyleBlack;
+    root.appearance.toolbarTranslucent = YES;
     [root setAppearance:root.appearance];
     
     // section 0
@@ -48,10 +50,12 @@
     postFontElement.valueParser = postFontParser;
     __weak QPickerElement *weakPostFontElement = postFontElement;
     postFontElement.onValueChanged = ^(QRootElement *root) {
+        NSLog(@"on value cahnged");
         NSNumber *postFontSize = (NSNumber *) weakPostFontElement.value;
         [[CDUserConfig shareInstance] setPostFontSize:postFontSize.integerValue];
         [[CDUserConfig shareInstance] cache];
     };
+    postFontElement.key = @"key_change_post_fonts_size";
     [section0 addElement:postFontElement];
     
     CommentFontPickerValueParser *commentFontParser = [[CommentFontPickerValueParser alloc] init];
@@ -79,6 +83,7 @@
     section1.key = @"section_key_clear_cache";
     QButtonElement *clearCacheButton = [[QButtonElement alloc] initWithTitle:@"清除缓存"];
     clearCacheButton.key = @"key_clear_cache";
+    clearCacheButton.controllerAction = @"clearCacheAction:";
     [section1 addElement:clearCacheButton];
     
     // section 2
@@ -89,6 +94,7 @@
         CDUser *user = [CDAppUser currentUser];
         QLabelElement *userProfileLabel = [[QLabelElement alloc] initWithTitle:@"我的账号" Value:user.username];
         userProfileLabel.key = @"key_go_user_profile";
+        userProfileLabel.controllerAction = @"userProfileAction:";
         [section2 addElement:userProfileLabel];
     }
     
@@ -98,12 +104,15 @@
     [root addSection:section3];
     QLabelElement *feedbackLabel = [[QLabelElement alloc] initWithTitle:@"意见反馈" Value:nil];
     feedbackLabel.key = @"key_feedback";
+    feedbackLabel.controllerAction = @"feedbackAction:";
     [section3 addElement:feedbackLabel];
     QLabelElement *starredLabel = [[QLabelElement alloc] initWithTitle:@"支持挖段子" Value:nil];
     starredLabel.key = @"key_starred_app";
+    starredLabel.controllerAction = @"starredAction:";
     [section3 addElement:starredLabel];
     QLabelElement *aboutLabel = [[QLabelElement alloc] initWithTitle:@"关于挖段子" Value:nil];
     aboutLabel.key = @"key_about_us";
+    aboutLabel.controllerAction = @"aboutmeAction:";
     [section3 addElement:aboutLabel];
     
     
@@ -132,6 +141,8 @@
     root.appearance.sectionFooterColor = [UIColor lightGrayColor];
     root.appearance.sectionFooterFont = [UIFont fontWithName:FZLTHK_FONT_NAME size:12.0f];
     root.appearance.buttonAlignment = NSTextAlignmentCenter;
+    root.appearance.toolbarStyle = UIBarStyleBlack;
+    root.appearance.toolbarTranslucent = YES;
     
     QSection *textFieldSection = [[QSection alloc] init];
     textFieldSection.footer = @"账号为3-30个字符，密码为3-30个字符";
@@ -187,6 +198,8 @@
     root.appearance.sectionFooterColor = [UIColor lightGrayColor];
     root.appearance.sectionFooterFont = [UIFont fontWithName:FZLTHK_FONT_NAME size:12.0f];
     root.appearance.buttonAlignment = NSTextAlignmentCenter;
+    root.appearance.toolbarStyle = UIBarStyleBlack;
+    root.appearance.toolbarTranslucent = YES;
     
     
     QSection *textFieldSection = [[QSection alloc] init];
@@ -301,6 +314,8 @@
     root.appearance.entryFont = [UIFont fontWithName:FZLTHK_FONT_NAME size:14.0f];
     root.appearance.sectionTitleFont = [UIFont fontWithName:FZLTHK_FONT_NAME size:14.0f];
     root.appearance.sectionFooterColor = [UIColor lightGrayColor];
+    root.appearance.toolbarStyle = UIBarStyleBlack;
+    root.appearance.toolbarTranslucent = YES;
     
     QSection *section = [[QSection alloc] init];
     [root addSection:section];
@@ -325,6 +340,8 @@
     root.appearance.entryFont = [UIFont fontWithName:FZLTHK_FONT_NAME size:14.0f];
     root.appearance.sectionTitleFont = [UIFont fontWithName:FZLTHK_FONT_NAME size:14.0f];
     root.appearance.sectionFooterColor = [UIColor lightGrayColor];
+    root.appearance.toolbarStyle = UIBarStyleBlack;
+    root.appearance.toolbarTranslucent = YES;
     [root setAppearance:root.appearance];
     
     CDUser *user = [CDAppUser currentUser];
