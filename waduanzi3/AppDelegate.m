@@ -24,6 +24,7 @@
 #import "BPush.h"
 #import "CDNavigationController.h"
 
+
 #import "TestViewController.h"
 #import "WebTestViewController.h"
 #import "MGBoxViewController.h"
@@ -31,10 +32,16 @@
 
 
 @interface AppDelegate ()
+{
+    DMSplashAdController *_splashAd;
+}
+
 - (void) customAppearance;
 - (void) setupWindowView:(UIApplication *)application;
 - (void) afterWindowVisible:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions;
 - (void) setupRKObjectMapping;
+
+- (void) setupDMSplashAd;
 
 - (void) setupTestRootController;
 @end
@@ -59,6 +66,8 @@
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     [self afterWindowVisible:application didFinishLaunchingWithOptions:launchOptions];
+    
+    [self setupDMSplashAd];
     
     return YES;
 }
@@ -327,7 +336,7 @@
     [Appirater setUsesUntilPrompt:2]; // 到达最小安装时间后，用户有效操作事件多少次后弹出
     [Appirater setSignificantEventsUntilPrompt:-1];
     [Appirater setTimeBeforeReminding:5]; // 用户点了“稍后提醒我”之后再过多少天再次提醒
-    [Appirater setDebug:CD_DEBUG];
+    [Appirater setDebug:NO];
     [Appirater appLaunched:YES];
     
     // set Baidu Push
@@ -388,6 +397,55 @@
         
         CDLog(@"error code: %d", returnCode);
     }
+}
+
+#pragma mark - DMSplashAdController
+
+- (void) setupDMSplashAd
+{
+    @try {
+        CGSize adSize = DOMOB_AD_SIZE_320x400;
+        NSString *imageName = (CDSCREEN_SIZE.height > 480) ? @"Default" : @"Default-568h";
+        _splashAd = [[DMSplashAdController alloc] initWithPublisherId: AD_PUBLISHER_ID_DOMOB
+                                                          placementId: DOMOB_PLACEMENT_ID_SPLASH_AD
+                                                                 size: adSize
+                                                               offset: (CDSCREEN_SIZE.height - adSize.height) / 2
+                                                               window: self.window
+                                                           background: [UIColor colorWithPatternImage:[UIImage imageNamed:imageName]]
+                                                            animation: YES];
+        _splashAd.delegate = self;
+        
+        if (_splashAd.isReady) {
+            [_splashAd present];
+        }
+    }
+    @catch (NSException *exception) {
+        CDLog(@"show domob splash ad exception: %s", exception.reason);
+    }
+    @finally {
+        ;
+    }
+    
+}
+
+- (void) dmSplashAdSuccessToLoadAd:(DMSplashAdController *)dmSplashAd
+{
+    CDLog(@"ad success loaded");
+}
+
+- (void) dmSplashAdWillPresentScreen:(DMSplashAdController *)dmSplashAd
+{
+    CDLog(@"ad will present");
+}
+
+- (void) dmSplashAdDidDismissScreen:(DMSplashAdController *)dmSplashAd
+{
+    CDLog(@"ad dismiss");
+}
+
+- (void) dmSplashAdFailToLoadAd:(DMSplashAdController *)dmSplashAd withError:(NSError *)err
+{
+    CDLog(@"ad load fail: %@", err);
 }
 
 @end

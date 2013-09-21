@@ -43,6 +43,10 @@
 #define BAIDU_OPEN_API_KEY @"bGGXpA6v8UVnwdUEZkNgde4o"
 #define BAIDU_OPEN_SECRET_KEY @"BtbYXKyVGiwT8toE3Mdiwpa1p00DbAqd"
 
+// AD Publisher ID
+#define AD_PUBLISHER_ID_DOMOB @"56OJyCLIuMPy+XankF"
+#define DOMOB_PLACEMENT_ID_SPLASH_AD @"16TLwbCoAcIl2NUGozFAaq3i"
+
 
 
 #define FIRST_PAGE_ID 1
