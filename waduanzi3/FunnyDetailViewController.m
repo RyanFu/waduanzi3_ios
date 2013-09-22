@@ -15,6 +15,7 @@
 #import "UIImage+ColorImage.h"
 #import "CDWebVideoViewController.h"
 #import "CDNavigationController.h"
+#import "MobClick.h"
 
 @interface FunnyDetailViewController ()
 {
@@ -232,9 +233,15 @@
 
 - (void) videoImageViewDidTapFinished:(UITapGestureRecognizer *) recognizer
 {
+    NSDictionary *attributes = @{
+                                 @"post_id": self.post.post_id,
+                                 @"post_title": self.post.title,
+                                 };
+    [MobClick event:UM_EVENT_FAVORITE_POST attributes:attributes];
+    
     CDLog(@"source url: %@", self.post.video.source_url);
     CDWebVideoViewController *webVideoController = [[CDWebVideoViewController alloc] initWithUrl:self.post.video.source_url];
-    [webVideoController setNavigationBarStyle:CDNavigationBarStyleBlue barButtonItemStyle:CDBarButtionItemStyleBlue toolBarStyle:CDToolBarStyleBlue];
+    [webVideoController setNavigationBarStyle:CDNavigationBarStyleBlue barButtonItemStyle:CDBarButtionItemStyleBlueBack toolBarStyle:CDToolBarStyleBlue];
     CDNavigationController *navWebVideoController = [[CDNavigationController alloc] initWithRootViewController:webVideoController];
 
     [ROOT_CONTROLLER presentViewController:navWebVideoController animated:YES completion:nil];

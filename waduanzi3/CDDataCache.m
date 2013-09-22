@@ -347,13 +347,10 @@
     while (_cacheFilePath = [_cacheEnumerator nextObject]) {
         NSString *fileAbsolutePath = [_cacheDirectory stringByAppendingPathComponent:_cacheFilePath];
         if ([_manager fileExistsAtPath:fileAbsolutePath]) {
-            BOOL success = [_manager removeItemAtPath:fileAbsolutePath error:nil];
-            if (success)
-                continue;
-            else {
-                NSLog(@"error: %@", fileAbsolutePath);
-                return NO;
-            }
+            NSError *error;
+            BOOL result = [_manager removeItemAtPath:fileAbsolutePath error:&error];
+            if (!result)
+                NSLog(@"error: %@, file: %@, ", error, fileAbsolutePath);
         }
     }
     

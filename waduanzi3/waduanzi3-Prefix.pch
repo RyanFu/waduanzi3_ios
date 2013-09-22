@@ -13,17 +13,16 @@
     #import <Foundation/Foundation.h>
     #import <CoreData/CoreData.h>
 
+    // AFHTTPClient
+    #import <SystemConfiguration/SystemConfiguration.h>
+    #import <MobileCoreServices/MobileCoreServices.h>
+
+    #import <RestKit/RestKit.h>
     #import "QuickDialog.h"
     #import "DTCoreText.h"
 
+    #import "OpenUDID.h"
+    #import "CDDefine.h"
+    #import "CDCommon.h"
+
 #endif
-
-// AFHTTPClient
-#import <SystemConfiguration/SystemConfiguration.h>
-#import <MobileCoreServices/MobileCoreServices.h>
-
-#import <RestKit/RestKit.h>
-
-#import "OpenUDID.h"
-#import "CDDefine.h"
-#import "CDCommon.h"

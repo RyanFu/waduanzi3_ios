@@ -16,6 +16,7 @@
 #import "CommentFontPickerValueParser.h"
 #import "QWebViewController.h"
 #import "QPickerElement.h"
+#import "CDDefine.h"
 
 @implementation CDQuickElements
 
@@ -142,10 +143,10 @@
     root.appearance.sectionFooterFont = [UIFont fontWithName:FZLTHK_FONT_NAME size:12.0f];
     root.appearance.buttonAlignment = NSTextAlignmentCenter;
     root.appearance.toolbarStyle = UIBarStyleBlack;
+    root.appearance.sectionTitleShadowColor = [UIColor clearColor];
     root.appearance.toolbarTranslucent = YES;
     
     QSection *textFieldSection = [[QSection alloc] init];
-    textFieldSection.footer = @"账号为3-30个字符，密码为3-30个字符";
     [root addSection:textFieldSection];
     textFieldSection.headerImage = @"login_logo.png";
     CGRect logoViewFrame = textFieldSection.headerView.frame;
@@ -153,12 +154,18 @@
     textFieldSection.headerView.frame = logoViewFrame;
     textFieldSection.headerView.contentMode = UIViewContentModeScaleAspectFit;
     
-    QEntryElement *usernameTextField = [[QEntryElement alloc] initWithTitle:nil Value:nil Placeholder:@"邮箱/手机号/用户名"];
+    QEntryElement *usernameTextField = [[QEntryElement alloc] initWithTitle:nil
+                                                                      Value:nil
+                                                                Placeholder:[NSString stringWithFormat:@"邮箱/手机号/用户名(最少%d个字符)", USER_NAME_MIN_LENGTH]
+                                        ];
     usernameTextField.key = @"key_username";
     usernameTextField.keyboardType = UIKeyboardTypeEmailAddress;
     usernameTextField.bind = @"textValue:username";
     [textFieldSection addElement:usernameTextField];
-    QEntryElement *passwordTextField = [[QEntryElement alloc] initWithTitle:nil Value:nil Placeholder:@"密码"];
+    QEntryElement *passwordTextField = [[QEntryElement alloc] initWithTitle:nil
+                                                                      Value:nil
+                                                                Placeholder:[NSString stringWithFormat:@"密码(最少%d位)", USER_PASSWORD_MIN_LENGTH]
+                                        ];
     passwordTextField.key = @"key_password";
     passwordTextField.secureTextEntry = YES;
     passwordTextField.bind = @"textValue:password";
@@ -168,7 +175,7 @@
     
     QSection *buttonSection = [[QSection alloc] init];
     [root addSection:buttonSection];
-    QButtonElement *submitButton = [[QButtonElement alloc] initWithTitle:@"注册"];
+    QButtonElement *submitButton = [[QButtonElement alloc] initWithTitle:@"注册    "];
     submitButton.enabled = NO;
     submitButton.key = @"key_submit_signup";
     [buttonSection addElement:submitButton];
@@ -176,7 +183,7 @@
     
     QSection *extraButtonSection = [[QSection alloc] init];
     [root addSection:extraButtonSection];
-    QButtonElement *loginButton = [[QButtonElement alloc] initWithTitle:@"已有账号，直接登录"];
+    QButtonElement *loginButton = [[QButtonElement alloc] initWithTitle:@"已有账号，直接登录    "];
     loginButton.key = @"key_go_login";
     [extraButtonSection addElement:loginButton];
     
@@ -214,19 +221,25 @@
     passwordTextField.secureTextEntry = YES;
     passwordTextField.bind = @"textValue:password";
     passwordTextField.returnKeyType = UIReturnKeyDone;
+    
+    if (IS_IOS7) {
+        usernameTextField.title = @"  ";
+        passwordTextField.title = @"  ";
+    }
+    
     [textFieldSection addElement:usernameTextField];
     [textFieldSection addElement:passwordTextField];
 
     QSection *buttonSection = [[QSection alloc] init];
     [root addSection:buttonSection];
-    QButtonElement *submitButton = [[QButtonElement alloc] initWithTitle:@"登录"];
+    QButtonElement *submitButton = [[QButtonElement alloc] initWithTitle:@"登录    "];
     submitButton.key = @"key_submit_login";
     submitButton.enabled = NO;
     [buttonSection addElement:submitButton];
-    
+
     QSection *extraButtonSection = [[QSection alloc] init];
     [root addSection:extraButtonSection];
-    QButtonElement *signupButton = [[QButtonElement alloc] initWithTitle:@"注册挖段子账号"];
+    QButtonElement *signupButton = [[QButtonElement alloc] initWithTitle:@"注册挖段子账号    "];
     signupButton.key = @"key_go_signup";
     [extraButtonSection addElement:signupButton];
     

@@ -27,6 +27,7 @@
 #import "UMSocial.h"
 #import "WBErrorNoticeView+WaduanziMethod.h"
 #import "CDUserConfig.h"
+#import "MobClick.h"
 
 @interface PostDetailViewController ()
 - (void) initData;
@@ -292,6 +293,12 @@
 
 - (void) commentTextFieldBecomeFirstResponder
 {
+    NSDictionary *attributes = @{
+                                 @"post_id": _post.post_id,
+                                 @"post_title": _post.title
+                                 };
+    [MobClick event:UM_EVENT_POST_COMMENT attributes:attributes];
+    
     [_formView.textField becomeFirstResponder];
 }
 
@@ -335,6 +342,12 @@
 
 - (void) likeButtonDidPressed:(id)sender
 {
+    NSDictionary *attributes = @{
+                                 @"post_id": _post.post_id,
+                                 @"post_title": _post.title
+                                 };
+    [MobClick event:UM_EVENT_LIKE_POST attributes:attributes];
+    
     UIButton *button = (UIButton *)sender;
     NSLog(@"state: %d", button.state);
     button.selected = YES;
@@ -353,14 +366,34 @@
 
 - (void) favoriteButtonDidPressed:(id)sender
 {
+    
     if (![CDAppUser hasLogined]) {
         [CDAppUser requiredLogin];
         NSLog(@"user is not logined");
+        
+        // umeng
+        NSDictionary *attributes = @{
+                                     @"post_id": _post.post_id,
+                                     @"post_title": _post.title,
+                                     @"user_logined": [NSNumber numberWithBool:NO]
+                                     };
+        [MobClick event:UM_EVENT_FAVORITE_POST attributes:attributes];
+        
         return;
     }
     
     CDUser *user = [CDAppUser currentUser];
     NSString *userID = [user.user_id stringValue];
+    
+    // umeng
+    NSDictionary *attributes = @{
+                                 @"post_id": _post.post_id,
+                                 @"post_title": _post.title,
+                                 @"user_logined": [NSNumber numberWithBool:YES],
+                                 @"user_id": userID,
+                                 @"user_name": user.username
+                                 };
+    [MobClick event:UM_EVENT_FAVORITE_POST attributes:attributes];
     
     UIButton *button = (UIButton *)sender;
     

@@ -1,5 +1,8 @@
 platform :ios, '5.0'
 
+pod 'SBJson'
+pod 'TouchJSON'
+pod 'ZipArchive'
 pod 'Reachability', :git => 'https://github.com/tonymillion/Reachability'
 pod 'RestKit'
 pod 'RestKit/Testing'

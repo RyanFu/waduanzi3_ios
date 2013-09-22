@@ -61,8 +61,15 @@
     self.quickDialogTableView.backgroundColor = [UIColor clearColor];
     self.quickDialogTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
-    UIImage *backgroundImage = [UIImage imageNamed:@"login_background.png"];
-    self.quickDialogTableView.backgroundView = [[UIImageView alloc] initWithImage:backgroundImage];
+    if (IS_IOS7) {
+        self.quickDialogTableView.backgroundColor = [UIColor colorWithRed:0.23f green:0.35f blue:0.60f alpha:1.00f];
+    }
+    else
+    {
+        self.quickDialogTableView.backgroundColor = [UIColor clearColor];
+        UIImage *backgroundImage = [UIImage imageNamed:@"login_background.png"];
+        self.quickDialogTableView.backgroundView = [[UIImageView alloc] initWithImage:backgroundImage];
+    }
 }
 
 - (void) viewWillDisappear:(BOOL)animated
@@ -88,11 +95,11 @@
                                                                             target:self
                                                                             action:@selector(dismissController)];
     
-    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"登录" style:UIBarButtonItemStyleDone target:self action:@selector(retrunUserLoginAction)];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"登录" style:UIBarButtonItemStyleDone target:self action:@selector(retrunUserLoginAction)];
     
     [CDUIKit setBarButtionItem:self.navigationItem.rightBarButtonItem style:CDBarButtionItemStyleBlack forBarMetrics:UIBarMetricsDefault];
     [CDUIKit setBarButtonItem:self.navigationItem.rightBarButtonItem titleAttributes:nil forBarMetrics:UIBarMetricsDefault];
-    [CDUIKit setBarButtionItem:self.navigationItem.backBarButtonItem style:CDBarButtionItemStyleBlackBack forBarMetrics:UIBarMetricsDefault];
+    [CDUIKit setBarButtionItem:self.navigationItem.leftBarButtonItem style:CDBarButtionItemStyleBlackBack forBarMetrics:UIBarMetricsDefault];
     [CDUIKit setBarButtonItem:self.navigationItem.leftBarButtonItem titleAttributes:nil forBarMetrics:UIBarMetricsDefault];
 }
 
@@ -135,15 +142,22 @@
     QElement *element = [section getVisibleElementForIndex: indexPath.row];
     
     if ([element.key isEqualToString:@"key_submit_signup"]) {
-        cell.backgroundColor = [UIColor clearColor];
-        cell.backgroundView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"loginPrimaryButtonBackground.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 7, 0, 7)]];
-        cell.selectedBackgroundView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"loginPrimaryButtonBackgroundPressed.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 7, 0, 7)]];
-        
-        cell.textLabel.highlightedTextColor = [UIColor colorWithRed:0.33f green:0.33f blue:0.33f alpha:1.00f];
-        cell.textLabel.shadowColor = [UIColor colorWithRed:0.86f green:0.87f blue:0.89f alpha:1.00f];
-        cell.textLabel.shadowOffset = CGSizeMake(0, 2);
-        cell.textLabel.font = [UIFont fontWithName:FZLTHK_FONT_FAMILY size:16.0f];
-        cell.textLabel.textColor = element.enabled ? [UIColor colorWithRed:0.33f green:0.33f blue:0.33f alpha:1.00f] : [UIColor colorWithRed:0.67f green:0.67f blue:0.67f alpha:1.00f];
+        if (IS_IOS7) {
+            cell.backgroundColor = [UIColor colorWithRed:0.31f green:0.42f blue:0.64f alpha:1.00f];
+            cell.textLabel.textColor = [UIColor colorWithRed:0.91f green:0.92f blue:0.93f alpha:1.00f];
+        }
+        else {
+            cell.backgroundColor = [UIColor clearColor];
+            cell.backgroundView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"loginPrimaryButtonBackground.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 7, 0, 7)]];
+            cell.selectedBackgroundView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"loginPrimaryButtonBackgroundPressed.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 7, 0, 7)]];
+            
+            cell.textLabel.shadowColor = [UIColor colorWithRed:0.86f green:0.87f blue:0.89f alpha:1.00f];
+            cell.textLabel.shadowOffset = CGSizeMake(0, 2);
+            
+            cell.textLabel.highlightedTextColor = [UIColor colorWithRed:0.33f green:0.33f blue:0.33f alpha:1.00f];
+            cell.textLabel.font = [UIFont fontWithName:FZLTHK_FONT_FAMILY size:16.0f];
+            cell.textLabel.textColor = element.enabled ? [UIColor colorWithRed:0.33f green:0.33f blue:0.33f alpha:1.00f] : [UIColor colorWithRed:0.67f green:0.67f blue:0.67f alpha:1.00f];
+        }
     }
     else if ([element.key isEqualToString:@"key_go_login"]) {
         cell.backgroundColor = [UIColor clearColor];
@@ -158,7 +172,7 @@
         [backgroundView addSubview:imageView];
         CGSize textSize = [buttonElement.title sizeWithFont:cell.textLabel.font];
         CGFloat buttonWidth = textSize.width + 40.0f;
-        imageView.frame = CGRectMake((cell.contentView.frame.size.width-buttonWidth)/2, 0, buttonWidth+cell.textLabel.frame.origin.x, 35.0f);;
+        imageView.frame = CGRectMake((cell.contentView.frame.size.width-buttonWidth)/2, 0, buttonWidth, 35.0f);;
         cell.backgroundView = backgroundView;
         
         UIView *selectedBackgroundView = [[UIView alloc] init];

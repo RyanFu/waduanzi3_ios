@@ -65,9 +65,10 @@
     
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
-    [self afterWindowVisible:application didFinishLaunchingWithOptions:launchOptions];
     
     [self setupDMSplashAd];
+    [self afterWindowVisible:application didFinishLaunchingWithOptions:launchOptions];
+    
     
     return YES;
 }
@@ -250,11 +251,14 @@
     [CDUIKit setBarButtionItem:[UIBarButtonItem appearance] style:CDBarButtionItemStyleBlue forBarMetrics:UIBarMetricsDefault];
     [CDUIKit setBackBarButtionItemStyle:CDBarButtionItemStyleBlue forBarMetrics:UIBarMetricsDefault];
     
-    NSDictionary *titleTextAttributes = @{
-                                      NSForegroundColorAttributeName: [UIColor whiteColor],
-                                      NSFontAttributeName: [UIFont fontWithName:FZLTHK_FONT_NAME size:16.0f]
-                                      };
-    [[UINavigationBar appearance] setTitleTextAttributes:titleTextAttributes];
+    if (OS_VERSION_GREATER_THAN_OR_EQUAL_TO(@"6.0")) {
+        NSDictionary *titleTextAttributes = @{
+                                          NSForegroundColorAttributeName: [UIColor whiteColor],
+                                          NSFontAttributeName: [UIFont fontWithName:FZLTHK_FONT_NAME size:16.0f]
+                                          };
+        [[UINavigationBar appearance] setTitleTextAttributes:titleTextAttributes];
+    }
+    
     [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
     
     // UIToolBar
@@ -330,7 +334,7 @@
     [Appirater setUsesUntilPrompt:2]; // 到达最小安装时间后，用户有效操作事件多少次后弹出
     [Appirater setSignificantEventsUntilPrompt:-1];
     [Appirater setTimeBeforeReminding:5]; // 用户点了“稍后提醒我”之后再过多少天再次提醒
-    [Appirater setDebug:NO];
+    [Appirater setDebug:CD_DEBUG];
     [Appirater appLaunched:YES];
     
     // set Baidu Push

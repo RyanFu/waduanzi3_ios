@@ -58,11 +58,17 @@
 {
     [super viewWillAppear:animated];
     
-    self.quickDialogTableView.backgroundColor = [UIColor clearColor];
     self.quickDialogTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
-    UIImage *backgroundImage = [UIImage imageNamed:@"login_background.png"];
-    self.quickDialogTableView.backgroundView = [[UIImageView alloc] initWithImage:backgroundImage];
+    if (IS_IOS7) {
+        self.quickDialogTableView.backgroundColor = [UIColor colorWithRed:0.23f green:0.35f blue:0.60f alpha:1.00f];
+    }
+    else
+    {
+        self.quickDialogTableView.backgroundColor = [UIColor clearColor];
+        UIImage *backgroundImage = [UIImage imageNamed:@"login_background.png"];
+        self.quickDialogTableView.backgroundView = [[UIImageView alloc] initWithImage:backgroundImage];
+    }
     
     QEntryElement *usernameElement = (QEntryElement *)[self.root elementWithKey:@"key_username"];
     usernameElement.textValue = [[CDDataCache shareCache] fetchLoginUserName];
@@ -133,19 +139,28 @@
 
 - (void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+
     QSection *section = [self.root getVisibleSectionForIndex:indexPath.section];
     QElement *element = [section getVisibleElementForIndex: indexPath.row];
     
     if ([element.key isEqualToString:@"key_submit_login"]) {
-        cell.backgroundColor = [UIColor clearColor];
-        cell.backgroundView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"loginPrimaryButtonBackground.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 7, 0, 7)]];
-        cell.selectedBackgroundView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"loginPrimaryButtonBackgroundPressed.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 7, 0, 7)]];
-        
-        cell.textLabel.highlightedTextColor = [UIColor colorWithRed:0.33f green:0.33f blue:0.33f alpha:1.00f];
-        cell.textLabel.shadowColor = [UIColor colorWithRed:0.86f green:0.87f blue:0.89f alpha:1.00f];
-        cell.textLabel.shadowOffset = CGSizeMake(0, 2);
-        cell.textLabel.font = [UIFont fontWithName:FZLTHK_FONT_FAMILY size:16.0f];
-        cell.textLabel.textColor = element.enabled ? [UIColor colorWithRed:0.33f green:0.33f blue:0.33f alpha:1.00f] : [UIColor colorWithRed:0.67f green:0.67f blue:0.67f alpha:1.00f];
+        if (IS_IOS7) {
+            cell.backgroundColor = [UIColor colorWithRed:0.31f green:0.42f blue:0.64f alpha:1.00f];
+            cell.textLabel.textColor = [UIColor colorWithRed:0.91f green:0.92f blue:0.93f alpha:1.00f];
+        }
+        else {
+            cell.backgroundColor = [UIColor clearColor];
+            cell.backgroundView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"loginPrimaryButtonBackground.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 7, 0, 7)]];
+            cell.selectedBackgroundView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"loginPrimaryButtonBackgroundPressed.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 7, 0, 7)]];
+            
+            cell.textLabel.shadowColor = [UIColor colorWithRed:0.86f green:0.87f blue:0.89f alpha:1.00f];
+            cell.textLabel.shadowOffset = CGSizeMake(0, 2);
+            
+            cell.textLabel.highlightedTextColor = [UIColor colorWithRed:0.33f green:0.33f blue:0.33f alpha:1.00f];
+            cell.textLabel.font = [UIFont fontWithName:FZLTHK_FONT_FAMILY size:16.0f];
+            cell.textLabel.textColor = element.enabled ? [UIColor colorWithRed:0.33f green:0.33f blue:0.33f alpha:1.00f] : [UIColor colorWithRed:0.67f green:0.67f blue:0.67f alpha:1.00f];
+        }
     }
     else if ([element.key isEqualToString:@"key_go_signup"]) {
         cell.backgroundColor = [UIColor clearColor];
@@ -154,14 +169,14 @@
 
         cell.textLabel.font = [UIFont fontWithName:FZLTHK_FONT_FAMILY size:14.0f];
         cell.textLabel.textColor = [UIColor whiteColor];
-        
+
         UIView *backgroundView = [[UIView alloc] init];
         UIImageView *imageView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"loginSignUpButtonBackground.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 5, 0, 5)]];
         [backgroundView addSubview:imageView];
         CGSize textSize = [buttonElement.title sizeWithFont:cell.textLabel.font];
         CGFloat buttonWidth = textSize.width + 40.0f;
         // FIXED: buttonWidth+cell.textLabel.frame.origin.x，这里是因为没法修改titleLabel的frame，有个bug，暂时这样调整一下样式
-        imageView.frame = CGRectMake((cell.contentView.frame.size.width-buttonWidth)/2, 0, buttonWidth+cell.textLabel.frame.origin.x, 35.0f);;
+        imageView.frame = CGRectMake((cell.contentView.frame.size.width-buttonWidth)/2, 0, buttonWidth, 35.0f);;
         cell.backgroundView = backgroundView;
         
         UIView *selectedBackgroundView = [[UIView alloc] init];

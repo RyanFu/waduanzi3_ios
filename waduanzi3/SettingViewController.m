@@ -119,7 +119,7 @@
         element.title = cacheString;
         [self.quickDialogTableView reloadData];
     }
-    NSLog(@"clear cache files: %d", result);
+    NSLog(@"clear cache files result: %d", result);
 }
 
 - (void) feedbackAction:(QLabelElement *)element
@@ -147,7 +147,7 @@
 - (void) aboutmeAction:(QLabelElement *)element
 {
     CDWebViewController *webController = [[CDWebViewController alloc] initWithUrl:@"http://m.waduanzi.com/about"];
-    [webController setNavigationBarStyle:CDNavigationBarStyleBlack barButtonItemStyle:CDBarButtionItemStyleBlack toolBarStyle:CDToolBarStyleBlack];
+    [webController setNavigationBarStyle:CDNavigationBarStyleBlack barButtonItemStyle:CDBarButtionItemStyleBlackBack toolBarStyle:CDToolBarStyleBlack];
     [self.navigationController pushViewController:webController animated:YES];
     
     NSLog(@"aboutme");

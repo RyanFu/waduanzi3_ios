@@ -77,7 +77,6 @@
                                                                             action:@selector(dismissViewController)];
     
     [CDUIKit setNavigationBar:self.navigationController.navigationBar style:_navigationBarStyle forBarMetrics:UIBarMetricsDefault];
-    [CDUIKit setBackBarButtionItemStyle:_barButtonItemStyle forBarMetrics:UIBarMetricsDefault];
     [CDUIKit setBarButtionItem:self.navigationItem.leftBarButtonItem style:_barButtonItemStyle forBarMetrics:UIBarMetricsDefault];
     [CDUIKit setBarButtionItem:self.navigationItem.rightBarButtonItem style:_barButtonItemStyle forBarMetrics:UIBarMetricsDefault];
     [CDUIKit setToolBar:self.navigationController.toolbar style:_toolBarStyle forToolbarPosition:UIToolbarPositionBottom forBarMetrics:UIBarMetricsDefault];
@@ -107,7 +106,35 @@
                         nil];
 }
 
+- (void) viewDidLoad
+{
+    [super viewDidLoad];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(moviePlaybackDidStart:)
+                                                 name:@"UIMoviePlayerControllerDidEnterFullscreenNotification"
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(moviePlaybackDidEnd:)
+                                                 name:@"UIMoviePlayerControllerWillExitFullscreenNotification"
+                                               object:nil];
+    
+}
 
+#pragma mark - MoviePlayer notifications
+
+- (void) moviePlaybackDidStart:(NSNotification *)notification
+{
+    NSLog(@"moviePlaybackDidStart");
+    
+}
+
+
+- (void) moviePlaybackDidEnd:(NSNotification *)notification
+{
+    NSLog(@"moviePlaybackDidEnd");
+}
 
 - (void)viewWillDisappear:(BOOL)animated
 {

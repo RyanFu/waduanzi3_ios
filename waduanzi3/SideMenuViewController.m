@@ -29,6 +29,7 @@
 #import "FocusListViewController.h"
 #import "CDNavigationController.h"
 #import "UIView+Border.h"
+#import "MobClick.h"
 
 @interface SideMenuViewController ()
 {
@@ -112,8 +113,10 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    // Return the number of rows in the section.
-    return [[menuData objectAtIndex:section] count];
+    if (!CD_DEBUG && section == 1)
+        return [[menuData objectAtIndex:section] count] - 1;
+    else
+        return [[menuData objectAtIndex:section] count];
 }
 
 - (CDSideTableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -176,18 +179,24 @@
             static HistoryViewController *historyViewController;
             switch (indexPath.row) {
                 case 0:
+                    [MobClick event:UM_EVENT_MENU_TIMELINE];
+                    
                     if (timelineViewController == nil)
                         timelineViewController = [[TimelineViewController alloc] init];
                     centerViewController = [[CDNavigationController alloc] initWithRootViewController:timelineViewController];
                     self.viewDeckController.centerController = centerViewController;
                     break;
                 case 1:
+                    [MobClick event:UM_EVENT_MENU_RECOMMEND];
+                    
                     if (bestViewController == nil)
                         bestViewController = [[BestViewController alloc] init];
                     centerViewController = [[CDNavigationController alloc] initWithRootViewController:bestViewController];
                     self.viewDeckController.centerController = centerViewController;
                     break;
                 case 2:
+                    [MobClick event:UM_EVENT_MENU_HISTORY];
+                    
                     if (historyViewController == nil)
                         historyViewController = [[HistoryViewController alloc] init];
                     historyViewController.forceRefresh = YES;
@@ -203,6 +212,8 @@
             
             switch (indexPath.row) {
                 case 0:
+                    [MobClick event:UM_EVENT_MENU_MEDIA_TEXT];
+                    
                     if (textJokeViewController == nil) {
                         textJokeViewController = [[MediaTypeViewController alloc] initWithMediaType:MEDIA_TYPE_TEXT];
                         textJokeViewController.title = @"挖笑话";
@@ -211,6 +222,8 @@
                     self.viewDeckController.centerController = centerViewController;
                     break;
                 case 1:
+                    [MobClick event:UM_EVENT_MENU_MEDIA_IMAGE];
+                    
                     if (imageJokeViewController == nil) {
                         imageJokeViewController = [[MediaTypeViewController alloc] initWithMediaType:MEDIA_TYPE_IMAGE];
                         imageJokeViewController.title = @"挖趣图";
@@ -219,6 +232,8 @@
                     self.viewDeckController.centerController = centerViewController;
                     break;
                 case 2:
+                    [MobClick event:UM_EVENT_MENU_MEDIA_VIDEO];
+                    
                     if (videoJokeViewController == nil) {
                         videoJokeViewController = [[MediaTypeViewController alloc] initWithMediaType:MEDIA_TYPE_VIDEO];
                         videoJokeViewController.title = @"挖视频";
@@ -227,6 +242,8 @@
                     self.viewDeckController.centerController = centerViewController;
                     break;
                 case 3:
+                    [MobClick event:UM_EVENT_MENU_CHANNEL_FOCUS];
+                    
                     if (articleViewController == nil) {
                         articleViewController = [[FocusListViewController alloc] init];
                         articleViewController.title = @"挖热门";
@@ -244,6 +261,8 @@
             static MyFeedbackViewController *feedbackController;
             switch (indexPath.row) {
                 case 0:
+                    [MobClick event:UM_EVENT_MENU_MY_FAVORITE];
+                    
                     if (favoriteController == nil)
                         favoriteController = [[MyFavoriteViewController alloc] init];
                     favoriteController.forceRefresh = YES;
@@ -251,6 +270,8 @@
                     self.viewDeckController.centerController = centerViewController;
                     break;
                 case 1:
+                    [MobClick event:UM_EVENT_MENU_MY_COMMENT];
+                    
                     if (feedbackController == nil)
                         feedbackController = [[MyFeedbackViewController alloc] init];
                     feedbackController.forceRefresh = YES;
@@ -258,6 +279,8 @@
                     self.viewDeckController.centerController = centerViewController;
                     break;
                 case 2:
+                    [MobClick event:UM_EVENT_MENU_MY_SHARE];
+                    
                     if (myshareController == nil)
                         myshareController = [[MyshareViewController alloc] init];
                     myshareController.forceRefresh = YES;

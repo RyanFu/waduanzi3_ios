@@ -38,6 +38,7 @@
 #import "UIImage+ColorImage.h"
 #import "CDNavigationController.h"
 #import "UIView+Border.h"
+#import "MobClick.h"
 
 @interface PostListViewController ()
 - (void) setupNavButtionItems;
@@ -561,6 +562,13 @@
     // 不管成不成功都当做成功处理
     button.enabled = NO;
     CDPost *post = [_statuses objectAtIndex:button.tag];
+    
+    NSDictionary *attributes = @{
+                                 @"post_id": post.post_id,
+                                 @"post_title": post.title
+                                 };
+    [MobClick event:UM_EVENT_LIKE_POST attributes:attributes];
+    
     post.up_count = [NSNumber numberWithInteger:[post.up_count integerValue] + 1];
     [_statuses replaceObjectAtIndex:button.tag withObject:post];
     [button setTitle:[post.up_count stringValue] forState:UIControlStateNormal];
@@ -624,6 +632,12 @@
     @try {
         CDPost *post = [_statuses objectAtIndex:indexPath.row];
         
+        NSDictionary *attributes = @{
+                                     @"post_id": post.post_id,
+                                     @"post_title": post.title
+                                     };
+        [MobClick event:UM_EVENT_GOTO_COMMENT_LIST attributes:attributes];
+        
         FunnyDetailViewController *detailViewController = [[FunnyDetailViewController alloc] initWithPost:post];
         CDPostTableViewCell *cell = (CDPostTableViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
         if (cell.imageView.image != nil)
@@ -641,9 +655,16 @@
 - (void) didVideoSelectRowAtIndex:(NSInteger)index
 {
     CDPost *post = [_statuses objectAtIndex:index];
+    
+    NSDictionary *attributes = @{
+                                 @"post_id": post.post_id,
+                                 @"post_title": post.title
+                                 };
+    [MobClick event:UM_EVENT_PLAY_VIDEO attributes:attributes];
+    
     CDLog(@"source url: %@", post.video.source_url);
     CDWebVideoViewController *webVideoController = [[CDWebVideoViewController alloc] initWithUrl:post.video.source_url];
-    [webVideoController setNavigationBarStyle:CDNavigationBarStyleBlue barButtonItemStyle:CDBarButtionItemStyleBlue toolBarStyle:CDToolBarStyleBlue];
+    [webVideoController setNavigationBarStyle:CDNavigationBarStyleBlue barButtonItemStyle:CDBarButtionItemStyleBlueBack toolBarStyle:CDToolBarStyleBlue];
     CDNavigationController *navWebVideoController = [[CDNavigationController alloc] initWithRootViewController:webVideoController];
     [ROOT_CONTROLLER presentViewController:navWebVideoController animated:YES completion:nil];
 }

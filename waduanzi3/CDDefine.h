@@ -137,7 +137,7 @@ typedef NS_ENUM (NSUInteger, CDPostContentFontSize)
 
 #define USER_NAME_MIN_LENGTH 3
 #define USER_NAME_MAX_LENGTH 30
-#define USER_PASSWORD_MIN_LENGTH 3
+#define USER_PASSWORD_MIN_LENGTH 5
 #define USER_PASSWORD_MAX_LENGTH 30
 
 #define FZLTHK_FONT_FAMILY @"FZLanTingHei-R-GBK"
@@ -158,6 +158,26 @@ typedef NS_ENUM (NSUInteger, CDPostContentFontSize)
 
 #endif
 
+
+/*
+ * 多盟统计事件ID
+ */
+
+#define UM_EVENT_MENU_TIMELINE @"v3_menu_timeline"
+#define UM_EVENT_MENU_RECOMMEND @"v3_menu_recommend"
+#define UM_EVENT_MENU_HISTORY @"v3_menu_history"
+#define UM_EVENT_MENU_MEDIA_TEXT @"v3_menu_media_text"
+#define UM_EVENT_MENU_MEDIA_IMAGE @"v3_menu_media_image"
+#define UM_EVENT_MENU_MEDIA_VIDEO @"v3_menu_media_video"
+#define UM_EVENT_MENU_CHANNEL_FOCUS @"v3_menu_channel_focus"
+#define UM_EVENT_MENU_MY_FAVORITE @"v3_menu_my_favorite"
+#define UM_EVENT_MENU_MY_COMMENT @"v3_menu_my_comment"
+#define UM_EVENT_MENU_MY_SHARE @"v3_menu_my_share"
+#define UM_EVENT_GOTO_COMMENT_LIST @"v3_goto_comments_list"
+#define UM_EVENT_FAVORITE_POST @"v3_favorite_button_clicked"
+#define UM_EVENT_LIKE_POST @"v3_like_button_clicked"
+#define UM_EVENT_POST_COMMENT @"v3_post_comment"
+#define UM_EVENT_PLAY_VIDEO @"v3_play_video"
 
 
 
