@@ -490,7 +490,7 @@
             cell.selectionStyle = UITableViewCellSelectionStyleGray;
             [self setCommentCellSubViews:cell forRowAtIndexPath:indexPath];
         }
-        cell.textLabel.font = [UIFont systemFontOfSize:commentFontSize];
+        cell.textLabel.font = [UIFont fontWithName:FZLTHK_FONT_NAME size:commentFontSize];
         
         CDComment *comment = [_comments objectAtIndex:indexPath.row];
         cell.textLabel.text = comment.content;

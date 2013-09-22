@@ -24,32 +24,45 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.backgroundColor = [UIColor colorWithWhite:0 alpha:0.75f];
+        // TODO: 引处涉及iOS版本兼容代码
+        self.backgroundColor = IS_IOS7 ? [UIColor colorWithRed:0.93f green:0.93f blue:0.93f alpha:0.95f] : [UIColor colorWithWhite:0 alpha:0.75f];
         
         self.textFieldBackgroundView = [[UIImageView alloc] init];
+        self.textFieldBackgroundView.frame = self.bounds;
         [self addSubview:_textFieldBackgroundView];
         
         self.textField = [[CDTextField alloc] init];
         _textField.verticalPadding = 5.0f;
         _textField.horizontalPadding = 7.5f;
-        _textField.font = [UIFont systemFontOfSize:16.0f];
+        _textField.font = [UIFont fontWithName:FZLTHK_FONT_NAME size:14.0f];
         _textField.borderStyle = UITextBorderStyleRoundedRect;
         _textField.returnKeyType = UIReturnKeySend;
         _textField.placeholder = @"留下我的节操...";
         [self addSubview:_textField];
-        
+
         self.submitButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [self addSubview:_submitButton];
         [_submitButton setTitle:@"发送" forState:UIControlStateNormal];
-        _submitButton.titleLabel.font = [UIFont boldSystemFontOfSize:14.0f];
+        _submitButton.titleLabel.font = [UIFont fontWithName:FZLTHK_FONT_NAME size:14.0f];
         _submitButton.showsTouchWhenHighlighted = YES;
-        UIEdgeInsets buttonImageInsets = UIEdgeInsetsMake(3, 5, 3, 5);
-        UIImage *normalButtonImage = [[UIImage imageNamed:@"btn_black_normal.png"] resizableImageWithCapInsets:buttonImageInsets];
-        UIImage *pressButtonImage = [[UIImage imageNamed:@"btn_black_press.png"] resizableImageWithCapInsets:buttonImageInsets];
-        UIImage *disableButtonImage = [[UIImage imageNamed:@"btn_black_disable.png"] resizableImageWithCapInsets:buttonImageInsets];
-        [_submitButton setBackgroundImage:normalButtonImage forState:UIControlStateNormal];
-        [_submitButton setBackgroundImage:pressButtonImage forState:UIControlStateHighlighted];
-        [_submitButton setBackgroundImage:disableButtonImage forState:UIControlStateDisabled];
+        
+        // TODO: 引处涉及iOS版本兼容代码
+        if (IS_IOS7) {
+            CALayer *layer = [[CALayer alloc] init];
+            layer.backgroundColor = [UIColor lightGrayColor].CGColor;
+            layer.frame = CGRectMake(0, 0, self.frame.size.width, 0.5);
+            [self.layer addSublayer:layer];
+            [_submitButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+        }
+        else {
+            UIEdgeInsets buttonImageInsets = UIEdgeInsetsMake(3, 5, 3, 5);
+            UIImage *normalButtonImage = [[UIImage imageNamed:@"btn_black_normal.png"] resizableImageWithCapInsets:buttonImageInsets];
+            UIImage *pressButtonImage = [[UIImage imageNamed:@"btn_black_press.png"] resizableImageWithCapInsets:buttonImageInsets];
+            UIImage *disableButtonImage = [[UIImage imageNamed:@"btn_black_disable.png"] resizableImageWithCapInsets:buttonImageInsets];
+            [_submitButton setBackgroundImage:normalButtonImage forState:UIControlStateNormal];
+            [_submitButton setBackgroundImage:pressButtonImage forState:UIControlStateHighlighted];
+            [_submitButton setBackgroundImage:disableButtonImage forState:UIControlStateDisabled];
+        }
     }
     return self;
 }

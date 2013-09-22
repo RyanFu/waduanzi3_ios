@@ -59,28 +59,28 @@
     _avatarImageView.opaque = YES;
     
     // orderLabel
-    _orderTextLabel.font = [UIFont systemFontOfSize:12.0f];
+    _orderTextLabel.font = [UIFont fontWithName:FZLTHK_FONT_NAME size:12.0f];
     _orderTextLabel.textColor = [UIColor colorWithRed:0.65f green:0.65f blue:0.65f alpha:1.00f];
     _orderTextLabel.contentMode = UIViewContentModeRight;
     _orderTextLabel.backgroundColor = [UIColor clearColor];
     
     // authorLabel
-    _authorTextLabel.font = [UIFont boldSystemFontOfSize:14.0f];
-    _authorTextLabel.textColor = [UIColor colorWithRed:0.15f green:0.15f blue:0.15f alpha:1.00f];
+    _authorTextLabel.font = [UIFont fontWithName:FZLTHK_FONT_NAME size:14.0f];
+    _authorTextLabel.textColor = [UIColor colorWithRed:0.40f green:0.40f blue:0.40f alpha:1.00f];
     _authorTextLabel.backgroundColor = [UIColor clearColor];
     
     // textLabel
     self.textLabel.numberOfLines = 0;
     self.textLabel.lineBreakMode = UILineBreakModeWordWrap;
-    self.textLabel.font = [UIFont systemFontOfSize:14.0f];
-    self.textLabel.textColor = [UIColor colorWithRed:0.16f green:0.16f blue:0.16f alpha:1.00f];
+    self.textLabel.font = [UIFont fontWithName:FZLTHK_FONT_NAME size:14.0f];
+    self.textLabel.textColor = [UIColor colorWithRed:0.35f green:0.35f blue:0.35f alpha:1.00f];
     self.textLabel.backgroundColor = [UIColor clearColor];
     
     // detailLabel
     self.detailTextLabel.numberOfLines = 0;
     self.detailTextLabel.lineBreakMode = UILineBreakModeWordWrap;
-    self.detailTextLabel.font = [UIFont systemFontOfSize:12.0f];
-    self.detailTextLabel.textColor = [UIColor colorWithRed:0.16f green:0.16f blue:0.16f alpha:1.00f];
+    self.detailTextLabel.font = [UIFont fontWithName:FZLTHK_FONT_NAME size:12.0f];
+    self.detailTextLabel.textColor = [UIColor colorWithRed:0.50f green:0.50f blue:0.50f alpha:1.00f];
     self.detailTextLabel.backgroundColor = [UIColor clearColor];
 }
 
