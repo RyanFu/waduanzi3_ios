@@ -254,7 +254,7 @@
     [_upButton setFrame:buttonFrame];
     
     
-    widgetY += widgetHeight + _separatorHeight;
+//    widgetY += widgetHeight + _separatorHeight;
     
 }
 

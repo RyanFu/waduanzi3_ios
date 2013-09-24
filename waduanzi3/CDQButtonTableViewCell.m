@@ -17,8 +17,6 @@
     CGRect textLabelFrame = self.textLabel.frame;
     textLabelFrame.size.width -= textLabelFrame.origin.x * 2;
     self.textLabel.frame = textLabelFrame;
-    
-    NSLog(@"button label:%@, frame: %@", self.textLabel.text, NSStringFromCGRect(self.textLabel.frame));
 }
 
 @end

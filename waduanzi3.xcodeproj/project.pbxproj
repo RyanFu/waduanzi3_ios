@@ -295,6 +295,10 @@
 		2BA6348917761D4700AE5DDA /* MyshareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BA6348817761D4700AE5DDA /* MyshareViewController.m */; };
 		2BA6348C177621EE00AE5DDA /* MyFavoriteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BA6348B177621EE00AE5DDA /* MyFavoriteViewController.m */; };
 		2BA6636717F1B6FF0012C02D /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BA6636417F1B6FF0012C02D /* libWeChatSDK.a */; };
+		2BA6636B17F1D79A0012C02D /* tip_succeed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BA6636A17F1D79A0012C02D /* tip_succeed@2x.png */; };
+		2BA6636E17F1D8CF0012C02D /* CDUMSociaSnsPlatformExtend.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BA6636D17F1D8CF0012C02D /* CDUMSociaSnsPlatformExtend.m */; };
+		2BA6637517F1E0630012C02D /* copy_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BA6637317F1E0630012C02D /* copy_icon.png */; };
+		2BA6637617F1E0630012C02D /* copy_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BA6637417F1E0630012C02D /* copy_icon@2x.png */; };
 		2BA887B317CE266100E2A094 /* navBar_refresh@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BA887B217CE266100E2A094 /* navBar_refresh@2x.png */; };
 		2BAC67E917BB62D300B9768E /* CDUserConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BAC67E817BB62D300B9768E /* CDUserConfig.m */; };
 		2BAC67F317BBC66400B9768E /* PostFontPickerValueParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BAC67F217BBC66300B9768E /* PostFontPickerValueParser.m */; };
@@ -773,6 +777,11 @@
 		2BA6636417F1B6FF0012C02D /* libWeChatSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeChatSDK.a; sourceTree = "<group>"; };
 		2BA6636517F1B6FF0012C02D /* WXApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApi.h; sourceTree = "<group>"; };
 		2BA6636617F1B6FF0012C02D /* WXApiObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiObject.h; sourceTree = "<group>"; };
+		2BA6636A17F1D79A0012C02D /* tip_succeed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tip_succeed@2x.png"; sourceTree = "<group>"; };
+		2BA6636C17F1D8CF0012C02D /* CDUMSociaSnsPlatformExtend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDUMSociaSnsPlatformExtend.h; sourceTree = "<group>"; };
+		2BA6636D17F1D8CF0012C02D /* CDUMSociaSnsPlatformExtend.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDUMSociaSnsPlatformExtend.m; sourceTree = "<group>"; };
+		2BA6637317F1E0630012C02D /* copy_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = copy_icon.png; sourceTree = "<group>"; };
+		2BA6637417F1E0630012C02D /* copy_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "copy_icon@2x.png"; sourceTree = "<group>"; };
 		2BA887B217CE266100E2A094 /* navBar_refresh@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "navBar_refresh@2x.png"; sourceTree = "<group>"; };
 		2BAC67E717BB62D300B9768E /* CDUserConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDUserConfig.h; sourceTree = "<group>"; };
 		2BAC67E817BB62D300B9768E /* CDUserConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDUserConfig.m; sourceTree = "<group>"; };
@@ -1470,6 +1479,8 @@
 				2B77495517F16D9100E0CC31 /* CDQButtonTableViewCell.m */,
 				2B77495717F16DD400E0CC31 /* CDQButtonElement.h */,
 				2B77495817F16DD400E0CC31 /* CDQButtonElement.m */,
+				2BA6636C17F1D8CF0012C02D /* CDUMSociaSnsPlatformExtend.h */,
+				2BA6636D17F1D8CF0012C02D /* CDUMSociaSnsPlatformExtend.m */,
 			);
 			name = Common;
 			sourceTree = "<group>";
@@ -1477,6 +1488,9 @@
 		2BED82F8167B5ED20025E9C4 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				2BA6637317F1E0630012C02D /* copy_icon.png */,
+				2BA6637417F1E0630012C02D /* copy_icon@2x.png */,
+				2BA6636A17F1D79A0012C02D /* tip_succeed@2x.png */,
 				2B4C79C817EF2675000356BD /* NavBarBackButtonLandscape.png */,
 				2B4C79C917EF2675000356BD /* NavBarBackButtonLandscape@2x.png */,
 				2B4C79CA17EF2675000356BD /* NavBarBackButtonLandscapePressed.png */,
@@ -1956,6 +1970,7 @@
 				2B0AEC341797976F00AFBAFA /* NavBarIconLauncher@2x.png in Resources */,
 				2B0AEC351797976F00AFBAFA /* NavBarIconLauncherHighlighted.png in Resources */,
 				2B0AEC361797976F00AFBAFA /* NavBarIconLauncherHighlighted@2x.png in Resources */,
+				2BA6636B17F1D79A0012C02D /* tip_succeed@2x.png in Resources */,
 				2B0AEC3917979F0200AFBAFA /* NavBarIconCompose.png in Resources */,
 				2B0AEC3A17979F0200AFBAFA /* NavBarIconCompose@2x.png in Resources */,
 				2B0C2D5417E2ED0400A1AE26 /* newsfeedVideoPlayIcon@2x.png in Resources */,
@@ -2046,6 +2061,7 @@
 				2B80482E179E5638006F332F /* Localizable.strings in Resources */,
 				2BE3D321179FC15C00975503 /* imgOff.png in Resources */,
 				2BE3D322179FC15C00975503 /* imgOn.png in Resources */,
+				2BA6637617F1E0630012C02D /* copy_icon@2x.png in Resources */,
 				2BD034FD17A0B8E800AFD3FB /* toolbar_bg_black.png in Resources */,
 				2B9C27E517E1070A00C823EC /* Icon-80x80.png in Resources */,
 				2BD034FE17A0B8E800AFD3FB /* toolbar_bg_black@2x.png in Resources */,
@@ -2069,6 +2085,7 @@
 				2B0C2D5517E2ED0400A1AE26 /* newsfeedVideoPlayIconPressed.png in Resources */,
 				2B43D67717E4191800C48CD9 /* installnow_gray_button_background@2x.png in Resources */,
 				2B91033817B4B19C005993B2 /* tip_error@2x.png in Resources */,
+				2BA6637517F1E0630012C02D /* copy_icon.png in Resources */,
 				2BF6531A17C2971C0096541A /* About.html in Resources */,
 				2BB46D0717C5D49F00C35084 /* umeng_ad_handle_night.png in Resources */,
 				2BB46D0817C5D49F00C35084 /* umeng_ad_handle_night@2x.png in Resources */,
@@ -2165,6 +2182,7 @@
 				2BC17A6C17E1ED29006BB510 /* CDVideo.m in Sources */,
 				2B0929EF177395430051D1DC /* NSData+MD5.m in Sources */,
 				2BA6348917761D4700AE5DDA /* MyshareViewController.m in Sources */,
+				2BA6636E17F1D8CF0012C02D /* CDUMSociaSnsPlatformExtend.m in Sources */,
 				2BA6348C177621EE00AE5DDA /* MyFavoriteViewController.m in Sources */,
 				2BFC742B177752C80027F9B3 /* CDDataCache.m in Sources */,
 				2B5B19C8177B888F0042398E /* CDAppUser.m in Sources */,
@@ -2304,6 +2322,7 @@
 			baseConfigurationReference = 715D8456AEBD496A954B4265 /* Pods.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer: Dengchang Chen (4KT5FZ25UU)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/data/iOS/waduanzi3/UMSocial_Sdk_3.0/frameworks/TencentOpenAPI,
@@ -2367,7 +2386,7 @@
 			baseConfigurationReference = 715D8456AEBD496A954B4265 /* Pods.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Dengchang Chen";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Dengchang Chen";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/data/iOS/waduanzi3/UMSocial_Sdk_3.0/frameworks/TencentOpenAPI,

@@ -15,7 +15,20 @@
     MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:view];
     [view addSubview:hud];
     hud.mode = MBProgressHUDModeCustomView;
-    hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"tip_error.png"]];
+    hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"tip_error"]];
+    hud.alpha = alpha;
+    hud.detailsLabelText = message;
+    hud.detailsLabelFont = [UIFont systemFontOfSize:14.0f];
+    [hud show:showAnimated];
+    [hud hide:hideAnimated afterDelay:delay];
+}
+
++ (void) show:(BOOL)showAnimated successMessage:(NSString*)message inView:(UIView *)view alpha:(CGFloat)alpha hide:(BOOL)hideAnimated afterDelay:(NSTimeInterval)delay
+{
+    MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:view];
+    [view addSubview:hud];
+    hud.mode = MBProgressHUDModeCustomView;
+    hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"tip_succeed"]];
     hud.alpha = alpha;
     hud.detailsLabelText = message;
     hud.detailsLabelFont = [UIFont systemFontOfSize:14.0f];

@@ -305,20 +305,28 @@
 
 + (NSString *) cacheFilesTotalSize
 {
-    NSFileManager  *_manager = [NSFileManager defaultManager];
-    NSArray *_cachePaths =  NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
-    NSString  *_cacheDirectory = [_cachePaths objectAtIndex:0];
-    NSArray  *_cacheFileList;
-    NSEnumerator *_cacheEnumerator;
-    NSString *_cacheFilePath;
+    NSString  *_cacheDirectory = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    
+    NSFileManager  *_manager = [[NSFileManager alloc] init];
+    NSArray  *_cacheFileList = [ _manager subpathsAtPath:_cacheDirectory];
+//    CDLog(@"cache file list: %@", _cacheFileList);
+    
+    if (_cacheFileList == nil) {
+        CDLog(@"an error occured.");
+        return @"0B";
+    }
+    
     unsigned long long int _cacheFolderSize = 0;
-    
-    _cacheFileList = [ _manager subpathsAtPath:_cacheDirectory];
-    _cacheEnumerator = [_cacheFileList objectEnumerator];
-    
+    NSString *_cacheFilePath;
+    NSEnumerator *_cacheEnumerator = [_cacheFileList objectEnumerator];
     while (_cacheFilePath = [_cacheEnumerator nextObject]) {
-        NSDictionary *_cacheFileAttributes = [_manager attributesOfItemAtPath:[_cacheDirectory stringByAppendingPathComponent:_cacheFilePath] error:nil];
-        _cacheFolderSize += [_cacheFileAttributes fileSize];
+        NSString *fileAbsolutePath = [_cacheDirectory stringByAppendingPathComponent:_cacheFilePath];
+        
+        if ([_manager fileExistsAtPath:fileAbsolutePath] && [_manager isReadableFileAtPath:fileAbsolutePath]) {
+            NSDictionary *_cacheFileAttributes = [_manager attributesOfItemAtPath:fileAbsolutePath error:nil];
+            if (_cacheDirectory != nil)
+                _cacheFolderSize += [_cacheFileAttributes fileSize];
+        }
     }
     
     NSString *sizeString;
@@ -334,23 +342,36 @@
 
 + (BOOL) clearAllCacheFiles
 {
-    NSFileManager  *_manager = [NSFileManager defaultManager];
-    NSArray *_cachePaths =  NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
-    NSString  *_cacheDirectory = [_cachePaths objectAtIndex:0];
-    NSArray  *_cacheFileList;
-    NSEnumerator *_cacheEnumerator;
+    NSString  *_cacheDirectory = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    
+    NSFileManager  *_manager = [[NSFileManager alloc] init];
+    NSArray *_cacheFileList = [ _manager contentsOfDirectoryAtPath:_cacheDirectory error:nil];
+//    CDLog(@"cache file list: %@", _cacheFileList);
+    
+    if (_cacheFileList == nil) {
+        CDLog(@"an error occured.");
+        return NO;
+    }
+    else if (_cacheFileList.count == 0)
+        return YES;
+
+    NSEnumerator *_cacheEnumerator = [_cacheFileList objectEnumerator];
+    
     NSString *_cacheFilePath;
-    
-    _cacheFileList = [ _manager subpathsOfDirectoryAtPath:_cacheDirectory error:nil];
-    _cacheEnumerator = [_cacheFileList objectEnumerator];
-    
     while (_cacheFilePath = [_cacheEnumerator nextObject]) {
-        NSString *fileAbsolutePath = [_cacheDirectory stringByAppendingPathComponent:_cacheFilePath];
-        if ([_manager fileExistsAtPath:fileAbsolutePath]) {
-            NSError *error;
-            BOOL result = [_manager removeItemAtPath:fileAbsolutePath error:&error];
-            if (!result)
-                NSLog(@"error: %@, file: %@, ", error, fileAbsolutePath);
+        @try {
+            NSString *fileAbsolutePath = [_cacheDirectory stringByAppendingPathComponent:_cacheFilePath];
+            if ([_manager fileExistsAtPath:fileAbsolutePath] && [_manager isDeletableFileAtPath:fileAbsolutePath]) {
+                NSError *error;
+                [_manager removeItemAtPath:fileAbsolutePath error:&error];
+            }
+        }
+        @catch (NSException *exception) {
+            CDLog(@"remove caches exception: %@", exception.reason);
+            return NO;
+        }
+        @finally {
+            ;
         }
     }
     

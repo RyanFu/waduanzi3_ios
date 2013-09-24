@@ -28,6 +28,7 @@
 #import "WBErrorNoticeView+WaduanziMethod.h"
 #import "CDUserConfig.h"
 #import "MobClick.h"
+#import "MBProgressHUD+Custom.h"
 
 @interface PostDetailViewController ()
 - (void) initData;
@@ -483,8 +484,10 @@
     UMSocialExtConfig *extConfig = [[UMSocialExtConfig alloc] init];
     extConfig.title = _post.title;
     
-    
-    if ([platformName isEqualToString:UMShareToSms]) {
+    if ([platformName isEqualToString:UMShareToCopy]) {
+        socialData.shareText = [NSString stringWithFormat:@"[来自挖段子网]%@ %@", socialData.shareText, _post.url];
+    }
+    else if ([platformName isEqualToString:UMShareToSms]) {
         if (_post.middle_pic.length > 0 || _post.video.source_url.length > 0)
             socialData.shareText = [socialData.shareText stringByAppendingString:_post.url];
         else
@@ -830,6 +833,7 @@
                         if (error.domain == NSURLErrorDomain && error.code == kCFURLErrorTimedOut)
                             alertMessage = @"网络超时";
                         
+                        [MBProgressHUD show:YES errorMessage:alertMessage inView:self.navigationController.view alpha:0.6f hide:YES afterDelay:10.0f];
                         
                         NSLog(@"Hit error: %@", error);
                    }];

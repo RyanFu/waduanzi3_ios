@@ -192,6 +192,7 @@ typedef NS_ENUM (NSUInteger, CDPostContentFontSize)
  * 多盟社会化组伯
  */
 
+
 #define UMShareToCopy @"um_platform_copy"
 
 typedef NS_ENUM (NSInteger, UMShareToTypeExtend) {

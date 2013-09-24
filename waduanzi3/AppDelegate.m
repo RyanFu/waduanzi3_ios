@@ -23,6 +23,7 @@
 #import "CDDataCache.h"
 #import "BPush.h"
 #import "CDNavigationController.h"
+#import "CDUMSociaSnsPlatformExtend.h"
 
 
 #import "TestViewController.h"
@@ -43,7 +44,6 @@
 
 - (void) setupDMSplashAd;
 - (void) setupUMSocial;
-- (void) addUMShareToCopyPlatform;
 
 - (void) setupTestRootController;
 @end
@@ -338,7 +338,7 @@
     [UMSocialData openLog: CD_DEBUG];
     [UMSocialData setAppKey:UMENG_APPKEY];
     
-    [self addUMShareToCopyPlatform];
+    [CDUMSociaSnsPlatformExtend addUMShareToCopyPlatform];
     
     [UMSocialConfig setSupportedInterfaceOrientations:UIInterfaceOrientationMaskAllButUpsideDown];
 
@@ -363,17 +363,7 @@
     [UMSocialConfig setSupportTencentSSO:YES importClass:[WBApi class]];
 }
 
-- (void) addUMShareToCopyPlatform
-{
-    UMSocialSnsPlatform *copyPlatform = [[UMSocialSnsPlatform alloc] initWithPlatformName:UMShareToCopy];
-    copyPlatform.displayName = @"复制";
-    copyPlatform.shareToType = UMSocialSnsTypeCopy;
-    copyPlatform.bigImageName = @"Icon";
-    copyPlatform.snsClickHandler = ^(UIViewController *presentingController, UMSocialControllerService * socialControllerService, BOOL isPresentInController) {
-        NSLog(@"copy text: %@", socialControllerService.socialData.shareText);
-    };
-    [UMSocialConfig addSocialSnsPlatform:@[copyPlatform]];
-}
+
 
 - (void) setupRKObjectMapping
 {

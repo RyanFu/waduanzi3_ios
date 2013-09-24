@@ -11,4 +11,6 @@
 @interface MBProgressHUD (Custom)
 
 + (void) show:(BOOL)showAnimated errorMessage:(NSString*)message inView:(UIView *)view alpha:(CGFloat)alpha hide:(BOOL)hideAnimated afterDelay:(NSTimeInterval)delay;
+
++ (void) show:(BOOL)showAnimated successMessage:(NSString*)message inView:(UIView *)view alpha:(CGFloat)alpha hide:(BOOL)hideAnimated afterDelay:(NSTimeInterval)delay;
 @end

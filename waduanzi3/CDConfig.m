@@ -19,11 +19,20 @@
 
 + (BOOL) enabledUMHandle
 {
-    double firstBootTime = [[CDDataCache shareCache] fetchAppFirstBootTime];
-    if (firstBootTime > CFAbsoluteTimeGetCurrent() - DAY_SECONDS)
+    @try {
+        double firstBootTime = [[CDDataCache shareCache] fetchAppFirstBootTime];
+        if (firstBootTime > CFAbsoluteTimeGetCurrent() - DAY_SECONDS)
+            return NO;
+        
+        NSString *switcher = [MobClick getConfigParams:UM_ONLINE_CONFIG_APP_UNION_HANLE];
+        return [switcher isEqualToString:@"on"];
+    }
+    @catch (NSException *exception) {
+        CDLog(@"enable umhandle exception: %@", exception.reason);
+    }
+    @finally {
         return NO;
+    }
     
-    NSString *switcher = [MobClick getConfigParams:UM_ONLINE_CONFIG_APP_UNION_HANLE];
-    return [switcher isEqualToString:@"on"];
 }
 @end
