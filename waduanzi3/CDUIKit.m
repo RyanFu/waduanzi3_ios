@@ -36,7 +36,7 @@
             }
             else
                 [bar setBackgroundImage:[UIImage imageNamed:@"NavBarBackground.png"] forBarMetrics:barMetrics];
-
+            
             break;
         case CDNavigationBarStyleBlack:
             [bar setBackgroundImage:[UIImage imageNamed:@"UISearchBarBackground.png"] forBarMetrics:barMetrics];

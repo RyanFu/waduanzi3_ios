@@ -17,6 +17,7 @@
 #import "QWebViewController.h"
 #import "QPickerElement.h"
 #import "CDDefine.h"
+#import "CDQButtonElement.h"
 
 @implementation CDQuickElements
 
@@ -82,7 +83,7 @@
     QSection *section1 = [[QSection alloc] init];
     [root addSection:section1];
     section1.key = @"section_key_clear_cache";
-    QButtonElement *clearCacheButton = [[QButtonElement alloc] initWithTitle:@"清除缓存"];
+    CDQButtonElement *clearCacheButton = [[CDQButtonElement alloc] initWithTitle:@"清除缓存"];
     clearCacheButton.key = @"key_clear_cache";
     clearCacheButton.controllerAction = @"clearCacheAction:";
     [section1 addElement:clearCacheButton];
@@ -175,7 +176,7 @@
     
     QSection *buttonSection = [[QSection alloc] init];
     [root addSection:buttonSection];
-    QButtonElement *submitButton = [[QButtonElement alloc] initWithTitle:@"注册    "];
+    CDQButtonElement *submitButton = [[CDQButtonElement alloc] initWithTitle:@"注册"];
     submitButton.enabled = NO;
     submitButton.key = @"key_submit_signup";
     [buttonSection addElement:submitButton];
@@ -183,7 +184,7 @@
     
     QSection *extraButtonSection = [[QSection alloc] init];
     [root addSection:extraButtonSection];
-    QButtonElement *loginButton = [[QButtonElement alloc] initWithTitle:@"已有账号，直接登录    "];
+    CDQButtonElement *loginButton = [[CDQButtonElement alloc] initWithTitle:@"已有账号，直接登录"];
     loginButton.key = @"key_go_login";
     [extraButtonSection addElement:loginButton];
     
@@ -232,14 +233,14 @@
 
     QSection *buttonSection = [[QSection alloc] init];
     [root addSection:buttonSection];
-    QButtonElement *submitButton = [[QButtonElement alloc] initWithTitle:@"登录    "];
+    CDQButtonElement *submitButton = [[CDQButtonElement alloc] initWithTitle:@"登录"];
     submitButton.key = @"key_submit_login";
     submitButton.enabled = NO;
     [buttonSection addElement:submitButton];
 
     QSection *extraButtonSection = [[QSection alloc] init];
     [root addSection:extraButtonSection];
-    QButtonElement *signupButton = [[QButtonElement alloc] initWithTitle:@"注册挖段子账号    "];
+    CDQButtonElement *signupButton = [[CDQButtonElement alloc] initWithTitle:@"注册挖段子账号"];
     signupButton.key = @"key_go_signup";
     [extraButtonSection addElement:signupButton];
     
@@ -257,7 +258,7 @@
     
     root.appearance = [root.appearance copy];
     root.appearance.labelFont = [UIFont fontWithName:FZLTHK_FONT_NAME size:16.0f];
-    root.appearance.entryFont = [UIFont fontWithName:FZLTHK_FONT_NAME size:14.0f];
+    root.appearance.entryFont = [UIFont fontWithName:FZLTHK_FONT_NAME size:16.0f];
     root.appearance.sectionTitleFont = [UIFont fontWithName:FZLTHK_FONT_NAME size:14.0f];
     root.appearance.sectionFooterColor = [UIColor lightGrayColor];
     root.appearance.buttonAlignment = NSTextAlignmentCenter;
@@ -305,7 +306,7 @@
     
     QSection *section3 = [[QSection alloc] init];
     [root addSection:section3];
-    QButtonElement *logoutButton = [[QButtonElement alloc] initWithTitle:@"退出当前账号"];
+    CDQButtonElement *logoutButton = [[CDQButtonElement alloc] initWithTitle:@"退出当前账号"];
     logoutButton.key = @"key_logout_button";
     logoutButton.controllerAction = @"logoutAction:";
     logoutButton.height = 43.0f;
@@ -364,14 +365,15 @@
     QSection *section1 = [[QSection alloc] init];
     [root addSection:section1];
     QEntryElement *nicknameElement = [[QEntryElement alloc] initWithTitle:nil Value:user.screen_name Placeholder:@"请输入昵称"];
+    nicknameElement.title = @"昵称  ";
     nicknameElement.key = @"key_update_nick_name";
     nicknameElement.returnKeyType = UIReturnKeyDone;
     nicknameElement.hiddenToolbar = YES;
     [section1 addElement:nicknameElement];
+
     QSection *section2 = [[QSection alloc] init];
-    
     [root addSection:section2];
-    QButtonElement *submitButton = [[QButtonElement alloc] initWithTitle:@"保存"];
+    CDQButtonElement *submitButton = [[CDQButtonElement alloc] initWithTitle:@"保存"];
     submitButton.key = @"key_save_profile";
     submitButton.controllerAction = @"updateUserProfileAction";
     [section2 addElement:submitButton];

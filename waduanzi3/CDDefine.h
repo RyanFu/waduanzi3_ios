@@ -6,6 +6,8 @@
 //  Copyright (c) 2013年 chendong. All rights reserved.
 //
 
+#import "UMSocial.h"
+
 #ifdef DEBUG
 #define CD_DEBUG YES
 #else
@@ -42,6 +44,9 @@
 #define OFFICIAL_SINA_WEIBO_USID @"1639121454"
 #define BAIDU_OPEN_API_KEY @"bGGXpA6v8UVnwdUEZkNgde4o"
 #define BAIDU_OPEN_SECRET_KEY @"BtbYXKyVGiwT8toE3Mdiwpa1p00DbAqd"
+#define QQ_CONNECT_APPID @"100490326"
+#define QQ_WEIBO_APPID @"801092195"
+
 
 // AD Publisher ID
 #define AD_PUBLISHER_ID_DOMOB @"56OJyCLIuMPy+XankF"
@@ -179,6 +184,19 @@ typedef NS_ENUM (NSUInteger, CDPostContentFontSize)
 #define UM_EVENT_POST_COMMENT @"v3_post_comment"
 #define UM_EVENT_PLAY_VIDEO @"v3_play_video"
 
+#define UM_ONLINE_CONFIG_APP_UNION_HANLE @"enable_umhandle"
+#define UM_ONLINE_CONFIG_SPLASH_AD_ENABLE @"v3_splash_ad_enable"
 
 
+/*
+ * 多盟社会化组伯
+ */
+
+#define UMShareToCopy @"um_platform_copy"
+
+typedef NS_ENUM (NSInteger, UMShareToTypeExtend) {
+    UMSocialSnsTypeCopy = 999
+};
+
+#define UMSHARE_SNS_NAMES @[UMShareToQzone, UMShareToQQ, UMShareToSina, UMShareToTencent, UMShareToWechatSession, UMShareToWechatTimeline, UMShareToDouban, UMShareToEmail, UMShareToSms, UMShareToCopy, UMShareToFacebook, UMShareToTwitter]
 

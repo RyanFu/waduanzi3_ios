@@ -16,6 +16,7 @@
 #import "CDDataCache.h"
 #import "UpdateProfileViewController.h"
 #import "MBProgressHUD+Custom.h"
+#import "UIView+Border.h"
 
 #define LOGOUT_BUTTON_TAG 99999
 
@@ -131,6 +132,7 @@
 
 - (void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    NSLog(@"cell: %@", cell);
     QSection *section = [self.root getVisibleSectionForIndex:indexPath.section];
     QElement *element = [section getVisibleElementForIndex: indexPath.row];
     
@@ -139,6 +141,7 @@
         cell.selectedBackgroundView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"common_button_red_press.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 11.0f, 0, 11.0f)]];
         cell.textLabel.textColor = [UIColor whiteColor];
         cell.textLabel.font = [UIFont boldSystemFontOfSize:18.0f];
+        cell.detailTextLabel.text = @"test";
     }
 }
 

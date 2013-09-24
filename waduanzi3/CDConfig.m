@@ -23,7 +23,7 @@
     if (firstBootTime > CFAbsoluteTimeGetCurrent() - DAY_SECONDS)
         return NO;
     
-    NSString *switcher = [MobClick getConfigParams:@"enable_umhandle"];
+    NSString *switcher = [MobClick getConfigParams:UM_ONLINE_CONFIG_APP_UNION_HANLE];
     return [switcher isEqualToString:@"on"];
 }
 @end

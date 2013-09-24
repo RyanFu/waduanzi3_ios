@@ -71,9 +71,9 @@
     if ([resp isKindOfClass:[SendMessageToWXResp class]]) {
         ;
     }
-    else if ([resp isKindOfClass:[SendAuthReq class]]) {
-        ;
-    }
+//    else if ([resp isKindOfClass:[SendAuthReq class]]) {
+//        ;
+//    }
 }
 
 #pragma mark - onReq selector

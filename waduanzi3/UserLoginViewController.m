@@ -144,7 +144,15 @@
     QSection *section = [self.root getVisibleSectionForIndex:indexPath.section];
     QElement *element = [section getVisibleElementForIndex: indexPath.row];
     
-    if ([element.key isEqualToString:@"key_submit_login"]) {
+    if ([element.key isEqualToString:@"key_username"]) {
+        if (IS_IOS7) {
+            CALayer *bottomLayer = [CALayer layer];
+            bottomLayer.backgroundColor = [UIColor colorWithRed:0.90f green:0.90f blue:0.90f alpha:1.00f].CGColor;
+            bottomLayer.frame = CGRectMake(0, cell.frame.size.height - 1.0f, cell.frame.size.width, 1.0f);
+            [cell.layer addSublayer:bottomLayer];
+        }
+    }
+    else if ([element.key isEqualToString:@"key_submit_login"]) {
         if (IS_IOS7) {
             cell.backgroundColor = [UIColor colorWithRed:0.31f green:0.42f blue:0.64f alpha:1.00f];
             cell.textLabel.textColor = [UIColor colorWithRed:0.91f green:0.92f blue:0.93f alpha:1.00f];

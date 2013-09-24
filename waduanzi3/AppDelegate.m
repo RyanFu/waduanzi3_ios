@@ -42,6 +42,8 @@
 - (void) setupRKObjectMapping;
 
 - (void) setupDMSplashAd;
+- (void) setupUMSocial;
+- (void) addUMShareToCopyPlatform;
 
 - (void) setupTestRootController;
 @end
@@ -75,18 +77,8 @@
 
 - (BOOL) application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
-    if ([url.description hasPrefix:@"sina"]) {
-        return (BOOL)[[UMSocialSnsService sharedInstance] performSelector:@selector(handleSinaSsoOpenURL:) withObject:url];
-    }
-    else if([url.description hasPrefix:@"wx"]){
-        return [WXApi handleOpenURL:url delegate:(id<WXApiDelegate>)[WxApiService shareInstance]];
-    }
-    else if ([url.scheme isEqualToString:@"waduanzi"]) {
-        NSLog(@"waduanzi scheme");
-        return YES;
-    }
-    else
-        return YES;
+    NSLog(@"source application: %@", sourceApplication);
+    return  [UMSocialSnsService handleOpenURL:url wxApiDelegate:nil];
 }
 
 - (void) application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
@@ -235,7 +227,7 @@
 
 - (NSUInteger) application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window
 {
-    return UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskLandscapeRight | UIInterfaceOrientationMaskLandscapeLeft;
+    return UIInterfaceOrientationMaskAllButUpsideDown;
 }
 
 
@@ -316,15 +308,11 @@
     
     [DTTextAttachment registerClass:[DTObjectTextAttachment class] forTagName:@"waduanzi"];
 
-    [UMSocialData openLog: CD_DEBUG];
+    // umeng tongji
     [MobClick startWithAppkey:UMENG_APPKEY];
     [MobClick updateOnlineConfig];
-    [UMSocialData setAppKey:UMENG_APPKEY];
-    [WXApi registerApp:WEIXIN_APPID];
     [MobClick checkUpdate];
-    
-    [UMSocialConfig setSnsPlatformNames:@[UMShareToQzone, UMShareToSina, UMShareToTencent, UMShareToDouban, UMShareToWechatSession, UMShareToWechatTimeline, UMShareToSms, UMShareToEmail]];
-    [UMSocialConfig setFollowWeiboUids:@{UMShareToSina:OFFICIAL_SINA_WEIBO_USID}];
+    [self setupUMSocial];
     
     [[SDWebImageManager sharedManager].imageDownloader setValue:[CDRestClient userAgent] forHTTPHeaderField:@"User-Agent"];
     
@@ -342,6 +330,49 @@
     [BPush setDelegate:self];
     [application registerForRemoteNotificationTypes:UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound];
     
+}
+
+- (void) setupUMSocial
+{
+    // umeng social tool
+    [UMSocialData openLog: CD_DEBUG];
+    [UMSocialData setAppKey:UMENG_APPKEY];
+    
+    [self addUMShareToCopyPlatform];
+    
+    [UMSocialConfig setSupportedInterfaceOrientations:UIInterfaceOrientationMaskAllButUpsideDown];
+
+    [UMSocialConfig setNavigationBarConfig:^(UINavigationBar *bar, UIButton *closeButton, UIButton *backButton, UIButton *postButton, UIButton *refreshButton, UINavigationItem *navigationItem) {
+        [CDUIKit setNavigationBar:bar style:CDNavigationBarStyleBlue forBarMetrics:UIBarMetricsDefault];
+
+        UILabel *titleLabel = [[UILabel alloc] init];
+        titleLabel.text = navigationItem.title;
+        [titleLabel sizeToFit];
+        titleLabel.backgroundColor  = [UIColor clearColor];
+        titleLabel.textColor = [UIColor whiteColor];
+        titleLabel.font = [UIFont fontWithName:FZLTHK_FONT_NAME size:16.0f];
+        [navigationItem setTitleView: titleLabel];
+    }];
+    
+    [UMSocialConfig setSnsPlatformNames:UMSHARE_SNS_NAMES];
+    [UMSocialConfig setSupportSinaSSO:CD_DEBUG];
+    [UMSocialConfig setFollowWeiboUids:@{UMShareToSina:OFFICIAL_SINA_WEIBO_USID}];
+    [UMSocialConfig setWXAppId:WEIXIN_APPID url:nil];
+    [UMSocialConfig setSupportQzoneSSO:YES importClasses:@[[QQApiInterface class],[TencentOAuth class]]];
+    [UMSocialConfig setQQAppId:QQ_CONNECT_APPID url:nil importClasses:@[[QQApiInterface class],[TencentOAuth class]]];
+    [UMSocialConfig setSupportTencentSSO:YES importClass:[WBApi class]];
+}
+
+- (void) addUMShareToCopyPlatform
+{
+    UMSocialSnsPlatform *copyPlatform = [[UMSocialSnsPlatform alloc] initWithPlatformName:UMShareToCopy];
+    copyPlatform.displayName = @"复制";
+    copyPlatform.shareToType = UMSocialSnsTypeCopy;
+    copyPlatform.bigImageName = @"Icon";
+    copyPlatform.snsClickHandler = ^(UIViewController *presentingController, UMSocialControllerService * socialControllerService, BOOL isPresentInController) {
+        NSLog(@"copy text: %@", socialControllerService.socialData.shareText);
+    };
+    [UMSocialConfig addSocialSnsPlatform:@[copyPlatform]];
 }
 
 - (void) setupRKObjectMapping
@@ -402,6 +433,10 @@
 - (void) setupDMSplashAd
 {
     @try {
+        
+        if (![[MobClick getConfigParams:UM_ONLINE_CONFIG_SPLASH_AD_ENABLE] isEqualToString:@"on"])
+            return;
+        
         CGSize adSize = DOMOB_AD_SIZE_320x400;
         NSString *imageName = (CDSCREEN_SIZE.height > 480) ? @"Default" : @"Default-568h";
         _splashAd = [[DMSplashAdController alloc] initWithPublisherId: AD_PUBLISHER_ID_DOMOB

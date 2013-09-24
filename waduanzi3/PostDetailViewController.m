@@ -104,6 +104,10 @@
     self.title = @"查看详情";
     self.view.userInteractionEnabled = YES;
     self.view.exclusiveTouch = YES;
+    
+    // 设置键盘显示和隐藏的通知
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
 
     // 设置导航栏组件
     [self setupNavButtionItems];
@@ -126,7 +130,7 @@
 }
 
 
-- (void) viewWillAppear:(BOOL)animated
+- (void) viewWillA2ppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     
@@ -135,9 +139,9 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
 }
 
-- (void) viewWillDisappear:(BOOL)animated
+- (void) viewDidUnload
 {
-    [super viewWillDisappear:animated];
+    [super viewDidUnload];
     
     // 移除键盘显示和隐藏的通知
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
@@ -195,7 +199,6 @@
     
     CGRect formViewFrame = _formView.frame;
     formViewFrame.origin.y = _tableView.frame.origin.y + _tableView.frame.size.height;
-    NSLog(@"yyy: %f", self.view.frame.size.height);
     _formView.frame = formViewFrame;
 }
 
@@ -422,46 +425,103 @@
     
     [self.view endEditing:YES];
     
-    NSString *identifier = [NSString stringWithFormat:@"post_social_share_%@", _post.post_id];
-    UMSocialData *socialData = [[UMSocialData alloc] initWithIdentifier:identifier withTitle:_post.title];
-    socialData.shareText = _post.content;
-    
-    if (_middleImage) {
-        socialData.shareImage = _middleImage;
-    }
-    else if (_post.middle_pic.length > 0) {
-        UMSocialUrlResource *urlResource = [[UMSocialUrlResource alloc] initWithSnsResourceType:UMSocialUrlResourceTypeImage url:_post.middle_pic];
-        socialData.urlResource = urlResource;
-    }
-    
-    UMSocialExtConfig *extConfig = [[UMSocialExtConfig alloc] init];
-    socialData.extConfig = extConfig;
-    extConfig.title = _post.title;
-    extConfig.mailMessage = _post.content;
-    extConfig.wxDescription = _post.content;
-    extConfig.appUrl = _post.url;
-    if (_middleImage || _post.middle_pic.length > 0) {
-        extConfig.thumbUrl = _post.middle_pic;
-        extConfig.wxMessageType = UMSocialWXMessageTypeOther;
-        WXWebpageObject *webpageObject = [WXWebpageObject object];
-        webpageObject.webpageUrl = _post.url;
-        extConfig.wxMediaObject = webpageObject;
-    }
-    else
-        extConfig.wxMessageType = UMSocialWXMessageTypeText;
+    @try {
+        [UMSocialConfig setQQAppId:QQ_CONNECT_APPID url:_post.url importClasses:@[[QQApiInterface class],[TencentOAuth class]]];
 
-    UMSocialControllerService *socialDataService = [[UMSocialControllerService alloc] initWithUMSocialData:socialData];
-    socialDataService.socialUIDelegate = self;
-    __weak PostDetailViewController *weakSelf = self;
-    UMSocialIconActionSheet *iconActionSheet = [socialDataService getSocialIconActionSheetInController:weakSelf];
-    [iconActionSheet showInView: self.navigationController.view];
+        UMSocialData *socialData = [UMSocialData defaultData];
+        socialData.identifier = [NSString stringWithFormat:@"umshare_identifier_post_%@", _post.post_id];
+        socialData.title = _post.title;
+        socialData.shareText = _post.content;
+        
+        [[UMSocialControllerService defaultControllerService] setSocialUIDelegate:self];
+        UMSocialIconActionSheet *actionSheet = [[UMSocialControllerService defaultControllerService] getSocialIconActionSheetInController:self];
+        [actionSheet showInView:self.navigationController.view];
+    }
+    @catch (NSException *exception) {
+        CDLog(@"exception: %@", exception);
+    }
+    @finally {
+        ;
+    }
 }
 
 #pragma mark - socialUIDelegate
 
+- (void) willCloseUIViewController:(UMSViewControllerType)fromViewControllerType
+{
+    CDLog(@"willCloseUIViewController: %d", fromViewControllerType);
+}
+
+- (void) didCloseUIViewController:(UMSViewControllerType)fromViewControllerType
+{
+    CDLog(@"didCloseUIViewController: %d", fromViewControllerType);
+}
+
+- (void) didSelectSocialPlatform:(NSString *)platformName withSocialData:(UMSocialData *)socialData
+{
+    CDLog(@"didSelectSocialPlatform: %@", platformName);
+    
+    if (_post.video && _post.video.source_url.length > 0) {
+        if (_smallImage)
+            socialData.shareImage = _smallImage;
+        
+        UMSocialUrlResource *urlResource = [[UMSocialUrlResource alloc] initWithSnsResourceType:UMSocialUrlResourceTypeVideo url:_post.url];
+        socialData.urlResource = urlResource;
+    }
+    else if (_post.middle_pic.length > 0) {
+        if (_middleImage)
+            socialData.shareImage = _middleImage;
+        else {
+            UMSocialUrlResource *urlResource = [[UMSocialUrlResource alloc] initWithSnsResourceType:UMSocialUrlResourceTypeImage url:_post.middle_pic];
+            socialData.urlResource = urlResource;
+        }
+    }
+    
+    socialData.extConfig.title = _post.title;
+    
+    
+    if ([platformName isEqualToString:UMShareToSms]) {
+        if (_post.middle_pic.length > 0 || _post.video.source_url.length > 0)
+            socialData.shareText = [socialData.shareText stringByAppendingString:_post.url];
+        else
+            socialData.shareText = [NSString stringWithFormat:@"[来自挖段子网]%@", socialData.shareText];
+    }
+    if ([platformName isEqualToString:UMShareToEmail]) {
+        socialData.extConfig.mailMessage = [_post.content stringByAppendingFormat:@"<p>[来自挖段子网]<a href=\"%@\">%@</a></p>", _post.url, _post.url];
+    }
+    else if ([platformName isEqualToString:UMShareToQzone]) {
+        if (_post.middle_pic.length > 0)
+            socialData.extConfig.thumbUrl = _post.middle_pic;
+    }
+    else if ([platformName isEqualToString:UMShareToWechatTimeline] || [platformName isEqualToString:UMShareToWechatSession]) {
+        if (_smallImage) {
+            socialData.shareImage = _smallImage;
+        }
+        socialData.extConfig.wxDescription = _post.content;
+        
+        if (_post.video && _post.video.source_url.length > 0) {
+            socialData.extConfig.wxMessageType = UMSocialWXMessageTypeOther;
+            socialData.extConfig.appUrl = _post.url;
+            WXVideoObject *videoObject = [WXVideoObject object];
+            videoObject.videoUrl = _post.url;
+            videoObject.videoLowBandUrl = _post.video.source_url;
+            socialData.extConfig.wxMediaObject = videoObject;
+        }
+        else if (_post.middle_pic.length > 0) {
+            socialData.extConfig.wxMessageType = UMSocialWXMessageTypeOther;
+            socialData.extConfig.appUrl = _post.url;
+            WXWebpageObject *webpageObject = [WXWebpageObject object];
+            webpageObject.webpageUrl = _post.url;
+            socialData.extConfig.wxMediaObject = webpageObject;
+        }
+        else
+            socialData.extConfig.wxMessageType = UMSocialWXMessageTypeText;
+    }
+}
+
 - (void) didFinishGetUMSocialDataInViewController:(UMSocialResponseEntity *)response
 {
-    NSLog(@"share response: %@", response);
+    CDLog(@"didFinishGetUMSocialDataInViewController: %@", response);
 }
 
 #pragma mark - tableview datasource
