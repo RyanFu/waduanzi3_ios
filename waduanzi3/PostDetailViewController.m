@@ -42,6 +42,7 @@
 - (void) reportComment:(NSInteger) index;
 - (void) setupTableViewInfiniteScrollView;
 - (void) setupCommentFormView;
+- (BOOL) submitCommentAction;
 - (void) sendComment;
 
 @end
@@ -130,15 +131,6 @@
 }
 
 
-- (void) viewWillA2ppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    
-    // 设置键盘显示和隐藏的通知
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
-}
-
 - (void) viewDidUnload
 {
     [super viewDidUnload];
@@ -146,6 +138,7 @@
     // 移除键盘显示和隐藏的通知
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UITextFieldTextDidChangeNotification object:nil];
     
     // 终止评论获取进程和更新段子信息进程
     [[RKObjectManager sharedManager] cancelAllObjectRequestOperationsWithMethod:RKRequestMethodGET matchingPathPattern:@"/comment/show/:post_id"];
@@ -287,10 +280,13 @@
         formViewY = self.view.frame.size.height - COMMENT_FORM_HEIGHT - NAVBAR_HEIGHT;
     CGRect formFrame = CGRectMake(0, formViewY, CDSCREEN_SIZE.width, COMMENT_FORM_HEIGHT);
     _formView = [[CDCommentFormView alloc] initWithFrame:formFrame];
-    [self.view addSubview:_formView];
+    _formView.submitButton.enabled = _formView.textField.text.length > 0;
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textFieldDidChanged:) name:UITextFieldTextDidChangeNotification object:nil];
     [_formView.submitButton addTarget:self action:@selector(submitButtonTouhcInUpside:) forControlEvents:UIControlEventTouchUpInside];
     _formView.textField.delegate = self;
+    [self.view addSubview:_formView];
 
+    
     NSLog(@"comment form, height: %f", self.view.frame.size.height);
 }
 
@@ -309,14 +305,7 @@
 
 - (void) submitButtonTouhcInUpside:(UIButton *)button
 {
-    if (_formView.textField.text.length == 0)
-        return;
-    NSLog(@"send comment");
-    button.enabled = NO;
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self sendComment];
-        _formView.textField.text = nil;
-    });
+    [self submitCommentAction];
 }
 
 
@@ -324,16 +313,30 @@
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-    if (textField.text.length == 0)
+    return [self submitCommentAction];
+}
+
+- (BOOL) submitCommentAction
+{
+    if (_formView.textField.text.length == 0)
         return NO;
     else {
+        _formView.submitButton.enabled = NO;
+        _formView.textField.text = nil;
+        [self.view endEditing:YES];
+        
         dispatch_async(dispatch_get_main_queue(), ^{
             [self sendComment];
-            textField.text = nil;
         });
-
+        
         return YES;
     }
+}
+
+- (void) textFieldDidChanged:(NSNotification *)notification
+{
+    CDTextField *textField = (CDTextField *)notification.object;
+    _formView.submitButton.enabled = (textField.text.length > 0);
 }
 
 #pragma mark - bottom bar button selector
@@ -797,7 +800,6 @@
     if (_formView.textField.text.length == 0)
         return;
     
-    [self.view endEditing:YES];
     // Load the object model via RestKit
     RKObjectManager *objectManager = [RKObjectManager sharedManager];
     [objectManager postObject:nil path:@"comment/create"

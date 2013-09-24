@@ -52,7 +52,8 @@
             layer.backgroundColor = [UIColor lightGrayColor].CGColor;
             layer.frame = CGRectMake(0, 0, self.frame.size.width, 0.5);
             [self.layer addSublayer:layer];
-            [_submitButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+            [_submitButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateDisabled];
+            [_submitButton setTitleColor:[UIColor colorWithRed:0.40f green:0.78f blue:0.13f alpha:1.00f] forState:UIControlStateNormal];
         }
         else {
             UIEdgeInsets buttonImageInsets = UIEdgeInsetsMake(3, 5, 3, 5);
@@ -62,6 +63,8 @@
             [_submitButton setBackgroundImage:normalButtonImage forState:UIControlStateNormal];
             [_submitButton setBackgroundImage:pressButtonImage forState:UIControlStateHighlighted];
             [_submitButton setBackgroundImage:disableButtonImage forState:UIControlStateDisabled];
+            [_submitButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateDisabled];
+            [_submitButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         }
     }
     return self;
