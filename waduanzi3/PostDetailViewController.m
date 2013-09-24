@@ -480,7 +480,8 @@
         }
     }
     
-    socialData.extConfig.title = _post.title;
+    UMSocialExtConfig *extConfig = [[UMSocialExtConfig alloc] init];
+    extConfig.title = _post.title;
     
     
     if ([platformName isEqualToString:UMShareToSms]) {
@@ -490,36 +491,38 @@
             socialData.shareText = [NSString stringWithFormat:@"[来自挖段子网]%@", socialData.shareText];
     }
     if ([platformName isEqualToString:UMShareToEmail]) {
-        socialData.extConfig.mailMessage = [_post.content stringByAppendingFormat:@"<p>[来自挖段子网]<a href=\"%@\">%@</a></p>", _post.url, _post.url];
+        extConfig.mailMessage = [_post.content stringByAppendingFormat:@"<p>[来自挖段子网]<a href=\"%@\">%@</a></p>", _post.url, _post.url];
     }
     else if ([platformName isEqualToString:UMShareToQzone]) {
         if (_post.middle_pic.length > 0)
-            socialData.extConfig.thumbUrl = _post.middle_pic;
+            extConfig.thumbUrl = _post.middle_pic;
     }
     else if ([platformName isEqualToString:UMShareToWechatTimeline] || [platformName isEqualToString:UMShareToWechatSession]) {
         if (_smallImage) {
             socialData.shareImage = _smallImage;
         }
-        socialData.extConfig.wxDescription = _post.content;
+        extConfig.wxDescription = _post.content;
         
         if (_post.video && _post.video.source_url.length > 0) {
-            socialData.extConfig.wxMessageType = UMSocialWXMessageTypeOther;
-            socialData.extConfig.appUrl = _post.url;
+            extConfig.wxMessageType = UMSocialWXMessageTypeOther;
+            extConfig.appUrl = _post.url;
             WXVideoObject *videoObject = [WXVideoObject object];
             videoObject.videoUrl = _post.url;
             videoObject.videoLowBandUrl = _post.video.source_url;
-            socialData.extConfig.wxMediaObject = videoObject;
+            extConfig.wxMediaObject = videoObject;
         }
         else if (_post.middle_pic.length > 0) {
-            socialData.extConfig.wxMessageType = UMSocialWXMessageTypeOther;
-            socialData.extConfig.appUrl = _post.url;
+            extConfig.wxMessageType = UMSocialWXMessageTypeOther;
+            extConfig.appUrl = _post.url;
             WXWebpageObject *webpageObject = [WXWebpageObject object];
             webpageObject.webpageUrl = _post.url;
-            socialData.extConfig.wxMediaObject = webpageObject;
+            extConfig.wxMediaObject = webpageObject;
         }
         else
-            socialData.extConfig.wxMessageType = UMSocialWXMessageTypeText;
+            extConfig.wxMessageType = UMSocialWXMessageTypeText;
     }
+    
+    socialData.extConfig = extConfig;
 }
 
 - (void) didFinishGetUMSocialDataInViewController:(UMSocialResponseEntity *)response
