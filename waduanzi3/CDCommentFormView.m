@@ -37,6 +37,7 @@
         _textField.font = [UIFont fontWithName:FZLTHK_FONT_NAME size:14.0f];
         _textField.borderStyle = UITextBorderStyleRoundedRect;
         _textField.returnKeyType = UIReturnKeySend;
+        _textField.enablesReturnKeyAutomatically = YES;
         _textField.placeholder = @"留下我的节操...";
         [self addSubview:_textField];
 

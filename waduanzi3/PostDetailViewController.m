@@ -323,7 +323,6 @@
         return NO;
     else {
         _formView.submitButton.enabled = NO;
-        _formView.textField.text = nil;
         [self.view endEditing:YES];
         
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -803,14 +802,12 @@
 
 - (void) sendComment
 {
-    if (_formView.textField.text.length == 0)
-        return;
+    NSDictionary *parameters = [self createCommentParameters];
+    _formView.textField.text = nil;
     
     // Load the object model via RestKit
     RKObjectManager *objectManager = [RKObjectManager sharedManager];
-    [objectManager postObject:nil path:@"comment/create"
-                   parameters:[self createCommentParameters] success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-                       _formView.submitButton.enabled = YES;
+    [objectManager postObject:nil path:@"comment/create" parameters:parameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
                        _post.comment_count = [NSNumber numberWithInteger:_post.comment_count.integerValue+1];
                        
                         CDComment *comment = (CDComment *) [mappingResult firstObject];
@@ -825,8 +822,6 @@
                             [self.tableView scrollToRowAtIndexPath:newIndexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
                         }
                     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-                        _formView.submitButton.enabled = YES;
-                        
                         if (error.code == NSURLErrorCancelled) return ;
                         
                         NSString *alertMessage = @"发布评论失败。";
