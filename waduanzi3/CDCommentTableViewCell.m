@@ -73,7 +73,7 @@
     self.textLabel.numberOfLines = 0;
     self.textLabel.lineBreakMode = UILineBreakModeWordWrap;
     self.textLabel.font = [UIFont fontWithName:FZLTHK_FONT_NAME size:14.0f];
-    self.textLabel.textColor = [UIColor colorWithRed:0.35f green:0.35f blue:0.35f alpha:1.00f];
+    self.textLabel.textColor = COMMENT_TEXT_COLOR;
     self.textLabel.backgroundColor = [UIColor clearColor];
     
     // detailLabel

@@ -221,8 +221,6 @@
 		2B623B9D1792F73D00D3270D /* ButtonStarred@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B623B911792F73D00D3270D /* ButtonStarred@2x.png */; };
 		2B623B9E1792F73D00D3270D /* ButtonUnstarred.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B623B921792F73D00D3270D /* ButtonUnstarred.png */; };
 		2B623B9F1792F73D00D3270D /* ButtonUnstarred@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B623B931792F73D00D3270D /* ButtonUnstarred@2x.png */; };
-		2B64538117C252EE005F6ED2 /* WebTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B64538017C252EE005F6ED2 /* WebTestViewController.m */; };
-		2B64538417C27013005F6ED2 /* DTCoreTextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B64538317C27013005F6ED2 /* DTCoreTextViewController.m */; };
 		2B6519AB1767318F0080D632 /* CDConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B6519AA1767318F0080D632 /* CDConfig.m */; };
 		2B65AD1F17EBCF6400E444D9 /* libMobClickLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B65AD1C17EBCF6400E444D9 /* libMobClickLibrary.a */; };
 		2B65AD2C17EBD01000E444D9 /* libBPush.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B65AD2317EBD01000E444D9 /* libBPush.a */; };
@@ -317,7 +315,6 @@
 		2BB46D0E17C5D49F00C35084 /* umeng_ad_handle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BB46D0617C5D49F00C35084 /* umeng_ad_handle@2x.png */; };
 		2BB60F8C1756437D00290F69 /* CDUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BB60F8B1756437D00290F69 /* CDUser.m */; };
 		2BB60F8F1756437D00290F69 /* CDPost.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BB60F8E1756437D00290F69 /* CDPost.m */; };
-		2BB60F921756470F00290F69 /* TestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BB60F911756470F00290F69 /* TestViewController.m */; };
 		2BB60F9517565CD900290F69 /* CDRestClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BB60F9417565CD900290F69 /* CDRestClient.m */; };
 		2BC17A6C17E1ED29006BB510 /* CDVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BC17A6B17E1ED29006BB510 /* CDVideo.m */; };
 		2BC4D4A9176201280098151C /* CDCommentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BC4D4A7176201270098151C /* CDCommentTableViewCell.m */; };
@@ -375,7 +372,6 @@
 		2BDD706B177F637400421915 /* button_go_arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BDD7069177F637400421915 /* button_go_arrow.png */; };
 		2BDD706E177F829500421915 /* form_background.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BDD706C177F829500421915 /* form_background.png */; };
 		2BDD706F177F829500421915 /* form_background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BDD706D177F829500421915 /* form_background@2x.png */; };
-		2BDD70A8177F971700421915 /* MGBoxViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BDD70A7177F971700421915 /* MGBoxViewController.m */; };
 		2BDD70AA177F980A00421915 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BDD70A9177F980A00421915 /* CoreText.framework */; };
 		2BDE2F92178C1360007736A8 /* CDCommentFormView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BDE2F91178C1360007736A8 /* CDCommentFormView.m */; };
 		2BDF51CC17EF664C004E4F8F /* libstdc++.6.0.9.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BB8F83717EF6085000FDF18 /* libstdc++.6.0.9.dylib */; };
@@ -402,7 +398,6 @@
 		2BEDFE3117A6602B003498A7 /* login_background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BEDFE2F17A6602B003498A7 /* login_background@2x.png */; };
 		2BF5BE92178D5AE200220DDF /* post_cell_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BF5BE8E178D5ADD00220DDF /* post_cell_bg.png */; };
 		2BF5BE93178D5AE200220DDF /* post_cell_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BF5BE8F178D5ADF00220DDF /* post_cell_bg@2x.png */; };
-		2BF6531A17C2971C0096541A /* About.html in Resources */ = {isa = PBXBuildFile; fileRef = 2BF6531917C2971C0096541A /* About.html */; };
 		2BFC742B177752C80027F9B3 /* CDDataCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BFC742A177752C80027F9B3 /* CDDataCache.m */; };
 		2BFEBD6F16E76E0C00D8D363 /* sidemenus.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2BFEBD6E16E76E0C00D8D363 /* sidemenus.plist */; };
 		2BFEBD7D16E781CE00D8D363 /* menu_table_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BFEBD7B16E781CE00D8D363 /* menu_table_bg.png */; };
@@ -654,10 +649,6 @@
 		2B623B911792F73D00D3270D /* ButtonStarred@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ButtonStarred@2x.png"; sourceTree = "<group>"; };
 		2B623B921792F73D00D3270D /* ButtonUnstarred.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonUnstarred.png; sourceTree = "<group>"; };
 		2B623B931792F73D00D3270D /* ButtonUnstarred@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ButtonUnstarred@2x.png"; sourceTree = "<group>"; };
-		2B64537F17C252EE005F6ED2 /* WebTestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebTestViewController.h; sourceTree = "<group>"; };
-		2B64538017C252EE005F6ED2 /* WebTestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebTestViewController.m; sourceTree = "<group>"; };
-		2B64538217C27013005F6ED2 /* DTCoreTextViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTCoreTextViewController.h; sourceTree = "<group>"; };
-		2B64538317C27013005F6ED2 /* DTCoreTextViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTCoreTextViewController.m; sourceTree = "<group>"; };
 		2B6519A91767318F0080D632 /* CDConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDConfig.h; sourceTree = "<group>"; };
 		2B6519AA1767318F0080D632 /* CDConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDConfig.m; sourceTree = "<group>"; };
 		2B65AD1C17EBCF6400E444D9 /* libMobClickLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libMobClickLibrary.a; sourceTree = "<group>"; };
@@ -808,8 +799,6 @@
 		2BB60F8B1756437D00290F69 /* CDUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDUser.m; sourceTree = "<group>"; };
 		2BB60F8D1756437D00290F69 /* CDPost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDPost.h; sourceTree = "<group>"; };
 		2BB60F8E1756437D00290F69 /* CDPost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDPost.m; sourceTree = "<group>"; };
-		2BB60F901756470F00290F69 /* TestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestViewController.h; sourceTree = "<group>"; };
-		2BB60F911756470F00290F69 /* TestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestViewController.m; sourceTree = "<group>"; };
 		2BB60F9317565CD900290F69 /* CDRestClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDRestClient.h; sourceTree = "<group>"; };
 		2BB60F9417565CD900290F69 /* CDRestClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDRestClient.m; sourceTree = "<group>"; };
 		2BB8F83717EF6085000FDF18 /* libstdc++.6.0.9.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.6.0.9.dylib"; path = "usr/lib/libstdc++.6.0.9.dylib"; sourceTree = SDKROOT; };
@@ -900,8 +889,6 @@
 		2BDD7069177F637400421915 /* button_go_arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_go_arrow.png; sourceTree = "<group>"; };
 		2BDD706C177F829500421915 /* form_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = form_background.png; sourceTree = "<group>"; };
 		2BDD706D177F829500421915 /* form_background@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "form_background@2x.png"; sourceTree = "<group>"; };
-		2BDD70A6177F971700421915 /* MGBoxViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGBoxViewController.h; sourceTree = "<group>"; };
-		2BDD70A7177F971700421915 /* MGBoxViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGBoxViewController.m; sourceTree = "<group>"; };
 		2BDD70A9177F980A00421915 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		2BDE2F90178C1360007736A8 /* CDCommentFormView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDCommentFormView.h; sourceTree = "<group>"; };
 		2BDE2F91178C1360007736A8 /* CDCommentFormView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDCommentFormView.m; sourceTree = "<group>"; };
@@ -936,7 +923,6 @@
 		2BEDFE2F17A6602B003498A7 /* login_background@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "login_background@2x.png"; sourceTree = "<group>"; };
 		2BF5BE8E178D5ADD00220DDF /* post_cell_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = post_cell_bg.png; sourceTree = "<group>"; };
 		2BF5BE8F178D5ADF00220DDF /* post_cell_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "post_cell_bg@2x.png"; sourceTree = "<group>"; };
-		2BF6531917C2971C0096541A /* About.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = About.html; sourceTree = "<group>"; };
 		2BFC7429177752C80027F9B3 /* CDDataCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDDataCache.h; sourceTree = "<group>"; };
 		2BFC742A177752C80027F9B3 /* CDDataCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDDataCache.m; sourceTree = "<group>"; };
 		2BFEBD6E16E76E0C00D8D363 /* sidemenus.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = sidemenus.plist; sourceTree = "<group>"; };
@@ -1014,22 +1000,6 @@
 				2B43D67917E4984500C48CD9 /* CDAdvert.m */,
 			);
 			name = Models;
-			sourceTree = "<group>";
-		};
-		2B64537D17C25297005F6ED2 /* Demos */ = {
-			isa = PBXGroup;
-			children = (
-				2BDD70A6177F971700421915 /* MGBoxViewController.h */,
-				2BDD70A7177F971700421915 /* MGBoxViewController.m */,
-				2BB60F901756470F00290F69 /* TestViewController.h */,
-				2BB60F911756470F00290F69 /* TestViewController.m */,
-				2B64537F17C252EE005F6ED2 /* WebTestViewController.h */,
-				2B64538017C252EE005F6ED2 /* WebTestViewController.m */,
-				2B64538217C27013005F6ED2 /* DTCoreTextViewController.h */,
-				2B64538317C27013005F6ED2 /* DTCoreTextViewController.m */,
-				2BF6531917C2971C0096541A /* About.html */,
-			);
-			name = Demos;
 			sourceTree = "<group>";
 		};
 		2B65AD1B17EBCF6400E444D9 /* UMAnalytics_Sdk_2.2.1.OpenUDID */ = {
@@ -1397,7 +1367,6 @@
 			isa = PBXGroup;
 			children = (
 				2B77495317F16D1300E0CC31 /* Categores */,
-				2B64537D17C25297005F6ED2 /* Demos */,
 				2B48FF33175605E500FFF85B /* Models */,
 				2BED82F8167B5ED20025E9C4 /* Resources */,
 				2BED82F7167B5ECC0025E9C4 /* Common */,
@@ -1488,6 +1457,7 @@
 		2BED82F8167B5ED20025E9C4 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				2BD0117317CA4E6A00825869 /* post_default.css */,
 				2BA6637317F1E0630012C02D /* copy_icon.png */,
 				2BA6637417F1E0630012C02D /* copy_icon@2x.png */,
 				2BA6636A17F1D79A0012C02D /* tip_succeed@2x.png */,
@@ -1748,7 +1718,6 @@
 				2B492B7F167B626700BBA956 /* thumb_placeholder@2x.png */,
 				2B492B80167B626700BBA956 /* table_bg.png */,
 				2B492B81167B626700BBA956 /* table_bg@2x.png */,
-				2BD0117317CA4E6A00825869 /* post_default.css */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -2086,7 +2055,6 @@
 				2B43D67717E4191800C48CD9 /* installnow_gray_button_background@2x.png in Resources */,
 				2B91033817B4B19C005993B2 /* tip_error@2x.png in Resources */,
 				2BA6637517F1E0630012C02D /* copy_icon.png in Resources */,
-				2BF6531A17C2971C0096541A /* About.html in Resources */,
 				2BB46D0717C5D49F00C35084 /* umeng_ad_handle_night.png in Resources */,
 				2BB46D0817C5D49F00C35084 /* umeng_ad_handle_night@2x.png in Resources */,
 				2BB46D0917C5D49F00C35084 /* umeng_ad_handle_press_night.png in Resources */,
@@ -2152,7 +2120,6 @@
 				2BCFA8CE16E4E2CF00521DEC /* PostListViewController.m in Sources */,
 				2BB60F8C1756437D00290F69 /* CDUser.m in Sources */,
 				2BB60F8F1756437D00290F69 /* CDPost.m in Sources */,
-				2BB60F921756470F00290F69 /* TestViewController.m in Sources */,
 				2BB60F9517565CD900290F69 /* CDRestClient.m in Sources */,
 				2BCA0A0117578704000DD9FF /* CDComment.m in Sources */,
 				2B43D67317E415F400C48CD9 /* CDAdvertTableViewCell.m in Sources */,
@@ -2192,7 +2159,6 @@
 				2B9D01E817ECB01300CEA65A /* QPickerTableViewCell.m in Sources */,
 				2B69665A17E36683001A5DF6 /* MBProgressHUD+Custom.m in Sources */,
 				2B1FDDFA177CB87900CD1135 /* CDSideTableViewCell.m in Sources */,
-				2BDD70A8177F971700421915 /* MGBoxViewController.m in Sources */,
 				2B2BEC611783CE5F008038B0 /* ImageDetailViewController.m in Sources */,
 				2B43D67D17E49F3500C48CD9 /* CDKit.m in Sources */,
 				2BD65029178A6EE900EFE5B7 /* CDUserForm.m in Sources */,
@@ -2220,8 +2186,6 @@
 				2BAC67E917BB62D300B9768E /* CDUserConfig.m in Sources */,
 				2BAC67F317BBC66400B9768E /* PostFontPickerValueParser.m in Sources */,
 				2BAC67F617BBCD1200B9768E /* CommentFontPickerValueParser.m in Sources */,
-				2B64538117C252EE005F6ED2 /* WebTestViewController.m in Sources */,
-				2B64538417C27013005F6ED2 /* DTCoreTextViewController.m in Sources */,
 				2B1B14DC17E9CE2400CC0377 /* CDTableViewController.m in Sources */,
 				2BD0116C17C9E78800825869 /* ArticleDetailViewController.m in Sources */,
 				2BD0116F17C9EB1100825869 /* FocusListViewController.m in Sources */,

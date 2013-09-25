@@ -147,7 +147,8 @@ typedef NS_ENUM (NSUInteger, CDPostContentFontSize)
 
 #define FZLTHK_FONT_FAMILY @"FZLanTingHei-R-GBK"
 #define FZLTHK_FONT_NAME @"FZLTHK--GBK1-0"
-
+#define POST_TEXT_COLOR [UIColor colorWithRed:0.27f green:0.27f blue:0.27f alpha:1.00f]
+#define COMMENT_TEXT_COLOR [UIColor colorWithRed:0.35f green:0.35f blue:0.35f alpha:1.00f]
 
 
 /*

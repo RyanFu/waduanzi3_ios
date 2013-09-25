@@ -82,7 +82,7 @@
     _authorTextLabel.contentMode = UIViewContentModeTopLeft;
     _authorTextLabel.backgroundColor = [UIColor clearColor];
     _authorTextLabel.font = [UIFont boldSystemFontOfSize:16.0f];
-    _authorTextLabel.textColor = [UIColor colorWithRed:0.20f green:0.30f blue:0.55f alpha:1.00f];
+    _authorTextLabel.textColor = POST_TEXT_COLOR;
     
     _avatarImageView.contentMode = UIViewContentModeScaleAspectFit;
     _avatarImageView.opaque = YES;
@@ -96,14 +96,14 @@
     _textLabel.numberOfLines = 0;
     _textLabel.lineBreakMode = UILineBreakModeWordWrap;
     _textLabel.font = [UIFont systemFontOfSize:16.0f];
-    _textLabel.textColor = [UIColor colorWithRed:0.16f green:0.16f blue:0.16f alpha:1.00f];
+    _textLabel.textColor = POST_TEXT_COLOR;
     
     // detailLabel
     _detailTextLabel.backgroundColor = [UIColor clearColor];
     _detailTextLabel.numberOfLines = 0;
     _detailTextLabel.lineBreakMode = UILineBreakModeWordWrap;
     _detailTextLabel.font = [UIFont systemFontOfSize:16.0f];
-    _detailTextLabel.textColor = [UIColor colorWithRed:0.16f green:0.16f blue:0.16f alpha:1.00f];
+    _detailTextLabel.textColor = POST_TEXT_COLOR;
     
     // imageView
     _imageView.contentMode = UIViewContentModeScaleAspectFit;

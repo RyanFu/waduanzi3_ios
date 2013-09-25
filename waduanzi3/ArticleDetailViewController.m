@@ -10,6 +10,7 @@
 #import "CDPost.h"
 #import "UIImageView+WebCache.h"
 #import "DTTiledLayerWithoutFade.h"
+#import "UIView+Border.h"
 
 
 @interface ArticleDetailViewController ()
@@ -66,19 +67,18 @@
         [_cellCache setObject:cell forKey:cacheKey];
     }
 
-    NSString *csspath = [[NSBundle mainBundle] pathForResource:@"default" ofType:@"css"];
+    NSString *csspath = [[NSBundle mainBundle] pathForResource:@"post_default" ofType:@"css"];
     NSString *defaultCss = [NSString stringWithContentsOfFile:csspath encoding:NSUTF8StringEncoding error:nil];
     DTCSSStylesheet *styleSheet = [[DTCSSStylesheet alloc] initWithStyleBlock:defaultCss];
-    NSDictionary *builderOptions = @{
+    NSDictionary *buildeOptions = @{
                                      DTDefaultFontFamily: FZLTHK_FONT_FAMILY,
                                      DTDefaultFontSize:[NSNumber numberWithFloat:detailFontSize],
-                                     DTDefaultLineHeightMultiplier: @"1.5f",
-                                     DTDefaultTextColor: [UIColor colorWithRed:0.20f green:0.20f blue:0.20f alpha:1.00f],
+                                     DTDefaultTextColor: POST_TEXT_COLOR,
                                      DTDefaultStyleSheet: styleSheet
                                      };
     NSData *htmlData = [self.post.content_html dataUsingEncoding:NSUTF8StringEncoding];
     DTHTMLAttributedStringBuilder *stringBuilder = [[DTHTMLAttributedStringBuilder alloc] initWithHTML:htmlData
-                                                                                               options:builderOptions
+                                                                                               options:buildeOptions
                                                                                     documentAttributes:nil];
     
     cell.attributedString = [stringBuilder generatedAttributedString];
@@ -95,6 +95,7 @@
 
 - (UIView *) attributedTextContentView:(DTAttributedTextContentView *)attributedTextContentView viewForAttachment:(DTTextAttachment *)attachment frame:(CGRect)frame
 {
+    NSLog(@"post content html: %@, attachement: %@", self.post.content_html, attachment.class);
     if ([attachment isKindOfClass:[DTImageTextAttachment class]]) {
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:frame];
         imageView.layer.cornerRadius = 3.0f;
@@ -116,8 +117,20 @@
         
         return imageView;
     }
+    else if ([attachment isKindOfClass:[DTIframeTextAttachment class]]) {
+        NSLog(@"video frame: %@, %@", NSStringFromCGRect(frame), attachment.contentURL);
+        return nil;
+    }
+    else if ([attachment isKindOfClass:[DTVideoTextAttachment class]]) {
+        return nil;
+    }
     else
         return nil;
+}
+
+- (BOOL) videoView:(DTWebVideoView *)videoView shouldOpenExternalURL:(NSURL *)url
+{
+    return NO;
 }
 
 @end

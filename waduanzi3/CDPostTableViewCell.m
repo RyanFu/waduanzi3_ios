@@ -98,19 +98,19 @@
     
     // authorTextLabel
     _authorTextLabel.backgroundColor = [UIColor clearColor];
-    _authorTextLabel.textColor = [UIColor colorWithRed:0.15f green:0.15f blue:0.15f alpha:1.00f];
+    _authorTextLabel.textColor = POST_TEXT_COLOR;
     
     // textLabel
     self.textLabel.backgroundColor = [UIColor clearColor];
     self.textLabel.numberOfLines = 0;
     self.textLabel.lineBreakMode = UILineBreakModeWordWrap;
-    self.textLabel.textColor = [UIColor colorWithRed:0.16f green:0.16f blue:0.16f alpha:1.00f];
+    self.textLabel.textColor = POST_TEXT_COLOR;
     
     //detailTextLabel
     self.detailTextLabel.backgroundColor = [UIColor clearColor];
     self.detailTextLabel.numberOfLines = 0;
     self.detailTextLabel.lineBreakMode = UILineBreakModeWordWrap;
-    self.detailTextLabel.textColor = [UIColor colorWithRed:0.16f green:0.16f blue:0.16f alpha:1.00f];
+    self.detailTextLabel.textColor = POST_TEXT_COLOR;
     
     // imageView
     self.imageView.contentMode = UIViewContentModeScaleToFill;

@@ -26,12 +26,6 @@
 #import "CDUMSociaSnsPlatformExtend.h"
 
 
-#import "TestViewController.h"
-#import "WebTestViewController.h"
-#import "MGBoxViewController.h"
-#import "DTCoreTextViewController.h"
-
-
 @interface AppDelegate ()
 {
     DMSplashAdController *_splashAd;
@@ -45,7 +39,8 @@
 - (void) setupDMSplashAd;
 - (void) setupUMSocial;
 
-- (void) setupTestRootController;
+
+- (void)preInitWithSize:(CGFloat)size family:(NSString *)family;
 @end
 
 @implementation AppDelegate
@@ -62,8 +57,6 @@
     [self customAppearance];
     [self setupRKObjectMapping];
     [self setupWindowView:application];
-    
-//    [self setupTestRootController];
     
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
@@ -278,25 +271,6 @@
     self.window.rootViewController = deckController;
 }
 
-- (void) setupTestRootController
-{
-    DTCoreTextViewController *coreTextController = [[DTCoreTextViewController alloc] init];
-    self.window.rootViewController = coreTextController;
-    return;
-    
-//    MGBoxViewController *mgboxController = [[MGBoxViewController alloc] init];
-//    self.window.rootViewController = mgboxController;
-//    
-//    return;
-    
-//    WebTestViewController *webTestController = [[WebTestViewController alloc] init];
-//    self.window.rootViewController = webTestController;
-//    return;
-//    
-//    TestViewController *testController = [[TestViewController alloc] initWithStyle:UITableViewStylePlain];
-//    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:testController];
-//    self.window.rootViewController = navController;
-}
 
 - (void) afterWindowVisible:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -329,6 +303,30 @@
     [BPush setupChannel:launchOptions];
     [BPush setDelegate:self];
     [application registerForRemoteNotificationTypes:UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound];
+    
+    NSArray *familyNames = [[NSArray alloc] initWithArray:[UIFont familyNames]];
+    NSArray *fontNames;
+    NSInteger indFamily, indFont;
+    for (indFamily=0; indFamily<[familyNames count]; ++indFamily)
+    {
+        NSLog(@"Family name: %@", [familyNames objectAtIndex:indFamily]);
+        fontNames = [[NSArray alloc] initWithArray:
+                     [UIFont fontNamesForFamilyName:
+                      [familyNames objectAtIndex:indFamily]]];
+        for (indFont=0; indFont<[fontNames count]; ++indFont)
+        {
+            NSLog(@"    Font name: %@", [fontNames objectAtIndex:indFont]);
+        }
+
+    }
+
+    
+    // 预加载字体
+    dispatch_queue_t queue = dispatch_queue_create("com.waduanzi.iphone", NULL);
+    dispatch_async(queue, ^(void) {
+        [self preInitWithSize:CDPostContentFontSizeNormal family:FZLTHK_FONT_FAMILY];
+        [self preInitWithSize:CDPostContentFontSizeBig family:FZLTHK_FONT_FAMILY];
+    });
     
 }
 
@@ -447,6 +445,21 @@
     @finally {
         ;
     }
+}
+
+#pragma  DTCoreText preload
+
+- (void)preInitWithSize:(CGFloat)size family:(NSString *)family
+{
+    NSLog(@"Start");
+    NSMutableDictionary *attributes = [NSMutableDictionary dictionary];
+    [attributes setObject:family forKey:(id)kCTFontFamilyNameAttribute];
+    [attributes setObject:[NSNumber numberWithFloat:size] forKey:(id)kCTFontSizeAttribute];
+    CTFontDescriptorRef fontDesc = CTFontDescriptorCreateWithAttributes((CFDictionaryRef)attributes);
+    CTFontRef matchingFont = CTFontCreateWithFontDescriptor(fontDesc, size, NULL);
+    CFRelease(matchingFont);
+    CFRelease(fontDesc);
+    NSLog(@"Finish");
 }
 
 @end

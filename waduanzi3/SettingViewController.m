@@ -16,7 +16,6 @@
 #import "UserProfileViewController.h"
 #import "CDUIKit.h"
 #import "CDWebViewController.h"
-#import "TestViewController.h"
 #import "UserConfig.h"
 #import "FeedbackViewController.h"
 #import "Appirater.h"

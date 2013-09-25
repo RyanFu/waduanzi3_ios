@@ -77,19 +77,19 @@
     
     // authorTextLabel
     _authorTextLabel.backgroundColor = [UIColor clearColor];
-    _authorTextLabel.textColor = [UIColor colorWithRed:0.15f green:0.15f blue:0.15f alpha:1.00f];
+    _authorTextLabel.textColor = POST_TEXT_COLOR;
     
     // textLabel
     self.textLabel.backgroundColor = [UIColor clearColor];
     self.textLabel.numberOfLines = 0;
     self.textLabel.lineBreakMode = UILineBreakModeWordWrap;
-    self.textLabel.textColor = [UIColor colorWithRed:0.16f green:0.16f blue:0.16f alpha:1.00f];
+    self.textLabel.textColor = POST_TEXT_COLOR;
     
     //detailTextLabel
     self.detailTextLabel.backgroundColor = [UIColor clearColor];
     self.detailTextLabel.numberOfLines = 0;
     self.detailTextLabel.lineBreakMode = UILineBreakModeWordWrap;
-    self.detailTextLabel.textColor = [UIColor colorWithRed:0.16f green:0.16f blue:0.16f alpha:1.00f];
+    self.detailTextLabel.textColor = POST_TEXT_COLOR;
     
     // imageView
     self.imageView.contentMode = UIViewContentModeScaleToFill;
@@ -102,7 +102,7 @@
                                      contentBlockWidth - INSTALL_VIEW_EDGEINSETS.left*2 - INSTALL_VIEW_EDGEINSETS.right-INSTALL_BUTTON_SIZE.width,
                                      INSTALL_BUTTON_SIZE.height);
     _appNameLabel.backgroundColor = [UIColor clearColor];
-    _appNameLabel.textColor = [UIColor blackColor];
+    _appNameLabel.textColor = POST_TEXT_COLOR;
     _appNameLabel.lineBreakMode = UILineBreakModeTailTruncation;
     _appNameLabel.font = [UIFont boldSystemFontOfSize:14.0f];
     
@@ -114,7 +114,7 @@
     [_installButton setBackgroundImage:buttonBackgroundImage forState:UIControlStateNormal];
     _installButton.userInteractionEnabled = NO;
     [_installButton setTitle:@"立即安装" forState:UIControlStateNormal];
-    [_installButton setTitleColor:[UIColor colorWithRed:0.27f green:0.27f blue:0.27f alpha:1.00f] forState:UIControlStateNormal];
+    [_installButton setTitleColor:POST_TEXT_COLOR forState:UIControlStateNormal];
     _installButton.titleLabel.font = [UIFont systemFontOfSize:14.0f];
 }
 
