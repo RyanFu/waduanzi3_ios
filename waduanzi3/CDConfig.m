@@ -19,6 +19,8 @@
 
 + (BOOL) enabledUMHandle
 {
+    if (CD_DEBUG) return YES;
+    
     @try {
         double firstBootTime = [[CDDataCache shareCache] fetchAppFirstBootTime];
         if (firstBootTime > CFAbsoluteTimeGetCurrent() - DAY_SECONDS)
@@ -29,10 +31,12 @@
     }
     @catch (NSException *exception) {
         CDLog(@"enable umhandle exception: %@", exception.reason);
-    }
-    @finally {
         return NO;
     }
+    @finally {
+        ;
+    }
     
+    return NO;
 }
 @end
