@@ -345,7 +345,7 @@
 {
     if (CD_DEBUG) {
 //        RKLogConfigureByName("RestKit/ObjectMapping", RKLogLevelDebug);
-        RKLogConfigureByName("RestKit/Network", RKLogLevelTrace);
+//        RKLogConfigureByName("RestKit/Network", RKLogLevelTrace);
     }
     else
         RKLogConfigureByName("RestKit/*", RKLogLevelOff);

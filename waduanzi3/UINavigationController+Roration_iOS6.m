@@ -7,6 +7,7 @@
 //
 
 #import "UINavigationController+Roration_iOS6.h"
+#import "CDWebVideoViewController.h"
 
 @implementation UINavigationController (Roration_iOS6)
 

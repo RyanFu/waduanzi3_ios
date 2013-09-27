@@ -86,7 +86,7 @@
 #define AD_BANNER_HEIGHT 50.0f
 
 // webview advert
-#define VIDEO_WEBVIEW_AD_WIDTH 280.0f
+#define VIDEO_WEBVIEW_AD_HEIGHT 250.0f
 
 // channel ID
 typedef NS_ENUM (NSInteger, CD_CHANNEL) {

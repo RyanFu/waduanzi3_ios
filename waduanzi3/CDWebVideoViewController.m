@@ -20,6 +20,7 @@
     BOOL _firstPageFinished;
     BOOL _previousToolbarState;
     NSArray *_urlToolbarItems;
+    BOOL _playing;
     
     UIView *_adView;
 }
@@ -48,7 +49,7 @@
     self = [super init];
     if (self) {
         _html = html;
-        
+        _playing = NO;
         self.hidesBottomBarWhenPushed = YES;
     }
     return self;
@@ -60,6 +61,7 @@
     self = [super init];
     if (self!=nil){
         _url = url;
+        _playing = NO;
         self.hidesBottomBarWhenPushed = YES;
     }
     return self;
@@ -69,16 +71,25 @@
 {
     [super loadView];
     
+    NSLog(@"load view");
+    
     self.view.backgroundColor = [UIColor blackColor];
     
-    _webView = [[UIWebView alloc] init];
+    
+    CGRect webViewFrame = self.view.bounds;
+    webViewFrame.size.height = CDSCREEN_SIZE.height - NAVBAR_HEIGHT*2 - STATUSBAR_HEIGHT - VIDEO_WEBVIEW_AD_HEIGHT;
+    
+    _webView = [[UIWebView alloc] initWithFrame:webViewFrame];
     _webView.delegate = self;
     _webView.scalesPageToFit = YES;
     _webView.backgroundColor = [UIColor blackColor];
     [self.view addSubview:_webView];
 //    [_webView showBorder:3 color:[UIColor blueColor].CGColor radius:0];
     
-    _adView = [[UIView alloc] init];
+    CGRect adViewFrame = self.view.bounds;
+    adViewFrame.size.height = VIDEO_WEBVIEW_AD_HEIGHT;
+    adViewFrame.origin.y = webViewFrame.origin.y + webViewFrame.size.height;
+    _adView = [[UIView alloc] initWithFrame:adViewFrame];
     [self.view addSubview:_adView];
 //    [_adView showBorder:1 color:[UIColor redColor].CGColor radius:0];
 
@@ -131,6 +142,12 @@
                                              selector:@selector(moviePlaybackDidEnd:)
                                                  name:@"UIMoviePlayerControllerWillExitFullscreenNotification"
                                                object:nil];
+}
+
+- (void) viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    _playing = NO;
 }
 
 #pragma mark - MoviePlayer notifications
@@ -277,24 +294,23 @@
 // for iOS 6
 - (BOOL) shouldAutorotate
 {
-    return YES;
+    return _playing;
 }
 
 - (NSUInteger) supportedInterfaceOrientations
 {
-    return UIInterfaceOrientationMaskLandscapeLeft | UIInterfaceOrientationMaskLandscapeRight;
+    return UIInterfaceOrientationMaskAllButUpsideDown;
 }
 
 - (UIInterfaceOrientation) preferredInterfaceOrientationForPresentation
 {
-    return UIInterfaceOrientationLandscapeRight;
+    return UIInterfaceOrientationPortrait;
 }
-
 
 // for iOS 5
 - (BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
 {
-    return UIInterfaceOrientationIsLandscape(toInterfaceOrientation);
+    return _playing ? UIInterfaceOrientationIsLandscape(toInterfaceOrientation) : (toInterfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
 - (void) willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
@@ -311,16 +327,7 @@
         [CDUIKit setBarButtionItem:self.navigationItem.leftBarButtonItem style:_barButtonItemStyle forBarMetrics:UIBarMetricsDefault];
         [CDUIKit setBarButtionItem:self.navigationItem.rightBarButtonItem style:_barButtonItemStyle forBarMetrics:UIBarMetricsDefault];
     }
-    
-    CGRect webViewFrame = self.view.bounds;
-    webViewFrame.size.width -= VIDEO_WEBVIEW_AD_WIDTH;
-    webViewFrame.size.height = CDSCREEN_SIZE.width - NAVBAR_LANDSCAPE_HEIGHT*2 - STATUSBAR_HEIGHT;
-    _webView.frame = webViewFrame;
-    
-    webViewFrame.origin.x = webViewFrame.size.width;
-    webViewFrame.size.width = VIDEO_WEBVIEW_AD_WIDTH;
-    
-    _adView.frame = webViewFrame;
+
 }
 
 
