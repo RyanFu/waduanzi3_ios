@@ -6,10 +6,10 @@
 //  Copyright (c) 2013年 chendong. All rights reserved.
 //
 
-#import "QWebViewController.h"
+#import "CDViewController.h"
 #import "CDUIKit.h"
 
-@interface CDWebVideoViewController : UIViewController <UIWebViewDelegate>
+@interface CDWebVideoViewController : CDViewController <UIWebViewDelegate>
 {
 @private
     UIWebView *_webView;
