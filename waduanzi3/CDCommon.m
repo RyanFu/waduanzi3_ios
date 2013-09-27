@@ -24,10 +24,10 @@ void CDLog(NSString *format, ...)
 NSString *macAddress()
 {
     NSString *address;
-    if (OS_VERSION_LESS_THAN(@"7.0"))
-        address = [MACAddress address];
-    else
+    if (IS_IOS7)
         address = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
+    else
+        address = [MACAddress address];
     
     return address;
 }

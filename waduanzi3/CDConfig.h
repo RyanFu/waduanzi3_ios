@@ -12,4 +12,8 @@
 
 + (BOOL) enabledAdvert;
 + (BOOL) enabledUMHandle;
+
++ (CDConfig *) shareInstance;
+- (void) cache;
+
 @end

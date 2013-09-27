@@ -6,16 +6,16 @@
 //  Copyright (c) 2013年 chendong. All rights reserved.
 //
 
-#import "CDAppUser.h"
+#import "CDSession.h"
 #import "CDDataCache.h"
 #import "CDUser.h"
 #import "UserLoginViewController.h"
 
-@implementation CDAppUser
+@implementation CDSession
 
-+ (CDAppUser *)shareAppUser
++ (CDSession *)shareInstance
 {
-    static CDAppUser *instance;
+    static CDSession *instance;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         if (instance == nil) {
@@ -25,21 +25,21 @@
     return instance;
 }
 
-+ (CDUser *) currentUser
+- (CDUser *) currentUser
 {
     return [[CDDataCache shareCache] fetchLoginedUser];
 }
 
-+ (BOOL) hasLogined
+- (BOOL) hasLogined
 {
-    id user = [CDAppUser currentUser];
+    id user = [[CDSession shareInstance] currentUser];
     return [user isKindOfClass:[CDUser class]];
 }
 
-+ (void) logoutWithCompletion: (void (^)(void))completion;
+- (void) logoutWithCompletion: (void (^)(void))completion;
 {
     @try {
-        if ([[self class] hasLogined]) {
+        if ([self hasLogined]) {
             [[CDDataCache shareCache] removeLoginedUserCache];
             [[CDDataCache shareCache] removeMySharePosts];
             [[CDDataCache shareCache] removeFavoritePosts];
@@ -55,9 +55,9 @@
     }
 }
 
-+ (void) requiredLogin
+- (void) requiredLogin
 {
-    if ([[self class] hasLogined]) return;
+    if ([self hasLogined]) return;
     
     UserLoginViewController *loginController = [[UserLoginViewController alloc] init];
     UINavigationController *loginNavController = [[UINavigationController alloc] initWithRootViewController:loginController];

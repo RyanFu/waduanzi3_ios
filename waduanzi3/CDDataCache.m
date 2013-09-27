@@ -324,8 +324,7 @@
         
         if ([_manager fileExistsAtPath:fileAbsolutePath] && [_manager isReadableFileAtPath:fileAbsolutePath]) {
             NSDictionary *_cacheFileAttributes = [_manager attributesOfItemAtPath:fileAbsolutePath error:nil];
-            if (_cacheDirectory != nil)
-                _cacheFolderSize += [_cacheFileAttributes fileSize];
+            _cacheFolderSize += [_cacheFileAttributes fileSize];
         }
     }
     
@@ -361,6 +360,50 @@
     while (_cacheFilePath = [_cacheEnumerator nextObject]) {
         @try {
             NSString *fileAbsolutePath = [_cacheDirectory stringByAppendingPathComponent:_cacheFilePath];
+            if ([_manager fileExistsAtPath:fileAbsolutePath] && [_manager isDeletableFileAtPath:fileAbsolutePath]) {
+                NSError *error;
+                [_manager removeItemAtPath:fileAbsolutePath error:&error];
+            }
+        }
+        @catch (NSException *exception) {
+            CDLog(@"remove caches exception: %@", exception.reason);
+            return NO;
+        }
+        @finally {
+            ;
+        }
+    }
+    
+    return YES;
+}
+
++ (BOOL) clearCacheFilesBeforeDays:(CGFloat)days
+{
+    NSString  *_cacheDirectory = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    
+    NSFileManager  *_manager = [[NSFileManager alloc] init];
+    NSArray *_cacheFileList = [ _manager contentsOfDirectoryAtPath:_cacheDirectory error:nil];
+//    CDLog(@"cache file list: %@", _cacheFileList);
+    
+    if (_cacheFileList == nil) {
+        CDLog(@"an error occured.");
+        return NO;
+    }
+    else if (_cacheFileList.count == 0)
+        return YES;
+    
+    NSEnumerator *_cacheEnumerator = [_cacheFileList objectEnumerator];
+    
+    NSString *_cacheFilePath;
+    while (_cacheFilePath = [_cacheEnumerator nextObject]) {
+        @try {
+            NSString *fileAbsolutePath = [_cacheDirectory stringByAppendingPathComponent:_cacheFilePath];
+            NSDictionary *_cacheFileAttributes = [_manager attributesOfItemAtPath:fileAbsolutePath error:nil];
+            NSDate *fileCreateDate = [_cacheFileAttributes fileCreationDate];
+
+            if (([[NSDate date] timeIntervalSince1970] - [fileCreateDate timeIntervalSince1970]) < 3600 * 24 * days)
+                continue;
+            
             if ([_manager fileExistsAtPath:fileAbsolutePath] && [_manager isDeletableFileAtPath:fileAbsolutePath]) {
                 NSError *error;
                 [_manager removeItemAtPath:fileAbsolutePath error:&error];

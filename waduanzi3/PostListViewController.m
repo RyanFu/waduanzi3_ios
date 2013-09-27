@@ -21,7 +21,7 @@
 #import "CDConfig.h"
 #import "ImageDetailViewController.h"
 #import "CDDataCache.h"
-#import "CDAppUser.h"
+#import "CDSession.h"
 #import "WBSuccessNoticeView+WaduanziMethod.h"
 #import "WBErrorNoticeView+WaduanziMethod.h"
 #import "PublishViewController.h"
@@ -60,6 +60,7 @@
 @synthesize adView = _adView;
 @synthesize forceRefresh = _forceRefresh;
 @synthesize statuses = _statuses;
+@synthesize networkStatus = _networkStatus;
 
 - (id) init
 {
@@ -81,14 +82,15 @@
     _maxtime = 0;
     _requireLogined = NO;
     detailFontSize = [CDUserConfig shareInstance].postFontSize;
+    _networkStatus = CURRENT_NETWORK_STATUS;
     NSLog(@"method: PostListViewController initData");
 }
 
 - (NSUInteger) userID
 {
     NSInteger user_id = 0;
-    if ([CDAppUser hasLogined]) {
-        CDUser *user = [CDAppUser currentUser];
+    if ([[CDSession shareInstance] hasLogined]) {
+        CDUser *user = [[CDSession shareInstance] currentUser];
         user_id = [user.user_id integerValue];
     }
     return user_id;
@@ -101,6 +103,16 @@
         [_statuses removeAllObjects];
         _statuses = [NSMutableArray arrayWithArray:maxCountStatuses];
     }
+}
+
+- (BOOL) networkStatusChanged
+{
+    return _networkStatus != CURRENT_NETWORK_STATUS;
+}
+
+- (BOOL) textFontSizeChanged
+{
+    return detailFontSize != [CDUserConfig shareInstance].postFontSize;
 }
 
 - (NSDictionary *) latestStatusesParameters
@@ -257,11 +269,21 @@
     }
     _tableView.frame = tableViewFrame;
     
-    CGFloat newDetailFontSize = [CDUserConfig shareInstance].postFontSize;
-    if (newDetailFontSize != detailFontSize) {
-        detailFontSize = newDetailFontSize;
+    if ([self networkStatusChanged]) {
+        CDLog(@"network status has changed");
+        _networkStatus = [RKObjectManager sharedManager].HTTPClient.networkReachabilityStatus;
         [self.tableView reloadData];
     }
+    else
+        CDLog(@"network status has not changed");
+    
+    if ([self textFontSizeChanged]) {
+        CDLog(@"post text font size has changed");
+        detailFontSize = [CDUserConfig shareInstance].postFontSize;
+        [self.tableView reloadData];
+    }
+    else
+        CDLog(@"post text font size has changed");
     
     // 如果允许显示小把手，但检查小把手的显示状态，如果是隐藏了，侧显示出来
     if ([CDConfig enabledUMHandle]) {
@@ -272,6 +294,12 @@
     }
     else if ([_mHandleView isKindOfClass:[UMUFPHandleView class]] && !_mHandleView.hidden)
         _mHandleView.hidden = YES;
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    CDLog(@"viewDidAppear");
 }
 
 
@@ -289,18 +317,18 @@
     __weak PostListViewController *weakSelf = self;
     __block BOOL _weakRequireLogined = _requireLogined;
     [self.tableView addPullToRefreshWithActionHandler:^{
-        CDLog(@"requiredLogined: %d, hasLogined: %d", _weakRequireLogined, [CDAppUser hasLogined]);
+        CDLog(@"requiredLogined: %d, hasLogined: %d", _weakRequireLogined, [[CDSession shareInstance] hasLogined]);
         
         if (![CDRestClient checkNetworkStatus]) {
             [weakSelf.tableView.pullToRefreshView stopAnimating];
             return;
         }
         
-        if (!_weakRequireLogined || [CDAppUser hasLogined])
+        if (!_weakRequireLogined || [[CDSession shareInstance] hasLogined])
             [weakSelf loadLatestStatuses];
         else {
             [weakSelf.tableView.pullToRefreshView stopAnimating];
-            [CDAppUser requiredLogin];
+            [[CDSession shareInstance] requiredLogin];
         }
     }];
 
@@ -320,7 +348,7 @@
             return;
         }
         NSLog(@"statuses count: %d",weakSelf.statuses.count);
-        if (!_weakRequireLogined || [CDAppUser hasLogined]) {
+        if (!_weakRequireLogined || [[CDSession shareInstance] hasLogined]) {
             if (weakSelf.statuses.count == 0)
                 [weakSelf.tableView.infiniteScrollingView stopAnimating];
             else
@@ -328,7 +356,7 @@
         }
         else {
             [weakSelf.tableView.infiniteScrollingView stopAnimating];
-            [CDAppUser requiredLogin];
+            [[CDSession shareInstance] requiredLogin];
         }
         
      
@@ -439,8 +467,8 @@
         [_cellCache setObject:cell forKey:cacheKey];
     }
 
+    cell.isVideo = [post.video isKindOfClass:[CDVideo class]];
     cell.tag = cell.imageView.tag = indexPath.row;
-    
     cell.detailTextLabel.text = [post summary];
     cell.detailTextLabel.font = cell.textLabel.font = [UIFont fontWithName:FZLTHK_FONT_NAME size:detailFontSize];
     cell.authorTextLabel.text = post.author_name;
@@ -448,20 +476,31 @@
     cell.textLabel.text = nil;
     
     [cell.avatarImageView setImageWithURL:[NSURL URLWithString:post.user.small_avatar] placeholderImage:[UIImage imageNamed:@"avatar_placeholder.png"]];
-    cell.isVideo = [post.video isKindOfClass:[CDVideo class]];
+
     
     if (post.small_pic.length > 0) {
         cell.isAnimatedGIF = [post isAnimatedGIF];
         cell.isLongImage = [post isLongImage];
         
-        NSURL *imageUrl = [NSURL URLWithString:post.small_pic];
+        RKObjectManager *objectManager = [RKObjectManager sharedManager];
+        cell.thumbSize = CGSizeMake(THUMB_WIDTH, THUMB_HEIGHT);
+        NSString *imageUrlString = post.small_pic;
+        if (objectManager.HTTPClient.networkReachabilityStatus == AFNetworkReachabilityStatusReachableViaWiFi) {
+            cell.thumbSize = [post picSizeByWidth:[cell contentBlockWidth]];
+            imageUrlString = post.middle_pic;
+        }
+        
+        NSURL *imageUrl = [NSURL URLWithString:imageUrlString];
         UIImage *placeImage = [UIImage imageNamed:@"thumb_placeholder.png"];
-        [cell.imageView setImageWithURL:imageUrl placeholderImage:placeImage options:SDWebImageRetryFailed completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-            ;
+        [cell.imageView setImageWithURL:imageUrl placeholderImage:placeImage options:SDWebImageRetryFailed progress:^(NSUInteger receivedSize, long long expectedSize) {
+            CDLog(@"receivedSize/expectedSize: %d/%lld", receivedSize, expectedSize);
+        } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+//            CDLog(@"image download finished.");
         }];
     }
     else if (cell.isVideo) {
         cell.isAnimatedGIF = cell.isLongImage = NO;
+        cell.thumbSize = VIDEO_THUMB_SIZE;
         cell.imageView.image = [UIImage imageWithColor:[UIColor blackColor] size:VIDEO_THUMB_SIZE];
     }
     else {
@@ -493,9 +532,6 @@
 
 - (void) setPostCellSubViews:(CDPostTableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    CDPost *post = [_statuses objectAtIndex:indexPath.row];
-    cell.thumbSize = post.video ? VIDEO_THUMB_SIZE : CGSizeMake(THUMB_WIDTH, THUMB_HEIGHT);;
-    
     cell.authorTextLabel.font = [UIFont fontWithName:FZLTHK_FONT_NAME size:16.0f];
     cell.datetimeTextLabel.font = [UIFont systemFontOfSize:12.0f];
 

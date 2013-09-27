@@ -10,7 +10,35 @@
 #import "MobClick.h"
 #import "CDDataCache.h"
 
+#define APP_CONFIG_CACHE_ID @"app_config"
+
+@interface CDConfig ()
+
+- (void) setDefaults;
++ (NSString *) generateCacheID:(NSString *)key;
++ (void) cacheConfig:(CDConfig *)config;
++ (id) fetchCacheConfig;
+
+@end
+
 @implementation CDConfig
+
++ (CDConfig *) shareInstance
+{
+    static CDConfig *instance;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        instance = [self fetchCacheConfig];
+        if (instance == nil)
+            instance = [[CDConfig alloc] init];
+    });
+    return instance;
+}
+
+- (void) setDefaults
+{
+
+}
 
 + (BOOL) enabledAdvert
 {
@@ -39,4 +67,36 @@
     
     return NO;
 }
+
+
+- (void) cache
+{
+    [CDConfig cacheConfig:self];
+}
+
+
+
++ (void) cacheConfig:(CDConfig *)config
+{
+    NSString *cacheKey = [CDConfig generateCacheID: APP_CONFIG_CACHE_ID];
+    NSData *archiver = [NSKeyedArchiver archivedDataWithRootObject:config];
+    [USER_DEFAULTS setObject:archiver forKey:cacheKey];
+}
+
++ (id) fetchCacheConfig
+{
+    NSString *cacheKey = [CDConfig generateCacheID: APP_CONFIG_CACHE_ID];
+    NSData *data = [USER_DEFAULTS objectForKey:cacheKey];
+    if (data == nil)
+        return nil;
+    else {
+        return [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    }
+}
+
++ (NSString *) generateCacheID:(NSString *)key
+{
+    return [NSString stringWithFormat:@"app_config_ver_%@_%@", APP_VERSION, key];
+}
+
 @end

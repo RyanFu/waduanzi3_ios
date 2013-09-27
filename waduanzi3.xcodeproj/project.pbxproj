@@ -141,7 +141,7 @@
 		2B569BA4176F3E6400B34E0C /* BestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B569BA3176F3E6400B34E0C /* BestViewController.m */; };
 		2B569BA7176F3E7500B34E0C /* HistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B569BA6176F3E7500B34E0C /* HistoryViewController.m */; };
 		2B569BAA176F3E8400B34E0C /* MediaTypeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B569BA9176F3E8400B34E0C /* MediaTypeViewController.m */; };
-		2B5B19C8177B888F0042398E /* CDAppUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B5B19C7177B888F0042398E /* CDAppUser.m */; };
+		2B5B19C8177B888F0042398E /* CDSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B5B19C7177B888F0042398E /* CDSession.m */; };
 		2B623B101792F07D00D3270D /* navibg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B623AFD1792F07D00D3270D /* navibg@2x.png */; };
 		2B623B111792F07D00D3270D /* navibg.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B623AFE1792F07D00D3270D /* navibg.png */; };
 		2B623B121792F07D00D3270D /* mqz_input_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B623AFF1792F07D00D3270D /* mqz_input_bg@2x.png */; };
@@ -294,7 +294,6 @@
 		2BA6348C177621EE00AE5DDA /* MyFavoriteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BA6348B177621EE00AE5DDA /* MyFavoriteViewController.m */; };
 		2BA6636717F1B6FF0012C02D /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BA6636417F1B6FF0012C02D /* libWeChatSDK.a */; };
 		2BA6636B17F1D79A0012C02D /* tip_succeed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BA6636A17F1D79A0012C02D /* tip_succeed@2x.png */; };
-		2BA6636E17F1D8CF0012C02D /* CDUMSociaSnsPlatformExtend.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BA6636D17F1D8CF0012C02D /* CDUMSociaSnsPlatformExtend.m */; };
 		2BA6637517F1E0630012C02D /* copy_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BA6637317F1E0630012C02D /* copy_icon.png */; };
 		2BA6637617F1E0630012C02D /* copy_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BA6637417F1E0630012C02D /* copy_icon@2x.png */; };
 		2BA887B317CE266100E2A094 /* navBar_refresh@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BA887B217CE266100E2A094 /* navBar_refresh@2x.png */; };
@@ -317,6 +316,7 @@
 		2BB60F8F1756437D00290F69 /* CDPost.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BB60F8E1756437D00290F69 /* CDPost.m */; };
 		2BB60F9517565CD900290F69 /* CDRestClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BB60F9417565CD900290F69 /* CDRestClient.m */; };
 		2BC17A6C17E1ED29006BB510 /* CDVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BC17A6B17E1ED29006BB510 /* CDVideo.m */; };
+		2BC4885017F565A200F83C5E /* CDAdvertKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BC4884F17F565A200F83C5E /* CDAdvertKit.m */; };
 		2BC4D4A9176201280098151C /* CDCommentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BC4D4A7176201270098151C /* CDCommentTableViewCell.m */; };
 		2BC4D4FD1762558F0098151C /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BC4D4FC1762558E0098151C /* MapKit.framework */; };
 		2BC86B3017EF60500093535D /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BC86B2F17EF60500093535D /* libiconv.dylib */; };
@@ -568,8 +568,8 @@
 		2B569BA6176F3E7500B34E0C /* HistoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryViewController.m; sourceTree = "<group>"; };
 		2B569BA8176F3E8300B34E0C /* MediaTypeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MediaTypeViewController.h; sourceTree = "<group>"; };
 		2B569BA9176F3E8400B34E0C /* MediaTypeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MediaTypeViewController.m; sourceTree = "<group>"; };
-		2B5B19C6177B888F0042398E /* CDAppUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDAppUser.h; sourceTree = "<group>"; };
-		2B5B19C7177B888F0042398E /* CDAppUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDAppUser.m; sourceTree = "<group>"; };
+		2B5B19C6177B888F0042398E /* CDSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDSession.h; sourceTree = "<group>"; };
+		2B5B19C7177B888F0042398E /* CDSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDSession.m; sourceTree = "<group>"; };
 		2B623AFD1792F07D00D3270D /* navibg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "navibg@2x.png"; sourceTree = "<group>"; };
 		2B623AFE1792F07D00D3270D /* navibg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = navibg.png; sourceTree = "<group>"; };
 		2B623AFF1792F07D00D3270D /* mqz_input_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mqz_input_bg@2x.png"; sourceTree = "<group>"; };
@@ -769,8 +769,6 @@
 		2BA6636517F1B6FF0012C02D /* WXApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApi.h; sourceTree = "<group>"; };
 		2BA6636617F1B6FF0012C02D /* WXApiObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiObject.h; sourceTree = "<group>"; };
 		2BA6636A17F1D79A0012C02D /* tip_succeed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tip_succeed@2x.png"; sourceTree = "<group>"; };
-		2BA6636C17F1D8CF0012C02D /* CDUMSociaSnsPlatformExtend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDUMSociaSnsPlatformExtend.h; sourceTree = "<group>"; };
-		2BA6636D17F1D8CF0012C02D /* CDUMSociaSnsPlatformExtend.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDUMSociaSnsPlatformExtend.m; sourceTree = "<group>"; };
 		2BA6637317F1E0630012C02D /* copy_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = copy_icon.png; sourceTree = "<group>"; };
 		2BA6637417F1E0630012C02D /* copy_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "copy_icon@2x.png"; sourceTree = "<group>"; };
 		2BA887B217CE266100E2A094 /* navBar_refresh@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "navBar_refresh@2x.png"; sourceTree = "<group>"; };
@@ -804,6 +802,8 @@
 		2BB8F83717EF6085000FDF18 /* libstdc++.6.0.9.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.6.0.9.dylib"; path = "usr/lib/libstdc++.6.0.9.dylib"; sourceTree = SDKROOT; };
 		2BC17A6A17E1ED29006BB510 /* CDVideo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVideo.h; sourceTree = "<group>"; };
 		2BC17A6B17E1ED29006BB510 /* CDVideo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDVideo.m; sourceTree = "<group>"; };
+		2BC4884E17F565A200F83C5E /* CDAdvertKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDAdvertKit.h; sourceTree = "<group>"; };
+		2BC4884F17F565A200F83C5E /* CDAdvertKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDAdvertKit.m; sourceTree = "<group>"; };
 		2BC4D4A7176201270098151C /* CDCommentTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDCommentTableViewCell.m; sourceTree = "<group>"; };
 		2BC4D4A8176201270098151C /* CDCommentTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDCommentTableViewCell.h; sourceTree = "<group>"; };
 		2BC4D4FC1762558E0098151C /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -982,6 +982,12 @@
 		2B48FF33175605E500FFF85B /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				2B6519A91767318F0080D632 /* CDConfig.h */,
+				2B6519AA1767318F0080D632 /* CDConfig.m */,
+				2BAC67E717BB62D300B9768E /* CDUserConfig.h */,
+				2BAC67E817BB62D300B9768E /* CDUserConfig.m */,
+				2B5B19C6177B888F0042398E /* CDSession.h */,
+				2B5B19C7177B888F0042398E /* CDSession.m */,
 				2BB60F8A1756437D00290F69 /* CDUser.h */,
 				2BB60F8B1756437D00290F69 /* CDUser.m */,
 				2BB60F8D1756437D00290F69 /* CDPost.h */,
@@ -1416,8 +1422,6 @@
 				2BB60F9317565CD900290F69 /* CDRestClient.h */,
 				2BB60F9417565CD900290F69 /* CDRestClient.m */,
 				2B551F19176108B200C68E43 /* CDDefine.h */,
-				2B6519A91767318F0080D632 /* CDConfig.h */,
-				2B6519AA1767318F0080D632 /* CDConfig.m */,
 				2BC955301771F59D00568E54 /* CDTextField.h */,
 				2BC955311771F59D00568E54 /* CDTextField.m */,
 				2B0929EA1773950C0051D1DC /* NSString+MD5.h */,
@@ -1426,8 +1430,6 @@
 				2B0929EE177395420051D1DC /* NSData+MD5.m */,
 				2BFC7429177752C80027F9B3 /* CDDataCache.h */,
 				2BFC742A177752C80027F9B3 /* CDDataCache.m */,
-				2B5B19C6177B888F0042398E /* CDAppUser.h */,
-				2B5B19C7177B888F0042398E /* CDAppUser.m */,
 				2B1FDDF5177C95F400CD1135 /* CDQuickElements.h */,
 				2B1FDDF6177C95F400CD1135 /* CDQuickElements.m */,
 				2B0AEC791797C9A800AFBAFA /* CDUIKit.h */,
@@ -1436,8 +1438,6 @@
 				2BECE2DC17A3B5060005BDF6 /* CDSocialKit.m */,
 				2BCB1D6E17AE0E01008BC470 /* CDCommon.h */,
 				2BCB1D6F17AE0E01008BC470 /* CDCommon.m */,
-				2BAC67E717BB62D300B9768E /* CDUserConfig.h */,
-				2BAC67E817BB62D300B9768E /* CDUserConfig.m */,
 				2BAC67F117BBC66300B9768E /* PostFontPickerValueParser.h */,
 				2BAC67F217BBC66300B9768E /* PostFontPickerValueParser.m */,
 				2BAC67F417BBCD1100B9768E /* CommentFontPickerValueParser.h */,
@@ -1448,8 +1448,8 @@
 				2B77495517F16D9100E0CC31 /* CDQButtonTableViewCell.m */,
 				2B77495717F16DD400E0CC31 /* CDQButtonElement.h */,
 				2B77495817F16DD400E0CC31 /* CDQButtonElement.m */,
-				2BA6636C17F1D8CF0012C02D /* CDUMSociaSnsPlatformExtend.h */,
-				2BA6636D17F1D8CF0012C02D /* CDUMSociaSnsPlatformExtend.m */,
+				2BC4884E17F565A200F83C5E /* CDAdvertKit.h */,
+				2BC4884F17F565A200F83C5E /* CDAdvertKit.m */,
 			);
 			name = Common;
 			sourceTree = "<group>";
@@ -2149,10 +2149,9 @@
 				2BC17A6C17E1ED29006BB510 /* CDVideo.m in Sources */,
 				2B0929EF177395430051D1DC /* NSData+MD5.m in Sources */,
 				2BA6348917761D4700AE5DDA /* MyshareViewController.m in Sources */,
-				2BA6636E17F1D8CF0012C02D /* CDUMSociaSnsPlatformExtend.m in Sources */,
 				2BA6348C177621EE00AE5DDA /* MyFavoriteViewController.m in Sources */,
 				2BFC742B177752C80027F9B3 /* CDDataCache.m in Sources */,
-				2B5B19C8177B888F0042398E /* CDAppUser.m in Sources */,
+				2B5B19C8177B888F0042398E /* CDSession.m in Sources */,
 				2B65AD2E17EBD01000E444D9 /* GzipCompressor.m in Sources */,
 				2B1FDDF7177C95F400CD1135 /* CDQuickElements.m in Sources */,
 				2B1B14E517E9D28600CC0377 /* CDNavigationController.m in Sources */,
@@ -2172,6 +2171,7 @@
 				2B9D01E617ECB01300CEA65A /* QPickerElement.m in Sources */,
 				2B7C719117A21E5600482207 /* WxApiService.m in Sources */,
 				2BECE2DD17A3B5060005BDF6 /* CDSocialKit.m in Sources */,
+				2BC4885017F565A200F83C5E /* CDAdvertKit.m in Sources */,
 				2BA1972317A6A41900BB8FC9 /* WBSuccessNoticeView+WaduanziMethod.m in Sources */,
 				2B43D67A17E4984500C48CD9 /* CDAdvert.m in Sources */,
 				2BA1972617A6A7CB00BB8FC9 /* WBErrorNoticeView+WaduanziMethod.m in Sources */,

@@ -10,8 +10,9 @@
 
 @interface CDUserConfig : NSObject
 
-@property (nonatomic) NSInteger postFontSize;
-@property (nonatomic) NSInteger commentFontSize;
+@property (nonatomic, assign) NSInteger postFontSize;
+@property (nonatomic, assign) NSInteger commentFontSize;
+@property (nonatomic, assign) BOOL auto_change_image_size;
 
 + (CDUserConfig *)shareInstance;
 - (void) cache;

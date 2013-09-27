@@ -23,25 +23,29 @@
 #import "CDDataCache.h"
 #import "BPush.h"
 #import "CDNavigationController.h"
-#import "CDUMSociaSnsPlatformExtend.h"
+#import "CDSocialKit.h"
+#import "CDUserConfig.h"
 
 
 @interface AppDelegate ()
 {
+    IIViewDeckController *_deckController;
     DMSplashAdController *_splashAd;
 }
 
+- (void) asyncInit;
 - (void) customAppearance;
 - (void) setupWindowView:(UIApplication *)application;
 - (void) afterWindowVisible:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions;
 - (void) setupRKObjectMapping;
+- (void) checkNetworkChange;
 
 - (void) setupDMSplashAd;
-- (void) setupUMSocial;
 
 
 - (void)preInitWithSize:(CGFloat)size family:(NSString *)family;
 @end
+
 
 @implementation AppDelegate
 
@@ -50,6 +54,7 @@
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
 
 @synthesize centerController = _centerController;
+
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -91,17 +96,22 @@
 {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+    CDLog(@"applicationWillResignActive");
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    CDLog(@"applicationDidEnterBackground");
+    
+    [CDDataCache clearCacheFilesBeforeDays:7];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+    CDLog(@"applicationWillEnterForeground");
     
     [Appirater appEnteredForeground:YES];
 }
@@ -110,14 +120,22 @@
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     
+    CDLog(@"applicationDidBecomeActive");
+    
     application.applicationIconBadgeNumber = 0;
     [UMSocialSnsService applicationDidBecomeActive];
+    
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Saves changes in the application's managed object context before the application terminates.
+    
+    CDLog(@"applicationWillTerminate");
+    
     [self saveContext];
+    
+    [CDDataCache clearCacheFilesBeforeDays:7];
 }
 
 
@@ -218,6 +236,7 @@
 }
 
 
+#pragma mark - interfaceOrientations
 - (NSUInteger) application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window
 {
     return UIInterfaceOrientationMaskAllButUpsideDown;
@@ -257,36 +276,33 @@
     
     TimelineViewController *timelineController = [[TimelineViewController alloc] init];
     self.centerController = [[CDNavigationController alloc] initWithRootViewController:timelineController];
-    IIViewDeckController *deckController = [[IIViewDeckController alloc] initWithCenterViewController:_centerController leftViewController:sideController];
+    _deckController = [[IIViewDeckController alloc] initWithCenterViewController:_centerController leftViewController:sideController];
     
-    deckController.leftSize = DECK_LEFT_SIZE;
-    deckController.sizeMode = IIViewDeckLedgeSizeMode;
-    deckController.navigationControllerBehavior = IIViewDeckNavigationControllerContained;
-    deckController.panningMode = IIViewDeckFullViewPanning;
-    deckController.centerhiddenInteractivity = IIViewDeckCenterHiddenNotUserInteractiveWithTapToClose;
-    deckController.openSlideAnimationDuration = 0.2f;
-    deckController.closeSlideAnimationDuration = 0.25f;
-    deckController.delegateMode = IIViewDeckDelegateAndSubControllers;
+    _deckController.leftSize = DECK_LEFT_SIZE;
+    _deckController.sizeMode = IIViewDeckLedgeSizeMode;
+    _deckController.navigationControllerBehavior = IIViewDeckNavigationControllerContained;
+    _deckController.panningMode = IIViewDeckFullViewPanning;
+    _deckController.centerhiddenInteractivity = IIViewDeckCenterHiddenNotUserInteractiveWithTapToClose;
+    _deckController.openSlideAnimationDuration = 0.2f;
+    _deckController.closeSlideAnimationDuration = 0.25f;
+    _deckController.delegateMode = IIViewDeckDelegateAndSubControllers;
 
-    self.window.rootViewController = deckController;
+    self.window.rootViewController = _deckController;
 }
 
 
 - (void) afterWindowVisible:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // 记录第一次启动时间
-    if ([[CDDataCache shareCache] fetchAppFirstBootTime] == 0)
-        [[CDDataCache shareCache] cacheAppFirstBootTime];
+    [self asyncInit];
+    [self checkNetworkChange];
     
     application.applicationIconBadgeNumber = 0;
     
-    [DTTextAttachment registerClass:[DTObjectTextAttachment class] forTagName:@"waduanzi"];
-
     // umeng tongji
     [MobClick startWithAppkey:UMENG_APPKEY];
     [MobClick updateOnlineConfig];
     [MobClick checkUpdate];
-    [self setupUMSocial];
+    [CDSocialKit setSocialConfig];
     
     [[SDWebImageManager sharedManager].imageDownloader setValue:[CDRestClient userAgent] forHTTPHeaderField:@"User-Agent"];
     
@@ -304,63 +320,25 @@
     [BPush setDelegate:self];
     [application registerForRemoteNotificationTypes:UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound];
     
-    NSArray *familyNames = [[NSArray alloc] initWithArray:[UIFont familyNames]];
-    NSArray *fontNames;
-    NSInteger indFamily, indFont;
-    for (indFamily=0; indFamily<[familyNames count]; ++indFamily)
-    {
-        NSLog(@"Family name: %@", [familyNames objectAtIndex:indFamily]);
-        fontNames = [[NSArray alloc] initWithArray:
-                     [UIFont fontNamesForFamilyName:
-                      [familyNames objectAtIndex:indFamily]]];
-        for (indFont=0; indFont<[fontNames count]; ++indFont)
-        {
-            NSLog(@"    Font name: %@", [fontNames objectAtIndex:indFont]);
-        }
 
-    }
+}
 
-    
+
+
+- (void) asyncInit
+{
+    // 记录第一次启动时间
+    if ([[CDDataCache shareCache] fetchAppFirstBootTime] == 0)
+        [[CDDataCache shareCache] cacheAppFirstBootTime];
+
     // 预加载字体
     dispatch_queue_t queue = dispatch_queue_create("com.waduanzi.iphone", NULL);
     dispatch_async(queue, ^(void) {
         [self preInitWithSize:CDPostContentFontSizeNormal family:FZLTHK_FONT_FAMILY];
         [self preInitWithSize:CDPostContentFontSizeBig family:FZLTHK_FONT_FAMILY];
     });
-    
+
 }
-
-- (void) setupUMSocial
-{
-    // umeng social tool
-    [UMSocialData openLog: CD_DEBUG];
-    [UMSocialData setAppKey:UMENG_APPKEY];
-    
-    [CDUMSociaSnsPlatformExtend addUMShareToCopyPlatform];
-    
-    [UMSocialConfig setSupportedInterfaceOrientations:UIInterfaceOrientationMaskAllButUpsideDown];
-
-    [UMSocialConfig setNavigationBarConfig:^(UINavigationBar *bar, UIButton *closeButton, UIButton *backButton, UIButton *postButton, UIButton *refreshButton, UINavigationItem *navigationItem) {
-        [CDUIKit setNavigationBar:bar style:CDNavigationBarStyleBlue forBarMetrics:UIBarMetricsDefault];
-
-        UILabel *titleLabel = [[UILabel alloc] init];
-        titleLabel.text = navigationItem.title;
-        [titleLabel sizeToFit];
-        titleLabel.backgroundColor  = [UIColor clearColor];
-        titleLabel.textColor = [UIColor whiteColor];
-        titleLabel.font = [UIFont fontWithName:FZLTHK_FONT_NAME size:16.0f];
-        [navigationItem setTitleView: titleLabel];
-    }];
-    
-    [UMSocialConfig setSnsPlatformNames:UMSHARE_SNS_NAMES];
-    [UMSocialConfig setSupportSinaSSO:CD_DEBUG];
-    [UMSocialConfig setFollowWeiboUids:@{UMShareToSina:OFFICIAL_SINA_WEIBO_USID}];
-    [UMSocialConfig setWXAppId:WEIXIN_APPID url:nil];
-    [UMSocialConfig setSupportQzoneSSO:YES importClasses:@[[QQApiInterface class],[TencentOAuth class]]];
-    [UMSocialConfig setQQAppId:QQ_CONNECT_APPID url:nil importClasses:@[[QQApiInterface class],[TencentOAuth class]]];
-    [UMSocialConfig setSupportTencentSSO:YES importClass:[WBApi class]];
-}
-
 
 
 - (void) setupRKObjectMapping
@@ -377,6 +355,51 @@
     [restClient run];
     
     [self performSelector:@selector(updateDeviceInfo) withObject:nil afterDelay:1.0f];
+}
+
+
+- (void) checkNetworkChange
+{
+    [[RKObjectManager sharedManager].HTTPClient setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
+        if (status == AFNetworkReachabilityStatusNotReachable) {
+            NSLog(@"network status: not reachable");
+        }
+        else if (status == AFNetworkReachabilityStatusReachableViaWWAN) {
+            NSLog(@"network status: reachable via WWAN");
+        }
+        else if (status == AFNetworkReachabilityStatusReachableViaWiFi) {
+            NSLog(@"network status: reachable via WIFI");
+        }
+        else if (status == AFNetworkReachabilityStatusUnknown) {
+            NSLog(@"network status:  unknown");
+        }
+        else
+            NSLog(@"network status: other status");
+        
+        
+        // 如果状态改变，刷新当前段子列表
+        @try {
+            if ((status == AFNetworkReachabilityStatusReachableViaWiFi || status == AFNetworkReachabilityStatusReachableViaWWAN) && [CDUserConfig shareInstance].auto_change_image_size) {
+                UINavigationController *currentNavViewController = (UINavigationController *)_deckController.centerController;
+                UIViewController *currentViewController = [currentNavViewController.viewControllers lastObject];
+                NSLog(@"view Controller: %@", [currentViewController class]);
+                
+                if ([currentViewController isKindOfClass:[PostListViewController class]]) {
+                    PostListViewController *postListViewController = (PostListViewController *)currentViewController;
+                    postListViewController.networkStatus = status;
+                    [postListViewController.tableView reloadData];
+                    NSLog(@"tableView reloadData because network status has change.");
+                }
+            }
+        }
+        @catch (NSException *exception) {
+            CDLog(@"reload post list table view exception: %@", exception);
+        }
+        @finally {
+            ;
+        }
+        
+    }];
 }
 
 

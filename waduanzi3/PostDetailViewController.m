@@ -20,7 +20,7 @@
 #import "CDPostDetailView.h"
 #import "UserProfileViewController.h"
 #import "CDDataCache.h"
-#import "CDAppUser.h"
+#import "CDSession.h"
 #import "ImageDetailViewController.h"
 #import "CDCommentFormView.h"
 #import "UserLoginViewController.h"
@@ -373,8 +373,8 @@
 - (void) favoriteButtonDidPressed:(id)sender
 {
     
-    if (![CDAppUser hasLogined]) {
-        [CDAppUser requiredLogin];
+    if (![[CDSession shareInstance] hasLogined]) {
+        [[CDSession shareInstance] requiredLogin];
         NSLog(@"user is not logined");
         
         // umeng
@@ -388,7 +388,7 @@
         return;
     }
     
-    CDUser *user = [CDAppUser currentUser];
+    CDUser *user = [[CDSession shareInstance] currentUser];
     NSString *userID = [user.user_id stringValue];
     
     // umeng
@@ -574,8 +574,8 @@
         _postToolbar.likeButton.selected = [[CDDataCache shareCache] fetchPostLikeState:_postID];
         _postToolbar.likeButton.userInteractionEnabled = !_postToolbar.likeButton.selected;
         
-        if ([CDAppUser hasLogined]) {
-            CDUser *user = [CDAppUser currentUser];
+        if ([[CDSession shareInstance] hasLogined]) {
+            CDUser *user = [[CDSession shareInstance] currentUser];
             _postToolbar.favoriteButton.selected = [[CDDataCache shareCache] fetchPostFavoriteState:_postID forUserID:[user.user_id integerValue]];
         }
         [cell.contentView addSubview:_postToolbar];
@@ -788,8 +788,8 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setObject:_formView.textField.text forKey:@"content"];
     [params setObject:_post.post_id forKey:@"post_id"];
-    if ([CDAppUser hasLogined]) {
-        CDUser *user = [CDAppUser currentUser];
+    if ([[CDSession shareInstance] hasLogined]) {
+        CDUser *user = [[CDSession shareInstance] currentUser];
         if (user.user_id != nil)
             [params setObject:user.user_id forKey:@"user_id"];
         if (user.screen_name != nil)

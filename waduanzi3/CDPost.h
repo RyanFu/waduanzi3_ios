@@ -45,5 +45,7 @@
 - (NSString *) shareContentWithLength:(NSUInteger)length withPrefix:(NSString *)prefix withSuffix:(NSString *)suffix;
 - (BOOL) isAnimatedGIF;
 - (BOOL) isLongImage;
+- (CGFloat) picHeightByWidth:(CGFloat)width;
+- (CGSize) picSizeByWidth:(CGFloat)width;
 
 @end

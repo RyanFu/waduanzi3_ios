@@ -11,7 +11,7 @@
 #import "CDDefine.h"
 #import "CDPost.h"
 #import "CDRestClient.h"
-#import "CDAppUser.h"
+#import "CDSession.h"
 #import "UIScrollView+SVInfiniteScrolling.h"
 #import "UIScrollView+SVPullToRefresh.h"
 #import "CDDataCache.h"
@@ -51,7 +51,7 @@
 
 - (void) viewDeckController:(IIViewDeckController *)viewDeckController didCloseViewSide:(IIViewDeckSide)viewDeckSide animated:(BOOL)animated
 {
-    if ([CDAppUser hasLogined]) {
+    if ([[CDSession shareInstance] hasLogined]) {
         if (self.forceRefresh) {
             [self.tableView triggerPullToRefresh];
             self.forceRefresh = NO;

@@ -7,6 +7,7 @@
 //
 
 #import "CDWebVideoViewController.h"
+#import "UIView+Border.h"
 
 @interface CDWebVideoViewController ()
 {
@@ -19,6 +20,8 @@
     BOOL _firstPageFinished;
     BOOL _previousToolbarState;
     NSArray *_urlToolbarItems;
+    
+    UIView *_adView;
 }
 
 - (UIImage *)createBackArrowImage;
@@ -66,10 +69,19 @@
 {
     [super loadView];
     
+    self.view.backgroundColor = [UIColor blackColor];
+    
     _webView = [[UIWebView alloc] init];
     _webView.delegate = self;
     _webView.scalesPageToFit = YES;
-    self.view = _webView;
+    _webView.backgroundColor = [UIColor blackColor];
+    [self.view addSubview:_webView];
+//    [_webView showBorder:3 color:[UIColor blueColor].CGColor radius:0];
+    
+    _adView = [[UIView alloc] init];
+    [self.view addSubview:_adView];
+//    [_adView showBorder:1 color:[UIColor redColor].CGColor radius:0];
+
     
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"返回"
                                                                              style:UIBarButtonItemStyleBordered
@@ -109,7 +121,7 @@
 - (void) viewDidLoad
 {
     [super viewDidLoad];
-    
+        NSLog(@"frame: %@", NSStringFromCGRect(self.view.bounds));
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(moviePlaybackDidStart:)
                                                  name:@"UIMoviePlayerControllerDidEnterFullscreenNotification"
@@ -119,7 +131,6 @@
                                              selector:@selector(moviePlaybackDidEnd:)
                                                  name:@"UIMoviePlayerControllerWillExitFullscreenNotification"
                                                object:nil];
-    
 }
 
 #pragma mark - MoviePlayer notifications
@@ -192,7 +203,7 @@
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:indicator];
     
     if (_url!=nil) {
-        self.title = @"Loading";
+        self.title = @"载入中";
     }
     if (_firstPageFinished==YES){
         _btBack.enabled = YES;
@@ -300,6 +311,16 @@
         [CDUIKit setBarButtionItem:self.navigationItem.leftBarButtonItem style:_barButtonItemStyle forBarMetrics:UIBarMetricsDefault];
         [CDUIKit setBarButtionItem:self.navigationItem.rightBarButtonItem style:_barButtonItemStyle forBarMetrics:UIBarMetricsDefault];
     }
+    
+    CGRect webViewFrame = self.view.bounds;
+    webViewFrame.size.width -= VIDEO_WEBVIEW_AD_WIDTH;
+    webViewFrame.size.height = CDSCREEN_SIZE.width - NAVBAR_LANDSCAPE_HEIGHT*2 - STATUSBAR_HEIGHT;
+    _webView.frame = webViewFrame;
+    
+    webViewFrame.origin.x = webViewFrame.size.width;
+    webViewFrame.size.width = VIDEO_WEBVIEW_AD_WIDTH;
+    
+    _adView.frame = webViewFrame;
 }
 
 

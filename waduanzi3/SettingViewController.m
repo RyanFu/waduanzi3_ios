@@ -11,7 +11,7 @@
 #import "CDDefine.h"
 #import "SettingViewController.h"
 #import "CDDataCache.h"
-#import "CDAppUser.h"
+#import "CDSession.h"
 #import "CDQuickElements.h"
 #import "UserProfileViewController.h"
 #import "CDUIKit.h"
@@ -62,12 +62,18 @@
     self.quickDialogTableView.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"feed_table_bg.png"]];
     self.quickDialogTableView.backgroundColor = [UIColor colorWithRed:0.90f green:0.90f blue:0.90f alpha:1.00f];
     
+    QBadgeElement *userProfileElement = (QBadgeElement *)[self.root elementWithKey:@"key_user_profile"];
+    userProfileElement.hidden = ![[CDSession shareInstance] hasLogined];
+}
+
+- (void) viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
     NSString *cacheString = [NSString stringWithFormat:@"清除缓存 %@", [CDDataCache cacheFilesTotalSize]];
     QButtonElement *clearCacheButton = (QButtonElement *)[self.root elementWithKey:@"key_clear_cache"];
     clearCacheButton.title = cacheString;
-    
-    QBadgeElement *userProfileElement = (QBadgeElement *)[self.root elementWithKey:@"key_user_profile"];
-    userProfileElement.hidden = ![CDAppUser hasLogined];
+    [self.quickDialogTableView reloadCellForElements:clearCacheButton, nil];
 }
 
 - (void) setupNavbar
@@ -160,8 +166,8 @@
     [config updateCache];
     
     NSNumber *user_id = [NSNumber numberWithInteger:0];
-    if ([CDAppUser hasLogined]) {
-        CDUser *user = [CDAppUser currentUser];
+    if ([[CDSession shareInstance] hasLogined]) {
+        CDUser *user = [[CDSession shareInstance] currentUser];
         user_id = user.user_id;
     }
     

@@ -8,18 +8,23 @@
 
 #import "CDUserConfig.h"
 
-@interface CDUserConfig ()
-+ (NSString *) generateCacheID:(NSString *)key;
+#define APP_USER_CONFIG_CACHE_ID @"user_config"
 
+@interface CDUserConfig ()
+
+- (void) setDefaults;
++ (NSString *) generateCacheID:(NSString *)key;
 + (void) cacheConfig:(CDUserConfig *)config;
 + (id) fetchCacheConfig;
 
 @end
 
+
 @implementation CDUserConfig
 
 @synthesize postFontSize = _postFontSize;
 @synthesize commentFontSize = _commentFontSize;
+@synthesize auto_change_image_size = _auto_change_image_size;
 
 + (CDUserConfig *)shareInstance
 {
@@ -40,6 +45,7 @@
 {
     self.postFontSize = CDPostContentFontSizeNormal;
     self.commentFontSize = CDCommentContentFontSizeNormal;
+    self.auto_change_image_size = YES;
 }
 
 
@@ -52,14 +58,14 @@
 
 + (void) cacheConfig:(CDUserConfig *)config
 {
-    NSString *cacheKey = [CDUserConfig generateCacheID:@"user_config"];
+    NSString *cacheKey = [CDUserConfig generateCacheID: APP_USER_CONFIG_CACHE_ID];
     NSData *archiver = [NSKeyedArchiver archivedDataWithRootObject:config];
     [USER_DEFAULTS setObject:archiver forKey:cacheKey];
 }
 
 + (id) fetchCacheConfig
 {
-    NSString *cacheKey = [CDUserConfig generateCacheID:@"user_config"];
+    NSString *cacheKey = [CDUserConfig generateCacheID: APP_USER_CONFIG_CACHE_ID];
     NSData *data = [USER_DEFAULTS objectForKey:cacheKey];
     if (data == nil)
         return nil;
@@ -70,7 +76,7 @@
 
 + (NSString *) generateCacheID:(NSString *)key
 {
-    return [NSString stringWithFormat:@"app_ver_%@_%@", APP_VERSION, key];
+    return [NSString stringWithFormat:@"app_user_config_ver_%@_%@", APP_VERSION, key];
 }
 
 
@@ -81,6 +87,7 @@
     if (self) {
         self.postFontSize = [decoder decodeIntegerForKey:@"post_font_size"];
         self.commentFontSize = [decoder decodeIntegerForKey:@"comment_font_size"];
+        self.auto_change_image_size = [decoder decodeIntegerForKey:@"auto_change_image_size"];
     }
     return self;
 }
@@ -89,6 +96,7 @@
 {
     [encoder encodeInteger:_postFontSize forKey:@"post_font_size"];
     [encoder encodeInteger:_commentFontSize forKey:@"comment_font_size"];
+    [encoder encodeBool:_auto_change_image_size forKey:@"auto_change_image_size"];
 }
 
 @end

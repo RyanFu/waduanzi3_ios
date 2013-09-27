@@ -16,7 +16,7 @@
 #import "CDDataCache.h"
 #import "WBSuccessNoticeView+WaduanziMethod.h"
 #import "WBErrorNoticeView+WaduanziMethod.h"
-#import "CDAppUser.h"
+#import "CDSession.h"
 
 @interface MyFavoriteViewController ()
 
@@ -50,7 +50,7 @@
 
 - (void) viewDeckController:(IIViewDeckController *)viewDeckController didCloseViewSide:(IIViewDeckSide)viewDeckSide animated:(BOOL)animated
 {
-    if ([CDAppUser hasLogined]) {
+    if ([[CDSession shareInstance] hasLogined]) {
         if (self.forceRefresh) {
             [self.tableView triggerPullToRefresh];
             self.forceRefresh = NO;

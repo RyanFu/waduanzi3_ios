@@ -38,6 +38,7 @@
 @property (nonatomic) BOOL isVideo;
 
 - (CGFloat) realHeight;
+- (CGFloat) contentBlockWidth;
 
 @end
 

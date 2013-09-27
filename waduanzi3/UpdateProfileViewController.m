@@ -11,7 +11,7 @@
 #import "CDUIKit.h"
 #import "CDQuickElements.h"
 #import "CDUser.h"
-#import "CDAppUser.h"
+#import "CDSession.h"
 #import "CDDataCache.h"
 #import "WBErrorNoticeView+WaduanziMethod.h"
 
@@ -146,7 +146,7 @@
     NSString *newNickname = entryEelement.textValue;
     
     if (newNickname.length > 0) {
-        CDUser *sessionUser = [CDAppUser currentUser];
+        CDUser *sessionUser = [[CDSession shareInstance] currentUser];
         if ([newNickname isEqualToString:sessionUser.screen_name]) {
             [self.navigationController popViewControllerAnimated:YES];
             return;

@@ -8,7 +8,7 @@
 
 #import <QuartzCore/QuartzCore.h>
 #import "CDQuickElements.h"
-#import "CDAppUser.h"
+#import "CDSession.h"
 #import "CDUser.h"
 #import "UMSocial.h"
 #import "CDUserConfig.h"
@@ -89,11 +89,11 @@
     [section1 addElement:clearCacheButton];
     
     // section 2
-    if ([CDAppUser hasLogined]) {
+    if ([[CDSession shareInstance] hasLogined]) {
         QSection *section2 = [[QSection alloc] init];
         section2.key = @"key_user_profile";
         [root addSection:section2];
-        CDUser *user = [CDAppUser currentUser];
+        CDUser *user = [[CDSession shareInstance] currentUser];
         QLabelElement *userProfileLabel = [[QLabelElement alloc] initWithTitle:@"我的账号" Value:user.username];
         userProfileLabel.key = @"key_go_user_profile";
         userProfileLabel.controllerAction = @"userProfileAction:";
@@ -263,7 +263,7 @@
     root.appearance.sectionFooterColor = [UIColor lightGrayColor];
     root.appearance.buttonAlignment = NSTextAlignmentCenter;
     
-    CDUser *user = [CDAppUser currentUser];
+    CDUser *user = [[CDSession shareInstance] currentUser];
     
     QSection *section1 = [[QSection alloc] initWithTitle:@"个人信息"];
     [root addSection:section1];
@@ -360,7 +360,7 @@
     root.appearance.buttonAlignment = NSTextAlignmentCenter;
     [root setAppearance:root.appearance];
     
-    CDUser *user = [CDAppUser currentUser];
+    CDUser *user = [[CDSession shareInstance] currentUser];
     
     QSection *section1 = [[QSection alloc] init];
     [root addSection:section1];

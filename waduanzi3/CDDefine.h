@@ -19,6 +19,7 @@
 #define waduanzi3_CDDefine_h
 
 #define DAY_SECONDS 86400
+#define DAYS_AUTO_CLEAR_CACHE_FILES 7
 
 #define OPEN_UDID       [OpenUDID value]
 #define USER_DEFAULTS   [NSUserDefaults standardUserDefaults]
@@ -28,6 +29,8 @@
 #define CDAPPLICATION   [UIApplication sharedApplication]
 #define ROOT_CONTROLLER [[[UIApplication sharedApplication] keyWindow] rootViewController]
 #define APP_VERSION     [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"] ?: [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey]
+
+#define CURRENT_NETWORK_STATUS [RKObjectManager sharedManager].HTTPClient.networkReachabilityStatus
 
 #define WDZ_APP_STORE_URL @"itms-apps://itunes.apple.com/cn/app//id486268988?mt=8"
 #define OFFICIAL_SITE @"http://www.waduanzi.com";
@@ -81,6 +84,9 @@
 #define TOOLBAR_HEIGHT 44.0f
 #define NAVBAR_LANDSCAPE_HEIGHT 32.0f
 #define AD_BANNER_HEIGHT 50.0f
+
+// webview advert
+#define VIDEO_WEBVIEW_AD_WIDTH 280.0f
 
 // channel ID
 typedef NS_ENUM (NSInteger, CD_CHANNEL) {
@@ -199,6 +205,4 @@ typedef NS_ENUM (NSUInteger, CDPostContentFontSize)
 typedef NS_ENUM (NSInteger, UMShareToTypeExtend) {
     UMSocialSnsTypeCopy = 999
 };
-
-#define UMSHARE_SNS_NAMES @[UMShareToQzone, UMShareToQQ, UMShareToSina, UMShareToTencent, UMShareToWechatSession, UMShareToWechatTimeline, UMShareToDouban, UMShareToEmail, UMShareToSms, UMShareToCopy, UMShareToFacebook, UMShareToTwitter]
 

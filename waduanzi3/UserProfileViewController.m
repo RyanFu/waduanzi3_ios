@@ -10,7 +10,7 @@
 #import <RestKit/RestKit.h>
 #import "UserProfileViewController.h"
 #import "CDQuickElements.h"
-#import "CDAppUser.h"
+#import "CDSession.h"
 #import "CDUIKit.h"
 #import "UMSocial.h"
 #import "CDDataCache.h"
@@ -85,7 +85,7 @@
 {
     [super viewDidAppear:animated];
     
-    CDUser *sessionUser = [CDAppUser currentUser];
+    CDUser *sessionUser = [[CDSession shareInstance] currentUser];
     QLabelElement *nicknameElement = (QLabelElement *)[self.root elementWithKey:@"key_nickname"];
     nicknameElement.value = sessionUser.screen_name;
     [self.quickDialogTableView reloadCellForElements:nicknameElement, nil];
@@ -314,8 +314,8 @@
         else if (actionSheet.tag == UMSocialSnsTypeTenc)
             [self performSelector:@selector(unOauthTencent)];
         else if (actionSheet.tag == LOGOUT_BUTTON_TAG) {
-            [CDAppUser logoutWithCompletion:^{
-                [[CDSocialKit shareInstance] unOauthAllPlatforms];
+            [[CDSession shareInstance] logoutWithCompletion:^{
+                [CDSocialKit unOauthAllPlatforms];
             }];
             [self performSelector:@selector(dismissController) withObject:nil afterDelay:0.3f];
         }

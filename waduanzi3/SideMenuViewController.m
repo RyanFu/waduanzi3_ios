@@ -21,7 +21,7 @@
 #import "HistoryViewController.h"
 #import "CDDataCache.h"
 #import "CDUser.h"
-#import "CDAppUser.h"
+#import "CDSession.h"
 #import "CDQuickElements.h"
 #import "CDSideTableViewCell.h"
 #import "CDUIKit.h"
@@ -99,7 +99,7 @@
 {
     [super viewWillAppear:animated];
     
-    NSString *leftButtonTitle = [CDAppUser hasLogined] ? [CDAppUser currentUser].screen_name : @"登录";
+    NSString *leftButtonTitle = [[CDSession shareInstance] hasLogined] ? [[CDSession shareInstance] currentUser].screen_name : @"登录";
     self.navigationItem.leftBarButtonItem.title = leftButtonTitle;
 }
 
@@ -165,7 +165,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 2 && ![CDAppUser hasLogined]) {
+    if (indexPath.section == 2 && ![[CDSession shareInstance] hasLogined]) {
         [self performSelector:@selector(openUserLoginController)];
         return ;
     }
@@ -310,7 +310,7 @@
 
 - (void) openUserViewController
 {
-    if ([CDAppUser hasLogined])
+    if ([[CDSession shareInstance] hasLogined])
         [self performSelector:@selector(openUserProfileController)];
     else
         [self performSelector:@selector(openUserLoginController)];

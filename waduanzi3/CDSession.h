@@ -10,13 +10,13 @@
 #import "CDSocialKit.h"
 #import "CDUser.h"
 
-@interface CDAppUser : NSObject
+@interface CDSession : NSObject
 
-+ (CDAppUser *) shareAppUser;
-+ (CDUser *) currentUser;
-+ (BOOL) hasLogined;
-+ (void) logoutWithCompletion: (void (^)(void))completion;
++ (CDSession *) shareInstance;
+- (CDUser *) currentUser;
+- (BOOL) hasLogined;
+- (void) logoutWithCompletion: (void (^)(void))completion;
 
-+ (void) requiredLogin;
+- (void) requiredLogin;
 
 @end

@@ -13,7 +13,9 @@
 
 + (CDSocialKit *)shareInstance;
 
-- (NSArray *) enabledPlatforms;
-- (void) socialConfig;
-- (void) unOauthAllPlatforms;
++ (void) addUMShareToCopyPlatform;
++ (NSArray *) enabledPlatforms;
+
++ (void) setSocialConfig;
++ (void) unOauthAllPlatforms;
 @end

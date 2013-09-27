@@ -35,6 +35,7 @@
 @property (nonatomic, strong) UIView *adView;
 @property (nonatomic, assign) BOOL forceRefresh;
 @property (nonatomic, strong) NSMutableArray *statuses;
+@property (nonatomic, assign) AFNetworkReachabilityStatus networkStatus;
 
 - (NSUInteger) userID;
 - (void) subarrayWithMaxCount:(NSUInteger)count;
@@ -46,6 +47,8 @@
 - (void)loadMoreStatuses;
 - (NSString *) latestStatusesRestPath;
 - (NSString *) moreStatusesRestPath;
+- (BOOL) networkStatusChanged;
+- (BOOL) textFontSizeChanged;
 
 - (void) latestStatusesSuccess:(RKObjectRequestOperation *)operation mappingResult:(RKMappingResult *)result;
 - (void) latestStatusesFailed:(RKObjectRequestOperation *)operation error:(NSError *)error;

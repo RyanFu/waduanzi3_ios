@@ -37,6 +37,7 @@
 @synthesize isLongImage = _isLongImage;
 @synthesize isVideo = _isVideo;
 
+
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
@@ -113,7 +114,7 @@
     self.detailTextLabel.textColor = POST_TEXT_COLOR;
     
     // imageView
-    self.imageView.contentMode = UIViewContentModeScaleToFill;
+    self.imageView.contentMode = UIViewContentModeScaleAspectFit;
     self.imageView.opaque = YES;
     
     self.upButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
@@ -299,6 +300,11 @@
     height += POST_LIST_CELL_BOTTOM_BUTTON_HEIGHT; // 最后一个不加 _separatorHeight
     
     return height + _contentPadding.bottom + _contentMargin.bottom;
+}
+
+- (CGFloat) contentBlockWidth
+{
+    return self.frame.size.width - _contentMargin.left - _contentMargin.right - _contentPadding.left - _contentPadding.right;
 }
 
 @end

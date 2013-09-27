@@ -134,6 +134,18 @@
         return NO;
 }
 
+- (CGFloat)picHeightByWidth:(CGFloat)width
+{
+    if (self.pic_width.floatValue > 0 && self.pic_height.floatValue > 0)
+        return width * self.pic_height.floatValue / self.pic_width.floatValue;
+    else
+        return 0.0f;
+}
+
+- (CGSize) picSizeByWidth:(CGFloat)width
+{
+    return CGSizeMake(width, [self picHeightByWidth:width]);
+}
 
 
 @end

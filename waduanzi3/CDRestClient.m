@@ -13,12 +13,12 @@
 #import "CDVideo.h"
 #import "OpenUDID.h"
 #import "CDRestError.h"
-#import "CDAppUser.h"
+#import "CDSession.h"
 #import "MBProgressHUD+Custom.h"
 
 
 @interface CDRestClient ()
-- (void) checkNetworkChange;
+
 - (void) initHttpClient;
 - (void) setHttpDefaultHeaders;
 - (void) initObjectManager;
@@ -28,6 +28,7 @@
 - (RKObjectMapping *) setCommentObjectMapping;
 - (RKObjectMapping *) setVideoObjectMapping;
 - (RKObjectMapping *) setErrorObjectMapping;
+
 @end
 
 
@@ -55,15 +56,17 @@
 - (void) setHttpDefaultHeaders
 {
     NSString *userToken = @"";
-    if ([CDAppUser hasLogined]) {
-        CDUser *user = [CDAppUser currentUser];
+    if ([[CDSession shareInstance] hasLogined]) {
+        CDUser *user = [[CDSession shareInstance] currentUser];
         userToken = user.token;
     }
-    
+
+    [_client setDefaultHeader:@"Referer" value:@"http://apps.waduanzi.com"];
     [_client setDefaultHeader:@"User-Agent" value:[CDRestClient userAgent]];
     [_client setDefaultHeader:@"Accept" value:RKMIMETypeJSON];
     [_client setDefaultHeader:@"Device-UDID" value:[OpenUDID value]];
     [_client setDefaultHeader:@"User-Token" value:userToken];
+    [_client setDefaultHeader:@"Network-Status" value:[NSString stringWithFormat:@"%d", _client.networkReachabilityStatus]];
     
     [_client setDefaultHeader:@"OS-Version" value:CDDEVICE.systemVersion];
     [_client setDefaultHeader:@"App-Version" value:APP_VERSION];
@@ -76,42 +79,23 @@
 
     [RKObjectMapping addDefaultDateFormatterForString:@"MMM-dd HH:mm" inTimeZone:nil];
     _manager.requestSerializationMIMEType = RKMIMETypeFormURLEncoded;
-    
-    [self checkNetworkChange];
 }
 
 
 + (BOOL) checkNetworkStatus
 {
     RKObjectManager *objectManager = [RKObjectManager sharedManager];
-    NSLog(@"network status: %d", objectManager.HTTPClient.networkReachabilityStatus);
-    if (objectManager.HTTPClient.networkReachabilityStatus == AFNetworkReachabilityStatusNotReachable) {
+    AFNetworkReachabilityStatus status = objectManager.HTTPClient.networkReachabilityStatus;
+    NSLog(@"network status: %d", status);
+    
+    if (status == AFNetworkReachabilityStatusReachableViaWiFi || status == AFNetworkReachabilityStatusReachableViaWWAN)
+        return YES;
+    else {
         [MBProgressHUD show:YES errorMessage:@"哎呀，网络不给力呀，\n稍后再试试吧" inView:ROOT_CONTROLLER.view alpha:0.6f hide:YES afterDelay:1.0f];
-        
         return NO;
     }
-    else
-        return YES;
 }
 
-- (void) checkNetworkChange
-{
-    // MARK: check network，需要详细处理
-    [_manager.HTTPClient setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
-        if (status == AFNetworkReachabilityStatusNotReachable) {
-            NSLog(@"network status: not reachable");
-        }
-        else if (status == AFNetworkReachabilityStatusReachableViaWWAN ) {
-            NSLog(@"network status: reachable via WWAN");
-        }
-        else if (status == AFNetworkReachabilityStatusReachableViaWiFi) {
-            NSLog(@"network status: reachable via WIFI");
-        }
-        else if (status == AFNetworkReachabilityStatusUnknown) {
-            NSLog(@"network status:  unknown");
-        }
-    }];
-}
 
 - (void) setResponseDescriptor
 {

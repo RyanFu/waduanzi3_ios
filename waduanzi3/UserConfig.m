@@ -7,7 +7,7 @@
 //
 
 #import "UserConfig.h"
-#import "CDAppUser.h"
+#import "CDSession.h"
 #import "OpenUDID.h"
 
 
@@ -26,8 +26,8 @@
 + (id) currentConfig
 {
     NSInteger user_id = 0;
-    if ([CDAppUser hasLogined]) {
-        CDUser *user = [CDAppUser currentUser];
+    if ([[CDSession shareInstance] hasLogined]) {
+        CDUser *user = [[CDSession shareInstance] currentUser];
         user_id = [user.user_id integerValue];
     }
     

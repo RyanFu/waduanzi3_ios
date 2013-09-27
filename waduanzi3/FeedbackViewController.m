@@ -9,7 +9,7 @@
 #import <RestKit/RestKit.h>
 #import "FeedbackViewController.h"
 #import "CDUIKit.h"
-#import "CDAppUser.h"
+#import "CDSession.h"
 
 @interface FeedbackViewController ()
 {
@@ -64,8 +64,8 @@
     if (![self.textView hasText]) return;
     
     NSNumber *user_id = [NSNumber numberWithInteger:0];
-    if ([CDAppUser hasLogined]) {
-        CDUser *user = [CDAppUser currentUser];
+    if ([[CDSession shareInstance] hasLogined]) {
+        CDUser *user = [[CDSession shareInstance] currentUser];
         user_id = user.user_id;
     }
     
@@ -73,7 +73,7 @@
         RKObjectManager *objectManager = [RKObjectManager sharedManager];
         NSDictionary *parameters = @{@"user_id": user_id, @"content": self.textView.text,
                                      @"device_model": CDDEVICE.model,
-                                     @"network_status": [NSNumber numberWithInt:objectManager.HTTPClient.networkReachabilityStatus]};
+                                     @"network_status": [NSNumber numberWithInt:CURRENT_NETWORK_STATUS]};
         
         [objectManager.HTTPClient postPath:@"/feedback/create" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
             CDLog(@"result: %@", responseObject);

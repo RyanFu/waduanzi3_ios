@@ -65,5 +65,6 @@
 
 + (NSString *) cacheFilesTotalSize;
 + (BOOL) clearAllCacheFiles;
++ (BOOL) clearCacheFilesBeforeDays:(CGFloat)days;
 
 @end
