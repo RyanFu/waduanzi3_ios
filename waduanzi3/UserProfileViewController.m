@@ -102,11 +102,11 @@
                                                                             target:self
                                                                             action:@selector(dismissController)];
     
-    [CDUIKit setBackBarButtionItemStyle:CDBarButtionItemStyleBlack forBarMetrics:UIBarMetricsDefault];
-    [CDUIKit setBarButtionItem:self.navigationItem.rightBarButtonItem style:CDBarButtionItemStyleBlack forBarMetrics:UIBarMetricsDefault];
+    [CDUIKit setBarButtonItem:self.navigationItem.leftBarButtonItem style:CDBarButtonItemStyleBlack forBarMetrics:UIBarMetricsDefault];
+    [CDUIKit setBarButtonItem:self.navigationItem.rightBarButtonItem style:CDBarButtonItemStyleBlack forBarMetrics:UIBarMetricsDefault];
     
-    [CDUIKit setBarButtonItem:self.navigationItem.leftBarButtonItem titleAttributes:nil forBarMetrics:UIBarMetricsDefault];
-    [CDUIKit setBarButtonItem:self.navigationItem.rightBarButtonItem titleAttributes:nil forBarMetrics:UIBarMetricsDefault];
+    [CDUIKit setBarButtonItemTitleAttributes:self.navigationItem.leftBarButtonItem forBarMetrics:UIBarMetricsDefault];
+    [CDUIKit setBarButtonItemTitleAttributes:self.navigationItem.rightBarButtonItem forBarMetrics:UIBarMetricsDefault];
 }
 
 #pragma mark - selector

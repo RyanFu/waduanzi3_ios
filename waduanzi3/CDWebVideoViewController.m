@@ -12,7 +12,7 @@
 @interface CDWebVideoViewController ()
 {
     CDNavigationBarStyle _navigationBarStyle;
-    CDBarButtionItemStyle _barButtonItemStyle;
+    CDBarButtonItemStyle _barButtonItemStyle;
     CDToolBarStyle _toolBarStyle;
     
     UIBarButtonItem * _btBack;
@@ -31,7 +31,7 @@
 
 @implementation CDWebVideoViewController
 
-- (void) setNavigationBarStyle:(CDNavigationBarStyle)navigationBarStyle barButtonItemStyle:(CDBarButtionItemStyle)barButtonItemStyle toolBarStyle:(CDToolBarStyle)toolBarStyle
+- (void) setNavigationBarStyle:(CDNavigationBarStyle)navigationBarStyle barButtonItemStyle:(CDBarButtonItemStyle)barButtonItemStyle toolBarStyle:(CDToolBarStyle)toolBarStyle
 {
     _navigationBarStyle = navigationBarStyle;
     _barButtonItemStyle = barButtonItemStyle;
@@ -84,14 +84,14 @@
     _webView.scalesPageToFit = YES;
     _webView.backgroundColor = [UIColor blackColor];
     [self.view addSubview:_webView];
-//    [_webView showBorder:3 color:[UIColor blueColor].CGColor radius:0];
+    [_webView showBorder:1 color:[UIColor blueColor].CGColor radius:0];
     
     CGRect adViewFrame = self.view.bounds;
     adViewFrame.size.height = VIDEO_WEBVIEW_AD_HEIGHT;
     adViewFrame.origin.y = webViewFrame.origin.y + webViewFrame.size.height;
     _adView = [[UIView alloc] initWithFrame:adViewFrame];
     [self.view addSubview:_adView];
-//    [_adView showBorder:1 color:[UIColor redColor].CGColor radius:0];
+    [_adView showBorder:1 color:[UIColor redColor].CGColor radius:0];
 
     
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"返回"
@@ -100,15 +100,12 @@
                                                                             action:@selector(dismissViewController)];
     
     [CDUIKit setNavigationBar:self.navigationController.navigationBar style:_navigationBarStyle forBarMetrics:UIBarMetricsDefault];
-    [CDUIKit setBarButtionItem:self.navigationItem.leftBarButtonItem style:_barButtonItemStyle forBarMetrics:UIBarMetricsDefault];
-    [CDUIKit setBarButtionItem:self.navigationItem.rightBarButtonItem style:_barButtonItemStyle forBarMetrics:UIBarMetricsDefault];
+    [CDUIKit setBarButtonItem:self.navigationItem.leftBarButtonItem style:_barButtonItemStyle forBarMetrics:UIBarMetricsDefault];
+    [CDUIKit setBarButtonItem:self.navigationItem.rightBarButtonItem style:_barButtonItemStyle forBarMetrics:UIBarMetricsDefault];
     [CDUIKit setToolBar:self.navigationController.toolbar style:_toolBarStyle forToolbarPosition:UIToolbarPositionBottom forBarMetrics:UIBarMetricsDefault];
     
-    UIInterfaceOrientation orientation = [self performSelector:@selector(preferredInterfaceOrientationForPresentation)];
-    UIBarMetrics barMetrics = UIInterfaceOrientationIsPortrait(orientation) ? UIBarMetricsDefault : UIBarMetricsLandscapePhone;
-    [CDUIKit setBarButtonItem:self.navigationItem.leftBarButtonItem titleAttributes:nil forBarMetrics:barMetrics];
-    [CDUIKit setBarButtonItem:self.navigationItem.rightBarButtonItem titleAttributes:nil forBarMetrics:barMetrics];
-    
+    [CDUIKit setBarButtonItemTitleAttributes:self.navigationItem.leftBarButtonItem forBarMetrics:UIBarMetricsDefault];
+    [CDUIKit setBarButtonItemTitleAttributes:self.navigationItem.rightBarButtonItem forBarMetrics:UIBarMetricsDefault];
     
     UIImage *backImage = [self createBackArrowImage];
     UIImage *forwardImage = [self createForwardArrowImage];
@@ -156,12 +153,14 @@
 {
     NSLog(@"moviePlaybackDidStart");
     
+    self.navigationItem.leftBarButtonItem.enabled = NO;
 }
 
 
 - (void) moviePlaybackDidEnd:(NSNotification *)notification
 {
     NSLog(@"moviePlaybackDidEnd");
+    self.navigationItem.leftBarButtonItem.enabled = YES;
 }
 
 - (void)viewWillDisappear:(BOOL)animated

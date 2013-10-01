@@ -31,11 +31,13 @@
 @property (nonatomic, assign) UIEdgeInsets contentMargin;
 @property (nonatomic, assign) UIEdgeInsets contentPadding;
 
-@property (nonatomic) CGFloat separatorHeight;
-@property (nonatomic) CGSize thumbSize;
-@property (nonatomic) BOOL isAnimatedGIF;
-@property (nonatomic) BOOL isLongImage;
-@property (nonatomic) BOOL isVideo;
+@property (nonatomic, assign) CGFloat separatorHeight;
+@property (nonatomic, assign) CGSize thumbSize;
+@property (nonatomic, assign) BOOL isAnimatedGIF;
+@property (nonatomic, assign) BOOL isLongImage;
+@property (nonatomic, assign) BOOL isVideo;
+@property (nonatomic, assign) BOOL showGIFIcon;
+@property (nonatomic, assign) BOOL showLongIcon;
 
 - (CGFloat) realHeight;
 - (CGFloat) contentBlockWidth;

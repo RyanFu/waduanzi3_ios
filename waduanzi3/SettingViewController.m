@@ -64,16 +64,17 @@
     
     QBadgeElement *userProfileElement = (QBadgeElement *)[self.root elementWithKey:@"key_user_profile"];
     userProfileElement.hidden = ![[CDSession shareInstance] hasLogined];
+    
+    QBooleanElement *pushMessageElement = (QBooleanElement*)[self.root elementWithKey:@"key_message_push"];
+    pushMessageElement.boolValue = [CDUserConfig shareInstance].enable_push_message;
+    NSLog(@"pushed: %d", pushMessageElement.boolValue);
+    QBooleanElement *autoChangeImageSizeElement = (QBooleanElement*)[self.root elementWithKey:@"key_auto_change_image_size"];
+    autoChangeImageSizeElement.boolValue = [CDUserConfig shareInstance].auto_change_image_size;
 }
 
 - (void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    
-    NSString *cacheString = [NSString stringWithFormat:@"清除缓存 %@", [CDDataCache cacheFilesTotalSize]];
-    QButtonElement *clearCacheButton = (QButtonElement *)[self.root elementWithKey:@"key_clear_cache"];
-    clearCacheButton.title = cacheString;
-    [self.quickDialogTableView reloadCellForElements:clearCacheButton, nil];
 }
 
 - (void) setupNavbar
@@ -84,11 +85,11 @@
                                                                              target:self
                                                                              action:@selector(closeController)];
     
-    [CDUIKit setBackBarButtionItemStyle:CDBarButtionItemStyleBlack forBarMetrics:UIBarMetricsDefault];
-    [CDUIKit setBarButtionItem:self.navigationItem.rightBarButtonItem style:CDBarButtionItemStyleBlack forBarMetrics:UIBarMetricsDefault];
+    [CDUIKit setBarButtonItem:self.navigationItem.leftBarButtonItem style:CDBarButtonItemStyleBlackBack forBarMetrics:UIBarMetricsDefault];
+    [CDUIKit setBarButtonItem:self.navigationItem.rightBarButtonItem style:CDBarButtonItemStyleBlack forBarMetrics:UIBarMetricsDefault];
     
-    [CDUIKit setBarButtonItem:self.navigationItem.leftBarButtonItem titleAttributes:nil forBarMetrics:UIBarMetricsDefault];
-    [CDUIKit setBarButtonItem:self.navigationItem.rightBarButtonItem titleAttributes:nil forBarMetrics:UIBarMetricsDefault];
+    [CDUIKit setBarButtonItemTitleAttributes:self.navigationItem.leftBarButtonItem forBarMetrics:UIBarMetricsDefault];
+    [CDUIKit setBarButtonItemTitleAttributes:self.navigationItem.rightBarButtonItem forBarMetrics:UIBarMetricsDefault];
 }
 
 
@@ -116,7 +117,7 @@
     NSLog(@"change post font size");
 }
 
-- (void) clearCacheAction:(QButtonElement *)element
+- (void) clearCacheAction:(QLabelElement *)element
 {
     BOOL result = [CDDataCache clearAllCacheFiles];
     if (result) {
@@ -152,7 +153,7 @@
 - (void) aboutmeAction:(QLabelElement *)element
 {
     CDWebViewController *webController = [[CDWebViewController alloc] initWithUrl:@"http://m.waduanzi.com/about"];
-    [webController setNavigationBarStyle:CDNavigationBarStyleBlack barButtonItemStyle:CDBarButtionItemStyleBlackBack toolBarStyle:CDToolBarStyleBlack];
+    [webController setNavigationBarStyle:CDNavigationBarStyleBlack barButtonItemStyle:CDBarButtonItemStyleBlackBack toolBarStyle:CDToolBarStyleBlack];
     [self.navigationController pushViewController:webController animated:YES];
     
     NSLog(@"aboutme");
@@ -161,9 +162,9 @@
 - (void) messagePushAction:(QBooleanElement *)element
 {
     NSLog(@"message pushed: %d", [element.numberValue integerValue]);
-    UserConfig *config = [UserConfig currentConfig];
-    config.enablePushMessage = element.boolValue;
-    [config updateCache];
+    CDUserConfig *userConfig = [CDUserConfig shareInstance];
+    userConfig.enable_push_message = element.boolValue;
+    [userConfig cache];
     
     NSNumber *user_id = [NSNumber numberWithInteger:0];
     if ([[CDSession shareInstance] hasLogined]) {

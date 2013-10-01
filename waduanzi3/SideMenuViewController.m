@@ -88,11 +88,11 @@
     NSArray *rightButtons = [NSArray arrayWithObjects:flexButton, _settingButton, nil];
     self.navigationItem.rightBarButtonItems = rightButtons;
     
-    [CDUIKit setBarButtionItem:self.navigationItem.leftBarButtonItem style:CDBarButtionItemStyleBlack forBarMetrics:UIBarMetricsDefault];
-    [CDUIKit setBarButtionItem:_settingButton style:CDBarButtionItemStyleBlack forBarMetrics:UIBarMetricsDefault];
+    [CDUIKit setBarButtonItem:self.navigationItem.leftBarButtonItem style:CDBarButtonItemStyleBlack forBarMetrics:UIBarMetricsDefault];
+    [CDUIKit setBarButtonItem:_settingButton style:CDBarButtonItemStyleBlack forBarMetrics:UIBarMetricsDefault];
     
-    [CDUIKit setBarButtonItem:_leftButton titleAttributes:nil forBarMetrics:UIBarMetricsDefault];
-    [CDUIKit setBarButtonItem:_settingButton titleAttributes:nil forBarMetrics:UIBarMetricsDefault];
+    [CDUIKit setBarButtonItemTitleAttributes:_leftButton forBarMetrics:UIBarMetricsDefault];
+    [CDUIKit setBarButtonItemTitleAttributes:_settingButton forBarMetrics:UIBarMetricsDefault];
 }
 
 - (void) viewWillAppear:(BOOL)animated

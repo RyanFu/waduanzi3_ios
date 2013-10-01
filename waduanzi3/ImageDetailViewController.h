@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CDViewController.h"
 #import "MBProgressHUD.h"
 
-@interface ImageDetailViewController : UIViewController <UIScrollViewDelegate, MBProgressHUDDelegate> {
+@interface ImageDetailViewController : CDViewController <UIScrollViewDelegate, MBProgressHUDDelegate> {
     UIButton *saveButton;
     UIScrollView *imageScrollView;
     UIImageView *imageShowView;

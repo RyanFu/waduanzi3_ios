@@ -89,7 +89,7 @@
     NSURL *url = [NSURL URLWithString:mediaObject.webpageUrl];
     if (url != nil) {
         CDWebViewController *webViewController = [[CDWebViewController alloc] initWithUrl:mediaObject.webpageUrl];
-        [webViewController setNavigationBarStyle:CDNavigationBarStyleBlue barButtonItemStyle:CDBarButtionItemStyleBlue toolBarStyle:CDToolBarStyleBlue];
+        [webViewController setNavigationBarStyle:CDNavigationBarStyleBlue barButtonItemStyle:CDBarButtonItemStyleBlue toolBarStyle:CDToolBarStyleBlue];
         UINavigationController *navWebViewController = [[UINavigationController alloc] initWithRootViewController:webViewController];
         [ROOT_CONTROLLER presentViewController:navWebViewController animated:YES completion:^{
             NSLog(@"show webpage: %@", mediaObject.webpageUrl);
@@ -105,7 +105,7 @@
     NSURL *url = [NSURL URLWithString:mediaObject.url];
     if (url != nil) {
         CDWebViewController *webViewController = [[CDWebViewController alloc] initWithUrl:mediaObject.url];
-        [webViewController setNavigationBarStyle:CDNavigationBarStyleBlue barButtonItemStyle:CDBarButtionItemStyleBlue toolBarStyle:CDToolBarStyleBlue];
+        [webViewController setNavigationBarStyle:CDNavigationBarStyleBlue barButtonItemStyle:CDBarButtonItemStyleBlue toolBarStyle:CDToolBarStyleBlue];
         UINavigationController *navWebViewController = [[UINavigationController alloc] initWithRootViewController:webViewController];
         [ROOT_CONTROLLER presentViewController:navWebViewController animated:YES completion:^{
             NSLog(@"show app url: %@", mediaObject.url);

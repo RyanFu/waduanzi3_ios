@@ -36,6 +36,8 @@
 @synthesize isAnimatedGIF = _isAnimatedGIF;
 @synthesize isLongImage = _isLongImage;
 @synthesize isVideo = _isVideo;
+@synthesize showGIFIcon = _showGIFIcon;
+@synthesize showLongIcon = _showLongIcon;
 
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -46,6 +48,8 @@
         self.userInteractionEnabled = YES;
         self.isAnimatedGIF = NO;
         self.isLongImage = NO;
+        self.showGIFIcon = YES;
+        self.showLongIcon = YES;
         
         self.separatorHeight = POST_LIST_CELL_FRAGMENT_PADDING;
         self.contentMargin = POST_LIST_CELL_CONTENT_MARGIN;
@@ -209,14 +213,14 @@
             _videoIconView.frame = videoImageFrame;
             [self.imageView addSubview:_videoIconView];
         }
-        else if (_isAnimatedGIF) {
+        else if (_isAnimatedGIF && _showGIFIcon) {
             CGRect gifImageFrame = _gifImageIconView.frame;
             gifImageFrame.origin.x = self.imageView.frame.size.width - gifImageFrame.size.width;
             gifImageFrame.origin.y = self.imageView.frame.size.height - gifImageFrame.size.height;
             _gifImageIconView.frame = gifImageFrame;
             [self.imageView addSubview:_gifImageIconView];
         }
-        else if (_isLongImage) {
+        else if (_isLongImage && _showLongIcon) {
             CGRect longImageFrame = _longImageIconView.frame;
             longImageFrame.origin.x = self.imageView.frame.size.width - longImageFrame.size.width;
             longImageFrame.origin.y = self.imageView.frame.size.height - longImageFrame.size.height;

@@ -11,6 +11,7 @@
 #import "UIImageView+WebCache.h"
 #import "DTTiledLayerWithoutFade.h"
 #import "UIView+Border.h"
+#import "ImageDetailViewController.h"
 
 
 @interface ArticleDetailViewController ()
@@ -95,7 +96,7 @@
 
 - (UIView *) attributedTextContentView:(DTAttributedTextContentView *)attributedTextContentView viewForAttachment:(DTTextAttachment *)attachment frame:(CGRect)frame
 {
-    NSLog(@"post content html: %@, attachement: %@", self.post.content_html, attachment.class);
+    CDLog(@"post content html: %@, attachement: %@", self.post.content_html, attachment.class);
     if ([attachment isKindOfClass:[DTImageTextAttachment class]]) {
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:frame];
         imageView.layer.cornerRadius = 3.0f;
@@ -115,10 +116,15 @@
             [weakLoadingView stopAnimating];
         }];
         
+        imageView.userInteractionEnabled = YES;
+        UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(thumbImageDidTapFinished:)];
+        tapRecognizer.numberOfTapsRequired = 1;
+        [imageView addGestureRecognizer:tapRecognizer];
+        
         return imageView;
     }
     else if ([attachment isKindOfClass:[DTIframeTextAttachment class]]) {
-        NSLog(@"video frame: %@, %@", NSStringFromCGRect(frame), attachment.contentURL);
+        CDLog(@"video frame: %@, %@", NSStringFromCGRect(frame), attachment.contentURL);
         return nil;
     }
     else if ([attachment isKindOfClass:[DTVideoTextAttachment class]]) {
@@ -131,6 +137,18 @@
 - (BOOL) videoView:(DTWebVideoView *)videoView shouldOpenExternalURL:(NSURL *)url
 {
     return NO;
+}
+
+- (void)thumbImageDidTapFinished:(UITapGestureRecognizer *)recognizer
+{
+    UIImageView *imageView = (UIImageView *)recognizer.view;
+    ImageDetailViewController *imageViewController = [[ImageDetailViewController alloc] init];
+    imageViewController.thumbnail = imageView.image;
+    imageViewController.originaPic = imageView.image;
+    // TODO: 这里需要再详细处理，或需要做成点击之后可以多图片查看的视图
+//    imageViewController.originalPicUrl = [NSURL URLWithString:self.post.middle_pic];
+    
+    [ROOT_CONTROLLER presentViewController:imageViewController animated:NO completion:nil];
 }
 
 @end

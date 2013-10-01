@@ -55,8 +55,8 @@
                                                                             target:self
                                                                              action:@selector(publishContent:)];
     
-    [CDUIKit setBackBarButtionItemStyle:CDBarButtionItemStyleBlue forBarMetrics:UIBarMetricsDefault];
-    [CDUIKit setBarButtionItem:self.navigationItem.leftBarButtonItem style:CDBarButtionItemStyleBlue forBarMetrics:UIBarMetricsDefault];
+    [CDUIKit setBackBarButtonItemStyle:CDBarButtonItemStyleBlue forBarMetrics:UIBarMetricsDefault];
+    [CDUIKit setBarButtonItem:self.navigationItem.leftBarButtonItem style:CDBarButtonItemStyleBlue forBarMetrics:UIBarMetricsDefault];
 }
 
 #pragma mark - selector

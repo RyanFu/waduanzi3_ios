@@ -14,12 +14,12 @@ typedef NS_ENUM(NSInteger, CDNavigationBarStyle) {
     CDNavigationBarStyleBlue
 };
 
-typedef NS_ENUM(NSInteger, CDBarButtionItemStyle) {
-    CDBarButtionItemStyleDefault,
-    CDBarButtionItemStyleBlack,
-    CDBarButtionItemStyleBlue,
-    CDBarButtionItemStyleBlackBack,
-    CDBarButtionItemStyleBlueBack,
+typedef NS_ENUM(NSInteger, CDBarButtonItemStyle) {
+    CDBarButtonItemStyleDefault,
+    CDBarButtonItemStyleBlack,
+    CDBarButtonItemStyleBlue,
+    CDBarButtonItemStyleBlackBack,
+    CDBarButtonItemStyleBlueBack,
 };
 
 typedef NS_ENUM(NSInteger, CDToolBarStyle) {
@@ -30,10 +30,10 @@ typedef NS_ENUM(NSInteger, CDToolBarStyle) {
 
 @interface CDUIKit : NSObject
 
-+ (void) setBarButtonItem:(UIBarButtonItem *)button titleAttributes:(NSDictionary *)attributes forBarMetrics:(UIBarMetrics)barMetrics;
++ (void) setBarButtonItemTitleAttributes:(UIBarButtonItem *)button forBarMetrics:(UIBarMetrics)barMetrics;
 
 + (void) setNavigationBar:(UINavigationBar *)bar style:(CDNavigationBarStyle)style forBarMetrics:(UIBarMetrics)barMetrics;
-+ (void) setBarButtionItem:(UIBarButtonItem *)button style:(CDBarButtionItemStyle)style forBarMetrics:(UIBarMetrics)barMetrics;
-+ (void) setBackBarButtionItemStyle:(CDBarButtionItemStyle)style forBarMetrics:(UIBarMetrics)barMetrics;
++ (void) setBarButtonItem:(UIBarButtonItem *)button style:(CDBarButtonItemStyle)style forBarMetrics:(UIBarMetrics)barMetrics;
++ (void) setBackBarButtonItemStyle:(CDBarButtonItemStyle)style forBarMetrics:(UIBarMetrics)barMetrics;
 + (void) setToolBar:(UIToolbar *)toolbar style:(CDToolBarStyle)style forToolbarPosition:(UIToolbarPosition)topOrBottom forBarMetrics:(UIBarMetrics)barMetrics;
 @end

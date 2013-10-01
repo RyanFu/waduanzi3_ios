@@ -11,17 +11,19 @@
 
 @implementation CDUIKit
 
-+ (void) setBarButtonItem:(UIBarButtonItem *)button titleAttributes:(NSDictionary *)attributes forBarMetrics:(UIBarMetrics)barMetrics
++ (void) setBarButtonItemTitleAttributes:(UIBarButtonItem *)button forBarMetrics:(UIBarMetrics)barMetrics
 {
-    if (OS_VERSION_GREATER_THAN_OR_EQUAL_TO(@"6.0") && attributes == nil) {
+    if (OS_VERSION_GREATER_THAN_OR_EQUAL_TO(@"6.0")) {
         CGFloat size = (barMetrics == UIBarMetricsLandscapePhone) ? 12.0f : 14.0f;
-        attributes = @{
-                       NSForegroundColorAttributeName: [UIColor whiteColor],
-                       NSFontAttributeName: [UIFont fontWithName:FZLTHK_FONT_NAME size:size]
-                       };
+        NSMutableDictionary *attributes = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                      [UIColor whiteColor], NSForegroundColorAttributeName,
+                      [UIFont fontWithName:FZLTHK_FONT_NAME size:size], NSFontAttributeName,
+                      nil];
+        [button setTitleTextAttributes:attributes forState:UIControlStateNormal];
+        
+        [attributes setObject:[UIColor lightGrayColor] forKey:NSForegroundColorAttributeName];
+        [button setTitleTextAttributes:attributes forState:UIControlStateDisabled];
     }
-    
-    [button setTitleTextAttributes:attributes forState:UIControlStateNormal];
 }
 
 + (void) setNavigationBar:(UINavigationBar *)bar style:(CDNavigationBarStyle)style forBarMetrics:(UIBarMetrics)barMetrics
@@ -47,11 +49,11 @@
     }
 }
 
-+ (void) setBarButtionItem:(UIBarButtonItem *)button style:(CDBarButtionItemStyle)style forBarMetrics:(UIBarMetrics)barMetrics
++ (void) setBarButtonItem:(UIBarButtonItem *)button style:(CDBarButtonItemStyle)style forBarMetrics:(UIBarMetrics)barMetrics
 {
     UIEdgeInsets buttonInsets;
     switch (style) {
-        case CDBarButtionItemStyleBlue:
+        case CDBarButtonItemStyleBlue:
             if (barMetrics == UIBarMetricsLandscapePhone) {
                 buttonInsets = UIEdgeInsetsMake(0.0f, 4.0f, 0.0f, 4.0f);
                 [button setBackgroundImage:[[UIImage imageNamed:@"NavBarButtonLandscape.png"] resizableImageWithCapInsets:buttonInsets]
@@ -77,7 +79,7 @@
                                 barMetrics:barMetrics];
             }
             break;
-        case CDBarButtionItemStyleBlack:
+        case CDBarButtonItemStyleBlack:
             buttonInsets = UIEdgeInsetsMake(0.0f, 4.0f, 0.0f, 4.0f);
             [button setBackgroundImage:[[UIImage imageNamed:@"UISearchBarCancelButtonBackground.png"] resizableImageWithCapInsets:buttonInsets]
                               forState:UIControlStateNormal
@@ -91,7 +93,7 @@
             
             break;
             
-        case CDBarButtionItemStyleBlueBack:
+        case CDBarButtonItemStyleBlueBack:
             [button setTitlePositionAdjustment:UIOffsetMake(3.0f, 0) forBarMetrics:barMetrics];
             
             if (barMetrics == UIBarMetricsLandscapePhone) {
@@ -120,7 +122,7 @@
             }
             break;
             
-        case CDBarButtionItemStyleBlackBack:
+        case CDBarButtonItemStyleBlackBack:
             [button setTitlePositionAdjustment:UIOffsetMake(3.0f, 0) forBarMetrics:barMetrics];
             
             buttonInsets = UIEdgeInsetsMake(0.0f, 12.0f, 0.0f, 5.0f);
@@ -136,17 +138,17 @@
             
             break;
             
-        case CDBarButtionItemStyleDefault:
+        case CDBarButtonItemStyleDefault:
         default:
             break;
     }
 }
 
-+ (void) setBackBarButtionItemStyle:(CDBarButtionItemStyle)style forBarMetrics:(UIBarMetrics)barMetrics
++ (void) setBackBarButtonItemStyle:(CDBarButtonItemStyle)style forBarMetrics:(UIBarMetrics)barMetrics
 {
     UIEdgeInsets buttonInsets;
     switch (style) {
-        case CDBarButtionItemStyleBlue:
+        case CDBarButtonItemStyleBlue:
             buttonInsets = UIEdgeInsetsMake(0.0f, 14.0f, 0.0f, 4.0f);
             [[UIBarButtonItem appearance] setBackButtonBackgroundImage:[[UIImage imageNamed:@"NavBarBackButtonPortrait.png"] resizableImageWithCapInsets:buttonInsets]
                                                               forState:UIControlStateNormal
@@ -158,7 +160,7 @@
                                                               forState:UIControlStateHighlighted
                                                             barMetrics:barMetrics];
             break;
-        case CDBarButtionItemStyleBlack:
+        case CDBarButtonItemStyleBlack:
             buttonInsets = UIEdgeInsetsMake(0.0f, 12.0f, 0.0f, 5.0f);
             [[UIBarButtonItem appearance] setBackButtonBackgroundImage:[[UIImage imageNamed:@"back_normal.png"] resizableImageWithCapInsets:buttonInsets]
                                                               forState:UIControlStateNormal
@@ -170,7 +172,7 @@
                                                               forState:UIControlStateHighlighted
                                                             barMetrics:barMetrics];
             break;
-        case CDBarButtionItemStyleDefault:
+        case CDBarButtonItemStyleDefault:
         default:
             break;
     }

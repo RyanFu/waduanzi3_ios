@@ -41,7 +41,7 @@
 #import "MobClick.h"
 
 @interface PostListViewController ()
-- (void) setupNavButtionItems;
+- (void) setupNavButtonItems;
 - (void) setupTableView;
 - (void) setupUMAppNetworkView;
 - (void) setupAdView;
@@ -146,7 +146,7 @@
     
     _cellCache = [[NSCache alloc] init];
     
-    [self setupNavButtionItems];
+    [self setupNavButtonItems];
     [self setupTableView];
 
     [self setupTableViewPullScrollView];
@@ -162,7 +162,7 @@
         NSLog(@"count > 0, data from cache");
 }
 
-- (void) setupNavButtionItems
+- (void) setupNavButtonItems
 {
     UIImage *launcherImage = [UIImage imageNamed:@"NavBarIconLauncher.png"];
     UIButton *leftButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -319,11 +319,6 @@
     [self.tableView addPullToRefreshWithActionHandler:^{
         CDLog(@"requiredLogined: %d, hasLogined: %d", _weakRequireLogined, [[CDSession shareInstance] hasLogined]);
         
-        if (![CDRestClient checkNetworkStatus]) {
-            [weakSelf.tableView.pullToRefreshView stopAnimating];
-            return;
-        }
-        
         if (!_weakRequireLogined || [[CDSession shareInstance] hasLogined])
             [weakSelf loadLatestStatuses];
         else {
@@ -343,11 +338,8 @@
     __block BOOL _weakRequireLogined = _requireLogined;
 
     [self.tableView addInfiniteScrollingWithActionHandler:^{
-        if (![CDRestClient checkNetworkStatus]) {
-            [weakSelf.tableView.infiniteScrollingView stopAnimating];
-            return;
-        }
         NSLog(@"statuses count: %d",weakSelf.statuses.count);
+
         if (!_weakRequireLogined || [[CDSession shareInstance] hasLogined]) {
             if (weakSelf.statuses.count == 0)
                 [weakSelf.tableView.infiniteScrollingView stopAnimating];
@@ -482,12 +474,15 @@
         cell.isAnimatedGIF = [post isAnimatedGIF];
         cell.isLongImage = [post isLongImage];
         
-        RKObjectManager *objectManager = [RKObjectManager sharedManager];
         cell.thumbSize = CGSizeMake(THUMB_WIDTH, THUMB_HEIGHT);
         NSString *imageUrlString = post.small_pic;
-        if (objectManager.HTTPClient.networkReachabilityStatus == AFNetworkReachabilityStatusReachableViaWiFi) {
+        if (NETWORK_STATUS_IS_WIFI) {
             cell.thumbSize = [post picSizeByWidth:[cell contentBlockWidth]];
             imageUrlString = post.middle_pic;
+            cell.showLongIcon = cell.showGIFIcon = NO;
+        }
+        else {
+            cell.showLongIcon = cell.showGIFIcon = YES;
         }
         
         NSURL *imageUrl = [NSURL URLWithString:imageUrlString];
@@ -495,7 +490,7 @@
         [cell.imageView setImageWithURL:imageUrl placeholderImage:placeImage options:SDWebImageRetryFailed progress:^(NSUInteger receivedSize, long long expectedSize) {
             CDLog(@"receivedSize/expectedSize: %d/%lld", receivedSize, expectedSize);
         } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-//            CDLog(@"image download finished.");
+            CDLog(@"image download finished.");
         }];
     }
     else if (cell.isVideo) {
@@ -572,7 +567,7 @@
     [self didVideoSelectRowAtIndex:imageView.tag];
 }
 
-- (void) advert2ImageViewDidTapFinished:(UITapGestureRecognizer *)gestureRecognizer
+- (void) advertImageViewDidTapFinished:(UITapGestureRecognizer *)gestureRecognizer
 {
     UIImageView *imageView = (UIImageView *)gestureRecognizer.view;
     CDLog(@"advert clicked: %d", imageView.tag);
@@ -700,12 +695,12 @@
     
     CDLog(@"source url: %@", post.video.source_url);
     CDWebVideoViewController *webVideoController = [[CDWebVideoViewController alloc] initWithUrl:post.video.source_url];
-    [webVideoController setNavigationBarStyle:CDNavigationBarStyleBlue barButtonItemStyle:CDBarButtionItemStyleBlueBack toolBarStyle:CDToolBarStyleBlue];
+    [webVideoController setNavigationBarStyle:CDNavigationBarStyleBlue barButtonItemStyle:CDBarButtonItemStyleBlueBack toolBarStyle:CDToolBarStyleBlue];
     CDNavigationController *navWebVideoController = [[CDNavigationController alloc] initWithRootViewController:webVideoController];
     [ROOT_CONTROLLER presentViewController:navWebVideoController animated:YES completion:nil];
 }
 
-#pragma mark - barButtionItem selector
+#pragma mark - barButtonItem selector
 
 - (void) openLeftSlideView:(id) sender
 {
@@ -732,7 +727,7 @@
     NSString *noticeMessage = @"载入最新段子出错";
     if (error.code == kCFURLErrorTimedOut)
         noticeMessage = @"网络超时";
-    _noticeView = [WBErrorNoticeView showErrorNoticeView:self.view title:@"提示" message:noticeMessage sticky:NO delay:2.0f dismissedBlock:nil];
+    _noticeView = [WBErrorNoticeView showErrorNoticeView:self.view title:@"提示" message:noticeMessage sticky:NO delay:1.0f dismissedBlock:nil];
     
     CDLog(@"Hit error: %@", error);
 }
@@ -747,7 +742,7 @@
     NSString *noticeMessage = @"载入更多段子出错";
     if (error.code == kCFURLErrorTimedOut)
         noticeMessage = @"网络超时";
-    _noticeView = [WBErrorNoticeView showErrorNoticeView:self.view title:@"提示" message:noticeMessage sticky:NO delay:2.0f dismissedBlock:nil];
+    _noticeView = [WBErrorNoticeView showErrorNoticeView:self.view title:@"提示" message:noticeMessage sticky:NO delay:1.0f dismissedBlock:nil];
     
     CDLog(@"Hit error: %@", error);
 }
@@ -770,7 +765,13 @@
                                 self.navigationItem.rightBarButtonItem.enabled = YES;
                                 [self.tableView.pullToRefreshView stopAnimating];
                                 
-                                if (error.code == NSURLErrorCancelled) return ;
+                                if (error.domain == NSURLErrorDomain && error.code == NSURLErrorCancelled) return ;
+                                
+                                if (error.domain == NSURLErrorDomain && error.code == NSURLErrorNotConnectedToInternet) {
+                                    _noticeView = [WBErrorNoticeView showErrorNoticeView:self.view title:@"提示" message:@"好像您的手机没有启用网络" sticky:NO delay:1.0f dismissedBlock:nil];
+                                    
+                                    return;
+                                }
                                 
                                 if ([self respondsToSelector:@selector(latestStatusesFailed:error:)])
                                     [self performSelector:@selector(latestStatusesFailed:error:) withObject:operation withObject:error];
@@ -794,7 +795,13 @@
                             failure:^(RKObjectRequestOperation *operation, NSError *error) {
                                 [self.tableView.infiniteScrollingView stopAnimating];
                                 
-                                if (error.code == NSURLErrorCancelled) return ;
+                                if (error.domain == NSURLErrorDomain && error.code == NSURLErrorCancelled) return ;
+                                
+                                if (error.domain == NSURLErrorDomain && error.code == NSURLErrorNotConnectedToInternet) {
+                                    _noticeView = [WBErrorNoticeView showErrorNoticeView:self.view title:@"提示" message:@"好像您的手机没有启用网络" sticky:NO delay:1.0f dismissedBlock:nil];
+                                    
+                                    return;
+                                }
                                 
                                 if ([self respondsToSelector:@selector(moreStatusesFailed:error:)])
                                     [self performSelector:@selector(moreStatusesFailed:error:) withObject:operation withObject:error];

@@ -44,6 +44,7 @@
 - (void) viewDeckController:(IIViewDeckController *)viewDeckController didCloseViewSide:(IIViewDeckSide)viewDeckSide animated:(BOOL)animated
 {
     if (self.forceRefresh) {
+        [self.tableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:NO];
         [self.tableView triggerPullToRefresh];
         self.forceRefresh = NO;
     }

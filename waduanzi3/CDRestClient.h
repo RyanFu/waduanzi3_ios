@@ -22,6 +22,4 @@
 + (NSString *) generateSignatureByParams:(NSDictionary *) params;
 + (NSString *) userAgent;
 
-+ (BOOL) checkNetworkStatus;
-
 @end

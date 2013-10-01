@@ -35,7 +35,7 @@
 - (void) loadPostComments;
 - (NSDictionary *) commentsParameters;
 - (NSDictionary *) createCommentParameters;
-- (void) setupNavButtionItems;
+- (void) setupNavButtonItems;
 - (void) setupTableView;
 - (void) setCommentCellSubViews:(CDCommentTableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath;
 - (void) supportComment:(NSInteger) index;
@@ -112,7 +112,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
 
     // 设置导航栏组件
-    [self setupNavButtionItems];
+    [self setupNavButtonItems];
     // 设置UITableView
     [self setupTableView];
     // 设置评论框组件视图
@@ -214,7 +214,7 @@
 
 #pragma mark - setup subviews
 
-- (void) setupNavButtionItems
+- (void) setupNavButtonItems
 {
     UIImage *backImage = [UIImage imageNamed:@"NavBarButtonArrow.png"];
     UIButton *leftButton = [UIButton buttonWithType:UIButtonTypeCustom];

@@ -25,6 +25,8 @@
 #import "CDNavigationController.h"
 #import "CDSocialKit.h"
 #import "CDUserConfig.h"
+#import "MBProgressHUD+Custom.h"
+#import "Reachability.h"
 
 
 @interface AppDelegate ()
@@ -37,7 +39,8 @@
 - (void) customAppearance;
 - (void) setupWindowView:(UIApplication *)application;
 - (void) afterWindowVisible:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions;
-- (void) setupRKObjectMapping;
+- (void) setupRKRestClient;
+
 - (void) checkNetworkChange;
 
 - (void) setupDMSplashAd;
@@ -60,7 +63,7 @@
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     [self customAppearance];
-    [self setupRKObjectMapping];
+    [self setupRKRestClient];
     [self setupWindowView:application];
     
     self.window.backgroundColor = [UIColor whiteColor];
@@ -105,7 +108,18 @@
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
     CDLog(@"applicationDidEnterBackground");
     
-    [CDDataCache clearCacheFilesBeforeDays:7];
+    @try {
+        [[RKObjectManager sharedManager].operationQueue cancelAllOperations];
+        
+        [CDDataCache clearCacheFilesBeforeDays:7];
+
+    }
+    @catch (NSException *exception) {
+        ;
+    }
+    @finally {
+        ;
+    }
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
@@ -252,8 +266,8 @@
     [[UINavigationBar appearance] setBarStyle:UIBarStyleDefault];
     
     [CDUIKit setNavigationBar:[UINavigationBar appearance] style:CDNavigationBarStyleBlue forBarMetrics:UIBarMetricsDefault];
-    [CDUIKit setBarButtionItem:[UIBarButtonItem appearance] style:CDBarButtionItemStyleBlue forBarMetrics:UIBarMetricsDefault];
-    [CDUIKit setBackBarButtionItemStyle:CDBarButtionItemStyleBlue forBarMetrics:UIBarMetricsDefault];
+    [CDUIKit setBarButtonItem:[UIBarButtonItem appearance] style:CDBarButtonItemStyleBlue forBarMetrics:UIBarMetricsDefault];
+    [CDUIKit setBackBarButtonItemStyle:CDBarButtonItemStyleBlue forBarMetrics:UIBarMetricsDefault];
     
     if (OS_VERSION_GREATER_THAN_OR_EQUAL_TO(@"6.0")) {
         NSDictionary *titleTextAttributes = @{
@@ -341,7 +355,7 @@
 }
 
 
-- (void) setupRKObjectMapping
+- (void) setupRKRestClient
 {
     if (CD_DEBUG) {
 //        RKLogConfigureByName("RestKit/ObjectMapping", RKLogLevelDebug);
@@ -356,7 +370,6 @@
     
     [self performSelector:@selector(updateDeviceInfo) withObject:nil afterDelay:1.0f];
 }
-
 
 - (void) checkNetworkChange
 {
@@ -375,7 +388,6 @@
         }
         else
             NSLog(@"network status: other status");
-        
         
         // 如果状态改变，刷新当前段子列表
         @try {

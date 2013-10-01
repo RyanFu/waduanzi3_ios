@@ -82,21 +82,6 @@
 }
 
 
-+ (BOOL) checkNetworkStatus
-{
-    RKObjectManager *objectManager = [RKObjectManager sharedManager];
-    AFNetworkReachabilityStatus status = objectManager.HTTPClient.networkReachabilityStatus;
-    NSLog(@"network status: %d", status);
-    
-    if (status == AFNetworkReachabilityStatusReachableViaWiFi || status == AFNetworkReachabilityStatusReachableViaWWAN)
-        return YES;
-    else {
-        [MBProgressHUD show:YES errorMessage:@"哎呀，网络不给力呀，\n稍后再试试吧" inView:ROOT_CONTROLLER.view alpha:0.6f hide:YES afterDelay:1.0f];
-        return NO;
-    }
-}
-
-
 - (void) setResponseDescriptor
 {
     RKObjectMapping *postMapping = [self setPostObjectMapping];

@@ -13,6 +13,7 @@
 @property (nonatomic, assign) NSInteger postFontSize;
 @property (nonatomic, assign) NSInteger commentFontSize;
 @property (nonatomic, assign) BOOL auto_change_image_size;
+@property (nonatomic, assign) BOOL enable_push_message;
 
 + (CDUserConfig *)shareInstance;
 - (void) cache;

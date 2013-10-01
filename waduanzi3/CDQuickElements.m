@@ -74,19 +74,20 @@
     };
     [section0 addElement:commentFontElement];
     
-    QBooleanElement *messagePush = [[QBooleanElement alloc] initWithTitle:@"消息推送" Value:0];
+    QBooleanElement *messagePush = [[QBooleanElement alloc] initWithTitle:@"接收精彩段子推送" Value:nil];
     messagePush.key = @"key_message_push";
     messagePush.controllerAction = @"messagePushAction:";
     [section0 addElement:messagePush];
+    
+    QBooleanElement *autoChangeImageSize = [[QBooleanElement alloc] initWithTitle:@"WIFI下切换到大图" Value:nil];
+    autoChangeImageSize.key = @"key_auto_change_image_size";
+    autoChangeImageSize.controllerAction = @"autChangeImageSizeAction:";
+    [section0 addElement:autoChangeImageSize];
 
-    // section 1
-    QSection *section1 = [[QSection alloc] init];
-    [root addSection:section1];
-    section1.key = @"section_key_clear_cache";
-    CDQButtonElement *clearCacheButton = [[CDQButtonElement alloc] initWithTitle:@"清除缓存"];
-    clearCacheButton.key = @"key_clear_cache";
-    clearCacheButton.controllerAction = @"clearCacheAction:";
-    [section1 addElement:clearCacheButton];
+    QLabelElement *clearCache = [[QLabelElement alloc] initWithTitle:@"清除缓存" Value:nil];
+    clearCache.key = @"key_clear_cache";
+    clearCache.controllerAction = @"clearCacheAction:";
+    [section0 addElement:clearCache];
     
     // section 2
     if ([[CDSession shareInstance] hasLogined]) {

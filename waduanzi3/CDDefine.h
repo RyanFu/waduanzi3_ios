@@ -31,6 +31,8 @@
 #define APP_VERSION     [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"] ?: [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey]
 
 #define CURRENT_NETWORK_STATUS [RKObjectManager sharedManager].HTTPClient.networkReachabilityStatus
+#define NETWORK_STATUS_IS_WIFI (CURRENT_NETWORK_STATUS == AFNetworkReachabilityStatusReachableViaWiFi)
+#define NETWORK_STATUS_IS_WWAN (CURRENT_NETWORK_STATUS == AFNetworkReachabilityStatusReachableViaWWAN)
 
 #define WDZ_APP_STORE_URL @"itms-apps://itunes.apple.com/cn/app//id486268988?mt=8"
 #define OFFICIAL_SITE @"http://www.waduanzi.com";
