@@ -358,8 +358,6 @@
 		2BDA266417940BBF00838973 /* BackgroundLight@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BDA266017940BBF00838973 /* BackgroundLight@2x.png */; };
 		2BDA2667179424FE00838973 /* common_button_red_nor@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BDA2665179424FE00838973 /* common_button_red_nor@2x.png */; };
 		2BDA2668179424FE00838973 /* common_button_red_press@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BDA2666179424FE00838973 /* common_button_red_press@2x.png */; };
-		2BDD332D17EE10390068AB5B /* DomobAdSDKBundle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 2BDD332B17EE10390068AB5B /* DomobAdSDKBundle.bundle */; };
-		2BDD332E17EE10390068AB5B /* libDomobAdSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BDD332C17EE10390068AB5B /* libDomobAdSDK.a */; };
 		2BDD333017EE107D0068AB5B /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BDD332F17EE107D0068AB5B /* AdSupport.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		2BDD333417EE10B00068AB5B /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BDD333317EE10B00068AB5B /* libsqlite3.dylib */; };
 		2BDD705E177F5EB000421915 /* accessory_arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BDD705C177F5EB000421915 /* accessory_arrow@2x.png */; };
@@ -870,13 +868,6 @@
 		2BDA266017940BBF00838973 /* BackgroundLight@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "BackgroundLight@2x.png"; sourceTree = "<group>"; };
 		2BDA2665179424FE00838973 /* common_button_red_nor@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "common_button_red_nor@2x.png"; sourceTree = "<group>"; };
 		2BDA2666179424FE00838973 /* common_button_red_press@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "common_button_red_press@2x.png"; sourceTree = "<group>"; };
-		2BDD332517EE10390068AB5B /* DMAdView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMAdView.h; sourceTree = "<group>"; };
-		2BDD332617EE10390068AB5B /* DMInterstitialAdController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMInterstitialAdController.h; sourceTree = "<group>"; };
-		2BDD332717EE10390068AB5B /* DMRTSplashAdController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMRTSplashAdController.h; sourceTree = "<group>"; };
-		2BDD332817EE10390068AB5B /* DMSplashAdController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMSplashAdController.h; sourceTree = "<group>"; };
-		2BDD332917EE10390068AB5B /* DMTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMTools.h; sourceTree = "<group>"; };
-		2BDD332B17EE10390068AB5B /* DomobAdSDKBundle.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = DomobAdSDKBundle.bundle; sourceTree = "<group>"; };
-		2BDD332C17EE10390068AB5B /* libDomobAdSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libDomobAdSDK.a; sourceTree = "<group>"; };
 		2BDD332F17EE107D0068AB5B /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		2BDD333317EE10B00068AB5B /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		2BDD705C177F5EB000421915 /* accessory_arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "accessory_arrow@2x.png"; sourceTree = "<group>"; };
@@ -957,7 +948,6 @@
 				2BDD70AA177F980A00421915 /* CoreText.framework in Frameworks */,
 				2B65AD2C17EBD01000E444D9 /* libBPush.a in Frameworks */,
 				2BD425CC17EBCCDD001D238F /* libUMAppNetwork_3.5.6.a in Frameworks */,
-				2BDD332E17EE10390068AB5B /* libDomobAdSDK.a in Frameworks */,
 				2B1FDDF3177C935900CD1135 /* CoreLocation.framework in Frameworks */,
 				2BC4D4FD1762558F0098151C /* MapKit.framework in Frameworks */,
 				2B7488B017F093FA00815F02 /* libUMSocial_Sdk_3.0.a in Frameworks */,
@@ -1285,31 +1275,8 @@
 		2BDD332317EE102D0068AB5B /* AdSDK */ = {
 			isa = PBXGroup;
 			children = (
-				2BDD332417EE10390068AB5B /* DomobAdSDK */,
 			);
 			name = AdSDK;
-			sourceTree = "<group>";
-		};
-		2BDD332417EE10390068AB5B /* DomobAdSDK */ = {
-			isa = PBXGroup;
-			children = (
-				2BDD332517EE10390068AB5B /* DMAdView.h */,
-				2BDD332617EE10390068AB5B /* DMInterstitialAdController.h */,
-				2BDD332717EE10390068AB5B /* DMRTSplashAdController.h */,
-				2BDD332817EE10390068AB5B /* DMSplashAdController.h */,
-				2BDD332917EE10390068AB5B /* DMTools.h */,
-				2BDD332A17EE10390068AB5B /* DomobAdSDKBundle */,
-				2BDD332C17EE10390068AB5B /* libDomobAdSDK.a */,
-			);
-			path = DomobAdSDK;
-			sourceTree = "<group>";
-		};
-		2BDD332A17EE10390068AB5B /* DomobAdSDKBundle */ = {
-			isa = PBXGroup;
-			children = (
-				2BDD332B17EE10390068AB5B /* DomobAdSDKBundle.bundle */,
-			);
-			path = DomobAdSDKBundle;
 			sourceTree = "<group>";
 		};
 		2BED81F5167B573E0025E9C4 = {
@@ -1888,7 +1855,6 @@
 				2B1B14F017E9D90300CC0377 /* NavBarButtonLandscapePressed@2x.png in Resources */,
 				2B623B7B1792F09800D3270D /* camera_transfer_iphone5.png in Resources */,
 				2BD425CD17EBCCDD001D238F /* UMUFP.bundle in Resources */,
-				2BDD332D17EE10390068AB5B /* DomobAdSDKBundle.bundle in Resources */,
 				2B623B7C1792F09800D3270D /* cameraIris.png in Resources */,
 				2B623B7D1792F09800D3270D /* cameraIris@2x.png in Resources */,
 				2B623B7E1792F09800D3270D /* cancel_normal.png in Resources */,
@@ -2285,7 +2251,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 715D8456AEBD496A954B4265 /* Pods.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: Dengchang Chen (4KT5FZ25UU)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2300,7 +2266,6 @@
 					/data/iOS/waduanzi3/UMAnalytics_Sdk_2.2.1.OpenUDID,
 					/data/iOS/waduanzi3/UMAppNetwork_SDK_3.5.6,
 					"/data/iOS/waduanzi3/Baidu-Push-SDK-iOS-L1-1.1.0",
-					/data/iOS/waduanzi3/DomobAdSDK,
 					/data/iOS/waduanzi3/UMSocial_Sdk_3.0/frameworks/TencentWeiboSSO,
 					/data/iOS/waduanzi3/UMSocial_Sdk_3.0/frameworks/Wechat,
 					/data/iOS/waduanzi3/UMSocial_Sdk_3.0,
@@ -2349,7 +2314,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 715D8456AEBD496A954B4265 /* Pods.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Dengchang Chen";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2364,7 +2329,6 @@
 					/data/iOS/waduanzi3/UMAnalytics_Sdk_2.2.1.OpenUDID,
 					/data/iOS/waduanzi3/UMAppNetwork_SDK_3.5.6,
 					"/data/iOS/waduanzi3/Baidu-Push-SDK-iOS-L1-1.1.0",
-					/data/iOS/waduanzi3/DomobAdSDK,
 					/data/iOS/waduanzi3/UMSocial_Sdk_3.0/frameworks/TencentWeiboSSO,
 					/data/iOS/waduanzi3/UMSocial_Sdk_3.0/frameworks/Wechat,
 					/data/iOS/waduanzi3/UMSocial_Sdk_3.0,

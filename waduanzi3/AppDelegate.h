@@ -9,7 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "WXApi.h"
 #import "BPush.h"
-#import "DMSplashAdController.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate, WXApiDelegate, BPushDelegate>
 

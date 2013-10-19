@@ -32,7 +32,6 @@
 @interface AppDelegate ()
 {
     IIViewDeckController *_deckController;
-    DMSplashAdController *_splashAd;
 }
 
 - (void) asyncInit;
@@ -40,12 +39,7 @@
 - (void) setupWindowView:(UIApplication *)application;
 - (void) afterWindowVisible:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions;
 - (void) setupRKRestClient;
-
 - (void) checkNetworkChange;
-
-- (void) setupDMSplashAd;
-
-
 - (void)preInitWithSize:(CGFloat)size family:(NSString *)family;
 @end
 
@@ -69,7 +63,6 @@
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     
-    [self setupDMSplashAd];
     [self afterWindowVisible:application didFinishLaunchingWithOptions:launchOptions];
     
     
@@ -451,36 +444,6 @@
     }
 }
 
-#pragma mark - DMSplashAdController
-
-- (void) setupDMSplashAd
-{
-    @try {
-        
-        if (![[MobClick getConfigParams:UM_ONLINE_CONFIG_SPLASH_AD_ENABLE] isEqualToString:@"on"])
-            return;
-        
-        CGSize adSize = DOMOB_AD_SIZE_320x400;
-        NSString *imageName = (CDSCREEN_SIZE.height > 480) ? @"Default" : @"Default-568h";
-        _splashAd = [[DMSplashAdController alloc] initWithPublisherId: AD_PUBLISHER_ID_DOMOB
-                                                          placementId: DOMOB_PLACEMENT_ID_SPLASH_AD
-                                                                 size: adSize
-                                                               offset: (CDSCREEN_SIZE.height - adSize.height) / 2
-                                                               window: self.window
-                                                           background: [UIColor colorWithPatternImage:[UIImage imageNamed:imageName]]
-                                                            animation: YES];
-        
-        if (_splashAd.isReady) {
-            [_splashAd present];
-        }
-    }
-    @catch (NSException *exception) {
-        CDLog(@"show domob splash ad exception: %s", exception.reason);
-    }
-    @finally {
-        ;
-    }
-}
 
 #pragma  DTCoreText preload
 
