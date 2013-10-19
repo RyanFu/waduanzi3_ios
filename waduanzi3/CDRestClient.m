@@ -238,7 +238,8 @@
         @"html5_url"           : @"html5_url",
         @"flash_url"           : @"flash_url",
         @"source_url"          : @"source_url",
-        @"desc"                : @"desc"
+        @"desc"                : @"desc",
+        @"simple_page"         : @"simple_page"
     }];
     
     return videoMapping;

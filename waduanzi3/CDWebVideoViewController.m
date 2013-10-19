@@ -20,7 +20,6 @@
     BOOL _firstPageFinished;
     BOOL _previousToolbarState;
     NSArray *_urlToolbarItems;
-    BOOL _playing;
     
     UIView *_adView;
 }
@@ -29,7 +28,10 @@
 - (UIImage *)createForwardArrowImage;
 @end
 
+
 @implementation CDWebVideoViewController
+
+@synthesize simplePage = _simplePage;
 
 - (void) setNavigationBarStyle:(CDNavigationBarStyle)navigationBarStyle barButtonItemStyle:(CDBarButtonItemStyle)barButtonItemStyle toolBarStyle:(CDToolBarStyle)toolBarStyle
 {
@@ -49,7 +51,7 @@
     self = [super init];
     if (self) {
         _html = html;
-        _playing = NO;
+        _simplePage = YES;
         self.hidesBottomBarWhenPushed = YES;
     }
     return self;
@@ -61,7 +63,7 @@
     self = [super init];
     if (self!=nil){
         _url = url;
-        _playing = NO;
+        _simplePage = YES;
         self.hidesBottomBarWhenPushed = YES;
     }
     return self;
@@ -75,9 +77,10 @@
     
     self.view.backgroundColor = [UIColor blackColor];
     
+    CGFloat advertViewHeight = _simplePage ? VIDEO_WEBVIEW_AD_HEIGHT : AD_BANNER_HEIGHT;
     
     CGRect webViewFrame = self.view.bounds;
-    webViewFrame.size.height = CDSCREEN_SIZE.height - NAVBAR_HEIGHT*2 - STATUSBAR_HEIGHT - VIDEO_WEBVIEW_AD_HEIGHT;
+    webViewFrame.size.height = CDSCREEN_SIZE.height - NAVBAR_HEIGHT*2 - STATUSBAR_HEIGHT - advertViewHeight;
     
     _webView = [[UIWebView alloc] initWithFrame:webViewFrame];
     _webView.delegate = self;
@@ -87,7 +90,7 @@
     [_webView showBorder:1 color:[UIColor blueColor].CGColor radius:0];
     
     CGRect adViewFrame = self.view.bounds;
-    adViewFrame.size.height = VIDEO_WEBVIEW_AD_HEIGHT;
+    adViewFrame.size.height = advertViewHeight;
     adViewFrame.origin.y = webViewFrame.origin.y + webViewFrame.size.height;
     _adView = [[UIView alloc] initWithFrame:adViewFrame];
     [self.view addSubview:_adView];
@@ -144,7 +147,6 @@
 - (void) viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
-    _playing = NO;
 }
 
 #pragma mark - MoviePlayer notifications

@@ -16,5 +16,6 @@
 @property (nonatomic, copy) NSString *flash_url;
 @property (nonatomic, copy) NSString *source_url;
 @property (nonatomic, copy) NSString *desc;
+@property (nonatomic, assign) BOOL simple_page;
 
 @end

@@ -16,6 +16,7 @@
 @synthesize flash_url = _flash_url;
 @synthesize source_url = _source_url;
 @synthesize desc = _desc;
+@synthesize simple_page = _simple_page;
 
 - (id)initWithCoder:(NSCoder *)decoder
 {
@@ -27,6 +28,7 @@
         self.flash_url = [decoder decodeObjectForKey:@"flash_url"];
         self.source_url = [decoder decodeObjectForKey:@"source_url"];
         self.desc = [decoder decodeObjectForKey:@"desc"];
+        self.simple_page = [decoder decodeObjectForKey:@"simple_page"];
     }
     return self;
 }
@@ -39,6 +41,7 @@
     [encoder encodeObject:_flash_url forKey:@"flash_url"];
     [encoder encodeObject:_source_url forKey:@"source_url"];
     [encoder encodeObject:_desc forKey:@"desc"];
+    [encoder encodeBool:_simple_page forKey:@"simple_page"];
 }
 
 @end

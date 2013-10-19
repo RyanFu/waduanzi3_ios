@@ -17,6 +17,8 @@
     NSString *_html;
 }
 
+@property (nonatomic, assign) BOOL simplePage;
+
 - (CDWebVideoViewController *)initWithUrl:(NSString *)string;
 - (CDWebVideoViewController *)initWithHTML:(NSString *)html;
 

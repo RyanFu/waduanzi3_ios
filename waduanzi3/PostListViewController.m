@@ -695,6 +695,7 @@
     
     CDLog(@"source url: %@", post.video.source_url);
     CDWebVideoViewController *webVideoController = [[CDWebVideoViewController alloc] initWithUrl:post.video.source_url];
+    webVideoController.simplePage = post.video.simple_page;
     [webVideoController setNavigationBarStyle:CDNavigationBarStyleBlue barButtonItemStyle:CDBarButtonItemStyleBlueBack toolBarStyle:CDToolBarStyleBlue];
     CDNavigationController *navWebVideoController = [[CDNavigationController alloc] initWithRootViewController:webVideoController];
     [ROOT_CONTROLLER presentViewController:navWebVideoController animated:YES completion:nil];
