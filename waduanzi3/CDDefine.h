@@ -34,6 +34,8 @@
 #define NETWORK_STATUS_IS_WIFI (CURRENT_NETWORK_STATUS == AFNetworkReachabilityStatusReachableViaWiFi)
 #define NETWORK_STATUS_IS_WWAN (CURRENT_NETWORK_STATUS == AFNetworkReachabilityStatusReachableViaWWAN)
 
+#define HTTP_REST_REQUEST_REFERRE @"http://ios.apps.waduanzi.com/"
+#define HTTP_IMAGE_REQUEST_REFERR @"http://img.apps.waduanzi.com/"
 #define WDZ_APP_STORE_URL @"itms-apps://itunes.apple.com/cn/app//id486268988?mt=8"
 #define OFFICIAL_SITE @"http://www.waduanzi.com";
 #define OFFICIAL_MOBILE_SITE @"http://m.waduanzi.com";

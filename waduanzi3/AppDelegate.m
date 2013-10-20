@@ -308,10 +308,14 @@
     // umeng tongji
     [MobClick startWithAppkey:UMENG_APPKEY];
     [MobClick updateOnlineConfig];
-    [MobClick checkUpdate];
+    // ios7会自动更新，所以不需要再使用此方式提醒用户更新
+    if (OS_VERSION_LESS_THAN(@"7.0")) {
+        [MobClick checkUpdate];
+    }
     [CDSocialKit setSocialConfig];
     
     [[SDWebImageManager sharedManager].imageDownloader setValue:[CDRestClient userAgent] forHTTPHeaderField:@"User-Agent"];
+    [[SDWebImageManager sharedManager].imageDownloader setValue:HTTP_IMAGE_REQUEST_REFERR forHTTPHeaderField:@"Referer"];
     
     // set appirater
     [Appirater setAppId:WADUANZI_APPLE_ID];

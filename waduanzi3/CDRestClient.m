@@ -61,7 +61,7 @@
         userToken = user.token;
     }
 
-    [_client setDefaultHeader:@"Referer" value:@"http://apps.waduanzi.com"];
+    [_client setDefaultHeader:@"Referer" value:HTTP_REST_REQUEST_REFERRE];
     [_client setDefaultHeader:@"User-Agent" value:[CDRestClient userAgent]];
     [_client setDefaultHeader:@"Accept" value:RKMIMETypeJSON];
     [_client setDefaultHeader:@"Device-UDID" value:[OpenUDID value]];
