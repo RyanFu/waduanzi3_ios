@@ -6,9 +6,9 @@
 //  Copyright (c) 2013年 chendong. All rights reserved.
 //
 
-#import "PostListViewController.h"
+#import "FunnyListViewController.h"
 
-@interface MyFavoriteViewController : PostListViewController
+@interface MyFavoriteViewController : FunnyListViewController
 {
     NSInteger _page;
 }

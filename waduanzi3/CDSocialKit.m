@@ -55,7 +55,6 @@
     [UMSocialConfig setWXAppId:WEIXIN_APPID url:nil];
     [UMSocialConfig setSupportQzoneSSO:YES importClasses:@[[QQApiInterface class],[TencentOAuth class]]];
     [UMSocialConfig setQQAppId:QQ_CONNECT_APPID url:nil importClasses:@[[QQApiInterface class],[TencentOAuth class]]];
-    [UMSocialConfig setSupportTencentSSO:YES importClass:[WBApi class]];
 }
 
 

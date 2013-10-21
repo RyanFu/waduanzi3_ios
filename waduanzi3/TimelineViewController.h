@@ -6,8 +6,8 @@
 //  Copyright (c) 2013年 chendong. All rights reserved.
 //
 
-#import "PostListViewController.h"
+#import "FunnyListViewController.h"
 
-@interface TimelineViewController : PostListViewController
+@interface TimelineViewController : FunnyListViewController
 
 @end
