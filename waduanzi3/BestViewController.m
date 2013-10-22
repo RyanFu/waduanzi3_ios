@@ -30,7 +30,7 @@
     // Do any additional setup after loading the view.
     self.title = @"精华推荐";
     
-    _statuses = [[CDDataCache shareCache] fetchBestPosts];
+    _statuses = [[CDDataCache shareCache] fetchBestPostsWithMediaType:_mediaType];
     
     [super viewDidLoad];
 }
@@ -64,9 +64,11 @@
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setObject:channel_id forKey:@"channel_id"];
-    [params setObject:SUPPORT_MEDIA_TYPES forKey:@"media_type"];
     [params setObject:page_id forKey:@"page"];
     [params setObject:inhours forKey:@"hours"];
+    
+    NSString *mediaTypes = (_mediaType == MEDIA_TYPE_MIXED) ? SUPPORT_MEDIA_TYPES : [NSString stringWithFormat:@"%d", _mediaType];
+    [params setObject:mediaTypes forKey:@"media_type"];
     
     return [CDRestClient requestParams:params];
 }
@@ -80,9 +82,11 @@
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setObject:channel_id forKey:@"channel_id"];
-    [params setObject:SUPPORT_MEDIA_TYPES forKey:@"media_type"];
     [params setObject:page_id forKey:@"page"];
     [params setObject:inhours forKey:@"hours"];
+    
+    NSString *mediaTypes = (_mediaType == MEDIA_TYPE_MIXED) ? SUPPORT_MEDIA_TYPES : [NSString stringWithFormat:@"%d", _mediaType];
+    [params setObject:mediaTypes forKey:@"media_type"];
     
     return [CDRestClient requestParams:params];
 }
@@ -106,7 +110,7 @@
         
         _page = FIRST_PAGE_ID;
         _page++;
-        [[CDDataCache shareCache] cacheBestPosts:_statuses];
+        [[CDDataCache shareCache] cacheBestPosts:_statuses withMediaType:_mediaType];
     }
     else {
         NSLog(@"没有更多内容了");
@@ -150,5 +154,11 @@
 //{
 //    NSLog(@"TimelineViewController moreStatusesFailed:error:");
 //}
+
+
+- (NSMutableArray *) fetchCachePostsWithMediaType:(CD_MEDIA_TYPE)media_type
+{
+    return [[CDDataCache shareCache] fetchBestPostsWithMediaType:_mediaType];
+}
 
 @end

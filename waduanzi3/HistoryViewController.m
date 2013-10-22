@@ -28,7 +28,7 @@
     // Do any additional setup after loading the view.
     self.title = @"随机穿越";
     
-    _statuses = [[CDDataCache shareCache] fetchHistoryPosts];
+    _statuses = [[CDDataCache shareCache] fetchHistoryPostsWithMediaType:_mediaType];
     [self setupTitle];
     
     [super viewDidLoad];
@@ -85,7 +85,9 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     NSString *channel_id = [NSString stringWithFormat:@"%d", _channelID];
     [params setObject:channel_id forKey:@"channel_id"];
-    [params setObject:SUPPORT_MEDIA_TYPES forKey:@"media_type"];
+    
+    NSString *mediaTypes = (_mediaType == MEDIA_TYPE_MIXED) ? SUPPORT_MEDIA_TYPES : [NSString stringWithFormat:@"%d", _mediaType];
+    [params setObject:mediaTypes forKey:@"media_type"];
     
     return [CDRestClient requestParams:params];
 }
@@ -95,7 +97,9 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     NSString *channel_id = [NSString stringWithFormat:@"%d", _channelID];
     [params setObject:channel_id forKey:@"channel_id"];
-    [params setObject:SUPPORT_MEDIA_TYPES forKey:@"media_type"];
+    
+    NSString *mediaTypes = (_mediaType == MEDIA_TYPE_MIXED) ? SUPPORT_MEDIA_TYPES : [NSString stringWithFormat:@"%d", _mediaType];
+    [params setObject:mediaTypes forKey:@"media_type"];
     
     return [CDRestClient requestParams:params];
 }
@@ -114,7 +118,7 @@
         _statuses = [NSMutableArray arrayWithArray:statuses];
         [self.tableView reloadData];
         
-        [[CDDataCache shareCache] cacheHistoryPosts:_statuses];
+        [[CDDataCache shareCache] cacheHistoryPosts:_statuses withMediaType:_mediaType];
 
         CDPost *firstPost = [_statuses objectAtIndex:0];
         NSDate *date = [NSDate dateWithTimeIntervalSince1970:[firstPost.create_time doubleValue]];
@@ -167,4 +171,11 @@
 //{
 //    NSLog(@"TimelineViewController moreStatusesFailed:error:");
 //}
+
+
+- (NSMutableArray *) fetchCachePostsWithMediaType:(CD_MEDIA_TYPE)media_type
+{
+    return [[CDDataCache shareCache] fetchHistoryPostsWithMediaType:_mediaType];
+}
+
 @end

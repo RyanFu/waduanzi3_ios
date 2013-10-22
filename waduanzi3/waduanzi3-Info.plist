@@ -67,16 +67,6 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>tencentweibo</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>wb801092195</string>
-			</array>
-		</dict>
-		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>CFBundleURLName</key>
 			<string>qzone</string>
 			<key>CFBundleURLSchemes</key>
 			<array>

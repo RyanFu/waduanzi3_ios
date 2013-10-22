@@ -60,55 +60,64 @@
 
 #pragma mark - timeline
 
-- (BOOL) cacheTimelinePosts:(NSMutableArray *)posts
+- (BOOL) cacheTimelinePosts:(NSMutableArray *)posts withMediaType:(CD_MEDIA_TYPE)media_type
 {
-    return [self cachePosts:posts cacheKey:@"latest_funny_posts"];
+    NSString *cacheKey = [NSString stringWithFormat:@"latest_funny_posts_media_type_%d", media_type];
+    return [self cachePosts:posts cacheKey:cacheKey];
 }
 
-- (NSMutableArray *)fetchTimelinePosts
+- (NSMutableArray *)fetchTimelinePostsWithMediaType:(CD_MEDIA_TYPE)media_type
 {
-    return [self fetchPostsByCacheKey:@"latest_funny_posts"];
+    NSString *cacheKey = [NSString stringWithFormat:@"latest_funny_posts_media_type_%d", media_type];
+    return [self fetchPostsByCacheKey:cacheKey];
 }
 
-- (void) removeTimelinePosts
+- (void) removeTimelinePostsWithMediaType:(CD_MEDIA_TYPE)media_type
 {
-    [self removePostsCache:@"latest_funny_posts"];
+    NSString *cacheKey = [NSString stringWithFormat:@"latest_funny_posts_media_type_%d", media_type];
+    [self removePostsCache:cacheKey];
 }
 
 
 #pragma mark - history
 
-- (BOOL) cacheHistoryPosts:(NSMutableArray *)posts
+- (BOOL) cacheHistoryPosts:(NSMutableArray *)posts withMediaType:(CD_MEDIA_TYPE)media_type
 {
-    return [self cachePosts:posts cacheKey:@"history_posts"];
+    NSString *cacheKey = [NSString stringWithFormat:@"history_posts_media_type_%d", media_type];
+    return [self cachePosts:posts cacheKey: cacheKey];
 }
 
-- (NSMutableArray *) fetchHistoryPosts
+- (NSMutableArray *) fetchHistoryPostsWithMediaType:(CD_MEDIA_TYPE)media_type
 {
-    return [self fetchPostsByCacheKey:@"history_posts"];
+    NSString *cacheKey = [NSString stringWithFormat:@"history_posts_media_type_%d", media_type];
+    return [self fetchPostsByCacheKey: cacheKey];
 }
 
-- (void) removeHistoryPosts
+- (void) removeHistoryPostsWithMediaType:(CD_MEDIA_TYPE)media_type
 {
-    [self removePostsCache:@"history_posts"];
+    NSString *cacheKey = [NSString stringWithFormat:@"history_posts_media_type_%d", media_type];
+    [self removePostsCache: cacheKey];
 }
 
 
 #pragma mark - best
 
-- (BOOL) cacheBestPosts:(NSMutableArray *)posts
+- (BOOL) cacheBestPosts:(NSMutableArray *)posts withMediaType:(CD_MEDIA_TYPE)media_type
 {
-    return [self cachePosts:posts cacheKey:@"best_posts"];
+    NSString *cacheKey = [NSString stringWithFormat:@"best_posts_media_type_%d", media_type];
+    return [self cachePosts:posts cacheKey: cacheKey];
 }
 
-- (NSMutableArray *) fetchBestPosts
+- (NSMutableArray *) fetchBestPostsWithMediaType:(CD_MEDIA_TYPE)media_type
 {
-    return [self fetchPostsByCacheKey:@"best_posts"];
+    NSString *cacheKey = [NSString stringWithFormat:@"best_posts_media_type_%d", media_type];
+    return [self fetchPostsByCacheKey: cacheKey];
 }
 
-- (void) removeBestPosts
+- (void) removeBestPostsWithMediaType:(CD_MEDIA_TYPE)media_type
 {
-    [self removePostsCache:@"best_posts"];
+    NSString *cacheKey = [NSString stringWithFormat:@"best_posts_media_type_%d", media_type];
+    [self removePostsCache: cacheKey];
 }
 
 

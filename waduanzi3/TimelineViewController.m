@@ -27,7 +27,7 @@
     // Do any additional setup after loading the view.
     self.title = @"每日更新";
     
-    _statuses = [[CDDataCache shareCache] fetchTimelinePosts];
+    _statuses = [[CDDataCache shareCache] fetchTimelinePostsWithMediaType:_mediaType];
     
     [super viewDidLoad];
 }
@@ -59,13 +59,17 @@
         CDPost *firstPost = [_statuses objectAtIndex:0];
         _lasttime = [firstPost.create_time integerValue];
     }
+    else
+        _lasttime = 0;
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     NSString *channel_id = [NSString stringWithFormat:@"%d", _channelID];
     [params setObject:channel_id forKey:@"channel_id"];
-    [params setObject:SUPPORT_MEDIA_TYPES forKey:@"media_type"];
     NSString *last_time = [NSString stringWithFormat:@"%d", _lasttime];
     [params setObject:last_time forKey:@"lasttime"];
+
+    NSString *mediaTypes = (_mediaType == MEDIA_TYPE_MIXED) ? SUPPORT_MEDIA_TYPES : [NSString stringWithFormat:@"%d", _mediaType];
+    [params setObject:mediaTypes forKey:@"media_type"];
 
     return [CDRestClient requestParams:params];
 }
@@ -76,13 +80,18 @@
         CDPost *lastPost = [_statuses lastObject];
         _maxtime = [lastPost.create_time integerValue];
     }
+    else
+        _maxtime = 0;
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     NSString *channel_id = [NSString stringWithFormat:@"%d", _channelID];
     NSString *max_time = [NSString stringWithFormat:@"%d", _maxtime];
     [params setObject:channel_id forKey:@"channel_id"];
     [params setObject:max_time forKey:@"maxtime"];
-    [params setObject:SUPPORT_MEDIA_TYPES forKey:@"media_type"];
+
+    NSString *mediaTypes = (_mediaType == MEDIA_TYPE_MIXED) ? SUPPORT_MEDIA_TYPES : [NSString stringWithFormat:@"%d", _mediaType];
+    [params setObject:mediaTypes forKey:@"media_type"];
+
     
     return [CDRestClient requestParams:params];
 }
@@ -113,7 +122,7 @@
     
     // 之所以不管有没有新段子，都重新缓存一下的原因是因为如果用户发表评论后，评论数量并没有缓存。
     if (_statuses.count > 0)
-        [[CDDataCache shareCache] cacheTimelinePosts:_statuses];
+        [[CDDataCache shareCache] cacheTimelinePosts:_statuses withMediaType:_mediaType];
     
     _noticeView = [WBSuccessNoticeView showSuccessNoticeView:self.view title:noticeTitle sticky:NO delay:1.0f dismissedBlock:nil];
 }
@@ -140,5 +149,10 @@
 //{
 //    NSLog(@"TimelineViewController moreStatusesFailed:error:");
 //}
+
+- (NSMutableArray *) fetchCachePostsWithMediaType:(CD_MEDIA_TYPE)media_type
+{
+    return [[CDDataCache shareCache] fetchTimelinePostsWithMediaType:_mediaType];
+}
 
 @end

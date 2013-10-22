@@ -21,17 +21,17 @@
 - (NSMutableArray *)fetchFocusPosts;
 - (void) removeFocusPosts;
 
-- (BOOL) cacheTimelinePosts:(NSMutableArray *)posts;
-- (NSMutableArray *)fetchTimelinePosts;
-- (void) removeTimelinePosts;
+- (BOOL) cacheTimelinePosts:(NSMutableArray *)posts withMediaType:(CD_MEDIA_TYPE)media_type;
+- (NSMutableArray *)fetchTimelinePostsWithMediaType:(CD_MEDIA_TYPE)media_type;
+- (void) removeTimelinePostsWithMediaType:(CD_MEDIA_TYPE)media_type;
 
-- (BOOL) cacheHistoryPosts:(NSMutableArray *)posts;
-- (NSMutableArray *)fetchHistoryPosts;
-- (void) removeHistoryPosts;
+- (BOOL) cacheHistoryPosts:(NSMutableArray *)posts withMediaType:(CD_MEDIA_TYPE)media_type;
+- (NSMutableArray *)fetchHistoryPostsWithMediaType:(CD_MEDIA_TYPE)media_type;
+- (void) removeHistoryPostsWithMediaType:(CD_MEDIA_TYPE)media_type;
 
-- (BOOL) cacheBestPosts:(NSMutableArray *)posts;
-- (NSMutableArray *)fetchBestPosts;
-- (void) removeBestPosts;
+- (BOOL) cacheBestPosts:(NSMutableArray *)posts withMediaType:(CD_MEDIA_TYPE)media_type;
+- (NSMutableArray *)fetchBestPostsWithMediaType:(CD_MEDIA_TYPE)media_type;
+- (void) removeBestPostsWithMediaType:(CD_MEDIA_TYPE)media_type;
 
 
 - (BOOL) cacheFavoritePosts:(NSMutableArray *)posts;

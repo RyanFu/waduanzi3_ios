@@ -177,12 +177,12 @@
     UIButton *rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
     rightButton.frame = CGRectMake(0, 0, refreshImage.size.width + 20.0f, refreshImage.size.height);
     [rightButton setImage:refreshImage forState:UIControlStateNormal];
-    [rightButton addTarget:self action:@selector(refreshLatestPosts:) forControlEvents:UIControlEventTouchUpInside];
+    [rightButton addTarget:self action:@selector(refreshLatestPosts) forControlEvents:UIControlEventTouchUpInside];
     rightButton.showsTouchWhenHighlighted = YES;
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:rightButton];
 }
 
-- (void) refreshLatestPosts:(id)sender
+- (void) refreshLatestPosts
 {
     if (self.tableView.pullToRefreshView) {
         [self.tableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:NO];
@@ -448,7 +448,7 @@
     
     CDPost *post = [_statuses objectAtIndex:indexPath.row];
     
-    NSString *cacheKey = [NSString stringWithFormat:@"post_list_post_cell_pid_%d", post.post_id.intValue];
+    NSString *cacheKey = [NSString stringWithFormat:@"post_list_post_cell_mediatype_%d_pid_%d", _mediaType, post.post_id.intValue];
     CDPostTableViewCell *cell = [_cellCache objectForKey:cacheKey];
     
     if (!cell) {

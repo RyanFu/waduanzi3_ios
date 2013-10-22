@@ -39,6 +39,7 @@
 
 - (NSUInteger) userID;
 - (void) subarrayWithMaxCount:(NSUInteger)count;
+- (void) refreshLatestPosts;
 
 - (void) initData;
 - (NSDictionary *) latestStatusesParameters;
