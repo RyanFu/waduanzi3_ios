@@ -28,7 +28,7 @@
     // Do any additional setup after loading the view.
     self.title = @"随机穿越";
     
-    _statuses = [[CDDataCache shareCache] fetchHistoryPostsWithMediaType:_mediaType];
+    _statuses = [[CDDataCache shareCache] fetchHistoryPostsWithMediaType:_mediaType withImageFilter:self.imageHeightFilter];
     [self setupTitle];
     
     [super viewDidLoad];
@@ -85,6 +85,8 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     NSString *channel_id = [NSString stringWithFormat:@"%d", _channelID];
     [params setObject:channel_id forKey:@"channel_id"];
+    NSString *imageFilter = [NSString stringWithFormat:@"%d", self.imageHeightFilter];
+    [params setObject:imageFilter forKey:@"image_filter"];
     
     NSString *mediaTypes = (_mediaType == MEDIA_TYPE_MIXED) ? SUPPORT_MEDIA_TYPES : [NSString stringWithFormat:@"%d", _mediaType];
     [params setObject:mediaTypes forKey:@"media_type"];
@@ -97,6 +99,8 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     NSString *channel_id = [NSString stringWithFormat:@"%d", _channelID];
     [params setObject:channel_id forKey:@"channel_id"];
+    NSString *imageFilter = [NSString stringWithFormat:@"%d", self.imageHeightFilter];
+    [params setObject:imageFilter forKey:@"image_filter"];
     
     NSString *mediaTypes = (_mediaType == MEDIA_TYPE_MIXED) ? SUPPORT_MEDIA_TYPES : [NSString stringWithFormat:@"%d", _mediaType];
     [params setObject:mediaTypes forKey:@"media_type"];
@@ -118,7 +122,7 @@
         _statuses = [NSMutableArray arrayWithArray:statuses];
         [self.tableView reloadData];
         
-        [[CDDataCache shareCache] cacheHistoryPosts:_statuses withMediaType:_mediaType];
+        [[CDDataCache shareCache] cacheHistoryPosts:_statuses withMediaType:_mediaType withImageFilter:self.imageHeightFilter];
 
         CDPost *firstPost = [_statuses objectAtIndex:0];
         NSDate *date = [NSDate dateWithTimeIntervalSince1970:[firstPost.create_time doubleValue]];

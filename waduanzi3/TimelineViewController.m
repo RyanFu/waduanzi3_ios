@@ -28,7 +28,7 @@
     // Do any additional setup after loading the view.
 //    self.title = @"每日更新";
     
-    _statuses = [[CDDataCache shareCache] fetchTimelinePostsWithMediaType:_mediaType];
+    _statuses = [[CDDataCache shareCache] fetchTimelinePostsWithMediaType:_mediaType withImageFilter:self.imageHeightFilter];
     
     [super viewDidLoad];
 }
@@ -68,6 +68,8 @@
     [params setObject:channel_id forKey:@"channel_id"];
     NSString *last_time = [NSString stringWithFormat:@"%d", _lasttime];
     [params setObject:last_time forKey:@"lasttime"];
+    NSString *imageFilter = [NSString stringWithFormat:@"%d", self.imageHeightFilter];
+    [params setObject:imageFilter forKey:@"image_filter"];
 
     NSString *mediaTypes = (_mediaType == MEDIA_TYPE_MIXED) ? SUPPORT_MEDIA_TYPES : [NSString stringWithFormat:@"%d", _mediaType];
     [params setObject:mediaTypes forKey:@"media_type"];
@@ -89,6 +91,8 @@
     NSString *max_time = [NSString stringWithFormat:@"%d", _maxtime];
     [params setObject:channel_id forKey:@"channel_id"];
     [params setObject:max_time forKey:@"maxtime"];
+    NSString *imageFilter = [NSString stringWithFormat:@"%d", self.imageHeightFilter];
+    [params setObject:imageFilter forKey:@"image_filter"];
 
     NSString *mediaTypes = (_mediaType == MEDIA_TYPE_MIXED) ? SUPPORT_MEDIA_TYPES : [NSString stringWithFormat:@"%d", _mediaType];
     [params setObject:mediaTypes forKey:@"media_type"];
@@ -123,7 +127,7 @@
     
     // 之所以不管有没有新段子，都重新缓存一下的原因是因为如果用户发表评论后，评论数量并没有缓存。
     if (_statuses.count > 0)
-        [[CDDataCache shareCache] cacheTimelinePosts:_statuses withMediaType:_mediaType];
+        [[CDDataCache shareCache] cacheTimelinePosts:_statuses withMediaType:_mediaType withImageFilter:self.imageHeightFilter];
     
     _noticeView = [WBSuccessNoticeView showSuccessNoticeView:self.view title:noticeTitle sticky:NO delay:1.0f dismissedBlock:nil];
 }
@@ -153,7 +157,7 @@
 
 - (NSMutableArray *) fetchCachePostsWithMediaType:(CD_MEDIA_TYPE)media_type
 {
-    return [[CDDataCache shareCache] fetchTimelinePostsWithMediaType:_mediaType];
+    return [[CDDataCache shareCache] fetchTimelinePostsWithMediaType:_mediaType withImageFilter:self.imageHeightFilter];
 }
 
 @end

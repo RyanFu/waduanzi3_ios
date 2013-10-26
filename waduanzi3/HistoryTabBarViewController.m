@@ -24,8 +24,10 @@
     
     HistoryViewController *textViewController = [[HistoryViewController alloc] initWithMediaType:MEDIA_TYPE_TEXT];
     HistoryViewController *imageViewController = [[HistoryViewController alloc] initWithMediaType:MEDIA_TYPE_IMAGE];
-    HistoryViewController *videoViewController = [[HistoryViewController alloc] initWithMediaType:MEDIA_TYPE_VIDEO];
+    imageViewController.imageHeightFilter = CDImageHeightFilterOnlyShort;
     HistoryViewController *longImageViewController = [[HistoryViewController alloc] initWithMediaType:MEDIA_TYPE_IMAGE];
+    longImageViewController.imageHeightFilter = CDImageHeightFilterOnlyLong;
+    HistoryViewController *videoViewController = [[HistoryViewController alloc] initWithMediaType:MEDIA_TYPE_VIDEO];
     textViewController.title = imageViewController.title = videoViewController.title =  longImageViewController.title = @"随机穿越";
     
     CDNavigationController *textNavController = [[CDNavigationController alloc] initWithRootViewController:textViewController];

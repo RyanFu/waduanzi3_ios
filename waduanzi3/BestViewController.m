@@ -30,7 +30,7 @@
     // Do any additional setup after loading the view.
     self.title = @"精华推荐";
     
-    _statuses = [[CDDataCache shareCache] fetchBestPostsWithMediaType:_mediaType];
+    _statuses = [[CDDataCache shareCache] fetchBestPostsWithMediaType:_mediaType withImageFilter:self.imageHeightFilter];
     
     [super viewDidLoad];
 }
@@ -66,6 +66,8 @@
     [params setObject:channel_id forKey:@"channel_id"];
     [params setObject:page_id forKey:@"page"];
     [params setObject:inhours forKey:@"hours"];
+    NSString *imageFilter = [NSString stringWithFormat:@"%d", self.imageHeightFilter];
+    [params setObject:imageFilter forKey:@"image_filter"];
     
     NSString *mediaTypes = (_mediaType == MEDIA_TYPE_MIXED) ? SUPPORT_MEDIA_TYPES : [NSString stringWithFormat:@"%d", _mediaType];
     [params setObject:mediaTypes forKey:@"media_type"];
@@ -84,6 +86,8 @@
     [params setObject:channel_id forKey:@"channel_id"];
     [params setObject:page_id forKey:@"page"];
     [params setObject:inhours forKey:@"hours"];
+    NSString *imageFilter = [NSString stringWithFormat:@"%d", self.imageHeightFilter];
+    [params setObject:imageFilter forKey:@"image_filter"];
     
     NSString *mediaTypes = (_mediaType == MEDIA_TYPE_MIXED) ? SUPPORT_MEDIA_TYPES : [NSString stringWithFormat:@"%d", _mediaType];
     [params setObject:mediaTypes forKey:@"media_type"];
@@ -110,7 +114,7 @@
         
         _page = FIRST_PAGE_ID;
         _page++;
-        [[CDDataCache shareCache] cacheBestPosts:_statuses withMediaType:_mediaType];
+        [[CDDataCache shareCache] cacheBestPosts:_statuses withMediaType:_mediaType withImageFilter:self.imageHeightFilter];
     }
     else {
         NSLog(@"没有更多内容了");

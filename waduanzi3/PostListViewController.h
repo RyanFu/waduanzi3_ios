@@ -36,6 +36,7 @@
 @property (nonatomic, assign) BOOL forceRefresh;
 @property (nonatomic, strong) NSMutableArray *statuses;
 @property (nonatomic, assign) AFNetworkReachabilityStatus networkStatus;
+@property (nonatomic, assign) CDImageHeightFilter imageHeightFilter;
 
 - (NSUInteger) userID;
 - (void) subarrayWithMaxCount:(NSUInteger)count;

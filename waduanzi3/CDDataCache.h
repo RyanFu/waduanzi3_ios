@@ -21,17 +21,17 @@
 - (NSMutableArray *)fetchFocusPosts;
 - (void) removeFocusPosts;
 
-- (BOOL) cacheTimelinePosts:(NSMutableArray *)posts withMediaType:(CD_MEDIA_TYPE)media_type;
-- (NSMutableArray *)fetchTimelinePostsWithMediaType:(CD_MEDIA_TYPE)media_type;
-- (void) removeTimelinePostsWithMediaType:(CD_MEDIA_TYPE)media_type;
+- (BOOL) cacheTimelinePosts:(NSMutableArray *)posts withMediaType:(CD_MEDIA_TYPE)media_type withImageFilter:(CDImageHeightFilter)image_filter;
+- (NSMutableArray *)fetchTimelinePostsWithMediaType:(CD_MEDIA_TYPE)media_type withImageFilter:(CDImageHeightFilter)image_filter;
+- (void) removeTimelinePostsWithMediaType:(CD_MEDIA_TYPE)media_type withImageFilter:(CDImageHeightFilter)image_filter;
 
-- (BOOL) cacheHistoryPosts:(NSMutableArray *)posts withMediaType:(CD_MEDIA_TYPE)media_type;
-- (NSMutableArray *)fetchHistoryPostsWithMediaType:(CD_MEDIA_TYPE)media_type;
-- (void) removeHistoryPostsWithMediaType:(CD_MEDIA_TYPE)media_type;
+- (BOOL) cacheHistoryPosts:(NSMutableArray *)posts withMediaType:(CD_MEDIA_TYPE)media_type withImageFilter:(CDImageHeightFilter)image_filter;
+- (NSMutableArray *)fetchHistoryPostsWithMediaType:(CD_MEDIA_TYPE)media_type withImageFilter:(CDImageHeightFilter)image_filter;
+- (void) removeHistoryPostsWithMediaType:(CD_MEDIA_TYPE)media_type withImageFilter:(CDImageHeightFilter)image_filter;
 
-- (BOOL) cacheBestPosts:(NSMutableArray *)posts withMediaType:(CD_MEDIA_TYPE)media_type;
-- (NSMutableArray *)fetchBestPostsWithMediaType:(CD_MEDIA_TYPE)media_type;
-- (void) removeBestPostsWithMediaType:(CD_MEDIA_TYPE)media_type;
+- (BOOL) cacheBestPosts:(NSMutableArray *)posts withMediaType:(CD_MEDIA_TYPE)media_type withImageFilter:(CDImageHeightFilter)image_filter;
+- (NSMutableArray *)fetchBestPostsWithMediaType:(CD_MEDIA_TYPE)media_type withImageFilter:(CDImageHeightFilter)image_filter;
+- (void) removeBestPostsWithMediaType:(CD_MEDIA_TYPE)media_type withImageFilter:(CDImageHeightFilter)image_filter;
 
 
 - (BOOL) cacheFavoritePosts:(NSMutableArray *)posts;

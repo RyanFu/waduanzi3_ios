@@ -294,6 +294,8 @@
     _deckController.openSlideAnimationDuration = 0.2f;
     _deckController.closeSlideAnimationDuration = 0.25f;
     _deckController.delegateMode = IIViewDeckDelegateAndSubControllers;
+    _deckController.hidesBottomBarWhenPushed = YES;
+    _centerController.hidesBottomBarWhenPushed = YES;
 
     self.window.rootViewController = _deckController;
 }
@@ -357,7 +359,7 @@
 {
     if (CD_DEBUG) {
 //        RKLogConfigureByName("RestKit/ObjectMapping", RKLogLevelDebug);
-//        RKLogConfigureByName("RestKit/Network", RKLogLevelTrace);
+        RKLogConfigureByName("RestKit/Network", RKLogLevelTrace);
     }
     else
         RKLogConfigureByName("RestKit/*", RKLogLevelOff);

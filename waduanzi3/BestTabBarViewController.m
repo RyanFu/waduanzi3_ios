@@ -24,8 +24,10 @@
     
     BestViewController *textViewController = [[BestViewController alloc] initWithMediaType:MEDIA_TYPE_TEXT];
     BestViewController *imageViewController = [[BestViewController alloc] initWithMediaType:MEDIA_TYPE_IMAGE];
-    BestViewController *videoViewController = [[BestViewController alloc] initWithMediaType:MEDIA_TYPE_VIDEO];
+    imageViewController.imageHeightFilter = CDImageHeightFilterOnlyShort;
     BestViewController *longImageViewController = [[BestViewController alloc] initWithMediaType:MEDIA_TYPE_IMAGE];
+    longImageViewController.imageHeightFilter = CDImageHeightFilterOnlyLong;
+    BestViewController *videoViewController = [[BestViewController alloc] initWithMediaType:MEDIA_TYPE_VIDEO];
     textViewController.title = imageViewController.title = videoViewController.title =  longImageViewController.title = @"精华推荐";
     
     CDNavigationController *textNavController = [[CDNavigationController alloc] initWithRootViewController:textViewController];

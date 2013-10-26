@@ -61,6 +61,7 @@
 @synthesize forceRefresh = _forceRefresh;
 @synthesize statuses = _statuses;
 @synthesize networkStatus = _networkStatus;
+@synthesize imageHeightFilter = _imageHeightFilter;
 
 - (id) init
 {
@@ -97,6 +98,8 @@
     _requireLogined = NO;
     detailFontSize = [CDUserConfig shareInstance].postFontSize;
     _networkStatus = CURRENT_NETWORK_STATUS;
+    _imageHeightFilter = CDImageHeightFilterDisabled;
+    
     NSLog(@"method: PostListViewController initData");
 }
 
@@ -419,7 +422,7 @@
     
     CDPost *post = [_statuses objectAtIndex:indexPath.row];
     
-    NSString *cacheKey = [NSString stringWithFormat:@"post_list_advert_cell_id_%d", post.post_id.intValue];
+    NSString *cacheKey = [NSString stringWithFormat:@"post_list_advert_cell_mediatype_%d_id_%d", _mediaType, post.post_id.intValue];
     CDAdvertTableViewCell *cell = [_cellCache objectForKey:cacheKey];
     
     if (!cell) {
@@ -437,14 +440,11 @@
     cell.authorTextLabel.text = post.author_name;
     cell.textLabel.text = nil;
     
-    [cell.avatarImageView setImageWithURL:[NSURL URLWithString:post.user.small_avatar] placeholderImage:[UIImage imageNamed:@"avatar_placeholder.png"]];
+    cell.avatarImageView.image = PLACEHOLDER_IMAGE_AVATAR;
+    [cell.avatarImageView setImageWithURL:[NSURL URLWithString:post.user.small_avatar] placeholderImage:PLACEHOLDER_IMAGE_AVATAR];
     
     if (post.small_pic.length > 0) {
-        NSURL *imageUrl = [NSURL URLWithString:post.small_pic];
-        UIImage *placeImage = [UIImage imageNamed:@"thumb_placeholder.png"];
-        [cell.imageView setImageWithURL:imageUrl placeholderImage:placeImage options:SDWebImageRetryFailed completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-            ;
-        }];
+        ;
     }
     else {
         cell.textLabel.text = post.title;
@@ -481,31 +481,22 @@
     cell.datetimeTextLabel.text = post.create_time_at;
     cell.textLabel.text = nil;
     
-    [cell.avatarImageView setImageWithURL:[NSURL URLWithString:post.user.small_avatar] placeholderImage:[UIImage imageNamed:@"avatar_placeholder.png"]];
-
+    cell.avatarImageView.image = PLACEHOLDER_IMAGE_AVATAR;
     
     if (post.small_pic.length > 0) {
         cell.isAnimatedGIF = [post isAnimatedGIF];
         cell.isLongImage = [post isLongImage];
         
         cell.thumbSize = CGSizeMake(THUMB_WIDTH, THUMB_HEIGHT);
-        NSString *imageUrlString = post.small_pic;
         if (NETWORK_STATUS_IS_WIFI) {
             cell.thumbSize = [post picSizeByWidth:[cell contentBlockWidth]];
-            imageUrlString = post.middle_pic;
             cell.showLongIcon = cell.showGIFIcon = NO;
         }
         else {
             cell.showLongIcon = cell.showGIFIcon = YES;
         }
         
-        NSURL *imageUrl = [NSURL URLWithString:imageUrlString];
-        UIImage *placeImage = [UIImage imageNamed:@"thumb_placeholder.png"];
-        [cell.imageView setImageWithURL:imageUrl placeholderImage:placeImage options:SDWebImageRetryFailed progress:^(NSUInteger receivedSize, long long expectedSize) {
-            CDLog(@"receivedSize/expectedSize: %d/%lld", receivedSize, expectedSize);
-        } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-            CDLog(@"image download finished.");
-        }];
+        cell.imageView.image = PLACEHOLDER_IMAGE_POST_THUMB;
     }
     else if (cell.isVideo) {
         cell.isAnimatedGIF = cell.isLongImage = NO;
@@ -664,6 +655,43 @@
     // TODO: 此处是处理广告cell的高度，此版本暂时注释
 //    CDAdvertTableViewCell *cell = [self tableView:tableView preparedAdvertCellForIndexPath:indexPath];
 //    return [cell realHeight];
+}
+
+- (void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    CDPost *post = [_statuses objectAtIndex:indexPath.row];
+    
+    if ([cell isKindOfClass:[CDPostTableViewCell class]]) {
+        CDPostTableViewCell *postCell = (CDPostTableViewCell *)cell;
+        [postCell.avatarImageView setImageWithURL:[NSURL URLWithString:post.user.small_avatar] placeholderImage:PLACEHOLDER_IMAGE_AVATAR];
+        
+        if (post.small_pic.length > 0) {
+            NSString *imageUrlString = post.small_pic;
+            if (NETWORK_STATUS_IS_WIFI) {
+                imageUrlString = post.middle_pic;
+            }
+            
+            NSURL *imageUrl = [NSURL URLWithString:imageUrlString];
+            [cell.imageView setImageWithURL:imageUrl placeholderImage:PLACEHOLDER_IMAGE_POST_THUMB options:SDWebImageRetryFailed progress:^(NSUInteger receivedSize, long long expectedSize) {
+                CDLog(@"receivedSize/expectedSize: %d/%lld", receivedSize, expectedSize);
+            } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+                CDLog(@"image download finished.");
+            }];
+        }
+    }
+    else if ([cell isKindOfClass:[CDAdvertTableViewCell class]]) {
+        CDAdvertTableViewCell *advertCell = (CDAdvertTableViewCell *)cell;
+        [advertCell.avatarImageView setImageWithURL:[NSURL URLWithString:post.user.small_avatar] placeholderImage:PLACEHOLDER_IMAGE_AVATAR];
+        
+        if (post.small_pic.length > 0) {
+            NSURL *imageUrl = [NSURL URLWithString:post.small_pic];
+            [advertCell.imageView setImageWithURL:imageUrl placeholderImage:PLACEHOLDER_IMAGE_POST_THUMB options:SDWebImageRetryFailed progress:^(NSUInteger receivedSize, long long expectedSize) {
+                ;
+            } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+                ;
+            }];
+        }
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

@@ -29,6 +29,7 @@
 #import "CDUserConfig.h"
 #import "MobClick.h"
 #import "MBProgressHUD+Custom.h"
+#import "IIViewDeckController.h"
 
 @interface PostDetailViewController ()
 - (void) initData;
@@ -73,6 +74,7 @@
     if (self) {
         [self initData];
         self.postID = post_id;
+        self.hidesBottomBarWhenPushed = YES;
     }
     return self;
 }
@@ -84,6 +86,7 @@
         [self initData];
         self.post = post;
         self.postID = [_post.post_id integerValue];
+        self.hidesBottomBarWhenPushed = YES;
     }
     return self;
 }
@@ -150,6 +153,9 @@
 {
     [super viewDidAppear:animated];
     
+    IIViewDeckController *rootController = (IIViewDeckController *)ROOT_CONTROLLER;
+    rootController.panningMode = IIViewDeckNavigationBarPanning;
+    
     // 判断用户是否修改了字体大小，如果修改了应用新字体大小
     CGFloat newCommentFontSize = [CDUserConfig shareInstance].commentFontSize;
     CGFloat newDetailFontSize = [CDUserConfig shareInstance].postFontSize;
@@ -163,6 +169,14 @@
         [self performSelector:@selector(commentTextFieldBecomeFirstResponder)];
         _commentMode = NO;
     }
+}
+
+- (void) viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    
+    IIViewDeckController *rootController = (IIViewDeckController *)ROOT_CONTROLLER;
+    rootController.panningMode = IIViewDeckFullViewPanning;
 }
 
 // 当键盘显示时

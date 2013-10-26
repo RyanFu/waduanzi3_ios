@@ -63,7 +63,7 @@
 
 
 #define FIRST_PAGE_ID 1
-#define POST_LIST_MAX_ROWS 100
+#define POST_LIST_MAX_ROWS 60
 
 #define DECK_LEFT_SIZE 80.0f
 
@@ -150,6 +150,13 @@ typedef NS_ENUM (NSUInteger, CDPostContentFontSize)
     CDPostContentFontSizeBigBig = 22
 };
 
+typedef NS_ENUM(NSInteger, CDImageHeightFilter)
+{
+    CDImageHeightFilterDisabled = -1,
+    CDImageHeightFilterOnlyShort = 0,
+    CDImageHeightFilterOnlyLong = 1
+};
+
 
 #define USER_NAME_MIN_LENGTH 3
 #define USER_NAME_MAX_LENGTH 30
@@ -160,6 +167,9 @@ typedef NS_ENUM (NSUInteger, CDPostContentFontSize)
 #define FZLTHK_FONT_NAME @"FZLTHK--GBK1-0"
 #define POST_TEXT_COLOR [UIColor colorWithRed:0.27f green:0.27f blue:0.27f alpha:1.00f]
 #define COMMENT_TEXT_COLOR [UIColor colorWithRed:0.35f green:0.35f blue:0.35f alpha:1.00f]
+
+#define PLACEHOLDER_IMAGE_AVATAR [UIImage imageNamed:@"avatar_placeholder.png"]
+#define PLACEHOLDER_IMAGE_POST_THUMB [UIImage imageNamed:@"thumb_placeholder.png"]
 
 
 /*

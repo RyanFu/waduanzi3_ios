@@ -60,63 +60,63 @@
 
 #pragma mark - timeline
 
-- (BOOL) cacheTimelinePosts:(NSMutableArray *)posts withMediaType:(CD_MEDIA_TYPE)media_type
+- (BOOL) cacheTimelinePosts:(NSMutableArray *)posts withMediaType:(CD_MEDIA_TYPE)media_type withImageFilter:(CDImageHeightFilter)image_filter
 {
-    NSString *cacheKey = [NSString stringWithFormat:@"latest_funny_posts_media_type_%d", media_type];
+    NSString *cacheKey = [NSString stringWithFormat:@"latest_funny_posts_media_type_%d_image_filter_%d", media_type, image_filter];
     return [self cachePosts:posts cacheKey:cacheKey];
 }
 
-- (NSMutableArray *)fetchTimelinePostsWithMediaType:(CD_MEDIA_TYPE)media_type
+- (NSMutableArray *)fetchTimelinePostsWithMediaType:(CD_MEDIA_TYPE)media_type withImageFilter:(CDImageHeightFilter)image_filter
 {
-    NSString *cacheKey = [NSString stringWithFormat:@"latest_funny_posts_media_type_%d", media_type];
+    NSString *cacheKey = [NSString stringWithFormat:@"latest_funny_posts_media_type_%d_image_filter_%d", media_type, image_filter];
     return [self fetchPostsByCacheKey:cacheKey];
 }
 
-- (void) removeTimelinePostsWithMediaType:(CD_MEDIA_TYPE)media_type
+- (void) removeTimelinePostsWithMediaType:(CD_MEDIA_TYPE)media_type withImageFilter:(CDImageHeightFilter)image_filter
 {
-    NSString *cacheKey = [NSString stringWithFormat:@"latest_funny_posts_media_type_%d", media_type];
+    NSString *cacheKey = [NSString stringWithFormat:@"latest_funny_posts_media_type_%d_image_filter_%d", media_type, image_filter];
     [self removePostsCache:cacheKey];
 }
 
 
 #pragma mark - history
 
-- (BOOL) cacheHistoryPosts:(NSMutableArray *)posts withMediaType:(CD_MEDIA_TYPE)media_type
+- (BOOL) cacheHistoryPosts:(NSMutableArray *)posts withMediaType:(CD_MEDIA_TYPE)media_type withImageFilter:(CDImageHeightFilter)image_filter
 {
-    NSString *cacheKey = [NSString stringWithFormat:@"history_posts_media_type_%d", media_type];
+    NSString *cacheKey = [NSString stringWithFormat:@"history_posts_media_type_%d_image_filter_%d", media_type, image_filter];
     return [self cachePosts:posts cacheKey: cacheKey];
 }
 
-- (NSMutableArray *) fetchHistoryPostsWithMediaType:(CD_MEDIA_TYPE)media_type
+- (NSMutableArray *) fetchHistoryPostsWithMediaType:(CD_MEDIA_TYPE)media_type withImageFilter:(CDImageHeightFilter)image_filter
 {
-    NSString *cacheKey = [NSString stringWithFormat:@"history_posts_media_type_%d", media_type];
+    NSString *cacheKey = [NSString stringWithFormat:@"history_posts_media_type_%d_image_filter_%d", media_type, image_filter];
     return [self fetchPostsByCacheKey: cacheKey];
 }
 
-- (void) removeHistoryPostsWithMediaType:(CD_MEDIA_TYPE)media_type
+- (void) removeHistoryPostsWithMediaType:(CD_MEDIA_TYPE)media_type withImageFilter:(CDImageHeightFilter)image_filter
 {
-    NSString *cacheKey = [NSString stringWithFormat:@"history_posts_media_type_%d", media_type];
+    NSString *cacheKey = [NSString stringWithFormat:@"history_posts_media_type_%d_image_filter_%d", media_type, image_filter];
     [self removePostsCache: cacheKey];
 }
 
 
 #pragma mark - best
 
-- (BOOL) cacheBestPosts:(NSMutableArray *)posts withMediaType:(CD_MEDIA_TYPE)media_type
+- (BOOL) cacheBestPosts:(NSMutableArray *)posts withMediaType:(CD_MEDIA_TYPE)media_type withImageFilter:(CDImageHeightFilter)image_filter
 {
-    NSString *cacheKey = [NSString stringWithFormat:@"best_posts_media_type_%d", media_type];
+    NSString *cacheKey = [NSString stringWithFormat:@"best_posts_media_type_%d_image_filter_%d", media_type, image_filter];
     return [self cachePosts:posts cacheKey: cacheKey];
 }
 
-- (NSMutableArray *) fetchBestPostsWithMediaType:(CD_MEDIA_TYPE)media_type
+- (NSMutableArray *) fetchBestPostsWithMediaType:(CD_MEDIA_TYPE)media_type withImageFilter:(CDImageHeightFilter)image_filter
 {
-    NSString *cacheKey = [NSString stringWithFormat:@"best_posts_media_type_%d", media_type];
+    NSString *cacheKey = [NSString stringWithFormat:@"best_posts_media_type_%d_image_filter_%d", media_type, image_filter];
     return [self fetchPostsByCacheKey: cacheKey];
 }
 
-- (void) removeBestPostsWithMediaType:(CD_MEDIA_TYPE)media_type
+- (void) removeBestPostsWithMediaType:(CD_MEDIA_TYPE)media_type withImageFilter:(CDImageHeightFilter)image_filter
 {
-    NSString *cacheKey = [NSString stringWithFormat:@"best_posts_media_type_%d", media_type];
+    NSString *cacheKey = [NSString stringWithFormat:@"best_posts_media_type_%d_image_filter_%d", media_type, image_filter];
     [self removePostsCache: cacheKey];
 }
 

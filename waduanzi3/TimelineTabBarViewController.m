@@ -23,8 +23,11 @@
     
     TimelineViewController *textViewController = [[TimelineViewController alloc] initWithMediaType:MEDIA_TYPE_TEXT];
     TimelineViewController *imageViewController = [[TimelineViewController alloc] initWithMediaType:MEDIA_TYPE_IMAGE];
-    TimelineViewController *videoViewController = [[TimelineViewController alloc] initWithMediaType:MEDIA_TYPE_VIDEO];
+    imageViewController.imageHeightFilter = CDImageHeightFilterOnlyShort;
     TimelineViewController *longImageViewController = [[TimelineViewController alloc] initWithMediaType:MEDIA_TYPE_IMAGE];
+    longImageViewController.imageHeightFilter = CDImageHeightFilterOnlyLong;
+    TimelineViewController *videoViewController = [[TimelineViewController alloc] initWithMediaType:MEDIA_TYPE_VIDEO];
+
     textViewController.title = imageViewController.title = videoViewController.title =  longImageViewController.title = @"每日更新";
     
     CDNavigationController *textNavController = [[CDNavigationController alloc] initWithRootViewController:textViewController];
