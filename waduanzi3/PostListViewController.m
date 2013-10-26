@@ -72,6 +72,20 @@
     return self;
 }
 
+
+- (id) initWithMediaType:(NSInteger) media_type
+{
+    NSLog(@"method: TimelineViewController init");
+    
+    self = [super init];
+    if (self) {
+        [self initData];
+        _mediaType = media_type;
+    }
+    
+    return self;
+}
+
 - (void) initData
 {
     _statuses = [NSMutableArray array];
@@ -705,7 +719,9 @@
 
 - (void) openLeftSlideView:(id) sender
 {
-    [self.viewDeckController toggleLeftViewAnimated:YES];
+    [ROOT_DECK_CONTROLLER toggleLeftViewAnimated:YES completion:^(IIViewDeckController *controller, BOOL success) {
+        ;
+    }];
 }
 
 - (void) openPublishViewController:(id)sender

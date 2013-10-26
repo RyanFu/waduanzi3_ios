@@ -22,10 +22,11 @@
 
 @implementation TimelineViewController
 
+
 - (void)viewDidLoad
 {
     // Do any additional setup after loading the view.
-    self.title = @"每日更新";
+//    self.title = @"每日更新";
     
     _statuses = [[CDDataCache shareCache] fetchTimelinePostsWithMediaType:_mediaType];
     

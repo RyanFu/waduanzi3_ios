@@ -18,7 +18,7 @@
 @property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
 @property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 
-@property (retain, nonatomic) UINavigationController *centerController;
+@property (retain, nonatomic) UIViewController *centerController;
 
 - (void)saveContext;
 - (NSURL *)applicationDocumentsDirectory;

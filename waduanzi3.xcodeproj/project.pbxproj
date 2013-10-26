@@ -315,6 +315,9 @@
 		2BB60F8C1756437D00290F69 /* CDUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BB60F8B1756437D00290F69 /* CDUser.m */; };
 		2BB60F8F1756437D00290F69 /* CDPost.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BB60F8E1756437D00290F69 /* CDPost.m */; };
 		2BB60F9517565CD900290F69 /* CDRestClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BB60F9417565CD900290F69 /* CDRestClient.m */; };
+		2BC0D3B6181B9D520053A593 /* TimelineTabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BC0D3B5181B9D520053A593 /* TimelineTabBarViewController.m */; };
+		2BC0D3B9181BDD3C0053A593 /* HistoryTabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BC0D3B8181BDD3C0053A593 /* HistoryTabBarViewController.m */; };
+		2BC0D3BC181BE0FD0053A593 /* BestTabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BC0D3BB181BE0FD0053A593 /* BestTabBarViewController.m */; };
 		2BC17A6C17E1ED29006BB510 /* CDVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BC17A6B17E1ED29006BB510 /* CDVideo.m */; };
 		2BC4885017F565A200F83C5E /* CDAdvertKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BC4884F17F565A200F83C5E /* CDAdvertKit.m */; };
 		2BC4D4A9176201280098151C /* CDCommentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BC4D4A7176201270098151C /* CDCommentTableViewCell.m */; };
@@ -797,6 +800,12 @@
 		2BB60F9317565CD900290F69 /* CDRestClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDRestClient.h; sourceTree = "<group>"; };
 		2BB60F9417565CD900290F69 /* CDRestClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDRestClient.m; sourceTree = "<group>"; };
 		2BB8F83717EF6085000FDF18 /* libstdc++.6.0.9.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.6.0.9.dylib"; path = "usr/lib/libstdc++.6.0.9.dylib"; sourceTree = SDKROOT; };
+		2BC0D3B4181B9D520053A593 /* TimelineTabBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimelineTabBarViewController.h; sourceTree = "<group>"; };
+		2BC0D3B5181B9D520053A593 /* TimelineTabBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimelineTabBarViewController.m; sourceTree = "<group>"; };
+		2BC0D3B7181BDD3C0053A593 /* HistoryTabBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryTabBarViewController.h; sourceTree = "<group>"; };
+		2BC0D3B8181BDD3C0053A593 /* HistoryTabBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryTabBarViewController.m; sourceTree = "<group>"; };
+		2BC0D3BA181BE0FD0053A593 /* BestTabBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BestTabBarViewController.h; sourceTree = "<group>"; };
+		2BC0D3BB181BE0FD0053A593 /* BestTabBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BestTabBarViewController.m; sourceTree = "<group>"; };
 		2BC17A6A17E1ED29006BB510 /* CDVideo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVideo.h; sourceTree = "<group>"; };
 		2BC17A6B17E1ED29006BB510 /* CDVideo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDVideo.m; sourceTree = "<group>"; };
 		2BC4884E17F565A200F83C5E /* CDAdvertKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDAdvertKit.h; sourceTree = "<group>"; };
@@ -1163,6 +1172,12 @@
 			children = (
 				2BCFA8C916E4E12500521DEC /* SideMenuViewController.h */,
 				2BCFA8CA16E4E12500521DEC /* SideMenuViewController.m */,
+				2BC0D3B4181B9D520053A593 /* TimelineTabBarViewController.h */,
+				2BC0D3B5181B9D520053A593 /* TimelineTabBarViewController.m */,
+				2BC0D3B7181BDD3C0053A593 /* HistoryTabBarViewController.h */,
+				2BC0D3B8181BDD3C0053A593 /* HistoryTabBarViewController.m */,
+				2BC0D3BA181BE0FD0053A593 /* BestTabBarViewController.h */,
+				2BC0D3BB181BE0FD0053A593 /* BestTabBarViewController.m */,
 				2B232B39175ED659007803C0 /* PostDetailViewController.h */,
 				2B232B3A175ED659007803C0 /* PostDetailViewController.m */,
 				2BD0117017CA252F00825869 /* FunnyDetailViewController.h */,
@@ -2084,6 +2099,7 @@
 				2B551F0C17607C9200C68E43 /* CDPostTableViewCell.m in Sources */,
 				2BC4D4A9176201280098151C /* CDCommentTableViewCell.m in Sources */,
 				2B37B9001764F8DA00A026DA /* CDPostDetailView.m in Sources */,
+				2BC0D3B6181B9D520053A593 /* TimelineTabBarViewController.m in Sources */,
 				2B6519AB1767318F0080D632 /* CDConfig.m in Sources */,
 				2B569BA1176F3D9100B34E0C /* TimelineViewController.m in Sources */,
 				2B569BA4176F3E6400B34E0C /* BestViewController.m in Sources */,
@@ -2101,12 +2117,14 @@
 				2BC955321771F59D00568E54 /* CDTextField.m in Sources */,
 				2B9D01EB17ECB01300CEA65A /* UIColor+ColorUtilities.m in Sources */,
 				2B0929EC1773950C0051D1DC /* NSString+MD5.m in Sources */,
+				2BC0D3B9181BDD3C0053A593 /* HistoryTabBarViewController.m in Sources */,
 				2BC17A6C17E1ED29006BB510 /* CDVideo.m in Sources */,
 				2B0929EF177395430051D1DC /* NSData+MD5.m in Sources */,
 				2BA6348917761D4700AE5DDA /* MyshareViewController.m in Sources */,
 				2BA6348C177621EE00AE5DDA /* MyFavoriteViewController.m in Sources */,
 				2BFC742B177752C80027F9B3 /* CDDataCache.m in Sources */,
 				2B5B19C8177B888F0042398E /* CDSession.m in Sources */,
+				2BC0D3BC181BE0FD0053A593 /* BestTabBarViewController.m in Sources */,
 				2B65AD2E17EBD01000E444D9 /* GzipCompressor.m in Sources */,
 				2B1FDDF7177C95F400CD1135 /* CDQuickElements.m in Sources */,
 				2B1B14E517E9D28600CC0377 /* CDNavigationController.m in Sources */,

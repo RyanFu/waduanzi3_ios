@@ -11,7 +11,8 @@
 #import "AppDelegate.h"
 #import "IIViewDeckController.h"
 #import "SideMenuViewController.h"
-#import "TimelineViewController.h"
+#import "PostListViewController.h"
+#import "TimelineTabBarViewController.h"
 #import "CDRestClient.h"
 #import "CDUIKit.h"
 #import "UMSocial.h"
@@ -281,9 +282,9 @@
     SideMenuViewController *menuController = [[SideMenuViewController alloc] initWithStyle:UITableViewStylePlain];
     CDNavigationController *sideController = [[CDNavigationController alloc] initWithRootViewController:menuController];
     
-    TimelineViewController *timelineController = [[TimelineViewController alloc] init];
-    self.centerController = [[CDNavigationController alloc] initWithRootViewController:timelineController];
-    _deckController = [[IIViewDeckController alloc] initWithCenterViewController:_centerController leftViewController:sideController];
+    TimelineTabBarViewController *timelineTabBarController = [[TimelineTabBarViewController alloc] init];
+    self.centerController = timelineTabBarController;
+    _deckController = [[IIViewDeckController alloc] initWithCenterViewController:timelineTabBarController leftViewController:sideController];
     
     _deckController.leftSize = DECK_LEFT_SIZE;
     _deckController.sizeMode = IIViewDeckLedgeSizeMode;

@@ -10,5 +10,5 @@
 
 @interface FunnyListViewController : PostListViewController
 
-- (NSMutableArray *) fetchCachePostsWithMediaType:(CD_MEDIA_TYPE)media_type;
+
 @end

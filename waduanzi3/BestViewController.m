@@ -156,9 +156,4 @@
 //}
 
 
-- (NSMutableArray *) fetchCachePostsWithMediaType:(CD_MEDIA_TYPE)media_type
-{
-    return [[CDDataCache shareCache] fetchBestPostsWithMediaType:_mediaType];
-}
-
 @end

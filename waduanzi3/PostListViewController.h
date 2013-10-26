@@ -41,6 +41,7 @@
 - (void) subarrayWithMaxCount:(NSUInteger)count;
 - (void) refreshLatestPosts;
 
+- (id) initWithMediaType:(NSInteger) media_type;
 - (void) initData;
 - (NSDictionary *) latestStatusesParameters;
 - (NSDictionary *) moreStatusesParameters;

@@ -172,10 +172,4 @@
 //    NSLog(@"TimelineViewController moreStatusesFailed:error:");
 //}
 
-
-- (NSMutableArray *) fetchCachePostsWithMediaType:(CD_MEDIA_TYPE)media_type
-{
-    return [[CDDataCache shareCache] fetchHistoryPostsWithMediaType:_mediaType];
-}
-
 @end

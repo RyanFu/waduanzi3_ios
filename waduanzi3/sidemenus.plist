@@ -13,19 +13,19 @@
 		</dict>
 		<dict>
 			<key>name</key>
-			<string>精华推荐</string>
-			<key>tag</key>
-			<integer>1</integer>
-			<key>icon</key>
-			<string>friends.png</string>
-		</dict>
-		<dict>
-			<key>name</key>
 			<string>随机穿越</string>
 			<key>tag</key>
 			<integer>2</integer>
 			<key>icon</key>
 			<string>events.png</string>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>精华推荐</string>
+			<key>tag</key>
+			<integer>1</integer>
+			<key>icon</key>
+			<string>friends.png</string>
 		</dict>
 	</array>
 	<array>

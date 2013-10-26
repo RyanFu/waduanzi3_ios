@@ -10,7 +10,6 @@
 #import "CDDefine.h"
 #import "SideMenuViewController.h"
 #import "IIViewDeckController.h"
-#import "TimelineViewController.h"
 #import "MediaTypeViewController.h"
 #import "UserProfileViewController.h"
 #import "SettingViewController.h"
@@ -30,6 +29,9 @@
 #import "CDNavigationController.h"
 #import "UIView+Border.h"
 #import "MobClick.h"
+#import "TimelineTabBarViewController.h"
+#import "HistoryTabBarViewController.h"
+#import "BestTabBarViewController.h"
 
 @interface SideMenuViewController ()
 {
@@ -174,34 +176,31 @@
         CDNavigationController *centerViewController;
         
         if (indexPath.section == 0) {
-            static TimelineViewController *timelineViewController;
-            static BestViewController *bestViewController;
-            static HistoryViewController *historyViewController;
+            static TimelineTabBarViewController *timelineTabBarViewController;
+            static HistoryTabBarViewController *historyTabBarViewController;
+            static BestTabBarViewController *bestTabBarViewController;
             switch (indexPath.row) {
                 case 0:
                     [MobClick event:UM_EVENT_MENU_TIMELINE];
                     
-                    if (timelineViewController == nil)
-                        timelineViewController = [[TimelineViewController alloc] init];
-                    centerViewController = [[CDNavigationController alloc] initWithRootViewController:timelineViewController];
-                    self.viewDeckController.centerController = centerViewController;
+                    if (timelineTabBarViewController == nil)
+                        timelineTabBarViewController = [[TimelineTabBarViewController alloc] init];
+                    self.viewDeckController.centerController = timelineTabBarViewController;
                     break;
                 case 1:
-                    [MobClick event:UM_EVENT_MENU_RECOMMEND];
-                    
-                    if (bestViewController == nil)
-                        bestViewController = [[BestViewController alloc] init];
-                    centerViewController = [[CDNavigationController alloc] initWithRootViewController:bestViewController];
-                    self.viewDeckController.centerController = centerViewController;
-                    break;
-                case 2:
                     [MobClick event:UM_EVENT_MENU_HISTORY];
                     
-                    if (historyViewController == nil)
-                        historyViewController = [[HistoryViewController alloc] init];
-                    historyViewController.forceRefresh = YES;
-                    centerViewController = [[CDNavigationController alloc] initWithRootViewController:historyViewController];
-                    self.viewDeckController.centerController = centerViewController;
+                    if (historyTabBarViewController == nil)
+                        historyTabBarViewController = [[HistoryTabBarViewController alloc] init];
+                    self.viewDeckController.centerController = historyTabBarViewController;
+                    break;
+                case 2:
+                    [MobClick event:UM_EVENT_MENU_RECOMMEND];
+                    
+                    if (bestTabBarViewController == nil)
+                        bestTabBarViewController = [[BestTabBarViewController alloc] init];
+                    self.viewDeckController.centerController = bestTabBarViewController;
+                    break;
                 default:
                     break;
             }

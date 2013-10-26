@@ -28,6 +28,7 @@
 #define CDSCREEN_SIZE   CDSCREEN.bounds.size
 #define CDAPPLICATION   [UIApplication sharedApplication]
 #define ROOT_CONTROLLER [[[UIApplication sharedApplication] keyWindow] rootViewController]
+#define ROOT_DECK_CONTROLLER (IIViewDeckController *)ROOT_CONTROLLER
 #define APP_VERSION     [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"] ?: [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey]
 
 #define CURRENT_NETWORK_STATUS [RKObjectManager sharedManager].HTTPClient.networkReachabilityStatus
@@ -62,7 +63,7 @@
 
 
 #define FIRST_PAGE_ID 1
-#define POST_LIST_MAX_ROWS 200
+#define POST_LIST_MAX_ROWS 100
 
 #define DECK_LEFT_SIZE 80.0f
 
