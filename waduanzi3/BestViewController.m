@@ -136,7 +136,7 @@
     
     if (result.count > 0) {
         NSArray* statuses = (NSArray *)[result array];
-        NSLog(@"more:%@", statuses);
+        CDLog(@"more:%@", statuses);
         [_statuses addObjectsFromArray:statuses];
         [self.tableView reloadData];
         

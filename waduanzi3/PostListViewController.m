@@ -850,6 +850,7 @@
                                 
                                 if ([self respondsToSelector:@selector(moreStatusesFailed:error:)])
                                     [self performSelector:@selector(moreStatusesFailed:error:) withObject:operation withObject:error];
+                                
                                 CDLog(@"Hit error: %@", error);
                             }];
     

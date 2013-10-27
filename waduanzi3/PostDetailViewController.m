@@ -645,11 +645,11 @@
         
         CGFloat contentWidth = self.view.frame.size.width - POST_DETAIL_CELL_PADDING*2;
         CGSize authorLabelSize = [comment.author_name sizeWithFont:[UIFont boldSystemFontOfSize:14.0f]];
-        CGSize detailLabelSize = [comment.content sizeWithFont:[UIFont systemFontOfSize:14.0f]
+        CGSize textLabelSize = [comment.content sizeWithFont:[UIFont systemFontOfSize:14.0f]
                                           constrainedToSize:CGSizeMake(contentWidth, 9999.0)
                                               lineBreakMode:UILineBreakModeWordWrap];
         
-        CGFloat cellHeight = POST_DETAIL_CELL_PADDING + authorLabelSize.height + COMMENT_BLOCK_SPACE_HEIGHT + detailLabelSize.height + POST_DETAIL_CELL_PADDING;
+        CGFloat cellHeight = POST_DETAIL_CELL_PADDING + authorLabelSize.height + COMMENT_BLOCK_SPACE_HEIGHT + textLabelSize.height + POST_DETAIL_CELL_PADDING;
         
         return cellHeight;
     }

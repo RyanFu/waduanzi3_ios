@@ -96,7 +96,7 @@
     
     CGSize cellContentViewSize = self.contentView.frame.size;
     CGFloat contentViewWidth = cellContentViewSize.width - _padding*2;
-    
+
     CGFloat avatarWidth = COMMENT_AVATAR_WIDTH;
     CGFloat avatarHeight = COMMENT_AVATAR_WIDTH;
     

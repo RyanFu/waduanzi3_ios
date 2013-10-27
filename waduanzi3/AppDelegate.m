@@ -392,8 +392,18 @@
         // 如果状态改变，刷新当前段子列表
         @try {
             if ((status == AFNetworkReachabilityStatusReachableViaWiFi || status == AFNetworkReachabilityStatusReachableViaWWAN) && [CDUserConfig shareInstance].auto_change_image_size) {
-                UINavigationController *currentNavViewController = (UINavigationController *)_deckController.centerController;
-                UIViewController *currentViewController = [currentNavViewController.viewControllers lastObject];
+                UIViewController *currentViewController;
+                if ([_deckController.centerController isKindOfClass:[UINavigationController class]]) {
+                    UINavigationController *currentNavViewController = (UINavigationController *)_deckController.centerController;
+                    currentViewController = [currentNavViewController.viewControllers lastObject];
+                }
+                else if ([_deckController.centerController isKindOfClass:[UITabBarController class]]) {
+                    UITabBarController *currentTabBarController = (UITabBarController *)_deckController.centerController;
+                    if ([currentTabBarController.selectedViewController isKindOfClass:[UINavigationController class]]) {
+                        UINavigationController *currentNavViewController = (UINavigationController *)currentTabBarController.selectedViewController;
+                        currentViewController = [currentNavViewController.viewControllers lastObject];
+                    }
+                }
                 NSLog(@"view Controller: %@", [currentViewController class]);
                 
                 if ([currentViewController isKindOfClass:[PostListViewController class]]) {
@@ -402,6 +412,7 @@
                     [postListViewController.tableView reloadData];
                     NSLog(@"tableView reloadData because network status has change.");
                 }
+                
             }
         }
         @catch (NSException *exception) {
