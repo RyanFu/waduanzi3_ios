@@ -87,14 +87,14 @@
     _webView.scalesPageToFit = YES;
     _webView.backgroundColor = [UIColor blackColor];
     [self.view addSubview:_webView];
-    [_webView showBorder:1 color:[UIColor blueColor].CGColor radius:0];
+//    [_webView showBorder:1 color:[UIColor blueColor].CGColor radius:0];
     
     CGRect adViewFrame = self.view.bounds;
     adViewFrame.size.height = advertViewHeight;
     adViewFrame.origin.y = webViewFrame.origin.y + webViewFrame.size.height;
     _adView = [[UIView alloc] initWithFrame:adViewFrame];
     [self.view addSubview:_adView];
-    [_adView showBorder:1 color:[UIColor redColor].CGColor radius:0];
+//    [_adView showBorder:1 color:[UIColor redColor].CGColor radius:0];
 
     
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"返回"

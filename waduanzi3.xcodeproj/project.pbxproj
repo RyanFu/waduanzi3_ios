@@ -107,6 +107,8 @@
 		2B232B3B175ED659007803C0 /* PostDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B232B3A175ED659007803C0 /* PostDetailViewController.m */; };
 		2B232B3E175F365B007803C0 /* CDRestError.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B232B3D175F365B007803C0 /* CDRestError.m */; };
 		2B2BEC611783CE5F008038B0 /* ImageDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B2BEC601783CE5F008038B0 /* ImageDetailViewController.m */; };
+		2B2C8B4B181CC92800C80E22 /* UITabBarController+Roration_iOS6.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B2C8B4A181CC92800C80E22 /* UITabBarController+Roration_iOS6.m */; };
+		2B2C8B4E181CC98300C80E22 /* CDTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B2C8B4D181CC98300C80E22 /* CDTabBarController.m */; };
 		2B318A0E17E7F22000EC7B70 /* UIImage+ColorImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B318A0D17E7F22000EC7B70 /* UIImage+ColorImage.m */; };
 		2B375EA817992F6300A6CB39 /* CDPostToolBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B375EA717992F6300A6CB39 /* CDPostToolBar.m */; };
 		2B375EB8179931A500A6CB39 /* newsfeed_StoryFeedback_Icon_Comment_Highlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B375EAA179931A500A6CB39 /* newsfeed_StoryFeedback_Icon_Comment_Highlighted.png */; };
@@ -536,6 +538,10 @@
 		2B232B3D175F365B007803C0 /* CDRestError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDRestError.m; sourceTree = "<group>"; };
 		2B2BEC5F1783CE5F008038B0 /* ImageDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageDetailViewController.h; sourceTree = "<group>"; };
 		2B2BEC601783CE5F008038B0 /* ImageDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageDetailViewController.m; sourceTree = "<group>"; };
+		2B2C8B49181CC92800C80E22 /* UITabBarController+Roration_iOS6.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITabBarController+Roration_iOS6.h"; sourceTree = "<group>"; };
+		2B2C8B4A181CC92800C80E22 /* UITabBarController+Roration_iOS6.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITabBarController+Roration_iOS6.m"; sourceTree = "<group>"; };
+		2B2C8B4C181CC98300C80E22 /* CDTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDTabBarController.h; sourceTree = "<group>"; };
+		2B2C8B4D181CC98300C80E22 /* CDTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDTabBarController.m; sourceTree = "<group>"; };
 		2B318A0C17E7F22000EC7B70 /* UIImage+ColorImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ColorImage.h"; sourceTree = "<group>"; };
 		2B318A0D17E7F22000EC7B70 /* UIImage+ColorImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ColorImage.m"; sourceTree = "<group>"; };
 		2B375EA617992F6300A6CB39 /* CDPostToolBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDPostToolBar.h; sourceTree = "<group>"; };
@@ -1133,6 +1139,8 @@
 				2B65AD3117EBEB8E00E444D9 /* UIView+Border.m */,
 				2B1B14E617E9D3D800CC0377 /* UINavigationController+Roration_iOS6.h */,
 				2B1B14E717E9D3D800CC0377 /* UINavigationController+Roration_iOS6.m */,
+				2B2C8B49181CC92800C80E22 /* UITabBarController+Roration_iOS6.h */,
+				2B2C8B4A181CC92800C80E22 /* UITabBarController+Roration_iOS6.m */,
 			);
 			name = Categores;
 			sourceTree = "<group>";
@@ -1246,6 +1254,8 @@
 				2B1B14E117E9CF8D00CC0377 /* CDQuickDialogController.m */,
 				2B1B14E317E9D28600CC0377 /* CDNavigationController.h */,
 				2B1B14E417E9D28600CC0377 /* CDNavigationController.m */,
+				2B2C8B4C181CC98300C80E22 /* CDTabBarController.h */,
+				2B2C8B4D181CC98300C80E22 /* CDTabBarController.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -2096,6 +2106,7 @@
 				2B232B3B175ED659007803C0 /* PostDetailViewController.m in Sources */,
 				2B232B3E175F365B007803C0 /* CDRestError.m in Sources */,
 				2B0C2D5B17E313FB00A1AE26 /* CDWebVideoViewController.m in Sources */,
+				2B2C8B4B181CC92800C80E22 /* UITabBarController+Roration_iOS6.m in Sources */,
 				2B551F0C17607C9200C68E43 /* CDPostTableViewCell.m in Sources */,
 				2BC4D4A9176201280098151C /* CDCommentTableViewCell.m in Sources */,
 				2B37B9001764F8DA00A026DA /* CDPostDetailView.m in Sources */,
@@ -2150,6 +2161,7 @@
 				2BA1972617A6A7CB00BB8FC9 /* WBErrorNoticeView+WaduanziMethod.m in Sources */,
 				2BEA373D17A7C4ED004EDCBC /* PublishViewController.m in Sources */,
 				2B9D01E317ECB01300CEA65A /* QMapAnnotation.m in Sources */,
+				2B2C8B4E181CC98300C80E22 /* CDTabBarController.m in Sources */,
 				2BEA374117A7CB6A004EDCBC /* UpdateProfileViewController.m in Sources */,
 				2B169C3417A8BC9700C54E55 /* MyFeedbackViewController.m in Sources */,
 				2BCB1D7017AE0E02008BC470 /* CDCommon.m in Sources */,

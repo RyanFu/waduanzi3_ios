@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CDTabBarController.h"
 
-@interface TimelineTabBarViewController : UITabBarController
+@interface TimelineTabBarViewController : CDTabBarController
 
 @end

@@ -28,7 +28,7 @@
         self.flash_url = [decoder decodeObjectForKey:@"flash_url"];
         self.source_url = [decoder decodeObjectForKey:@"source_url"];
         self.desc = [decoder decodeObjectForKey:@"desc"];
-        self.simple_page = [decoder decodeObjectForKey:@"simple_page"];
+        self.simple_page = [decoder decodeBoolForKey:@"simple_page"];
     }
     return self;
 }

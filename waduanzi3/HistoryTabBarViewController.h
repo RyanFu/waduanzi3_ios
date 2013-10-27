@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CDTabBarController.h"
 
-@interface HistoryTabBarViewController : UITabBarController
+@interface HistoryTabBarViewController : CDTabBarController
 
 @end

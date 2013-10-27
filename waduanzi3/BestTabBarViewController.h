@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CDTabBarController.h"
 
-@interface BestTabBarViewController : UITabBarController
+@interface BestTabBarViewController : CDTabBarController
 
 @end
