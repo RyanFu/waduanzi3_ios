@@ -20,8 +20,9 @@
     NSMutableArray *_statuses;
     NSMutableDictionary *_parameters;
     NSString *_restPath;
-    NSInteger _channelID;
-    NSInteger _mediaType;
+    CD_CHANNEL _channelID;
+    CD_MEDIA_TYPE _mediaType;
+    CDImageHeightFilter _imageHeightFilter;
     NSInteger _lasttime;
     NSInteger _maxtime;
     BOOL _requireLogined;
@@ -31,12 +32,14 @@
     NSCache *_cellCache;
 }
 
+@property (nonatomic, assign) CD_CHANNEL channelID;
+@property (nonatomic, assign) CD_MEDIA_TYPE mediaType;
+@property (nonatomic, assign) CDImageHeightFilter imageHeightFilter;
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) UIView *adView;
 @property (nonatomic, assign) BOOL forceRefresh;
 @property (nonatomic, strong) NSMutableArray *statuses;
 @property (nonatomic, assign) AFNetworkReachabilityStatus networkStatus;
-@property (nonatomic, assign) CDImageHeightFilter imageHeightFilter;
 
 - (NSUInteger) userID;
 - (void) subarrayWithMaxCount:(NSUInteger)count;

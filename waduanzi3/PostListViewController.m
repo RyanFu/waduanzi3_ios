@@ -56,12 +56,14 @@
 
 @implementation PostListViewController
 
+@synthesize channelID = _channelID;
+@synthesize mediaType = _mediaType;
+@synthesize imageHeightFilter = _imageHeightFilter;
 @synthesize tableView = _tableView;
 @synthesize adView = _adView;
 @synthesize forceRefresh = _forceRefresh;
 @synthesize statuses = _statuses;
 @synthesize networkStatus = _networkStatus;
-@synthesize imageHeightFilter = _imageHeightFilter;
 
 - (id) init
 {

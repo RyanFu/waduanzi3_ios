@@ -206,48 +206,17 @@
             }
         }
         else if (indexPath.section == 1) {
-            static MediaTypeViewController *textJokeViewController, *imageJokeViewController, *videoJokeViewController;
-            static FocusListViewController *articleViewController;
+            static FocusListViewController *focusViewController;
             
             switch (indexPath.row) {
                 case 0:
-                    [MobClick event:UM_EVENT_MENU_MEDIA_TEXT];
-                    
-                    if (textJokeViewController == nil) {
-                        textJokeViewController = [[MediaTypeViewController alloc] initWithMediaType:MEDIA_TYPE_TEXT];
-                        textJokeViewController.title = @"挖笑话";
-                    }
-                    centerViewController = [[CDNavigationController alloc] initWithRootViewController:textJokeViewController];
-                    self.viewDeckController.centerController = centerViewController;
-                    break;
-                case 1:
-                    [MobClick event:UM_EVENT_MENU_MEDIA_IMAGE];
-                    
-                    if (imageJokeViewController == nil) {
-                        imageJokeViewController = [[MediaTypeViewController alloc] initWithMediaType:MEDIA_TYPE_IMAGE];
-                        imageJokeViewController.title = @"挖趣图";
-                    }
-                    centerViewController = [[CDNavigationController alloc] initWithRootViewController:imageJokeViewController];
-                    self.viewDeckController.centerController = centerViewController;
-                    break;
-                case 2:
-                    [MobClick event:UM_EVENT_MENU_MEDIA_VIDEO];
-                    
-                    if (videoJokeViewController == nil) {
-                        videoJokeViewController = [[MediaTypeViewController alloc] initWithMediaType:MEDIA_TYPE_VIDEO];
-                        videoJokeViewController.title = @"挖视频";
-                    }
-                    centerViewController = [[CDNavigationController alloc] initWithRootViewController:videoJokeViewController];
-                    self.viewDeckController.centerController = centerViewController;
-                    break;
-                case 3:
                     [MobClick event:UM_EVENT_MENU_CHANNEL_FOCUS];
                     
-                    if (articleViewController == nil) {
-                        articleViewController = [[FocusListViewController alloc] init];
-                        articleViewController.title = @"挖热门";
+                    if (focusViewController == nil) {
+                        focusViewController = [[FocusListViewController alloc] init];
+                        focusViewController.title = @"挖热门";
                     }
-                    centerViewController = [[CDNavigationController alloc] initWithRootViewController:articleViewController];
+                    centerViewController = [[CDNavigationController alloc] initWithRootViewController:focusViewController];
                     self.viewDeckController.centerController = centerViewController;
                     break;
                 default:
