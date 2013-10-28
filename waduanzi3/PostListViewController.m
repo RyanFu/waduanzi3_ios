@@ -64,6 +64,7 @@
 @synthesize forceRefresh = _forceRefresh;
 @synthesize statuses = _statuses;
 @synthesize networkStatus = _networkStatus;
+@synthesize wifiSwitchBigImage = _wifiSwitchBigImage;
 
 - (id) init
 {
@@ -101,6 +102,7 @@
     detailFontSize = [CDUserConfig shareInstance].postFontSize;
     _networkStatus = CURRENT_NETWORK_STATUS;
     _imageHeightFilter = CDImageHeightFilterDisabled;
+    _wifiSwitchBigImage = [CDUserConfig shareInstance].wifi_big_image;
     
     NSLog(@"method: PostListViewController initData");
 }
@@ -132,6 +134,11 @@
 - (BOOL) textFontSizeChanged
 {
     return detailFontSize != [CDUserConfig shareInstance].postFontSize;
+}
+
+- (BOOL) wifiSwitchBigImageChanged
+{
+    return _wifiSwitchBigImage != [CDUserConfig shareInstance].wifi_big_image;
 }
 
 - (NSDictionary *) latestStatusesParameters
@@ -273,9 +280,12 @@
 {
     [super viewWillAppear:animated];
     
+    CDLog(@"PostList viewWillAppear");
+    
     BOOL enableAdvert = [CDConfig enabledAdvert];
     CGRect tableViewFrame = self.view.bounds;
 //    NSLog(@"h: %f", tableViewFrame.size.height);
+    
     if (enableAdvert) {
         tableViewFrame.size.height -= AD_BANNER_HEIGHT;
         if (self.adView == nil)
@@ -290,11 +300,15 @@
     
     if ([self networkStatusChanged]) {
         CDLog(@"network status has changed");
-        _networkStatus = [RKObjectManager sharedManager].HTTPClient.networkReachabilityStatus;
+        _networkStatus = CURRENT_NETWORK_STATUS;
+        [self.tableView reloadData];
+    }
+    else if ([self wifiSwitchBigImageChanged]) {
+        _wifiSwitchBigImage = [CDUserConfig shareInstance].wifi_big_image;
         [self.tableView reloadData];
     }
     else
-        CDLog(@"network status has not changed");
+        CDLog(@"network status or wifi big image has not changed");
     
     if ([self textFontSizeChanged]) {
         CDLog(@"post text font size has changed");
@@ -318,7 +332,7 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    CDLog(@"viewDidAppear");
+    CDLog(@"PostList viewDidAppear");
 }
 
 
@@ -490,7 +504,7 @@
         cell.isLongImage = [post isLongImage];
         
         cell.thumbSize = CGSizeMake(THUMB_WIDTH, THUMB_HEIGHT);
-        if (NETWORK_STATUS_IS_WIFI) {
+        if (NETWORK_STATUS_IS_WIFI && [CDUserConfig shareInstance].wifi_big_image) {
             cell.thumbSize = [post picSizeByWidth:[cell contentBlockWidth]];
             cell.showLongIcon = cell.showGIFIcon = NO;
         }
@@ -669,7 +683,7 @@
         
         if (post.small_pic.length > 0) {
             NSString *imageUrlString = post.small_pic;
-            if (NETWORK_STATUS_IS_WIFI) {
+            if (NETWORK_STATUS_IS_WIFI && [CDUserConfig shareInstance].wifi_big_image) {
                 imageUrlString = post.middle_pic;
             }
             

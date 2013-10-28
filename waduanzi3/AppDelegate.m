@@ -27,7 +27,6 @@
 #import "CDSocialKit.h"
 #import "CDUserConfig.h"
 #import "MBProgressHUD+Custom.h"
-#import "Reachability.h"
 
 
 @interface AppDelegate ()
@@ -391,7 +390,7 @@
         
         // 如果状态改变，刷新当前段子列表
         @try {
-            if ((status == AFNetworkReachabilityStatusReachableViaWiFi || status == AFNetworkReachabilityStatusReachableViaWWAN) && [CDUserConfig shareInstance].auto_change_image_size) {
+            if ((status == AFNetworkReachabilityStatusReachableViaWiFi || status == AFNetworkReachabilityStatusReachableViaWWAN) && [CDUserConfig shareInstance].wifi_big_image) {
                 UIViewController *currentViewController;
                 if ([_deckController.centerController isKindOfClass:[UINavigationController class]]) {
                     UINavigationController *currentNavViewController = (UINavigationController *)_deckController.centerController;

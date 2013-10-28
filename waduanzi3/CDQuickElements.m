@@ -80,8 +80,8 @@
     [section0 addElement:messagePush];
     
     QBooleanElement *autoChangeImageSize = [[QBooleanElement alloc] initWithTitle:@"WIFI下切换到大图" Value:nil];
-    autoChangeImageSize.key = @"key_auto_change_image_size";
-    autoChangeImageSize.controllerAction = @"autChangeImageSizeAction:";
+    autoChangeImageSize.key = @"key_wifi_switch_big_image";
+    autoChangeImageSize.controllerAction = @"wifiSwitchBigImageAction:";
     [section0 addElement:autoChangeImageSize];
 
     QLabelElement *clearCache = [[QLabelElement alloc] initWithTitle:@"清除缓存" Value:nil];

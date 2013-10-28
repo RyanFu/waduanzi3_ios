@@ -107,6 +107,10 @@
 {
     CDLog(@"TimelineViewController latestStatusesSuccess:mappingResult:");
     
+    if (self.navigationController.tabBarController != nil) {
+        self.navigationController.tabBarItem.badgeValue = nil;
+    }
+    
     NSArray* statuses = (NSArray *)[result array];
     NSInteger resultCount = [statuses count];
     CDLog(@"count: %d", resultCount);

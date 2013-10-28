@@ -68,8 +68,8 @@
     QBooleanElement *pushMessageElement = (QBooleanElement*)[self.root elementWithKey:@"key_message_push"];
     pushMessageElement.boolValue = [CDUserConfig shareInstance].enable_push_message;
     NSLog(@"pushed: %d", pushMessageElement.boolValue);
-    QBooleanElement *autoChangeImageSizeElement = (QBooleanElement*)[self.root elementWithKey:@"key_auto_change_image_size"];
-    autoChangeImageSizeElement.boolValue = [CDUserConfig shareInstance].auto_change_image_size;
+    QBooleanElement *autoChangeImageSizeElement = (QBooleanElement*)[self.root elementWithKey:@"key_wifi_switch_big_image"];
+    autoChangeImageSizeElement.boolValue = [CDUserConfig shareInstance].wifi_big_image;
 }
 
 - (void) viewDidAppear:(BOOL)animated
@@ -111,11 +111,6 @@
 
 
 #pragma mark - QuickDialog Element Actions
-
-- (void) changePostFo2ntSize:(QPickerElement *)element
-{
-    NSLog(@"change post font size");
-}
 
 - (void) clearCacheAction:(QLabelElement *)element
 {
@@ -183,6 +178,12 @@
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"user config update errror: %@", error);
     }];
+}
+
+- (void) wifiSwitchBigImageAction:(QBooleanElement *)element
+{
+    NSLog(@"bool value: %d", element.boolValue);
+    [CDUserConfig shareInstance].wifi_big_image = element.boolValue;
 }
 
 

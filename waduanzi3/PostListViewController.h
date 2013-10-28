@@ -40,6 +40,7 @@
 @property (nonatomic, assign) BOOL forceRefresh;
 @property (nonatomic, strong) NSMutableArray *statuses;
 @property (nonatomic, assign) AFNetworkReachabilityStatus networkStatus;
+@property (nonatomic, assign) BOOL wifiSwitchBigImage;
 
 - (NSUInteger) userID;
 - (void) subarrayWithMaxCount:(NSUInteger)count;
@@ -55,6 +56,7 @@
 - (NSString *) moreStatusesRestPath;
 - (BOOL) networkStatusChanged;
 - (BOOL) textFontSizeChanged;
+- (BOOL) wifiSwitchBigImageChanged;
 
 - (void) latestStatusesSuccess:(RKObjectRequestOperation *)operation mappingResult:(RKMappingResult *)result;
 - (void) latestStatusesFailed:(RKObjectRequestOperation *)operation error:(NSError *)error;
