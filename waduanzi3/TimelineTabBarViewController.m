@@ -14,6 +14,7 @@
 
 @interface TimelineTabBarViewController ()
 {
+    NSUInteger _prevSelectedIndex;
     NSTimer *_updateCountTimer;
     CDNavigationController *textNavController, *imageNavController, *videoNavController, *longImageNavController;
     TimelineViewController *imageViewController, *textViewController, *longImageViewController, *videoViewController;
@@ -94,7 +95,7 @@
     
     NSArray *navViewControllers = @[imageNavController, textNavController, longImageNavController, videoNavController];
     self.viewControllers = navViewControllers;
-    self.selectedIndex = 0;
+    self.selectedIndex = _prevSelectedIndex = 0;
     
     NSArray *viewControllers = @[imageViewController, textViewController, longImageViewController, videoViewController];
     [viewControllers makeObjectsPerformSelector:@selector(view)];
@@ -105,11 +106,15 @@
 - (void) tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
 {
     @try {
-        if (viewController.tabBarItem.badgeValue.integerValue > 0) {
+        UINavigationController *navViewController = (UINavigationController *)viewController;
+        TimelineViewController *timelineViewController = [navViewController.viewControllers lastObject];
+        
+        if (viewController.tabBarItem.badgeValue != nil) {
             viewController.tabBarItem.badgeValue = nil;
-            UINavigationController *navViewController = (UINavigationController *)viewController;
-            TimelineViewController *timelineViewController = [navViewController.viewControllers lastObject];
             [timelineViewController refreshLatestPosts];
+        }
+        else if ((_prevSelectedIndex == self.selectedIndex) && (timelineViewController.tableView.contentOffset.y > 0)) {
+            [timelineViewController.tableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
         }
     }
     @catch (NSException *exception) {
@@ -118,6 +123,8 @@
     @finally {
         ;
     }
+    
+    _prevSelectedIndex = self.selectedIndex;
 }
 
 #pragma mark - timer action
