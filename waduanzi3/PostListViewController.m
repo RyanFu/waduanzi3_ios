@@ -44,7 +44,6 @@
 - (void) setupNavButtonItems;
 - (void) setupTableView;
 - (void) setupUMAppNetworkView;
-- (void) setupAdView;
 - (void) setPostCellSubViews:(CDPostTableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath;
 - (void) setAdvertCellSubViews:(CDAdvertTableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath;
 - (void) setupTableViewPullScrollView;
@@ -60,7 +59,6 @@
 @synthesize mediaType = _mediaType;
 @synthesize imageHeightFilter = _imageHeightFilter;
 @synthesize tableView = _tableView;
-@synthesize adView = _adView;
 @synthesize forceRefresh = _forceRefresh;
 @synthesize statuses = _statuses;
 @synthesize networkStatus = _networkStatus;
@@ -268,35 +266,12 @@
 }
 
 
-- (void) setupAdView
-{
-    CGRect tableViewFrame = self.view.bounds;
-    CGRect adViewFrame = CGRectMake(0, tableViewFrame.origin.y + tableViewFrame.size.height, self.view.bounds.size.width, AD_BANNER_HEIGHT);
-    self.adView = [[UIView alloc] initWithFrame:adViewFrame];
-    [self.view addSubview:self.adView];
-}
 
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     
     CDLog(@"PostList viewWillAppear");
-    
-    BOOL enableAdvert = [CDConfig enabledAdvert];
-    CGRect tableViewFrame = self.view.bounds;
-//    NSLog(@"h: %f", tableViewFrame.size.height);
-    
-    if (enableAdvert) {
-        tableViewFrame.size.height -= AD_BANNER_HEIGHT;
-        if (self.adView == nil)
-            [self setupAdView];
-        else
-            self.adView.hidden = NO;
-    }
-    else if (self.adView != nil) {
-        self.adView.hidden = YES;
-    }
-    _tableView.frame = tableViewFrame;
     
     if ([self networkStatusChanged]) {
         CDLog(@"network status has changed");

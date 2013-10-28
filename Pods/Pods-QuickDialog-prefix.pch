@@ -7,3 +7,8 @@
     #import "QuickDialog.h"
 #endif
 
+
+#ifdef __OBJC__
+    #import "QuickDialog.h"
+#endif
+

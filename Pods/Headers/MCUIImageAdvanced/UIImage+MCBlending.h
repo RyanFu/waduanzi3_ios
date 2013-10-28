@@ -1,1 +1,0 @@
-../../MCUIImageAdvanced/MCUIImageAdvanced/UIImage+MCBlending.h

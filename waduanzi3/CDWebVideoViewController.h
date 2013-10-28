@@ -8,16 +8,18 @@
 
 #import "CDViewController.h"
 #import "CDUIKit.h"
+#import "AdMoGoDelegateProtocol.h"
+#import "AdMoGoView.h"
+#import "AdMoGoWebBrowserControllerUserDelegate.h"
 
-@interface CDWebVideoViewController : CDViewController <UIWebViewDelegate>
+@interface CDWebVideoViewController : CDViewController <UIWebViewDelegate, AdMoGoDelegate, AdMoGoWebBrowserControllerUserDelegate>
 {
-@private
-    UIWebView *_webView;
-    NSString *_url;
-    NSString *_html;
+    AdMoGoView *_adView;
+
 }
 
 @property (nonatomic, assign) BOOL simplePage;
+@property (nonatomic, strong) AdMoGoView *adView;
 
 - (CDWebVideoViewController *)initWithUrl:(NSString *)string;
 - (CDWebVideoViewController *)initWithHTML:(NSString *)html;

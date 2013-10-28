@@ -16,12 +16,18 @@
 #import "CDDataCache.h"
 #import "WBSuccessNoticeView+WaduanziMethod.h"
 #import "ArticleDetailViewController.h"
+#import "CDConfig.h"
+#import "UIView+Border.h"
 
 @interface FocusListViewController ()
+
+- (void) setupAdView;
 
 @end
 
 @implementation FocusListViewController
+
+@synthesize adView = _adView;
 
 - (void)viewDidLoad
 {
@@ -32,6 +38,18 @@
     _statuses = [[CDDataCache shareCache] fetchFocusPosts];
     
     [super viewDidLoad];
+    
+    
+    @try {
+        if ([CDConfig enabledFocusListBannerAdvert])
+            [self setupAdView];
+    }
+    @catch (NSException *exception) {
+        CDLog(@"setupAdView Exception: %@", exception);
+    }
+    @finally {
+        ;
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -159,6 +177,67 @@
     @finally {
         ;
     }
+}
+
+
+
+#pragma mark - adview
+
+- (void) setupAdView
+{
+    
+    self.adView = [[AdMoGoView alloc] initWithAppKey:MOGO_ADID adType:AdViewTypeNormalBanner adMoGoViewDelegate:self];
+    _adView.adWebBrowswerDelegate = self;
+//    [_adView showBorder:2.0f color:[UIColor redColor].CGColor radius:0];
+
+    [self.view addSubview:_adView];
+}
+
+
+#pragma mark - AdMoGoDelegate
+
+- (UIViewController *)viewControllerForPresentingModalView
+{
+    return self;
+}
+
+
+- (void) adMoGoDidStartAd:(AdMoGoView *)adMoGoView
+{
+    CDLog(@"广告开始请求回调");
+}
+
+- (void) adMoGoDidReceiveAd:(AdMoGoView *)adMoGoView
+{
+    CDLog(@"广告接收成功回调");
+    
+    CGRect tableViewFrame = self.tableView.frame;
+    tableViewFrame.size.height = self.view.bounds.size.height - adMoGoView.frame.size.height;
+    self.tableView.frame = tableViewFrame;
+
+    CGRect adViewFrame = adMoGoView.bounds;
+    adViewFrame.origin.y = tableViewFrame.origin.y + tableViewFrame.size.height;
+    _adView.frame = adViewFrame;
+    
+}
+
+- (void) adMoGoDidFailToReceiveAd:(AdMoGoView *)adMoGoView didFailWithError:(NSError *)error
+{
+    CDLog(@"广告接收失败回调, error: %@", error);
+}
+
+- (void) adMoGoClickAd:(AdMoGoView *)adMoGoView
+{
+    CDLog(@"点击广告回调");
+}
+
+- (void) adMoGoDeleteAd:(AdMoGoView *)adMoGoView
+{
+    CDLog(@"广告关闭回调");
+    
+    CGRect tableViewFrame = self.tableView.frame;
+    tableViewFrame.size.height = self.view.bounds.size.height;
+    self.tableView.frame = tableViewFrame;
 }
 
 @end

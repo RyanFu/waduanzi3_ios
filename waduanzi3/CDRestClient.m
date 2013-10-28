@@ -77,7 +77,9 @@
 {
     _manager = [[RKObjectManager alloc] initWithHTTPClient:_client];
 
-    [RKObjectMapping addDefaultDateFormatterForString:@"MMM-dd HH:mm" inTimeZone:nil];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    dateFormatter.dateFormat = @"MMM-dd HH:mm";
+    [[RKValueTransformer defaultValueTransformer] insertValueTransformer:dateFormatter atIndex:0];
     _manager.requestSerializationMIMEType = RKMIMETypeFormURLEncoded;
 }
 

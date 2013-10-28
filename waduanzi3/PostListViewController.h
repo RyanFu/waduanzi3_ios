@@ -36,7 +36,6 @@
 @property (nonatomic, assign) CD_MEDIA_TYPE mediaType;
 @property (nonatomic, assign) CDImageHeightFilter imageHeightFilter;
 @property (nonatomic, strong) UITableView *tableView;
-@property (nonatomic, strong) UIView *adView;
 @property (nonatomic, assign) BOOL forceRefresh;
 @property (nonatomic, strong) NSMutableArray *statuses;
 @property (nonatomic, assign) AFNetworkReachabilityStatus networkStatus;

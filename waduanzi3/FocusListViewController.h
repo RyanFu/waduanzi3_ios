@@ -7,7 +7,15 @@
 //
 
 #import "PostListViewController.h"
+#import "AdMoGoView.h"
+#import "AdMoGoDelegateProtocol.h"
+#import "AdMoGoWebBrowserControllerUserDelegate.h"
 
-@interface FocusListViewController : PostListViewController
+@interface FocusListViewController : PostListViewController <AdMoGoDelegate, AdMoGoWebBrowserControllerUserDelegate>
+{
+    AdMoGoView *_adView;
+}
+
+@property (nonatomic, strong) AdMoGoView *adView;
 
 @end

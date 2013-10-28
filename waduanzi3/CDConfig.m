@@ -40,8 +40,22 @@
 
 }
 
-+ (BOOL) enabledAdvert
++ (BOOL) enabledFocusListBannerAdvert
 {
+    if (CD_DEBUG) return YES;
+    
+    @try {
+        NSString *switcher = [MobClick getConfigParams:AD_ENABLE_FOCUS_LIST_BANNER];
+        return [switcher isEqualToString:@"on"];
+    }
+    @catch (NSException *exception) {
+        CDLog(@"enable umhandle exception: %@", exception.reason);
+        return NO;
+    }
+    @finally {
+        ;
+    }
+    
     return NO;
 }
 

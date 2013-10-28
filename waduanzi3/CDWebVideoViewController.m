@@ -11,6 +11,10 @@
 
 @interface CDWebVideoViewController ()
 {
+    UIWebView *_webView;
+    NSString *_url;
+    NSString *_html;
+    
     CDNavigationBarStyle _navigationBarStyle;
     CDBarButtonItemStyle _barButtonItemStyle;
     CDToolBarStyle _toolBarStyle;
@@ -21,9 +25,9 @@
     BOOL _previousToolbarState;
     NSArray *_urlToolbarItems;
     
-    UIView *_adView;
 }
 
+- (void) setupAdView;
 - (UIImage *)createBackArrowImage;
 - (UIImage *)createForwardArrowImage;
 @end
@@ -32,6 +36,7 @@
 @implementation CDWebVideoViewController
 
 @synthesize simplePage = _simplePage;
+@synthesize adView = _adView;
 
 - (void) setNavigationBarStyle:(CDNavigationBarStyle)navigationBarStyle barButtonItemStyle:(CDBarButtonItemStyle)barButtonItemStyle toolBarStyle:(CDToolBarStyle)toolBarStyle
 {
@@ -69,6 +74,7 @@
     return self;
 }
 
+
 - (void) loadView
 {
     [super loadView];
@@ -76,12 +82,14 @@
     NSLog(@"load view");
     
     self.view.backgroundColor = [UIColor blackColor];
-    
-    CGFloat advertViewHeight = _simplePage ? VIDEO_WEBVIEW_AD_HEIGHT : AD_BANNER_HEIGHT;
+
     
     CGRect webViewFrame = self.view.bounds;
-    webViewFrame.size.height = CDSCREEN_SIZE.height - NAVBAR_HEIGHT*2 - STATUSBAR_HEIGHT - advertViewHeight;
-    
+    if (OS_VERSION_LESS_THAN(@"7.0"))
+        webViewFrame.size.height -= NAVBAR_HEIGHT;
+    else
+        webViewFrame.size.height -= (NAVBAR_HEIGHT*2 + STATUSBAR_HEIGHT);
+
     _webView = [[UIWebView alloc] initWithFrame:webViewFrame];
     _webView.delegate = self;
     _webView.scalesPageToFit = YES;
@@ -89,13 +97,7 @@
     [self.view addSubview:_webView];
 //    [_webView showBorder:1 color:[UIColor blueColor].CGColor radius:0];
     
-    CGRect adViewFrame = self.view.bounds;
-    adViewFrame.size.height = advertViewHeight;
-    adViewFrame.origin.y = webViewFrame.origin.y + webViewFrame.size.height;
-    _adView = [[UIView alloc] initWithFrame:adViewFrame];
-    [self.view addSubview:_adView];
-//    [_adView showBorder:1 color:[UIColor redColor].CGColor radius:0];
-
+    [self setupAdView];
     
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"返回"
                                                                              style:UIBarButtonItemStyleBordered
@@ -290,6 +292,60 @@
     return ret;
 }
 
+
+#pragma mark - adview
+
+- (void) setupAdView
+{
+    _adView = [[AdMoGoView alloc] initWithAppKey:MOGO_ADID adType:AdViewTypeNormalBanner adMoGoViewDelegate:self];
+    _adView.adWebBrowswerDelegate = self;
+    
+    [self.view addSubview:_adView];
+}
+
+#pragma mark - AdMoGoDelegate
+
+- (UIViewController *)viewControllerForPresentingModalView
+{
+    return self;
+}
+
+- (void) adMoGoDidStartAd:(AdMoGoView *)adMoGoView
+{
+    CDLog(@"广告开始请求回调");
+}
+
+- (void) adMoGoDidReceiveAd:(AdMoGoView *)adMoGoView
+{
+    CDLog(@"广告接收成功回调");
+    
+    CGRect webViewFrame = _webView.frame;
+    webViewFrame.size.height = self.view.bounds.size.height - adMoGoView.frame.size.height - (IS_IOS7 ? NAVBAR_HEIGHT : 0);
+    _webView.frame = webViewFrame;
+    
+    CGRect adViewFrame = adMoGoView.bounds;
+    adViewFrame.origin.y = webViewFrame.origin.y + webViewFrame.size.height;
+    _adView.frame = adViewFrame;
+}
+
+- (void) adMoGoDidFailToReceiveAd:(AdMoGoView *)adMoGoView didFailWithError:(NSError *)error
+{
+    CDLog(@"广告接收失败回调, error: %@", error);
+}
+
+- (void) adMoGoClickAd:(AdMoGoView *)adMoGoView
+{
+    CDLog(@"点击广告回调");
+}
+
+- (void) adMoGoDeleteAd:(AdMoGoView *)adMoGoView
+{
+    CDLog(@"广告关闭回调");
+    
+    CGRect webViewFrame = _webView.frame;
+    webViewFrame.size.height = self.view.bounds.size.height - (IS_IOS7 ? NAVBAR_HEIGHT : 0);
+    _webView.frame = webViewFrame;
+}
 
 @end
 

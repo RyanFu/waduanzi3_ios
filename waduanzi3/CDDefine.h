@@ -208,7 +208,7 @@ typedef NS_ENUM(NSInteger, CDImageHeightFilter)
 #define UM_EVENT_PLAY_VIDEO @"v3_play_video"
 
 #define UM_ONLINE_CONFIG_APP_UNION_HANLE @"enable_umhandle"
-#define UM_ONLINE_CONFIG_SPLASH_AD_ENABLE @"v3_splash_ad_enable"
+#define AD_ENABLE_FOCUS_LIST_BANNER @"v3_focus_list_banner_ad_enable"
 
 
 /*

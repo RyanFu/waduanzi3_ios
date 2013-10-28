@@ -10,7 +10,7 @@
 
 @interface CDConfig : NSObject
 
-+ (BOOL) enabledAdvert;
++ (BOOL) enabledFocusListBannerAdvert;
 + (BOOL) enabledUMHandle;
 
 + (CDConfig *) shareInstance;

@@ -10,7 +10,6 @@
 #define DEFAULT_BACKGROUND_COLOR [UIColor blackColor]
 
 @interface EAIntroView() {
-    NSArray *pages;
     NSMutableArray *pageViews;
     NSInteger LastPageIndex;
 }
@@ -35,6 +34,20 @@
     return self;
 }
 
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        pageViews = [[NSMutableArray alloc] init];
+        self.swipeToExit = YES;
+        self.hideOffscreenPages = YES;
+        self.titleViewY = 20.0f;
+        self.pageControlY = 60.0f;
+        [self buildUIWithFrame:self.frame];
+        [self setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
+    }
+    return self;
+}
+
 - (id)initWithFrame:(CGRect)frame andPages:(NSArray *)pagesArray {
     self = [super initWithFrame:frame];
     if (self) {
@@ -43,7 +56,7 @@
         self.hideOffscreenPages = YES;
         self.titleViewY = 20.0f;
         self.pageControlY = 60.0f;
-        pages = [pagesArray copy];
+        _pages = [pagesArray copy];
         [self buildUIWithFrame:frame];
         [self setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
     }
@@ -58,11 +71,6 @@
     [self buildBackgroundImage];
     [self buildScrollViewWithFrame:frame];
     
-    [self.pageBgBack setAlpha:0];
-    [self.pageBgBack setImage:[self bgForPage:1]];
-    [self.pageBgFront setAlpha:1];
-    [self.pageBgFront setImage:[self bgForPage:0]];
-    
     [self buildFooterView];
     
     [self.bgImageView setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
@@ -75,12 +83,14 @@
     self.bgImageView.backgroundColor = [UIColor clearColor];
     self.bgImageView.contentMode = UIViewContentModeScaleToFill;
     self.bgImageView.autoresizesSubviews = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+    self.bgImageView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
     [self addSubview:self.bgImageView];
     
     self.pageBgBack = [[UIImageView alloc] initWithFrame:self.frame];
     self.pageBgBack.backgroundColor = [UIColor clearColor];
     self.pageBgBack.contentMode = UIViewContentModeScaleToFill;
     self.pageBgBack.autoresizesSubviews = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+    self.pageBgBack.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
     self.pageBgBack.alpha = 0;
     [self addSubview:self.pageBgBack];
     
@@ -88,6 +98,7 @@
     self.pageBgFront.backgroundColor = [UIColor clearColor];
     self.pageBgFront.contentMode = UIViewContentModeScaleToFill;
     self.pageBgFront.autoresizesSubviews = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+    self.pageBgFront.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
     self.pageBgFront.alpha = 0;
     [self addSubview:self.pageBgFront];
 }
@@ -101,10 +112,12 @@
     self.scrollView.showsVerticalScrollIndicator = NO;
     self.scrollView.delegate = self;
     
+    self.scrollView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
+    
     //A running x-coordinate. This grows for every page
     CGFloat contentXIndex = 0;
-    for (int idx = 0; idx < pages.count; idx++) {
-        [pageViews addObject:[self viewForPage:pages[idx] atXIndex:&contentXIndex]];
+    for (int idx = 0; idx < _pages.count; idx++) {
+        [pageViews addObject:[self viewForPage:_pages[idx] atXIndex:&contentXIndex]];
         [self.scrollView addSubview:pageViews[idx]];
     }
     
@@ -116,11 +129,23 @@
     
     self.scrollView.contentSize = CGSizeMake(contentXIndex, self.scrollView.frame.size.height);
     [self addSubview:self.scrollView];
+    
+    [self.pageBgBack setAlpha:0];
+    [self.pageBgBack setImage:[self bgForPage:1]];
+    [self.pageBgFront setAlpha:1];
+    [self.pageBgFront setImage:[self bgForPage:0]];
 }
 
 - (UIView *)viewForPage:(EAIntroPage *)page atXIndex:(CGFloat *)xIndex {
     
     UIView *pageView = [[UIView alloc] initWithFrame:CGRectMake(*xIndex, 0, self.scrollView.frame.size.width, self.scrollView.frame.size.height)];
+    
+    *xIndex += self.scrollView.frame.size.width;
+    
+    if(page.customView) {
+        [pageView addSubview:page.customView];
+        return pageView;
+    }
     
     if(page.titleImage) {
         UIImageView *titleImageView = [[UIImageView alloc] initWithImage:page.titleImage];
@@ -155,11 +180,9 @@
         descLabel.backgroundColor = [UIColor clearColor];
         descLabel.textAlignment = NSTextAlignmentCenter;
         descLabel.userInteractionEnabled = NO;
-        [descLabel sizeToFit];
+        //[descLabel sizeToFit];
         [pageView addSubview:descLabel];
     }
-    
-    *xIndex += self.scrollView.frame.size.width;
     
     return pageView;
 }
@@ -185,7 +208,7 @@
     self.pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(0, self.frame.size.height - self.pageControlY, self.frame.size.width, 20)];
     [self.pageControl setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
     [self.pageControl addTarget:self action:@selector(showPanelAtPageControl) forControlEvents:UIControlEventValueChanged];
-    self.pageControl.numberOfPages = pages.count;
+    self.pageControl.numberOfPages = _pages.count;
     [self addSubview:self.pageControl];
     
     self.skipButton = [[UIButton alloc] initWithFrame:CGRectMake(self.scrollView.frame.size.width - 80, self.pageControl.frame.origin.y, 80, self.pageControl.frame.size.height)];
@@ -247,13 +270,20 @@
 }
 
 - (UIImage *)bgForPage:(int)idx {
-    if(idx >= pages.count || idx < 0)
+    if(idx >= _pages.count || idx < 0)
         return nil;
     
-    return ((EAIntroPage *)pages[idx]).bgImage;
+    return ((EAIntroPage *)_pages[idx]).bgImage;
 }
 
 #pragma mark - Custom setters
+
+- (void)setPages:(NSArray *)pages {
+    _pages = [pages copy];
+    [self.scrollView removeFromSuperview];
+    self.scrollView = nil;
+    [self buildScrollViewWithFrame:self.frame];
+}
 
 - (void)setBgImage:(UIImage *)bgImage {
     _bgImage = bgImage;
