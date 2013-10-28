@@ -22,9 +22,9 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
-    BestViewController *textViewController = [[BestViewController alloc] initWithMediaType:MEDIA_TYPE_TEXT];
     BestViewController *imageViewController = [[BestViewController alloc] initWithMediaType:MEDIA_TYPE_IMAGE];
     imageViewController.imageHeightFilter = CDImageHeightFilterOnlyShort;
+    BestViewController *textViewController = [[BestViewController alloc] initWithMediaType:MEDIA_TYPE_TEXT];
     BestViewController *longImageViewController = [[BestViewController alloc] initWithMediaType:MEDIA_TYPE_IMAGE];
     longImageViewController.imageHeightFilter = CDImageHeightFilterOnlyLong;
     BestViewController *videoViewController = [[BestViewController alloc] initWithMediaType:MEDIA_TYPE_VIDEO];
@@ -39,9 +39,8 @@
     CDNavigationController *longImageNavController = [[CDNavigationController alloc] initWithRootViewController:longImageViewController];
     longImageNavController.tabBarItem.title = @"长图";
     
-    NSArray *viewControllers = @[textNavController, imageNavController, longImageNavController, videoNavController];
+    NSArray *viewControllers = @[imageNavController, textNavController, longImageNavController, videoNavController];
     self.viewControllers = viewControllers;
-    self.customizableViewControllers = viewControllers;
     self.selectedIndex = 0;
 }
 

@@ -22,9 +22,9 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
-    HistoryViewController *textViewController = [[HistoryViewController alloc] initWithMediaType:MEDIA_TYPE_TEXT];
     HistoryViewController *imageViewController = [[HistoryViewController alloc] initWithMediaType:MEDIA_TYPE_IMAGE];
     imageViewController.imageHeightFilter = CDImageHeightFilterOnlyShort;
+    HistoryViewController *textViewController = [[HistoryViewController alloc] initWithMediaType:MEDIA_TYPE_TEXT];
     HistoryViewController *longImageViewController = [[HistoryViewController alloc] initWithMediaType:MEDIA_TYPE_IMAGE];
     longImageViewController.imageHeightFilter = CDImageHeightFilterOnlyLong;
     HistoryViewController *videoViewController = [[HistoryViewController alloc] initWithMediaType:MEDIA_TYPE_VIDEO];
@@ -39,9 +39,8 @@
     CDNavigationController *longImageNavController = [[CDNavigationController alloc] initWithRootViewController:longImageViewController];
     longImageNavController.tabBarItem.title = @"长图";
     
-    NSArray *viewControllers = @[textNavController, imageNavController, longImageNavController, videoNavController];
+    NSArray *viewControllers = @[imageNavController, textNavController, longImageNavController, videoNavController];
     self.viewControllers = viewControllers;
-    self.customizableViewControllers = viewControllers;
     self.selectedIndex = 0;
 }
 

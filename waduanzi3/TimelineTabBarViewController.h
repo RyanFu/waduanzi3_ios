@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "CDTabBarController.h"
 
-@interface TimelineTabBarViewController : CDTabBarController
+@interface TimelineTabBarViewController : CDTabBarController <UITabBarControllerDelegate>
 
 @end

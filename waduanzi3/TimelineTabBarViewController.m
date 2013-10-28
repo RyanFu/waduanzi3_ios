@@ -20,10 +20,11 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    self.delegate = self;
     
-    TimelineViewController *textViewController = [[TimelineViewController alloc] initWithMediaType:MEDIA_TYPE_TEXT];
     TimelineViewController *imageViewController = [[TimelineViewController alloc] initWithMediaType:MEDIA_TYPE_IMAGE];
     imageViewController.imageHeightFilter = CDImageHeightFilterOnlyShort;
+    TimelineViewController *textViewController = [[TimelineViewController alloc] initWithMediaType:MEDIA_TYPE_TEXT];
     TimelineViewController *longImageViewController = [[TimelineViewController alloc] initWithMediaType:MEDIA_TYPE_IMAGE];
     longImageViewController.imageHeightFilter = CDImageHeightFilterOnlyLong;
     TimelineViewController *videoViewController = [[TimelineViewController alloc] initWithMediaType:MEDIA_TYPE_VIDEO];
@@ -39,7 +40,7 @@
     CDNavigationController *longImageNavController = [[CDNavigationController alloc] initWithRootViewController:longImageViewController];
     longImageNavController.tabBarItem.title = @"长图";
     
-    NSArray *viewControllers = @[textNavController, imageNavController, longImageNavController, videoNavController];
+    NSArray *viewControllers = @[imageNavController, textNavController, longImageNavController, videoNavController];
     self.viewControllers = viewControllers;
     self.customizableViewControllers = viewControllers;
     self.selectedIndex = 0;
@@ -49,6 +50,11 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void) tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
+{
+    viewController.tabBarItem.badgeValue = nil;
 }
 
 @end
