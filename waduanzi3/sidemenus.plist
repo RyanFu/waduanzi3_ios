@@ -44,12 +44,26 @@
 			<string>我收藏的</string>
 			<key>tag</key>
 			<string>100</string>
+			<key>icon</key>
+			<string>FBBookmarkRateThisApp.png</string>
 		</dict>
 		<dict>
 			<key>name</key>
 			<string>我参与的</string>
 			<key>tag</key>
 			<string>110</string>
+			<key>icon</key>
+			<string>FBBookmarkPushNotifications.png</string>
+		</dict>
+	</array>
+	<array>
+		<dict>
+			<key>name</key>
+			<string>系统设置</string>
+			<key>tag</key>
+			<string>200</string>
+			<key>icon</key>
+			<string>FBBookmarkSettings.png</string>
 		</dict>
 	</array>
 </array>

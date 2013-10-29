@@ -11,6 +11,7 @@
 #import "TimelineViewController.h"
 #import "CDPost.h"
 #import "CDRestClient.h"
+#import "UMTableViewController.h"
 
 @interface TimelineTabBarViewController ()
 {
@@ -93,7 +94,11 @@
     videoNavController = [[CDNavigationController alloc] initWithRootViewController:videoViewController];
     videoNavController.tabBarItem = [[UITabBarItem alloc] initWithTitle: @"视频" image:[UIImage imageNamed:@"ios7_tabbar_contactsicon_normal"] tag:3];
     
-    NSArray *navViewControllers = @[imageNavController, textNavController, longImageNavController, videoNavController];
+    UMTableViewController *umAppViewController = [[UMTableViewController alloc] init];
+    CDNavigationController *umAppNavController = [[CDNavigationController alloc] initWithRootViewController:umAppViewController];
+    umAppNavController.tabBarItem = [[UITabBarItem alloc] initWithTitle: @"推荐" image:[UIImage imageNamed:@"ios7_tabbar_me_normal"] tag:3];
+    
+    NSArray *navViewControllers = @[imageNavController, textNavController, longImageNavController, videoNavController, umAppNavController];
     self.viewControllers = navViewControllers;
     self.selectedIndex = _prevSelectedIndex = 0;
     
@@ -107,14 +112,21 @@
 {
     @try {
         UINavigationController *navViewController = (UINavigationController *)viewController;
-        TimelineViewController *timelineViewController = [navViewController.viewControllers lastObject];
+        UIViewController *currentViewController = [navViewController.viewControllers lastObject];
         
-        if (viewController.tabBarItem.badgeValue != nil) {
-            viewController.tabBarItem.badgeValue = nil;
-            [timelineViewController refreshLatestPosts];
+        if ([currentViewController isKindOfClass:[FunnyListViewController class]]) {
+            TimelineViewController *timelineViewController = [navViewController.viewControllers lastObject];
+            
+            if (viewController.tabBarItem.badgeValue != nil) {
+                viewController.tabBarItem.badgeValue = nil;
+                [timelineViewController refreshLatestPosts];
+            }
+            else if ((_prevSelectedIndex == self.selectedIndex) && (timelineViewController.tableView.contentOffset.y > 0)) {
+                [timelineViewController.tableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
+            }
         }
-        else if ((_prevSelectedIndex == self.selectedIndex) && (timelineViewController.tableView.contentOffset.y > 0)) {
-            [timelineViewController.tableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
+        else {
+            CDLog(@"current view controller is not FunnyListViewController sub class");
         }
     }
     @catch (NSException *exception) {

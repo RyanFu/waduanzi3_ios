@@ -180,6 +180,23 @@
 		2B43D67717E4191800C48CD9 /* installnow_gray_button_background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B43D67517E4191800C48CD9 /* installnow_gray_button_background@2x.png */; };
 		2B43D67A17E4984500C48CD9 /* CDAdvert.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B43D67917E4984500C48CD9 /* CDAdvert.m */; };
 		2B43D67D17E49F3500C48CD9 /* CDKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B43D67C17E49F3500C48CD9 /* CDKit.m */; };
+		2B48FE6D181FC53300A08825 /* FBBookmarkRateThisApp.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B48FE65181FC53300A08825 /* FBBookmarkRateThisApp.png */; };
+		2B48FE6E181FC53300A08825 /* FBBookmarkPushNotifications@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B48FE66181FC53300A08825 /* FBBookmarkPushNotifications@2x.png */; };
+		2B48FE6F181FC53300A08825 /* FBBookmarkLogout@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B48FE67181FC53300A08825 /* FBBookmarkLogout@2x.png */; };
+		2B48FE70181FC53300A08825 /* FBBookmarkLogout.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B48FE68181FC53300A08825 /* FBBookmarkLogout.png */; };
+		2B48FE71181FC53300A08825 /* FBBookmarkSettings@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B48FE69181FC53300A08825 /* FBBookmarkSettings@2x.png */; };
+		2B48FE72181FC53300A08825 /* FBBookmarkSettings.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B48FE6A181FC53300A08825 /* FBBookmarkSettings.png */; };
+		2B48FE73181FC53300A08825 /* FBBookmarkRateThisApp@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B48FE6B181FC53300A08825 /* FBBookmarkRateThisApp@2x.png */; };
+		2B48FE74181FC53300A08825 /* FBBookmarkPushNotifications.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B48FE6C181FC53300A08825 /* FBBookmarkPushNotifications.png */; };
+		2B48FE7F181FDFD400A08825 /* UMTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B48FE7A181FDFD400A08825 /* UMTableViewCell.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		2B48FE80181FDFD400A08825 /* UMTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B48FE7C181FDFD400A08825 /* UMTableViewController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		2B48FE81181FDFD400A08825 /* UMTableViewLoadingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B48FE7E181FDFD400A08825 /* UMTableViewLoadingCell.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		2B48FE88181FE20C00A08825 /* ios7_tabbar_me_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B48FE82181FE20C00A08825 /* ios7_tabbar_me_normal.png */; };
+		2B48FE89181FE20C00A08825 /* ios7_tabbar_me_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B48FE83181FE20C00A08825 /* ios7_tabbar_me_normal@2x.png */; };
+		2B48FE8A181FE20C00A08825 /* ios7_tabbar_messagesicon_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B48FE84181FE20C00A08825 /* ios7_tabbar_messagesicon_normal.png */; };
+		2B48FE8B181FE20C00A08825 /* ios7_tabbar_messagesicon_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B48FE85181FE20C00A08825 /* ios7_tabbar_messagesicon_normal@2x.png */; };
+		2B48FE8C181FE20C00A08825 /* ios7_tabbar_requestsicon_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B48FE86181FE20C00A08825 /* ios7_tabbar_requestsicon_normal.png */; };
+		2B48FE8D181FE20C00A08825 /* ios7_tabbar_requestsicon_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B48FE87181FE20C00A08825 /* ios7_tabbar_requestsicon_normal@2x.png */; };
 		2B492B82167B626700BBA956 /* arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B492B69167B626700BBA956 /* arrow.png */; };
 		2B492B83167B626700BBA956 /* arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B492B6A167B626700BBA956 /* arrow@2x.png */; };
 		2B492B84167B626700BBA956 /* artwork_512.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B492B6B167B626700BBA956 /* artwork_512.png */; };
@@ -822,6 +839,26 @@
 		2B43D67917E4984500C48CD9 /* CDAdvert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDAdvert.m; sourceTree = "<group>"; };
 		2B43D67B17E49F3500C48CD9 /* CDKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDKit.h; sourceTree = "<group>"; };
 		2B43D67C17E49F3500C48CD9 /* CDKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDKit.m; sourceTree = "<group>"; };
+		2B48FE65181FC53300A08825 /* FBBookmarkRateThisApp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = FBBookmarkRateThisApp.png; sourceTree = "<group>"; };
+		2B48FE66181FC53300A08825 /* FBBookmarkPushNotifications@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FBBookmarkPushNotifications@2x.png"; sourceTree = "<group>"; };
+		2B48FE67181FC53300A08825 /* FBBookmarkLogout@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FBBookmarkLogout@2x.png"; sourceTree = "<group>"; };
+		2B48FE68181FC53300A08825 /* FBBookmarkLogout.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = FBBookmarkLogout.png; sourceTree = "<group>"; };
+		2B48FE69181FC53300A08825 /* FBBookmarkSettings@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FBBookmarkSettings@2x.png"; sourceTree = "<group>"; };
+		2B48FE6A181FC53300A08825 /* FBBookmarkSettings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = FBBookmarkSettings.png; sourceTree = "<group>"; };
+		2B48FE6B181FC53300A08825 /* FBBookmarkRateThisApp@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FBBookmarkRateThisApp@2x.png"; sourceTree = "<group>"; };
+		2B48FE6C181FC53300A08825 /* FBBookmarkPushNotifications.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = FBBookmarkPushNotifications.png; sourceTree = "<group>"; };
+		2B48FE79181FDFD400A08825 /* UMTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMTableViewCell.h; sourceTree = "<group>"; };
+		2B48FE7A181FDFD400A08825 /* UMTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UMTableViewCell.m; sourceTree = "<group>"; };
+		2B48FE7B181FDFD400A08825 /* UMTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMTableViewController.h; sourceTree = "<group>"; };
+		2B48FE7C181FDFD400A08825 /* UMTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UMTableViewController.m; sourceTree = "<group>"; };
+		2B48FE7D181FDFD400A08825 /* UMTableViewLoadingCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMTableViewLoadingCell.h; sourceTree = "<group>"; };
+		2B48FE7E181FDFD400A08825 /* UMTableViewLoadingCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UMTableViewLoadingCell.m; sourceTree = "<group>"; };
+		2B48FE82181FE20C00A08825 /* ios7_tabbar_me_normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ios7_tabbar_me_normal.png; sourceTree = "<group>"; };
+		2B48FE83181FE20C00A08825 /* ios7_tabbar_me_normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios7_tabbar_me_normal@2x.png"; sourceTree = "<group>"; };
+		2B48FE84181FE20C00A08825 /* ios7_tabbar_messagesicon_normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ios7_tabbar_messagesicon_normal.png; sourceTree = "<group>"; };
+		2B48FE85181FE20C00A08825 /* ios7_tabbar_messagesicon_normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios7_tabbar_messagesicon_normal@2x.png"; sourceTree = "<group>"; };
+		2B48FE86181FE20C00A08825 /* ios7_tabbar_requestsicon_normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ios7_tabbar_requestsicon_normal.png; sourceTree = "<group>"; };
+		2B48FE87181FE20C00A08825 /* ios7_tabbar_requestsicon_normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios7_tabbar_requestsicon_normal@2x.png"; sourceTree = "<group>"; };
 		2B492B69167B626700BBA956 /* arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow.png; sourceTree = "<group>"; };
 		2B492B6A167B626700BBA956 /* arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow@2x.png"; sourceTree = "<group>"; };
 		2B492B6B167B626700BBA956 /* artwork_512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = artwork_512.png; sourceTree = "<group>"; };
@@ -1691,6 +1728,19 @@
 			path = DomobAdSDKBundle;
 			sourceTree = "<group>";
 		};
+		2B48FE78181FDFD400A08825 /* TableView */ = {
+			isa = PBXGroup;
+			children = (
+				2B48FE79181FDFD400A08825 /* UMTableViewCell.h */,
+				2B48FE7A181FDFD400A08825 /* UMTableViewCell.m */,
+				2B48FE7B181FDFD400A08825 /* UMTableViewController.h */,
+				2B48FE7C181FDFD400A08825 /* UMTableViewController.m */,
+				2B48FE7D181FDFD400A08825 /* UMTableViewLoadingCell.h */,
+				2B48FE7E181FDFD400A08825 /* UMTableViewLoadingCell.m */,
+			);
+			path = TableView;
+			sourceTree = "<group>";
+		};
 		2B48FF33175605E500FFF85B /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -2113,6 +2163,7 @@
 		2BD425C117EBCCDD001D238F /* UMAppNetwork_SDK_3.5.6 */ = {
 			isa = PBXGroup;
 			children = (
+				2B48FE78181FDFD400A08825 /* TableView */,
 				2BD425C217EBCCDD001D238F /* libUMAppNetwork_3.5.6.a */,
 				2BD425C317EBCCDD001D238F /* UMUFP.bundle */,
 				2BD425C417EBCCDD001D238F /* UMUFPBadgeView.h */,
@@ -2401,6 +2452,14 @@
 		2BED82F8167B5ED20025E9C4 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				2B48FE65181FC53300A08825 /* FBBookmarkRateThisApp.png */,
+				2B48FE66181FC53300A08825 /* FBBookmarkPushNotifications@2x.png */,
+				2B48FE67181FC53300A08825 /* FBBookmarkLogout@2x.png */,
+				2B48FE68181FC53300A08825 /* FBBookmarkLogout.png */,
+				2B48FE69181FC53300A08825 /* FBBookmarkSettings@2x.png */,
+				2B48FE6A181FC53300A08825 /* FBBookmarkSettings.png */,
+				2B48FE6B181FC53300A08825 /* FBBookmarkRateThisApp@2x.png */,
+				2B48FE6C181FC53300A08825 /* FBBookmarkPushNotifications.png */,
 				2B6F12AC181E2CFE0099E313 /* ios7_tabbar_contactsicon_normal.png */,
 				2B6F12AD181E2CFE0099E313 /* ios7_tabbar_contactsicon_normal@2x.png */,
 				2B6F12AE181E2CFE0099E313 /* ios7_tabbar_feedicon_normal.png */,
@@ -2409,6 +2468,12 @@
 				2B6F12B1181E2CFE0099E313 /* ios7_tabbar_notificationsicon_normal@2x.png */,
 				2B6F12A8181E2B5E0099E313 /* ios7_tabbar_moreicon_normal@2x.png */,
 				2B6F12A9181E2B5E0099E313 /* ios7_tabbar_moreicon_normal.png */,
+				2B48FE82181FE20C00A08825 /* ios7_tabbar_me_normal.png */,
+				2B48FE83181FE20C00A08825 /* ios7_tabbar_me_normal@2x.png */,
+				2B48FE84181FE20C00A08825 /* ios7_tabbar_messagesicon_normal.png */,
+				2B48FE85181FE20C00A08825 /* ios7_tabbar_messagesicon_normal@2x.png */,
+				2B48FE86181FE20C00A08825 /* ios7_tabbar_requestsicon_normal.png */,
+				2B48FE87181FE20C00A08825 /* ios7_tabbar_requestsicon_normal@2x.png */,
 				2BD0117317CA4E6A00825869 /* post_default.css */,
 				2BA6637317F1E0630012C02D /* copy_icon.png */,
 				2BA6637417F1E0630012C02D /* copy_icon@2x.png */,
@@ -2755,6 +2820,7 @@
 				2B1469F71814C92900D4D291 /* UMSLoginViewController.xib in Resources */,
 				2B492B83167B626700BBA956 /* arrow@2x.png in Resources */,
 				2BD588E6181ECB48007B0A7B /* adwo_audioShare.png in Resources */,
+				2B48FE8A181FE20C00A08825 /* ios7_tabbar_messagesicon_normal.png in Resources */,
 				2B492B84167B626700BBA956 /* artwork_512.png in Resources */,
 				2B492B85167B626700BBA956 /* button_save.png in Resources */,
 				2B613E42181E93750017DCF9 /* hengtiao.png in Resources */,
@@ -2762,6 +2828,7 @@
 				2B492B86167B626700BBA956 /* button_save@2x.png in Resources */,
 				2B492B97167B626700BBA956 /* thumb_placeholder.png in Resources */,
 				2B613E0C181E93750017DCF9 /* adsmogo_btnbg.png in Resources */,
+				2B48FE88181FE20C00A08825 /* ios7_tabbar_me_normal.png in Resources */,
 				2B492B98167B626700BBA956 /* thumb_placeholder@2x.png in Resources */,
 				2B613E17181E93750017DCF9 /* adsmogo_picrollbg.png in Resources */,
 				2B613E1E181E93750017DCF9 /* shareviewhead_icon@2x.png in Resources */,
@@ -2773,6 +2840,7 @@
 				2BFEBD7D16E781CE00D8D363 /* menu_table_bg.png in Resources */,
 				2BFEBD8116E783D600D8D363 /* menu_cell_bg.png in Resources */,
 				2BFEBD8316E7848C00D8D363 /* menu_cell_separator.png in Resources */,
+				2B48FE8B181FE20C00A08825 /* ios7_tabbar_messagesicon_normal@2x.png in Resources */,
 				2B613E33181E93750017DCF9 /* webview_bar_next_ipad@2x.png in Resources */,
 				2B0A609F181ECCBC00E9DF6D /* adchina_forward.png in Resources */,
 				2BDD705E177F5EB000421915 /* accessory_arrow@2x.png in Resources */,
@@ -2780,6 +2848,7 @@
 				2BDD7064177F608200421915 /* login_button_flat_active@2x.png in Resources */,
 				2BDD7065177F608200421915 /* login_button_flat_active.png in Resources */,
 				2BDD7066177F608200421915 /* login_button_flat@2x.png in Resources */,
+				2B48FE6E181FC53300A08825 /* FBBookmarkPushNotifications@2x.png in Resources */,
 				2BDD7067177F608200421915 /* login_button_flat.png in Resources */,
 				2BDD706A177F637400421915 /* button_go_arrow_active.png in Resources */,
 				2BDD706B177F637400421915 /* button_go_arrow.png in Resources */,
@@ -2799,6 +2868,7 @@
 				2B613E1D181E93750017DCF9 /* shareviewhead_bg@2x.png in Resources */,
 				2B623B161792F07D00D3270D /* mqz_feed_like_disable@2x.png in Resources */,
 				2B623B171792F07D00D3270D /* mqz_feed_comment_normal@2x.png in Resources */,
+				2B48FE8D181FE20C00A08825 /* ios7_tabbar_requestsicon_normal@2x.png in Resources */,
 				2B6F12AB181E2B5E0099E313 /* ios7_tabbar_moreicon_normal.png in Resources */,
 				2B613E0E181E93750017DCF9 /* download-468x60.gif in Resources */,
 				2B623B181792F07D00D3270D /* mqz_feed_comment_disable@2x.png in Resources */,
@@ -2843,6 +2913,7 @@
 				2B0C2D6617E3203A00A1AE26 /* videos.png in Resources */,
 				2B613E31181E93750017DCF9 /* webview_bar_close_ipad@2x.png in Resources */,
 				2B623B671792F09800D3270D /* camera icon_disable.png in Resources */,
+				2B48FE8C181FE20C00A08825 /* ios7_tabbar_requestsicon_normal.png in Resources */,
 				2B623B681792F09800D3270D /* camera icon_disable@2x.png in Resources */,
 				2B6F12B6181E2CFE0099E313 /* ios7_tabbar_feedicon_normal@2x.png in Resources */,
 				2B623B691792F09800D3270D /* camera icon.png in Resources */,
@@ -2898,6 +2969,7 @@
 				2B613E12181E93750017DCF9 /* website-468x60.gif in Resources */,
 				2B623B831792F09800D3270D /* close@2x.png in Resources */,
 				2B613E16181E93750017DCF9 /* adsmogo_corner.png in Resources */,
+				2B48FE72181FC53300A08825 /* FBBookmarkSettings.png in Resources */,
 				2B623B841792F09800D3270D /* checkbox_checked@2x.png in Resources */,
 				2B623B851792F09800D3270D /* checkbox_normal@2x.png in Resources */,
 				2BD588EC181ECB48007B0A7B /* adwo_takephoto.png in Resources */,
@@ -2908,6 +2980,7 @@
 				2B623B971792F73D00D3270D /* ButtonAction@2x.png in Resources */,
 				2B623B981792F73D00D3270D /* ButtonNext.png in Resources */,
 				2B623B991792F73D00D3270D /* ButtonNext@2x.png in Resources */,
+				2B48FE74181FC53300A08825 /* FBBookmarkPushNotifications.png in Resources */,
 				2B623B9A1792F73D00D3270D /* ButtonPrevious.png in Resources */,
 				2B613E48181E93760017DCF9 /* sms.png in Resources */,
 				2B623B9B1792F73D00D3270D /* ButtonPrevious@2x.png in Resources */,
@@ -2951,6 +3024,8 @@
 				2B613E30181E93750017DCF9 /* webview_bar_close_hover_ipad@2x.png in Resources */,
 				2B0AEC221797870400AFBAFA /* FBSideBarCellBackground.png in Resources */,
 				2B0AEC231797870400AFBAFA /* FBSideBarCellBackground@2x.png in Resources */,
+				2B48FE6F181FC53300A08825 /* FBBookmarkLogout@2x.png in Resources */,
+				2B48FE6D181FC53300A08825 /* FBBookmarkRateThisApp.png in Resources */,
 				2B0AEC241797870400AFBAFA /* FBSideBarCellBackgroundSelected.png in Resources */,
 				2B0AEC251797870400AFBAFA /* FBSideBarCellBackgroundSelected@2x.png in Resources */,
 				2B0AEC2D17978BDE00AFBAFA /* FBMenuSectionHeaderBackground.png in Resources */,
@@ -2986,6 +3061,7 @@
 				2B613E09181E93750017DCF9 /* adsmogo_adclose.png in Resources */,
 				2B0AEC531797C01A00AFBAFA /* UISearchBarBackground.png in Resources */,
 				2B0AEC541797C01A00AFBAFA /* UISearchBarBackground@2x.png in Resources */,
+				2B48FE71181FC53300A08825 /* FBBookmarkSettings@2x.png in Resources */,
 				2B613E4C181E93760017DCF9 /* webview_bar_close_hover.png in Resources */,
 				2B0AEC571797C11300AFBAFA /* NavBarBackground.png in Resources */,
 				2B0AEC581797C11300AFBAFA /* NavBarBackground@2x.png in Resources */,
@@ -3071,6 +3147,7 @@
 				2B1469FA1814C92900D4D291 /* UMSocialSDKResourcesNew.bundle in Resources */,
 				2B613E46181E93760017DCF9 /* shareviewhead_bg.png in Resources */,
 				2B3954DB179AB0AF005998D0 /* FeedbackBubbleNavBarBackArrowPressed.png in Resources */,
+				2B48FE73181FC53300A08825 /* FBBookmarkRateThisApp@2x.png in Resources */,
 				2B3954DC179AB0AF005998D0 /* FeedbackBubbleNavBarBackArrowPressed@2x.png in Resources */,
 				2B80480F179E227D006F332F /* loginTexture.png in Resources */,
 				2B804810179E227D006F332F /* loginTexture@2x.png in Resources */,
@@ -3083,6 +3160,7 @@
 				2B804821179E2B59006F332F /* loginSignUpButtonBackground.png in Resources */,
 				2B804822179E2B59006F332F /* loginSignUpButtonBackground@2x.png in Resources */,
 				2B6F12AA181E2B5E0099E313 /* ios7_tabbar_moreicon_normal@2x.png in Resources */,
+				2B48FE70181FC53300A08825 /* FBBookmarkLogout.png in Resources */,
 				2B804823179E2B59006F332F /* loginSignUpButtonBackgroundPressed.png in Resources */,
 				2B804824179E2B59006F332F /* loginSignUpButtonBackgroundPressed@2x.png in Resources */,
 				2B80482E179E5638006F332F /* Localizable.strings in Resources */,
@@ -3129,6 +3207,7 @@
 				2BB46D0B17C5D49F00C35084 /* umeng_ad_handle_press.png in Resources */,
 				2BB46D0C17C5D49F00C35084 /* umeng_ad_handle_press@2x.png in Resources */,
 				2BB46D0D17C5D49F00C35084 /* umeng_ad_handle.png in Resources */,
+				2B48FE89181FE20C00A08825 /* ios7_tabbar_me_normal@2x.png in Resources */,
 				2B613E49181E93760017DCF9 /* webview_bar_back.png in Resources */,
 				2BB46D0E17C5D49F00C35084 /* umeng_ad_handle@2x.png in Resources */,
 				2B613E3E181E93750017DCF9 /* webview_bar_pause_ipad.png in Resources */,
@@ -3216,6 +3295,7 @@
 				2B569BA4176F3E6400B34E0C /* BestViewController.m in Sources */,
 				2B1B14E217E9CF8D00CC0377 /* CDQuickDialogController.m in Sources */,
 				2B65AD3217EBEB8E00E444D9 /* UIView+Border.m in Sources */,
+				2B48FE81181FDFD400A08825 /* UMTableViewLoadingCell.m in Sources */,
 				2B0A60A9181ECCBC00E9DF6D /* AdMoGoAdapterAdChinaFullAd.m in Sources */,
 				2B569BA7176F3E7500B34E0C /* HistoryViewController.m in Sources */,
 				2B569BAA176F3E8400B34E0C /* MediaTypeViewController.m in Sources */,
@@ -3227,6 +3307,7 @@
 				2BC9552F1771E4AE00568E54 /* UserSignupViewController.m in Sources */,
 				2B0A60C0181ECD3A00E9DF6D /* AdMoGoAdadpterAdermobInterstital.m in Sources */,
 				2B318A0E17E7F22000EC7B70 /* UIImage+ColorImage.m in Sources */,
+				2B48FE80181FDFD400A08825 /* UMTableViewController.m in Sources */,
 				2BC955321771F59D00568E54 /* CDTextField.m in Sources */,
 				2B0929EC1773950C0051D1DC /* NSString+MD5.m in Sources */,
 				2BC0D3B9181BDD3C0053A593 /* HistoryTabBarViewController.m in Sources */,
@@ -3280,6 +3361,7 @@
 				2BAC67E917BB62D300B9768E /* CDUserConfig.m in Sources */,
 				2BAC67F317BBC66400B9768E /* PostFontPickerValueParser.m in Sources */,
 				2B0A60AF181ECCBC00E9DF6D /* SBJsonBase.m in Sources */,
+				2B48FE7F181FDFD400A08825 /* UMTableViewCell.m in Sources */,
 				2BAC67F617BBCD1200B9768E /* CommentFontPickerValueParser.m in Sources */,
 				2B1B14DC17E9CE2400CC0377 /* CDTableViewController.m in Sources */,
 				2BD0116C17C9E78800825869 /* ArticleDetailViewController.m in Sources */,

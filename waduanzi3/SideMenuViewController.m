@@ -39,6 +39,7 @@
     NSArray *_sectionHeaderTitles;
 }
 - (void) setupNavBarButtonItem;
+- (void) openSettingController;
 @end
 
 @implementation SideMenuViewController
@@ -47,7 +48,7 @@
 {
     self = [super initWithStyle:style];
     if (self) {
-        _sectionHeaderTitles = @[@"", @"分类", @"我的"];
+        _sectionHeaderTitles = @[@"", @"频道", @"我的", @"其它"];
         
         NSString * sidemenus = [[NSBundle mainBundle] pathForResource:@"sidemenus" ofType:@"plist"];
         menuData = [NSMutableArray arrayWithContentsOfFile:sidemenus];
@@ -84,7 +85,7 @@
     UIBarButtonItem *_leftButton = [[UIBarButtonItem alloc] initWithTitle:@"登录" style:UIBarButtonItemStyleBordered target:self action:@selector(openUserViewController)];
     self.navigationItem.leftBarButtonItem = _leftButton;
     
-    _settingButton = [[UIBarButtonItem alloc] initWithTitle:@"设置" style:UIBarButtonItemStyleBordered target:self action:@selector(openSettingController:)];
+    _settingButton = [[UIBarButtonItem alloc] initWithTitle:@"设置" style:UIBarButtonItemStyleBordered target:self action:@selector(openSettingController)];
     UIBarButtonItem *flexButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
     flexButton.width = DECK_LEFT_SIZE;
     NSArray *rightButtons = [NSArray arrayWithObjects:flexButton, _settingButton, nil];
@@ -171,6 +172,17 @@
         [self performSelector:@selector(openUserLoginController)];
         return ;
     }
+    else if (indexPath.section == 3) {
+        switch (indexPath.row) {
+            case 0:
+                [self openSettingController];
+                return;
+                break;
+            default:
+                break;
+        }
+    }
+    
     
     [self.viewDeckController closeLeftViewAnimated:YES completion:^(IIViewDeckController *controller, BOOL success) {
         CDNavigationController *centerViewController;
@@ -255,7 +267,6 @@
                     centerViewController = [[CDNavigationController alloc] initWithRootViewController:myshareController];
                     self.viewDeckController.centerController = centerViewController;
                     break;
-                    
                 default:
                     break;
             }
@@ -266,7 +277,7 @@
 
 #pragma mark - button item selector
 
-- (void) openSettingController:(id)sender
+- (void) openSettingController
 {
     SettingViewController *settingController = [[SettingViewController alloc] init];
     CDNavigationController *settingNavController = [[CDNavigationController alloc] initWithRootViewController:settingController];

@@ -9,6 +9,7 @@
 #import "CDNavigationController.h"
 #import "BestTabBarViewController.h"
 #import "BestViewController.h"
+#import "UMTableViewController.h"
 
 @interface BestTabBarViewController ()
 
@@ -39,7 +40,12 @@
     CDNavigationController *videoNavController = [[CDNavigationController alloc] initWithRootViewController:videoViewController];
     videoNavController.tabBarItem = [[UITabBarItem alloc] initWithTitle: @"视频" image:[UIImage imageNamed:@"ios7_tabbar_contactsicon_normal"] tag:3];
     
-    NSArray *viewControllers = @[imageNavController, textNavController, longImageNavController, videoNavController];
+    UMTableViewController *umAppViewController = [[UMTableViewController alloc] init];
+    CDNavigationController *umAppNavController = [[CDNavigationController alloc] initWithRootViewController:umAppViewController];
+    umAppNavController.tabBarItem = [[UITabBarItem alloc] initWithTitle: @"推荐" image:[UIImage imageNamed:@"ios7_tabbar_me_normal"] tag:3];
+    
+    NSArray *viewControllers = @[imageNavController, textNavController, longImageNavController, videoNavController, umAppNavController];
+
     self.viewControllers = viewControllers;
     self.selectedIndex = 0;
 }
