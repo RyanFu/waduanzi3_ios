@@ -376,7 +376,6 @@
 		2B69665A17E36683001A5DF6 /* MBProgressHUD+Custom.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B69665917E36683001A5DF6 /* MBProgressHUD+Custom.m */; };
 		2B6978EB17E0E57900606B2C /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B6978EA17E0E57800606B2C /* CoreTelephony.framework */; };
 		2B69790217E0E63B00606B2C /* BPushConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2B69790117E0E63B00606B2C /* BPushConfig.plist */; };
-		2B69790D17E0F0BC00606B2C /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B69790C17E0F0BC00606B2C /* JSONKit.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		2B6F12AA181E2B5E0099E313 /* ios7_tabbar_moreicon_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B6F12A8181E2B5E0099E313 /* ios7_tabbar_moreicon_normal@2x.png */; };
 		2B6F12AB181E2B5E0099E313 /* ios7_tabbar_moreicon_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B6F12A9181E2B5E0099E313 /* ios7_tabbar_moreicon_normal.png */; };
 		2B6F12B2181E2CFE0099E313 /* ios7_tabbar_contactsicon_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B6F12AC181E2CFE0099E313 /* ios7_tabbar_contactsicon_normal.png */; };
@@ -415,6 +414,7 @@
 		2B924CDA179533DE00686A94 /* mqz_bottom_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B924CD9179533DE00686A94 /* mqz_bottom_bg@2x.png */; };
 		2B98782917AF95130061E344 /* UserConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B98782817AF95130061E344 /* UserConfig.m */; };
 		2B98782D17AFE2C50061E344 /* FeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B98782C17AFE2C50061E344 /* FeedbackViewController.m */; };
+		2B9B780A181F9C8900B35636 /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B9B7809181F9C8900B35636 /* JSONKit.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		2B9C27DF17E1064E00C823EC /* Icon-120x120.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B9C27DE17E1064E00C823EC /* Icon-120x120.png */; };
 		2B9C27E317E1070A00C823EC /* Icon-29x29.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B9C27E017E1070A00C823EC /* Icon-29x29.png */; };
 		2B9C27E417E1070A00C823EC /* Icon-58x58.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B9C27E117E1070A00C823EC /* Icon-58x58.png */; };
@@ -1061,8 +1061,6 @@
 		2B69665917E36683001A5DF6 /* MBProgressHUD+Custom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MBProgressHUD+Custom.m"; sourceTree = "<group>"; };
 		2B6978EA17E0E57800606B2C /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		2B69790117E0E63B00606B2C /* BPushConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = BPushConfig.plist; sourceTree = "<group>"; };
-		2B69790B17E0F0BC00606B2C /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONKit.h; sourceTree = "<group>"; };
-		2B69790C17E0F0BC00606B2C /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONKit.m; sourceTree = "<group>"; };
 		2B6F12A8181E2B5E0099E313 /* ios7_tabbar_moreicon_normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios7_tabbar_moreicon_normal@2x.png"; sourceTree = "<group>"; };
 		2B6F12A9181E2B5E0099E313 /* ios7_tabbar_moreicon_normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ios7_tabbar_moreicon_normal.png; sourceTree = "<group>"; };
 		2B6F12AC181E2CFE0099E313 /* ios7_tabbar_contactsicon_normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ios7_tabbar_contactsicon_normal.png; sourceTree = "<group>"; };
@@ -1108,6 +1106,8 @@
 		2B98782817AF95130061E344 /* UserConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserConfig.m; sourceTree = "<group>"; };
 		2B98782B17AFE2C50061E344 /* FeedbackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedbackViewController.h; sourceTree = "<group>"; };
 		2B98782C17AFE2C50061E344 /* FeedbackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedbackViewController.m; sourceTree = "<group>"; };
+		2B9B7808181F9C8900B35636 /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONKit.h; sourceTree = "<group>"; };
+		2B9B7809181F9C8900B35636 /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONKit.m; sourceTree = "<group>"; };
 		2B9C27DE17E1064E00C823EC /* Icon-120x120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-120x120.png"; sourceTree = "<group>"; };
 		2B9C27E017E1070A00C823EC /* Icon-29x29.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-29x29.png"; sourceTree = "<group>"; };
 		2B9C27E117E1070A00C823EC /* Icon-58x58.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-58x58.png"; sourceTree = "<group>"; };
@@ -1995,15 +1995,6 @@
 			path = opensource;
 			sourceTree = "<group>";
 		};
-		2B69790A17E0F0BC00606B2C /* JSONKit */ = {
-			isa = PBXGroup;
-			children = (
-				2B69790B17E0F0BC00606B2C /* JSONKit.h */,
-				2B69790C17E0F0BC00606B2C /* JSONKit.m */,
-			);
-			path = JSONKit;
-			sourceTree = "<group>";
-		};
 		2B77495317F16D1300E0CC31 /* Categores */ = {
 			isa = PBXGroup;
 			children = (
@@ -2023,6 +2014,15 @@
 				2B2C8B4A181CC92800C80E22 /* UITabBarController+Roration_iOS6.m */,
 			);
 			name = Categores;
+			sourceTree = "<group>";
+		};
+		2B9B7807181F9C8900B35636 /* JSONKit */ = {
+			isa = PBXGroup;
+			children = (
+				2B9B7808181F9C8900B35636 /* JSONKit.h */,
+				2B9B7809181F9C8900B35636 /* JSONKit.m */,
+			);
+			path = JSONKit;
 			sourceTree = "<group>";
 		};
 		2BCFA8C816E4DFA900521DEC /* Classes */ = {
@@ -2348,11 +2348,11 @@
 		2BED8226167B59320025E9C4 /* Vendors */ = {
 			isa = PBXGroup;
 			children = (
+				2B9B7807181F9C8900B35636 /* JSONKit */,
 				2B1469CB1814C92900D4D291 /* UMSocial_Sdk_3.1 */,
 				2B65AD2117EBD01000E444D9 /* Baidu-Push-SDK-iOS-L1-1.1.0 */,
 				2B65AD1B17EBCF6400E444D9 /* UMAnalytics_Sdk_2.2.1.OpenUDID */,
 				2BD425C117EBCCDD001D238F /* UMAppNetwork_SDK_3.5.6 */,
-				2B69790A17E0F0BC00606B2C /* JSONKit */,
 				2BD4587017CDA34200CB2B01 /* MACAddress */,
 			);
 			name = Vendors;
@@ -3273,6 +3273,7 @@
 				2BEA374117A7CB6A004EDCBC /* UpdateProfileViewController.m in Sources */,
 				2B169C3417A8BC9700C54E55 /* MyFeedbackViewController.m in Sources */,
 				2BCB1D7017AE0E02008BC470 /* CDCommon.m in Sources */,
+				2B9B780A181F9C8900B35636 /* JSONKit.m in Sources */,
 				2B1469FD1814D10D00D4D291 /* FunnyListViewController.m in Sources */,
 				2B98782917AF95130061E344 /* UserConfig.m in Sources */,
 				2B98782D17AFE2C50061E344 /* FeedbackViewController.m in Sources */,
@@ -3286,7 +3287,6 @@
 				2BD0117217CA252F00825869 /* FunnyDetailViewController.m in Sources */,
 				2BD4587317CDA34200CB2B01 /* MACAddress.m in Sources */,
 				2B1B14E817E9D3D800CC0377 /* UINavigationController+Roration_iOS6.m in Sources */,
-				2B69790D17E0F0BC00606B2C /* JSONKit.m in Sources */,
 				2B0A60AD181ECCBC00E9DF6D /* NSString+SBJSON.m in Sources */,
 				2BD588C6181ECB27007B0A7B /* AdMoGoAdapterGoogleAdMobAds.m in Sources */,
 			);
@@ -3388,7 +3388,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "waduanzi3/waduanzi3-Prefix.pch";
 				INFOPLIST_FILE = "waduanzi3/waduanzi3-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/data/iOS/waduanzi3/UMAnalytics_Sdk_2.2.1.OpenUDID,
@@ -3460,7 +3460,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "waduanzi3/waduanzi3-Prefix.pch";
 				INFOPLIST_FILE = "waduanzi3/waduanzi3-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/data/iOS/waduanzi3/UMAnalytics_Sdk_2.2.1.OpenUDID,
