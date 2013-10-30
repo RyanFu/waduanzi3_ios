@@ -71,14 +71,14 @@
     
     // textLabel
     self.textLabel.numberOfLines = 0;
-    self.textLabel.lineBreakMode = UILineBreakModeWordWrap;
+    self.textLabel.lineBreakMode = NSLineBreakByWordWrapping;
     self.textLabel.font = [UIFont fontWithName:FZLTHK_FONT_NAME size:14.0f];
     self.textLabel.textColor = COMMENT_TEXT_COLOR;
     self.textLabel.backgroundColor = [UIColor clearColor];
     
     // detailLabel
     self.detailTextLabel.numberOfLines = 0;
-    self.detailTextLabel.lineBreakMode = UILineBreakModeWordWrap;
+    self.detailTextLabel.lineBreakMode = NSLineBreakByWordWrapping;
     self.detailTextLabel.font = [UIFont fontWithName:FZLTHK_FONT_NAME size:12.0f];
     self.detailTextLabel.textColor = [UIColor colorWithRed:0.50f green:0.50f blue:0.50f alpha:1.00f];
     self.detailTextLabel.backgroundColor = [UIColor clearColor];
@@ -113,7 +113,7 @@
     // orderLabel
     CGSize orderLabelSize = [self.orderTextLabel.text sizeWithFont:self.orderTextLabel.font
                                                    constrainedToSize:CGSizeMake(contentViewWidth, 9999.0)
-                                                       lineBreakMode:UILineBreakModeWordWrap];
+                                                       lineBreakMode:NSLineBreakByWordWrapping];
     CGRect orderLabelFrame = CGRectMake(cellContentViewSize.width - _padding - orderLabelSize.width, widgetY, orderLabelSize.width, widgetHeight);
     [_orderTextLabel setFrame:orderLabelFrame];
     [_orderTextLabel sizeToFit];
@@ -130,7 +130,7 @@
     if (self.textLabel.text.length > 0) {
         CGSize titleLabelSize = [self.textLabel.text sizeWithFont:self.textLabel.font
                                                        constrainedToSize:CGSizeMake(contentViewWidth, 9999.0)
-                                                           lineBreakMode:UILineBreakModeWordWrap];
+                                                           lineBreakMode:NSLineBreakByWordWrapping];
         
         widgetHeight = titleLabelSize.height;
         CGRect titleLabelFrame = CGRectMake(subContentViewX, widgetY, subContentViewWidth, widgetHeight);
@@ -143,7 +143,7 @@
     if (self.detailTextLabel.text.length > 0) {
         CGSize detailLabelSize = [self.detailTextLabel.text sizeWithFont:self.detailTextLabel.font
                                                 constrainedToSize:CGSizeMake(contentViewWidth, 9999.0)
-                                                    lineBreakMode:UILineBreakModeWordWrap];
+                                                    lineBreakMode:NSLineBreakByWordWrapping];
         widgetHeight = detailLabelSize.height;
         CGRect detailLabelFrame = CGRectMake(subContentViewX, widgetY, subContentViewWidth, widgetHeight);
         [self.detailTextLabel setFrame:detailLabelFrame];

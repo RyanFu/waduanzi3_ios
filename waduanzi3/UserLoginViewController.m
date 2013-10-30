@@ -22,6 +22,7 @@
 #import "CDSocialKit.h"
 #import "WBErrorNoticeView+WaduanziMethod.h"
 #import "UIView+Border.h"
+#import "UIImage+ColorImage.h"
 
 @interface UserLoginViewController ()
 - (void) setupNavbar;
@@ -139,8 +140,6 @@
 
 - (void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-
     QSection *section = [self.root getVisibleSectionForIndex:indexPath.section];
     QElement *element = [section getVisibleElementForIndex: indexPath.row];
     
@@ -156,6 +155,7 @@
         if (IS_IOS7) {
             cell.backgroundColor = [UIColor colorWithRed:0.31f green:0.42f blue:0.64f alpha:1.00f];
             cell.textLabel.textColor = [UIColor colorWithRed:0.91f green:0.92f blue:0.93f alpha:1.00f];
+            cell.selectedBackgroundView = [[UIImageView alloc] initWithImage:[UIImage imageWithColor:[UIColor colorWithRed:0.30f green:0.40f blue:0.60f alpha:1.00f] size:CGSizeMake(1, 1)]];
         }
         else {
             cell.backgroundColor = [UIColor clearColor];
@@ -179,7 +179,7 @@
         cell.textLabel.textColor = [UIColor whiteColor];
 
         UIView *backgroundView = [[UIView alloc] init];
-        UIImageView *imageView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"loginSignUpButtonBackground.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 5, 0, 5)]];
+        UIImageView *imageView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"loginSignUpButtonBackground"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 5, 0, 5)]];
         [backgroundView addSubview:imageView];
         CGSize textSize = [buttonElement.title sizeWithFont:cell.textLabel.font];
         CGFloat buttonWidth = textSize.width + 40.0f;
@@ -188,10 +188,14 @@
         cell.backgroundView = backgroundView;
         
         UIView *selectedBackgroundView = [[UIView alloc] init];
-        UIImageView *selectedImageView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"loginSignUpButtonBackgroundPressed.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 5, 0, 5)]];
+        UIImageView *selectedImageView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"loginSignUpButtonBackgroundPressed"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 5, 0, 5)]];
         [selectedBackgroundView addSubview:selectedImageView];
         selectedImageView.frame = imageView.frame;
         cell.selectedBackgroundView = selectedBackgroundView;
+    }
+    
+    if ([element.key isEqualToString:@"key_username"] || [element.key isEqualToString:@"key_password"]) {
+        cell.selectedBackgroundView = [[UIImageView alloc] initWithImage:[UIImage imageWithColor:[UIColor whiteColor] size:CGSizeMake(1, 1)]];
     }
 }
 

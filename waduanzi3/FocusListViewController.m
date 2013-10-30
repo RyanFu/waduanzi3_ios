@@ -240,4 +240,32 @@
     self.tableView.frame = tableViewFrame;
 }
 
+
+#pragma mark - AdMoGoWebBrowserControllerUserDelegate
+
+- (void) webBrowserWillAppear
+{
+    
+}
+
+- (void) webBrowserDidAppear
+{
+    
+}
+
+- (void) webBrowserWillClosed
+{
+    
+}
+
+- (void) webBrowserDidClosed
+{
+    
+}
+
+- (void) webBrowserShare:(NSString *)url
+{
+    
+}
+
 @end

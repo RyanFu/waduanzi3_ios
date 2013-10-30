@@ -8,6 +8,6 @@
 
 #import "QuickDialogController.h"
 
-@interface CDQuickDialogController : QuickDialogController
+@interface CDQuickDialogController : QuickDialogController <UIGestureRecognizerDelegate>
 
 @end

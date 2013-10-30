@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CDViewController : UIViewController
+@interface CDViewController : UIViewController <UIGestureRecognizerDelegate>
 
 @end

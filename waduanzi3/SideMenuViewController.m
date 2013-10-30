@@ -103,7 +103,13 @@
     [super viewWillAppear:animated];
     
     NSString *leftButtonTitle = [[CDSession shareInstance] hasLogined] ? [[CDSession shareInstance] currentUser].screen_name : @"登录";
+    
+    CGSize titleSize = [leftButtonTitle sizeWithAttributes:[self.navigationItem.leftBarButtonItem titleTextAttributesForState:UIControlStateNormal]];
+    if (titleSize.width > 130.f) {
+        leftButtonTitle = [[leftButtonTitle substringToIndex:6] stringByAppendingString:@"..."];
+    }
     self.navigationItem.leftBarButtonItem.title = leftButtonTitle;
+
 }
 
 #pragma mark - Table view data source

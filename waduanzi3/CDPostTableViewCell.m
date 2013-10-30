@@ -108,13 +108,13 @@
     // textLabel
     self.textLabel.backgroundColor = [UIColor clearColor];
     self.textLabel.numberOfLines = 0;
-    self.textLabel.lineBreakMode = UILineBreakModeWordWrap;
+    self.textLabel.lineBreakMode = NSLineBreakByWordWrapping;
     self.textLabel.textColor = POST_TEXT_COLOR;
     
     //detailTextLabel
     self.detailTextLabel.backgroundColor = [UIColor clearColor];
     self.detailTextLabel.numberOfLines = 0;
-    self.detailTextLabel.lineBreakMode = UILineBreakModeWordWrap;
+    self.detailTextLabel.lineBreakMode = NSLineBreakByWordWrapping;
     self.detailTextLabel.textColor = POST_TEXT_COLOR;
     
     // imageView
@@ -172,7 +172,7 @@
     if (self.textLabel.text.length > 0) {
         CGSize titleLabelSize = [self.textLabel.text sizeWithFont:self.textLabel.font
                                                        constrainedToSize:CGSizeMake(contentBlockWidth, 9999.0)
-                                                           lineBreakMode:UILineBreakModeCharacterWrap];
+                                                           lineBreakMode:NSLineBreakByWordWrapping];
         
         widgetHeight = titleLabelSize.height;
         CGRect titleLabelFrame = CGRectMake(_contentPadding.left, widgetY, contentBlockWidth, widgetHeight);
@@ -185,7 +185,7 @@
     if (self.detailTextLabel.text.length > 0) {
         CGSize detailLabelSize = [self.detailTextLabel.text sizeWithFont:self.detailTextLabel.font
                                                 constrainedToSize:CGSizeMake(contentBlockWidth, 9999.0)
-                                                    lineBreakMode:UILineBreakModeCharacterWrap];
+                                                    lineBreakMode:NSLineBreakByWordWrapping];
         widgetHeight = detailLabelSize.height;
         CGRect detailLabelFrame = CGRectMake(_contentPadding.left, widgetY, contentBlockWidth, widgetHeight);
         [self.detailTextLabel setFrame:detailLabelFrame];
@@ -283,7 +283,7 @@
     if (self.textLabel.text.length > 0) {
         CGSize titleLabelSize = [self.textLabel.text sizeWithFont:self.textLabel.font
                                                 constrainedToSize:CGSizeMake(contentBlockWidth, 9999.0)
-                                                    lineBreakMode:UILineBreakModeCharacterWrap];
+                                                    lineBreakMode:NSLineBreakByWordWrapping];
         
         height += titleLabelSize.height + _separatorHeight;
     }
@@ -292,7 +292,7 @@
     if (self.detailTextLabel.text.length > 0) {
         CGSize detailLabelSize = [self.detailTextLabel.text sizeWithFont:self.detailTextLabel.font
                                                        constrainedToSize:CGSizeMake(contentBlockWidth, 9999.0)
-                                                           lineBreakMode:UILineBreakModeCharacterWrap];
+                                                           lineBreakMode:NSLineBreakByWordWrapping];
         height += detailLabelSize.height + _separatorHeight;
     }
     

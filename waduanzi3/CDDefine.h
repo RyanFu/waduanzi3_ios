@@ -158,6 +158,7 @@ typedef NS_ENUM(NSInteger, CDImageHeightFilter)
     CDImageHeightFilterOnlyLong = 1
 };
 
+#define POP_NAVIGATION_CONTROLLER_GESTURE_RECOGNIZER_VIEW_TAG 9999
 
 #define USER_NAME_MIN_LENGTH 3
 #define USER_NAME_MAX_LENGTH 30

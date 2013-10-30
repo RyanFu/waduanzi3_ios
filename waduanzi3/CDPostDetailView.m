@@ -94,14 +94,14 @@
     // textLabel
     _textLabel.backgroundColor = [UIColor clearColor];
     _textLabel.numberOfLines = 0;
-    _textLabel.lineBreakMode = UILineBreakModeWordWrap;
+    _textLabel.lineBreakMode = NSLineBreakByWordWrapping;
     _textLabel.font = [UIFont systemFontOfSize:16.0f];
     _textLabel.textColor = POST_TEXT_COLOR;
     
     // detailLabel
     _detailTextLabel.backgroundColor = [UIColor clearColor];
     _detailTextLabel.numberOfLines = 0;
-    _detailTextLabel.lineBreakMode = UILineBreakModeWordWrap;
+    _detailTextLabel.lineBreakMode = NSLineBreakByWordWrapping;
     _detailTextLabel.font = [UIFont systemFontOfSize:16.0f];
     _detailTextLabel.textColor = POST_TEXT_COLOR;
     
@@ -133,7 +133,7 @@
     // timeLabel
     CGSize timeLabelSize = [_datetimeTextLabel.text sizeWithFont:_datetimeTextLabel.font
                                                    constrainedToSize:CGSizeMake(contentViewWidth, 9999.0)
-                                                       lineBreakMode:UILineBreakModeWordWrap];
+                                                       lineBreakMode:NSLineBreakByWordWrapping];
     CGRect timeLabelFrame = CGRectMake(viewSize.width - _padding - timeLabelSize.width, widgetY, timeLabelSize.width, widgetHeight);
     [_datetimeTextLabel setFrame:timeLabelFrame];
     [_datetimeTextLabel sizeToFit];
@@ -150,7 +150,7 @@
     if (_textLabel.text.length > 0) {
         CGSize titleLabelSize = [_textLabel.text sizeWithFont:_textLabel.font
                                                 constrainedToSize:CGSizeMake(contentViewWidth, 9999.0)
-                                                    lineBreakMode:UILineBreakModeWordWrap];
+                                                    lineBreakMode:NSLineBreakByWordWrapping];
         
         widgetHeight = titleLabelSize.height;
         CGRect titleLabelFrame = CGRectMake(contentViewX, widgetY, contentViewWidth, widgetHeight);
@@ -164,7 +164,7 @@
     if (_detailTextLabel.text.length > 0) {
         CGSize detailLabelSize = [_detailTextLabel.text sizeWithFont:_detailTextLabel.font
                                                        constrainedToSize:CGSizeMake(contentViewWidth, 9999.0)
-                                                           lineBreakMode:UILineBreakModeWordWrap];
+                                                           lineBreakMode:NSLineBreakByWordWrapping];
         widgetHeight = detailLabelSize.height;
         CGRect detailLabelFrame = CGRectMake(contentViewX, widgetY, contentViewWidth, widgetHeight);
         [_detailTextLabel setFrame:detailLabelFrame];

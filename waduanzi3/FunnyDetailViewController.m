@@ -81,11 +81,11 @@
     CGFloat contentWidth = tableView.frame.size.width - POST_DETAIL_CELL_PADDING*2;
     CGSize titleLabelSize = [self.post.title sizeWithFont:[UIFont fontWithName:FZLTHK_FONT_NAME size:16.0f]
                                     constrainedToSize:CGSizeMake(contentWidth, 9999.0)
-                                        lineBreakMode:UILineBreakModeWordWrap];
+                                        lineBreakMode:NSLineBreakByWordWrapping];
     
     CGSize detailLabelSize = [self.post.content sizeWithFont:[UIFont fontWithName:FZLTHK_FONT_NAME size:detailFontSize]
                                        constrainedToSize:CGSizeMake(contentWidth, 9999.0)
-                                           lineBreakMode:UILineBreakModeWordWrap];
+                                           lineBreakMode:NSLineBreakByWordWrapping];
     
     CGFloat cellHeight = POST_DETAIL_CELL_PADDING + POST_AVATAR_SIZE.height + POST_DETAIL_CELL_PADDING + detailLabelSize.height;
     

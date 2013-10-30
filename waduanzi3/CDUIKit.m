@@ -13,17 +13,15 @@
 
 + (void) setBarButtonItemTitleAttributes:(UIBarButtonItem *)button forBarMetrics:(UIBarMetrics)barMetrics
 {
-    if (OS_VERSION_GREATER_THAN_OR_EQUAL_TO(@"6.0")) {
-        CGFloat size = (barMetrics == UIBarMetricsLandscapePhone) ? 12.0f : 14.0f;
-        NSMutableDictionary *attributes = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                      [UIColor whiteColor], NSForegroundColorAttributeName,
-                      [UIFont fontWithName:FZLTHK_FONT_NAME size:size], NSFontAttributeName,
-                      nil];
-        [button setTitleTextAttributes:attributes forState:UIControlStateNormal];
-        
-        [attributes setObject:[UIColor lightGrayColor] forKey:NSForegroundColorAttributeName];
-        [button setTitleTextAttributes:attributes forState:UIControlStateDisabled];
-    }
+    CGFloat size = (barMetrics == UIBarMetricsLandscapePhone) ? 12.0f : 14.0f;
+    NSMutableDictionary *attributes = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                  [UIColor whiteColor], NSForegroundColorAttributeName,
+                  [UIFont fontWithName:FZLTHK_FONT_NAME size:size], NSFontAttributeName,
+                  nil];
+    [button setTitleTextAttributes:attributes forState:UIControlStateNormal];
+    
+    [attributes setObject:[UIColor lightGrayColor] forKey:NSForegroundColorAttributeName];
+    [button setTitleTextAttributes:attributes forState:UIControlStateDisabled];
 }
 
 + (void) setNavigationBar:(UINavigationBar *)bar style:(CDNavigationBarStyle)style forBarMetrics:(UIBarMetrics)barMetrics

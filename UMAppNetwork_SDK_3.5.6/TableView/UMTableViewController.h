@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "UMUFPTableView.h"
+#import "CDViewController.h"
 
-@interface UMTableViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UMUFPTableViewDataLoadDelegate> {
+@interface UMTableViewController : CDViewController <UITableViewDelegate, UITableViewDataSource, UMUFPTableViewDataLoadDelegate> {
     
     UMUFPTableView *_mTableView;
     

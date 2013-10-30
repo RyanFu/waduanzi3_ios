@@ -366,7 +366,7 @@
     UILabel *stoppedLabel = [[UILabel alloc] initWithFrame:infiniteViewFrame];
     UILabel *loadingLabel = [[UILabel alloc] initWithFrame:infiniteViewFrame];
     UILabel *triggeredLabel = [[UILabel alloc] initWithFrame:infiniteViewFrame];
-    stoppedLabel.textAlignment = loadingLabel.textAlignment = triggeredLabel.textAlignment = UITextAlignmentCenter;
+    stoppedLabel.textAlignment = loadingLabel.textAlignment = triggeredLabel.textAlignment = NSTextAlignmentCenter;
     stoppedLabel.textColor = loadingLabel.textColor = triggeredLabel.textColor = [UIColor grayColor];
     stoppedLabel.font = loadingLabel.font = triggeredLabel.font = [UIFont systemFontOfSize:14.0f];
     stoppedLabel.backgroundColor = loadingLabel.backgroundColor = triggeredLabel.backgroundColor = [UIColor clearColor];
@@ -553,7 +553,9 @@
     imageViewController.thumbnail = imageView.image;
     imageViewController.originalPicUrl = originaUrl;
     
-    [self presentModalViewController:imageViewController animated:NO];
+    [self presentViewController:imageViewController animated:NO completion:^{
+        ;
+    }];
 }
 
 - (void) videoImageViewDidTapFinished:(UITapGestureRecognizer *)gestureRecognizer

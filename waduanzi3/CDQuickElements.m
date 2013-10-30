@@ -17,7 +17,6 @@
 #import "QWebViewController.h"
 #import "QPickerElement.h"
 #import "CDDefine.h"
-#import "CDQButtonElement.h"
 
 @implementation CDQuickElements
 
@@ -177,7 +176,7 @@
     
     QSection *buttonSection = [[QSection alloc] init];
     [root addSection:buttonSection];
-    CDQButtonElement *submitButton = [[CDQButtonElement alloc] initWithTitle:@"注册"];
+    QButtonElement *submitButton = [[QButtonElement alloc] initWithTitle:@"注册"];
     submitButton.enabled = NO;
     submitButton.key = @"key_submit_signup";
     [buttonSection addElement:submitButton];
@@ -185,7 +184,7 @@
     
     QSection *extraButtonSection = [[QSection alloc] init];
     [root addSection:extraButtonSection];
-    CDQButtonElement *loginButton = [[CDQButtonElement alloc] initWithTitle:@"已有账号，直接登录"];
+    QButtonElement *loginButton = [[QButtonElement alloc] initWithTitle:@"已有账号，直接登录"];
     loginButton.key = @"key_go_login";
     [extraButtonSection addElement:loginButton];
     
@@ -234,14 +233,14 @@
 
     QSection *buttonSection = [[QSection alloc] init];
     [root addSection:buttonSection];
-    CDQButtonElement *submitButton = [[CDQButtonElement alloc] initWithTitle:@"登录"];
+    QButtonElement *submitButton = [[QButtonElement alloc] initWithTitle:@"登录"];
     submitButton.key = @"key_submit_login";
     submitButton.enabled = NO;
     [buttonSection addElement:submitButton];
 
     QSection *extraButtonSection = [[QSection alloc] init];
     [root addSection:extraButtonSection];
-    CDQButtonElement *signupButton = [[CDQButtonElement alloc] initWithTitle:@"注册挖段子账号"];
+    QButtonElement *signupButton = [[QButtonElement alloc] initWithTitle:@"注册挖段子账号"];
     signupButton.key = @"key_go_signup";
     [extraButtonSection addElement:signupButton];
     
@@ -307,7 +306,7 @@
     
     QSection *section3 = [[QSection alloc] init];
     [root addSection:section3];
-    CDQButtonElement *logoutButton = [[CDQButtonElement alloc] initWithTitle:@"退出当前账号"];
+    QButtonElement *logoutButton = [[QButtonElement alloc] initWithTitle:@"退出当前账号"];
     logoutButton.key = @"key_logout_button";
     logoutButton.controllerAction = @"logoutAction:";
     logoutButton.height = 43.0f;
@@ -374,7 +373,7 @@
 
     QSection *section2 = [[QSection alloc] init];
     [root addSection:section2];
-    CDQButtonElement *submitButton = [[CDQButtonElement alloc] initWithTitle:@"保存"];
+    QButtonElement *submitButton = [[QButtonElement alloc] initWithTitle:@"保存"];
     submitButton.key = @"key_save_profile";
     submitButton.controllerAction = @"updateUserProfileAction";
     [section2 addElement:submitButton];

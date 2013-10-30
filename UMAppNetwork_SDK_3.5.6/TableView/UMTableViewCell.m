@@ -75,7 +75,7 @@
     
     CGRect textLableFrame = self.textLabel.frame;
     self.detailTextLabel.numberOfLines = 0;
-    self.detailTextLabel.lineBreakMode = UILineBreakModeWordWrap;
+    self.detailTextLabel.lineBreakMode = NSLineBreakByWordWrapping;
     
     CGFloat width = self.bounds.size.width - 90;
     self.detailTextLabel.frame = CGRectMake(leftMargin, 

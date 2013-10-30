@@ -401,8 +401,6 @@
 		2B6F12B5181E2CFE0099E313 /* ios7_tabbar_notificationsicon_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B6F12AF181E2CFE0099E313 /* ios7_tabbar_notificationsicon_normal.png */; };
 		2B6F12B6181E2CFE0099E313 /* ios7_tabbar_feedicon_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B6F12B0181E2CFE0099E313 /* ios7_tabbar_feedicon_normal@2x.png */; };
 		2B6F12B7181E2CFE0099E313 /* ios7_tabbar_notificationsicon_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B6F12B1181E2CFE0099E313 /* ios7_tabbar_notificationsicon_normal@2x.png */; };
-		2B77495617F16D9100E0CC31 /* CDQButtonTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B77495517F16D9100E0CC31 /* CDQButtonTableViewCell.m */; };
-		2B77495917F16DD400E0CC31 /* CDQButtonElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B77495817F16DD400E0CC31 /* CDQButtonElement.m */; };
 		2B7C719117A21E5600482207 /* WxApiService.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B7C719017A21E5600482207 /* WxApiService.m */; };
 		2B7C719417A2A2EE00482207 /* chat_bg_default.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2B7C719317A2A2EE00482207 /* chat_bg_default.jpg */; };
 		2B7C719617A2A30E00482207 /* feed_table_bg@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2B7C719517A2A30E00482207 /* feed_table_bg@2x.jpg */; };
@@ -1106,10 +1104,6 @@
 		2B6F12AF181E2CFE0099E313 /* ios7_tabbar_notificationsicon_normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ios7_tabbar_notificationsicon_normal.png; sourceTree = "<group>"; };
 		2B6F12B0181E2CFE0099E313 /* ios7_tabbar_feedicon_normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios7_tabbar_feedicon_normal@2x.png"; sourceTree = "<group>"; };
 		2B6F12B1181E2CFE0099E313 /* ios7_tabbar_notificationsicon_normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios7_tabbar_notificationsicon_normal@2x.png"; sourceTree = "<group>"; };
-		2B77495417F16D9100E0CC31 /* CDQButtonTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDQButtonTableViewCell.h; sourceTree = "<group>"; };
-		2B77495517F16D9100E0CC31 /* CDQButtonTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDQButtonTableViewCell.m; sourceTree = "<group>"; };
-		2B77495717F16DD400E0CC31 /* CDQButtonElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDQButtonElement.h; sourceTree = "<group>"; };
-		2B77495817F16DD400E0CC31 /* CDQButtonElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDQButtonElement.m; sourceTree = "<group>"; };
 		2B7C718F17A21E5600482207 /* WxApiService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WxApiService.h; sourceTree = "<group>"; };
 		2B7C719017A21E5600482207 /* WxApiService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WxApiService.m; sourceTree = "<group>"; };
 		2B7C719317A2A2EE00482207 /* chat_bg_default.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = chat_bg_default.jpg; sourceTree = "<group>"; };
@@ -2439,10 +2433,6 @@
 				2BAC67F517BBCD1200B9768E /* CommentFontPickerValueParser.m */,
 				2B43D67B17E49F3500C48CD9 /* CDKit.h */,
 				2B43D67C17E49F3500C48CD9 /* CDKit.m */,
-				2B77495417F16D9100E0CC31 /* CDQButtonTableViewCell.h */,
-				2B77495517F16D9100E0CC31 /* CDQButtonTableViewCell.m */,
-				2B77495717F16DD400E0CC31 /* CDQButtonElement.h */,
-				2B77495817F16DD400E0CC31 /* CDQButtonElement.m */,
 				2BC4884E17F565A200F83C5E /* CDAdvertKit.h */,
 				2BC4884F17F565A200F83C5E /* CDAdvertKit.m */,
 			);
@@ -3266,7 +3256,6 @@
 				2BED8213167B573E0025E9C4 /* main.m in Sources */,
 				2B0A6054181ECC7D00E9DF6D /* AdMoGoAdapterInmobiSDK.m in Sources */,
 				2BED8217167B573E0025E9C4 /* AppDelegate.m in Sources */,
-				2B77495917F16DD400E0CC31 /* CDQButtonElement.m in Sources */,
 				2B0A60FD181ECD6D00E9DF6D /* AdMoGoAdapterBaiduFullAds.m in Sources */,
 				2BED8220167B573E0025E9C4 /* waduanzi3.xcdatamodeld in Sources */,
 				2BCFA8CB16E4E12500521DEC /* SideMenuViewController.m in Sources */,
@@ -3332,7 +3321,6 @@
 				2BD65029178A6EE900EFE5B7 /* CDUserForm.m in Sources */,
 				2BD588AF181ECA99007B0A7B /* AdMoGoAdapterMobiSageFullAd.m in Sources */,
 				2BDE2F92178C1360007736A8 /* CDCommentFormView.m in Sources */,
-				2B77495617F16D9100E0CC31 /* CDQButtonTableViewCell.m in Sources */,
 				2BDA2656179400DE00838973 /* CDViewController.m in Sources */,
 				2B0AEC7B1797C9A800AFBAFA /* CDUIKit.m in Sources */,
 				2B375EA817992F6300A6CB39 /* CDPostToolBar.m in Sources */,

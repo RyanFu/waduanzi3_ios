@@ -91,7 +91,7 @@
     QElement *element = [section getVisibleElementForIndex: indexPath.row];
     
     if (indexPath.section == 0) {
-        cell.textLabel.textAlignment = UITextAlignmentCenter;
+        cell.textLabel.textAlignment = NSTextAlignmentCenter;
         [cell becomeFirstResponder];
     }
     else if (indexPath.section == 1) {

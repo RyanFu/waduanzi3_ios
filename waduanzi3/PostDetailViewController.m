@@ -121,14 +121,6 @@
     // 设置评论框组件视图
     [self setupCommentFormView];
     
-
-    // 右滑回到段子列表
-    UISwipeGestureRecognizer *swipGestureRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwips:)];
-    swipGestureRecognizer.delegate = self;
-    swipGestureRecognizer.direction = UISwipeGestureRecognizerDirectionRight;
-    swipGestureRecognizer.numberOfTouchesRequired = 1;
-    [self.view addGestureRecognizer:swipGestureRecognizer];
-    
     // 设置下滑和下滑视图
     [self setupTableViewInfiniteScrollView];
     [self.tableView triggerInfiniteScrolling];
@@ -214,15 +206,6 @@
 - (BOOL) viewDeckController:(IIViewDeckController *)viewDeckController shouldOpenViewSide:(IIViewDeckSide)viewDeckSide
 {
     return NO;
-}
-
-// 定义视图滑动手势动作，右滑返回段子列表，其它手势无动作
-- (void) handleSwips:(UISwipeGestureRecognizer *)recognizer
-{
-    NSLog(@"direction: %d", recognizer.direction);
-    if (recognizer.direction & UISwipeGestureRecognizerDirectionRight) {
-        [self.navigationController popViewControllerAnimated:YES];
-    }
 }
 
 
@@ -647,7 +630,7 @@
         CGSize authorLabelSize = [comment.author_name sizeWithFont:[UIFont boldSystemFontOfSize:14.0f]];
         CGSize textLabelSize = [comment.content sizeWithFont:[UIFont systemFontOfSize:14.0f]
                                           constrainedToSize:CGSizeMake(contentWidth, 9999.0)
-                                              lineBreakMode:UILineBreakModeWordWrap];
+                                              lineBreakMode:NSLineBreakByWordWrapping];
         
         CGFloat cellHeight = POST_DETAIL_CELL_PADDING + authorLabelSize.height + COMMENT_BLOCK_SPACE_HEIGHT + textLabelSize.height + POST_DETAIL_CELL_PADDING;
         

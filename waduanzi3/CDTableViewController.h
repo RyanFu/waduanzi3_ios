@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CDTableViewController : UITableViewController
+@interface CDTableViewController : UITableViewController <UIGestureRecognizerDelegate>
 
 @end

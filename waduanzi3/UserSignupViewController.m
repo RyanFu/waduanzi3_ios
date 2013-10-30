@@ -20,6 +20,7 @@
 #import "CDSocialKit.h"
 #import "WBErrorNoticeView+WaduanziMethod.h"
 #import "UIView+Border.h"
+#import "UIImage+ColorImage.h"
 
 
 @interface UserSignupViewController ()
@@ -141,15 +142,23 @@
     QSection *section = [self.root getVisibleSectionForIndex:indexPath.section];
     QElement *element = [section getVisibleElementForIndex: indexPath.row];
     
-    if ([element.key isEqualToString:@"key_submit_signup"]) {
+    if ([element.key isEqualToString:@"key_username"]) {
+        if (IS_IOS7) {
+            CALayer *bottomLayer = [CALayer layer];
+            bottomLayer.backgroundColor = [UIColor colorWithRed:0.90f green:0.90f blue:0.90f alpha:1.00f].CGColor;
+            bottomLayer.frame = CGRectMake(0, cell.frame.size.height - 1.0f, cell.frame.size.width, 1.0f);
+            [cell.layer addSublayer:bottomLayer];
+        }
+    }
+    else if ([element.key isEqualToString:@"key_submit_signup"]) {
         if (IS_IOS7) {
             cell.backgroundColor = [UIColor colorWithRed:0.31f green:0.42f blue:0.64f alpha:1.00f];
             cell.textLabel.textColor = [UIColor colorWithRed:0.91f green:0.92f blue:0.93f alpha:1.00f];
         }
         else {
             cell.backgroundColor = [UIColor clearColor];
-            cell.backgroundView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"loginPrimaryButtonBackground.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 7, 0, 7)]];
-            cell.selectedBackgroundView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"loginPrimaryButtonBackgroundPressed.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 7, 0, 7)]];
+            cell.backgroundView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"loginPrimaryButtonBackground"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 7, 0, 7)]];
+            cell.selectedBackgroundView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"loginPrimaryButtonBackgroundPressed"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 7, 0, 7)]];
             
             cell.textLabel.shadowColor = [UIColor colorWithRed:0.86f green:0.87f blue:0.89f alpha:1.00f];
             cell.textLabel.shadowOffset = CGSizeMake(0, 2);
@@ -168,7 +177,7 @@
         cell.textLabel.textColor = [UIColor whiteColor];
         
         UIView *backgroundView = [[UIView alloc] init];
-        UIImageView *imageView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"loginSignUpButtonBackground.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 5, 0, 5)]];
+        UIImageView *imageView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"loginSignUpButtonBackground"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 5, 0, 5)]];
         [backgroundView addSubview:imageView];
         CGSize textSize = [buttonElement.title sizeWithFont:cell.textLabel.font];
         CGFloat buttonWidth = textSize.width + 40.0f;
@@ -176,11 +185,16 @@
         cell.backgroundView = backgroundView;
         
         UIView *selectedBackgroundView = [[UIView alloc] init];
-        UIImageView *selectedImageView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"loginSignUpButtonBackgroundPressed.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 5, 0, 5)]];
+        UIImageView *selectedImageView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"loginSignUpButtonBackgroundPressed"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 5, 0, 5)]];
         [selectedBackgroundView addSubview:selectedImageView];
         selectedImageView.frame = imageView.frame;
         cell.selectedBackgroundView = selectedBackgroundView;
     }
+    
+    if ([element.key isEqualToString:@"key_username"] || [element.key isEqualToString:@"key_password"]) {
+        cell.selectedBackgroundView = [[UIImageView alloc] initWithImage:[UIImage imageWithColor:[UIColor whiteColor] size:CGSizeMake(1, 1)]];
+    }
+        
 }
 
 
