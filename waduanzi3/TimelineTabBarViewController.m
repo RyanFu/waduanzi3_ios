@@ -12,6 +12,7 @@
 #import "CDPost.h"
 #import "CDRestClient.h"
 #import "UMTableViewController.h"
+#import "MobClick.h"
 
 @interface TimelineTabBarViewController ()
 {
@@ -137,6 +138,24 @@
     }
     
     _prevSelectedIndex = self.selectedIndex;
+    
+    @try {
+        NSArray *umEvents = @[UM_EVENT_MENU_MEDIA_IMAGE
+                              , UM_EVENT_MENU_MEDIA_TEXT
+                              , UM_EVENT_MENU_MEDIA_LONG_IMAGE
+                              , UM_EVENT_MENU_MEDIA_VIDEO
+                              , UM_EVENT_MENU_APP_RECOMMEND
+                              ];
+        
+        NSString *event = [umEvents objectAtIndex:self.selectedIndex];
+        [MobClick event:event];
+    }
+    @catch (NSException *exception) {
+        ;
+    }
+    @finally {
+        ;
+    }
 }
 
 #pragma mark - timer action

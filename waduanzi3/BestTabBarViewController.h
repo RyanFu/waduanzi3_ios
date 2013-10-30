@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "CDTabBarController.h"
 
-@interface BestTabBarViewController : CDTabBarController
+@interface BestTabBarViewController : CDTabBarController <UITabBarControllerDelegate>
 
 @end

@@ -32,7 +32,7 @@
 - (void)viewDidLoad
 {
     // Do any additional setup after loading the view.
-    self.title = @"挖热点";
+    self.title = @"天天涨姿势";
     _channelID = CHANNEL_FOCUS;
     
     _statuses = [[CDDataCache shareCache] fetchFocusPosts];

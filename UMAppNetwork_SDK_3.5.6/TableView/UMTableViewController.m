@@ -9,6 +9,7 @@
 #import "UMTableViewController.h"
 #import "UMTableViewCell.h"
 #import "UMTableViewLoadingCell.h"
+#import "IIViewDeckController.h"
     
 @implementation UMTableViewController
 
@@ -92,6 +93,15 @@
     self.navigationItem.title = @"精彩推荐";
     self.view.backgroundColor = [UIColor whiteColor];
     
+    UIImage *launcherImage = [UIImage imageNamed:@"NavBarIconLauncher.png"];
+    UIButton *leftButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    leftButton.frame = CGRectMake(0, 0, launcherImage.size.width + 20.0f, launcherImage.size.height);
+    [leftButton setImage:launcherImage forState:UIControlStateNormal];
+    [leftButton setImage:[UIImage imageNamed:@"NavBarIconLauncherHighlighted.png"] forState:UIControlStateSelected];
+    [leftButton addTarget:self action:@selector(openLeftSlideView:) forControlEvents:UIControlEventTouchUpInside];
+    leftButton.showsTouchWhenHighlighted = YES;
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:leftButton];
+    
     [self setupTableView];
     [self setupLoadingWaitView];
     
@@ -102,6 +112,15 @@
 {
     
     [super viewDidUnload];
+}
+
+#pragma mark - barButtonItem selector
+
+- (void) openLeftSlideView:(id) sender
+{
+    [ROOT_DECK_CONTROLLER toggleLeftViewAnimated:YES completion:^(IIViewDeckController *controller, BOOL success) {
+        ;
+    }];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

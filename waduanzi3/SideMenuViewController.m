@@ -122,10 +122,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (!CD_DEBUG && section == 1)
-        return [[menuData objectAtIndex:section] count] - 1;
-    else
-        return [[menuData objectAtIndex:section] count];
+    return [[menuData objectAtIndex:section] count];
 }
 
 - (CDSideTableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -232,7 +229,6 @@
                     
                     if (focusViewController == nil) {
                         focusViewController = [[FocusListViewController alloc] init];
-                        focusViewController.title = @"挖热门";
                     }
                     centerViewController = [[CDNavigationController alloc] initWithRootViewController:focusViewController];
                     self.viewDeckController.centerController = centerViewController;

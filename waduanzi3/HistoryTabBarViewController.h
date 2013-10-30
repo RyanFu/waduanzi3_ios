@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "CDTabBarController.h"
 
-@interface HistoryTabBarViewController : CDTabBarController
+@interface HistoryTabBarViewController : CDTabBarController <UITabBarControllerDelegate>
 
 @end

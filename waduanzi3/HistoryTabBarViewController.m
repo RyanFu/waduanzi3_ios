@@ -10,6 +10,7 @@
 #import "HistoryTabBarViewController.h"
 #import "HistoryViewController.h"
 #import "UMTableViewController.h"
+#import "MobClick.h"
 
 @interface HistoryTabBarViewController ()
 
@@ -22,6 +23,8 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    
+    self.delegate = self;
     
     HistoryViewController *imageViewController = [[HistoryViewController alloc] initWithMediaType:MEDIA_TYPE_IMAGE];
     imageViewController.imageHeightFilter = CDImageHeightFilterOnlyShort;
@@ -54,6 +57,27 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void) tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
+{
+    @try {
+        NSArray *umEvents = @[UM_EVENT_MENU_MEDIA_IMAGE
+                              , UM_EVENT_MENU_MEDIA_TEXT
+                              , UM_EVENT_MENU_MEDIA_LONG_IMAGE
+                              , UM_EVENT_MENU_MEDIA_VIDEO
+                              , UM_EVENT_MENU_APP_RECOMMEND
+                              ];
+        
+        NSString *event = [umEvents objectAtIndex:self.selectedIndex];
+        [MobClick event:event];
+    }
+    @catch (NSException *exception) {
+        ;
+    }
+    @finally {
+        ;
+    }
 }
 
 @end
