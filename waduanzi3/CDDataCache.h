@@ -63,6 +63,9 @@
 - (BOOL) cacheLoginUserName:(NSString *)username;
 - (NSString *) fetchLoginUserName;
 
+- (BOOL) cacheBaiduPushBindState:(BOOL)state;
+- (BOOL) fetchBaiduPushBindState;
+
 + (NSString *) cacheFilesTotalSize;
 + (BOOL) clearAllCacheFiles;
 + (BOOL) clearCacheFilesBeforeDays:(CGFloat)days;

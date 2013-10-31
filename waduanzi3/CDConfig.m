@@ -45,11 +45,37 @@
     if (CD_DEBUG) return YES;
     
     @try {
-        NSString *switcher = [MobClick getConfigParams:AD_ENABLE_FOCUS_LIST_BANNER];
+        double firstBootTime = [[CDDataCache shareCache] fetchAppFirstBootTime];
+        if (firstBootTime > CFAbsoluteTimeGetCurrent() - DAY_SECONDS)
+            return NO;
+        NSString *switcher = [MobClick getConfigParams:UM_ONLINE_CONFIG_ENABLE_FOCUS_LIST_BANNER];
         return [switcher isEqualToString:@"on"];
     }
     @catch (NSException *exception) {
         CDLog(@"enable umhandle exception: %@", exception.reason);
+        return NO;
+    }
+    @finally {
+        ;
+    }
+    
+    return NO;
+}
+
++ (BOOL) showAppRecommendTab
+{
+    if (CD_DEBUG) return YES;
+    
+    @try {
+        double firstBootTime = [[CDDataCache shareCache] fetchAppFirstBootTime];
+        if (firstBootTime > CFAbsoluteTimeGetCurrent() - DAY_SECONDS)
+            return NO;
+        
+        NSString *switcher = [MobClick getConfigParams:UM_ONLINE_CONFIG_SHOW_APP_RECOMMEND_TAB];
+        return [switcher isEqualToString:@"on"];
+    }
+    @catch (NSException *exception) {
+        CDLog(@"show app recommend tab exception: %@", exception.reason);
         return NO;
     }
     @finally {

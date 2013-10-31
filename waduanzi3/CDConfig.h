@@ -12,6 +12,7 @@
 
 + (BOOL) enabledFocusListBannerAdvert;
 + (BOOL) enabledUMHandle;
++ (BOOL) showAppRecommendTab;
 
 + (CDConfig *) shareInstance;
 - (void) cache;

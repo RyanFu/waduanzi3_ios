@@ -27,6 +27,7 @@
 #import "CDSocialKit.h"
 #import "CDUserConfig.h"
 #import "MBProgressHUD+Custom.h"
+#import "CDSession.h"
 
 
 @interface AppDelegate ()
@@ -41,6 +42,7 @@
 - (void) setupRKRestClient;
 - (void) checkNetworkChange;
 - (void)preInitWithSize:(CGFloat)size family:(NSString *)family;
+- (void) saveBaiduBindChannelResult;
 @end
 
 
@@ -79,7 +81,8 @@
 {
     CDLog(@"device token: %@", [[NSString alloc] initWithData:deviceToken encoding:NSUTF8StringEncoding]);
     [BPush registerDeviceToken:deviceToken];
-    [BPush bindChannel];
+    if (CD_DEBUG || ![[CDDataCache shareCache] fetchBaiduPushBindState])
+        [BPush bindChannel];
 }
 
 - (void) application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
@@ -393,7 +396,7 @@
         @try {
             if ((status == AFNetworkReachabilityStatusReachableViaWiFi || status == AFNetworkReachabilityStatusReachableViaWWAN)) {
                 
-                [MBProgressHUD showText:tipMessage inView:ROOT_CONTROLLER.view alpha:0.7f autoHide:YES showAnimated:YES hideAnimated:YES afterDelay:1.5f];
+//                [MBProgressHUD showText:tipMessage inView:ROOT_CONTROLLER.view alpha:0.7f autoHide:YES showAnimated:YES hideAnimated:YES afterDelay:1.5f];
                 
                 UIViewController *currentViewController;
                 if ([_deckController.centerController isKindOfClass:[UINavigationController class]]) {
@@ -454,15 +457,50 @@
 {
     if ([BPushRequestMethod_Bind isEqualToString:method]) {
         NSDictionary* res = [[NSDictionary alloc] initWithDictionary:data];
-        
-//        NSString *appid = [res valueForKey:BPushRequestAppIdKey];
-//        NSString *userid = [res valueForKey:BPushRequestUserIdKey];
-//        NSString *channelid = [res valueForKey:BPushRequestChannelIdKey];
-//        NSString *requestid = [res valueForKey:BPushRequestRequestIdKey];
         int returnCode = [[res valueForKey:BPushRequestErrorCodeKey] intValue];
+        
+        if (returnCode == BPushErrorCode_Success) {
+            @try {
+                NSString *requestid = [res objectForKey:BPushRequestRequestIdKey];
+                CDLog(@"request_id: %@", requestid);
+                
+                [self saveBaiduBindChannelResult];
+            }
+            @catch (NSException *exception) {
+                ;
+            }
+            @finally {
+                ;
+            }
+            
+        }
         
         CDLog(@"error code: %d", returnCode);
     }
+}
+
+- (void) saveBaiduBindChannelResult
+{
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setObject:[BPush getAppId] forKey:@"bind_app_id"];
+    [params setObject:[BPush getUserId] forKey:@"bind_user_id"];
+    [params setObject:[BPush getChannelId] forKey:@"bind_channel_id"];
+    
+    if ([[CDSession shareInstance] hasLogined]) {
+        CDUser *currentUser = [[CDSession shareInstance] currentUser];
+        [params setObject:currentUser.user_id forKey:@"user_id"];
+        [params setObject:currentUser.username forKey:@"user_name"];
+        [params setObject:currentUser.token forKey:@"user_token"];
+    }
+    
+    
+    [[RKObjectManager sharedManager].HTTPClient postPath:@"/push/bind" parameters:[CDRestClient requestParams:params] success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        CDLog(@"baidu push bind channel result: %@", responseObject);
+        [[CDDataCache shareCache] cacheBaiduPushBindState:YES];
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        CDLog(@"update baidu push bind channel result error: %@", error);
+    }];
 }
 
 

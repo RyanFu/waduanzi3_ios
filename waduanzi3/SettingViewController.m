@@ -82,6 +82,13 @@
     [super viewDidAppear:animated];
 }
 
+- (void) viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    [[CDUserConfig shareInstance] cache];
+}
+
 - (void) setupNavbar
 {
     [CDUIKit setNavigationBar:self.navigationController.navigationBar style:CDNavigationBarStyleBlack forBarMetrics:UIBarMetricsDefault];
@@ -161,9 +168,7 @@
 - (void) messagePushAction:(QBooleanElement *)element
 {
     NSLog(@"message pushed: %d", [element.numberValue integerValue]);
-    CDUserConfig *userConfig = [CDUserConfig shareInstance];
-    userConfig.enable_push_message = element.boolValue;
-    [userConfig cache];
+    [CDUserConfig shareInstance].enable_push_message = element.boolValue;
     
     NSNumber *user_id = [NSNumber numberWithInteger:0];
     if ([[CDSession shareInstance] hasLogined]) {

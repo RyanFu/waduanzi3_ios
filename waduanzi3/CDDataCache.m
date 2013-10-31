@@ -196,13 +196,21 @@
 
 - (BOOL) cacheLoginUserName:(NSString *)username
 {
-    NSString *cacheKey = [self generateCacheID:@"login_username"];
-    
-    if (username.length > 0)
-        [USER_DEFAULTS setObject:username forKey:cacheKey];
-    else
-        [USER_DEFAULTS removeObjectForKey:cacheKey];
-    return YES;
+    @try {
+        NSString *cacheKey = [self generateCacheID:@"login_username"];
+        
+        if (username.length > 0)
+            [USER_DEFAULTS setObject:username forKey:cacheKey];
+        else
+            [USER_DEFAULTS removeObjectForKey:cacheKey];
+        return YES;
+    }
+    @catch (NSException *exception) {
+        return NO;
+    }
+    @finally {
+        ;
+    }
 }
 
 - (NSString *) fetchLoginUserName
@@ -211,6 +219,28 @@
     return [USER_DEFAULTS stringForKey:cacheKey];
 }
 
+
+- (BOOL) cacheBaiduPushBindState:(BOOL)state
+{
+    @try {
+        NSString *cacheKey = @"baidu_push_bind_state";
+
+        [USER_DEFAULTS setBool:state forKey:cacheKey];
+        return YES;
+    }
+    @catch (NSException *exception) {
+        return NO;
+    }
+    @finally {
+        ;
+    }
+}
+
+- (BOOL) fetchBaiduPushBindState
+{
+    NSString *cacheKey = @"baidu_push_bind_state";
+    return [USER_DEFAULTS boolForKey:cacheKey];
+}
 
 
 

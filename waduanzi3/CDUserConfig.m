@@ -55,7 +55,7 @@
 
 - (void) cache
 {
-    [[self class] cacheConfig:self];
+    [CDUserConfig cacheConfig:self];
 }
 
 

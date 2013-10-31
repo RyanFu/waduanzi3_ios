@@ -13,6 +13,7 @@
 #import "CDRestClient.h"
 #import "UMTableViewController.h"
 #import "MobClick.h"
+#import "CDConfig.h"
 
 @interface TimelineTabBarViewController ()
 {
@@ -95,11 +96,16 @@
     videoNavController = [[CDNavigationController alloc] initWithRootViewController:videoViewController];
     videoNavController.tabBarItem = [[UITabBarItem alloc] initWithTitle: @"视频" image:[UIImage imageNamed:@"ios7_tabbar_contactsicon_normal"] tag:3];
     
-    UMTableViewController *umAppViewController = [[UMTableViewController alloc] init];
-    CDNavigationController *umAppNavController = [[CDNavigationController alloc] initWithRootViewController:umAppViewController];
-    umAppNavController.tabBarItem = [[UITabBarItem alloc] initWithTitle: @"推荐" image:[UIImage imageNamed:@"ios7_tabbar_me_normal"] tag:3];
+    NSMutableArray *navViewControllers = [NSMutableArray array];
+    [navViewControllers addObjectsFromArray:@[imageNavController, textNavController, longImageNavController, videoNavController]];
     
-    NSArray *navViewControllers = @[imageNavController, textNavController, longImageNavController, videoNavController, umAppNavController];
+    if ([CDConfig showAppRecommendTab]) {
+        UMTableViewController *umAppViewController = [[UMTableViewController alloc] init];
+        CDNavigationController *umAppNavController = [[CDNavigationController alloc] initWithRootViewController:umAppViewController];
+        umAppNavController.tabBarItem = [[UITabBarItem alloc] initWithTitle: @"推荐" image:[UIImage imageNamed:@"ios7_tabbar_me_normal"] tag:3];
+        [navViewControllers addObject:umAppNavController];
+    }
+    
     self.viewControllers = navViewControllers;
     self.selectedIndex = _prevSelectedIndex = 0;
     
