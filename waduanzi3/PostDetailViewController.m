@@ -825,7 +825,7 @@
                         if (error.domain == NSURLErrorDomain && error.code == kCFURLErrorTimedOut)
                             alertMessage = @"网络超时";
                         
-                        [MBProgressHUD show:YES errorMessage:alertMessage inView:self.navigationController.view alpha:0.6f hide:YES afterDelay:10.0f];
+                        [MBProgressHUD showErrorMessage:alertMessage inView:self.navigationController.view alpha:0.6f autoHide:YES showAnimated:YES hideAnimated:YES afterDelay:1.0f];
                         
                         NSLog(@"Hit error: %@", error);
                    }];

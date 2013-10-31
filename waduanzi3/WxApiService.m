@@ -96,7 +96,7 @@
         }];
     }
     else {
-        [MBProgressHUD show:YES errorMessage:@"无效的URL地址" inView:ROOT_CONTROLLER.view alpha:0.6f hide:YES afterDelay:1.5f];
+        [MBProgressHUD showErrorMessage:@"无效的URL地址" inView:ROOT_CONTROLLER.view alpha:0.6f autoHide:YES showAnimated:YES hideAnimated:YES afterDelay:1.5f];
     }
 }
 
@@ -112,7 +112,7 @@
         }];
     }
     else {
-        [MBProgressHUD show:YES errorMessage:@"无效的URL地址" inView:ROOT_CONTROLLER.view alpha:0.6f hide:YES afterDelay:1.5f];
+        [MBProgressHUD showErrorMessage:@"无效的URL地址" inView:ROOT_CONTROLLER.view alpha:0.6f autoHide:YES showAnimated:YES hideAnimated:YES afterDelay:1.5f];
     }
 }
 

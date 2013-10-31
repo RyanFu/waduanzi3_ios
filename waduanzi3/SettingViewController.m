@@ -23,6 +23,7 @@
 #import "QPickerElement.h"
 #import "QPickerTableViewCell.h"
 #import "CDUserConfig.h"
+#import "MBProgressHUD+Custom.h"
 
 @interface SettingViewController ()
 - (void) setupNavbar;
@@ -68,6 +69,10 @@
     QBooleanElement *pushMessageElement = (QBooleanElement*)[self.root elementWithKey:@"key_message_push"];
     pushMessageElement.boolValue = [CDUserConfig shareInstance].enable_push_message;
     NSLog(@"pushed: %d", pushMessageElement.boolValue);
+    
+    
+    QBooleanElement *wwanShowImageSizeElement = (QBooleanElement*)[self.root elementWithKey:@"key_wwan_switch_big_image"];
+    wwanShowImageSizeElement.boolValue = [CDUserConfig shareInstance].wwan_big_image;
     QBooleanElement *autoChangeImageSizeElement = (QBooleanElement*)[self.root elementWithKey:@"key_wifi_switch_big_image"];
     autoChangeImageSizeElement.boolValue = [CDUserConfig shareInstance].wifi_big_image;
 }
@@ -116,9 +121,8 @@
 {
     BOOL result = [CDDataCache clearAllCacheFiles];
     if (result) {
-        NSString *cacheString = [NSString stringWithFormat:@"清除缓存 %@", [CDDataCache cacheFilesTotalSize]];
-        element.title = cacheString;
-        [self.quickDialogTableView reloadData];
+        [MBProgressHUD showSuccessMessage:@"清除缓存成功！" inView:self.navigationController.view alpha:0.7f autoHide:YES showAnimated:YES hideAnimated:YES afterDelay:1.0f];
+        [self.quickDialogTableView reloadCellForElements:element, nil];
     }
     NSLog(@"clear cache files result: %d", result);
 }
@@ -180,9 +184,16 @@
     }];
 }
 
+
+- (void) wwanSwitchBigImageAction:(QBooleanElement *)element
+{
+    NSLog(@"wwan bool value: %d", element.boolValue);
+    [CDUserConfig shareInstance].wwan_big_image = element.boolValue;
+}
+
 - (void) wifiSwitchBigImageAction:(QBooleanElement *)element
 {
-    NSLog(@"bool value: %d", element.boolValue);
+    NSLog(@"wifi bool value: %d", element.boolValue);
     [CDUserConfig shareInstance].wifi_big_image = element.boolValue;
 }
 

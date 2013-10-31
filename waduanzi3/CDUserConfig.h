@@ -12,6 +12,7 @@
 
 @property (nonatomic, assign) NSInteger postFontSize;
 @property (nonatomic, assign) NSInteger commentFontSize;
+@property (nonatomic, assign) BOOL wwan_big_image;
 @property (nonatomic, assign) BOOL wifi_big_image;
 @property (nonatomic, assign) BOOL enable_push_message;
 

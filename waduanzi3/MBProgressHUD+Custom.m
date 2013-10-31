@@ -10,7 +10,7 @@
 
 @implementation MBProgressHUD (Custom)
 
-+ (void) show:(BOOL)showAnimated errorMessage:(NSString*)message inView:(UIView *)view alpha:(CGFloat)alpha hide:(BOOL)hideAnimated afterDelay:(NSTimeInterval)delay
++ (MBProgressHUD *) showErrorMessage:(NSString*)message inView:(UIView *)view alpha:(CGFloat)alpha autoHide:(BOOL)autoHide showAnimated:(BOOL)showAnimated hideAnimated:(BOOL)hideAnimated afterDelay:(NSTimeInterval)delay
 {
     MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:view];
     [view addSubview:hud];
@@ -20,10 +20,14 @@
     hud.detailsLabelText = message;
     hud.detailsLabelFont = [UIFont systemFontOfSize:14.0f];
     [hud show:showAnimated];
-    [hud hide:hideAnimated afterDelay:delay];
+    
+    if (autoHide)
+        [hud hide:hideAnimated afterDelay:delay];
+    
+    return hud;
 }
 
-+ (void) show:(BOOL)showAnimated successMessage:(NSString*)message inView:(UIView *)view alpha:(CGFloat)alpha hide:(BOOL)hideAnimated afterDelay:(NSTimeInterval)delay
++ (MBProgressHUD *) showSuccessMessage:(NSString*)message inView:(UIView *)view alpha:(CGFloat)alpha autoHide:(BOOL)autoHide showAnimated:(BOOL)showAnimated hideAnimated:(BOOL)hideAnimated afterDelay:(NSTimeInterval)delay
 {
     MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:view];
     [view addSubview:hud];
@@ -33,6 +37,28 @@
     hud.detailsLabelText = message;
     hud.detailsLabelFont = [UIFont systemFontOfSize:14.0f];
     [hud show:showAnimated];
-    [hud hide:hideAnimated afterDelay:delay];
+    
+    if (autoHide)
+        [hud hide:hideAnimated afterDelay:delay];
+    
+    return hud;
 }
+
+
++ (MBProgressHUD *) showText:(NSString*)text inView:(UIView *)view alpha:(CGFloat)alpha autoHide:(BOOL)autoHide showAnimated:(BOOL)showAnimated hideAnimated:(BOOL)hideAnimated afterDelay:(NSTimeInterval)delay
+{
+    MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:view];
+    [view addSubview:hud];
+    hud.mode = MBProgressHUDModeText;
+    hud.alpha = alpha;
+    hud.detailsLabelText = text;
+    hud.detailsLabelFont = [UIFont systemFontOfSize:14.0f];
+    [hud show:showAnimated];
+    
+    if (autoHide)
+        [hud hide:hideAnimated afterDelay:delay];
+    
+    return hud;
+}
+
 @end

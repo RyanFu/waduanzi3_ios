@@ -62,6 +62,7 @@
 @synthesize forceRefresh = _forceRefresh;
 @synthesize statuses = _statuses;
 @synthesize networkStatus = _networkStatus;
+@synthesize wwanSwitchBigImage = _wwanSwitchBigImage;
 @synthesize wifiSwitchBigImage = _wifiSwitchBigImage;
 
 - (id) init
@@ -100,6 +101,8 @@
     detailFontSize = [CDUserConfig shareInstance].postFontSize;
     _networkStatus = CURRENT_NETWORK_STATUS;
     _imageHeightFilter = CDImageHeightFilterDisabled;
+    
+    _wwanSwitchBigImage = [CDUserConfig shareInstance].wwan_big_image;
     _wifiSwitchBigImage = [CDUserConfig shareInstance].wifi_big_image;
     
     NSLog(@"method: PostListViewController initData");
@@ -132,6 +135,11 @@
 - (BOOL) textFontSizeChanged
 {
     return detailFontSize != [CDUserConfig shareInstance].postFontSize;
+}
+
+- (BOOL) wwanSwitchBigImageChanged
+{
+    return _wwanSwitchBigImage != [CDUserConfig shareInstance].wwan_big_image;
 }
 
 - (BOOL) wifiSwitchBigImageChanged
@@ -278,8 +286,12 @@
         _networkStatus = CURRENT_NETWORK_STATUS;
         [self.tableView reloadData];
     }
-    else if ([self wifiSwitchBigImageChanged]) {
+    else if (NETWORK_STATUS_IS_WIFI && [self wifiSwitchBigImageChanged]) {
         _wifiSwitchBigImage = [CDUserConfig shareInstance].wifi_big_image;
+        [self.tableView reloadData];
+    }
+    else if (NETWORK_STATUS_IS_WWAN && [self wwanSwitchBigImageChanged]) {
+        _wwanSwitchBigImage = [CDUserConfig shareInstance].wwan_big_image;
         [self.tableView reloadData];
     }
     else
@@ -479,7 +491,7 @@
         cell.isLongImage = [post isLongImage];
         
         cell.thumbSize = CGSizeMake(THUMB_WIDTH, THUMB_HEIGHT);
-        if (NETWORK_STATUS_IS_WIFI && [CDUserConfig shareInstance].wifi_big_image) {
+        if ((NETWORK_STATUS_IS_WIFI && [CDUserConfig shareInstance].wifi_big_image) || (NETWORK_STATUS_IS_WWAN && [CDUserConfig shareInstance].wwan_big_image)){
             cell.thumbSize = [post picSizeByWidth:[cell contentBlockWidth]];
             cell.showLongIcon = cell.showGIFIcon = NO;
         }
@@ -660,7 +672,7 @@
         
         if (post.small_pic.length > 0) {
             NSString *imageUrlString = post.small_pic;
-            if (NETWORK_STATUS_IS_WIFI && [CDUserConfig shareInstance].wifi_big_image) {
+            if ((NETWORK_STATUS_IS_WIFI && [CDUserConfig shareInstance].wifi_big_image) || (NETWORK_STATUS_IS_WWAN && [CDUserConfig shareInstance].wwan_big_image)) {
                 imageUrlString = post.middle_pic;
             }
             

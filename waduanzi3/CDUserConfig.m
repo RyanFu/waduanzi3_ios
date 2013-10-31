@@ -24,6 +24,7 @@
 
 @synthesize postFontSize = _postFontSize;
 @synthesize commentFontSize = _commentFontSize;
+@synthesize wwan_big_image = _wwan_big_image;
 @synthesize wifi_big_image = _wifi_big_image;
 @synthesize enable_push_message = _enable_push_message;
 
@@ -46,6 +47,7 @@
 {
     self.postFontSize = CDPostContentFontSizeNormal;
     self.commentFontSize = CDCommentContentFontSizeNormal;
+    self.wwan_big_image = YES;
     self.wifi_big_image = YES;
     self.enable_push_message = YES;
 }
@@ -89,6 +91,7 @@
     if (self) {
         self.postFontSize = [decoder decodeIntegerForKey:@"post_font_size"];
         self.commentFontSize = [decoder decodeIntegerForKey:@"comment_font_size"];
+        self.wwan_big_image = [decoder decodeBoolForKey:@"wwan_big_image"];
         self.wifi_big_image = [decoder decodeBoolForKey:@"wifi_big_image"];
         self.enable_push_message = [decoder decodeBoolForKey:@"enable_push_message"];
     }
@@ -99,6 +102,7 @@
 {
     [encoder encodeInteger:_postFontSize forKey:@"post_font_size"];
     [encoder encodeInteger:_commentFontSize forKey:@"comment_font_size"];
+    [encoder encodeBool:_wwan_big_image forKey:@"wwan_big_image"];
     [encoder encodeBool:_wifi_big_image forKey:@"wifi_big_image"];
     [encoder encodeBool:_enable_push_message forKey:@"enable_push_message"];
 }

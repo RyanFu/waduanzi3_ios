@@ -87,11 +87,11 @@
             UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
             [pasteboard setString:socialControllerService.socialData.shareText];
             
-            [MBProgressHUD show:YES successMessage:@"复制成功" inView:socialControllerService.currentViewController.view alpha:0.9f hide:YES afterDelay:0.5f];
+            [MBProgressHUD showSuccessMessage:@"复制成功" inView:socialControllerService.currentViewController.view alpha:0.7f autoHide:YES showAnimated:YES hideAnimated:YES afterDelay:1.5f];
         }
         @catch (NSException *exception) {
             CDLog(@"copy exception: %@", exception.reason);
-            [MBProgressHUD show:YES errorMessage:@"复制出错" inView:socialControllerService.currentViewController.view alpha:0.9f hide:YES afterDelay:0.5f];
+            [MBProgressHUD showErrorMessage:@"复制出错" inView:socialControllerService.currentViewController.view alpha:0.7f autoHide:YES showAnimated:YES hideAnimated:YES afterDelay:1.5f];
         }
         @finally {
             ;

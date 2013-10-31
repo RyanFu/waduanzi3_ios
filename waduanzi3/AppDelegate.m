@@ -371,14 +371,17 @@
 - (void) checkNetworkChange
 {
     [[RKObjectManager sharedManager].HTTPClient setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
+        NSString *tipMessage;
         if (status == AFNetworkReachabilityStatusNotReachable) {
             NSLog(@"network status: not reachable");
         }
         else if (status == AFNetworkReachabilityStatusReachableViaWWAN) {
             NSLog(@"network status: reachable via WWAN");
+            tipMessage = @"当前网络已切换至2G/3G模式";
         }
         else if (status == AFNetworkReachabilityStatusReachableViaWiFi) {
             NSLog(@"network status: reachable via WIFI");
+            tipMessage = @"当前网络已切换至WIFI模式";
         }
         else if (status == AFNetworkReachabilityStatusUnknown) {
             NSLog(@"network status:  unknown");
@@ -388,7 +391,10 @@
         
         // 如果状态改变，刷新当前段子列表
         @try {
-            if ((status == AFNetworkReachabilityStatusReachableViaWiFi || status == AFNetworkReachabilityStatusReachableViaWWAN) && [CDUserConfig shareInstance].wifi_big_image) {
+            if ((status == AFNetworkReachabilityStatusReachableViaWiFi || status == AFNetworkReachabilityStatusReachableViaWWAN)) {
+                
+                [MBProgressHUD showText:tipMessage inView:ROOT_CONTROLLER.view alpha:0.7f autoHide:YES showAnimated:YES hideAnimated:YES afterDelay:1.5f];
+                
                 UIViewController *currentViewController;
                 if ([_deckController.centerController isKindOfClass:[UINavigationController class]]) {
                     UINavigationController *currentNavViewController = (UINavigationController *)_deckController.centerController;

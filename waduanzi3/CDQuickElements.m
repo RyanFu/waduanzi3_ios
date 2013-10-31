@@ -73,58 +73,65 @@
     };
     [section0 addElement:commentFontElement];
     
+    QSection *section1 = [[QSection alloc] initWithTitle:@"功能设置"];
+    [root addSection:section1];
     QBooleanElement *messagePush = [[QBooleanElement alloc] initWithTitle:@"接收精彩段子推送" Value:nil];
     messagePush.key = @"key_message_push";
     messagePush.controllerAction = @"messagePushAction:";
-    [section0 addElement:messagePush];
+    [section1 addElement:messagePush];
     
-    QBooleanElement *autoChangeImageSize = [[QBooleanElement alloc] initWithTitle:@"WIFI下切换到大图" Value:nil];
+    QBooleanElement *wwanShowImageSizeElement = [[QBooleanElement alloc] initWithTitle:@"2G/3G下显示大图" Value:nil];
+    wwanShowImageSizeElement.key = @"key_wwan_switch_big_image";
+    wwanShowImageSizeElement.controllerAction = @"wwanSwitchBigImageAction:";
+    [section1 addElement:wwanShowImageSizeElement];
+    
+    QBooleanElement *autoChangeImageSize = [[QBooleanElement alloc] initWithTitle:@"WIFI下显示大图" Value:nil];
     autoChangeImageSize.key = @"key_wifi_switch_big_image";
     autoChangeImageSize.controllerAction = @"wifiSwitchBigImageAction:";
-    [section0 addElement:autoChangeImageSize];
+    [section1 addElement:autoChangeImageSize];
 
     QLabelElement *clearCache = [[QLabelElement alloc] initWithTitle:@"清除缓存" Value:nil];
     clearCache.key = @"key_clear_cache";
     clearCache.controllerAction = @"clearCacheAction:";
-    [section0 addElement:clearCache];
+    [section1 addElement:clearCache];
     
-    // section 2
+    // section 3
     if ([[CDSession shareInstance] hasLogined]) {
-        QSection *section2 = [[QSection alloc] init];
-        section2.key = @"key_user_profile";
-        [root addSection:section2];
+        QSection *section3 = [[QSection alloc] init];
+        section3.key = @"key_user_profile";
+        [root addSection:section3];
         CDUser *user = [[CDSession shareInstance] currentUser];
         QLabelElement *userProfileLabel = [[QLabelElement alloc] initWithTitle:@"我的账号" Value:user.username];
         userProfileLabel.key = @"key_go_user_profile";
         userProfileLabel.controllerAction = @"userProfileAction:";
-        [section2 addElement:userProfileLabel];
+        [section3 addElement:userProfileLabel];
     }
-    
-    // section 3
-    QSection *section3 = [[QSection alloc] init];
-    section3.title = @"其它";
-    [root addSection:section3];
-    QLabelElement *feedbackLabel = [[QLabelElement alloc] initWithTitle:@"意见反馈" Value:nil];
-    feedbackLabel.key = @"key_feedback";
-    feedbackLabel.controllerAction = @"feedbackAction:";
-    [section3 addElement:feedbackLabel];
-    QLabelElement *starredLabel = [[QLabelElement alloc] initWithTitle:@"支持挖段子" Value:nil];
-    starredLabel.key = @"key_starred_app";
-    starredLabel.controllerAction = @"starredAction:";
-    [section3 addElement:starredLabel];
-    QLabelElement *aboutLabel = [[QLabelElement alloc] initWithTitle:@"关于挖段子" Value:nil];
-    aboutLabel.key = @"key_about_us";
-    aboutLabel.controllerAction = @"aboutmeAction:";
-    [section3 addElement:aboutLabel];
-    
     
     // section 4
     QSection *section4 = [[QSection alloc] init];
+    section4.title = @"其它";
     [root addSection:section4];
+    QLabelElement *feedbackLabel = [[QLabelElement alloc] initWithTitle:@"意见反馈" Value:nil];
+    feedbackLabel.key = @"key_feedback";
+    feedbackLabel.controllerAction = @"feedbackAction:";
+    [section4 addElement:feedbackLabel];
+    QLabelElement *starredLabel = [[QLabelElement alloc] initWithTitle:@"支持挖段子" Value:nil];
+    starredLabel.key = @"key_starred_app";
+    starredLabel.controllerAction = @"starredAction:";
+    [section4 addElement:starredLabel];
+    QLabelElement *aboutLabel = [[QLabelElement alloc] initWithTitle:@"关于挖段子" Value:nil];
+    aboutLabel.key = @"key_about_us";
+    aboutLabel.controllerAction = @"aboutmeAction:";
+    [section4 addElement:aboutLabel];
+    
+    
+    // section 5
+    QSection *section5 = [[QSection alloc] init];
+    [root addSection:section5];
     QBadgeElement *checkVersionLabel = [[QBadgeElement alloc] initWithTitle:@"当前版本" Value:APP_VERSION];
-    [section4 addElement:checkVersionLabel];
+    [section5 addElement:checkVersionLabel];
 
-    section4.footer = @"waduanzi.com";
+    section5.footer = @"waduanzi.com";
 
     return root;
 }

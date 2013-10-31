@@ -214,8 +214,7 @@
                 }
                 else {
                     element.boolValue = NO;
-                    
-                    [MBProgressHUD show:YES errorMessage:@"新浪微博授权出错，请重新授权一次" inView:self.view alpha:0.6f hide:YES afterDelay:1.5f];
+                    [MBProgressHUD showErrorMessage:@"新浪微博授权出错，请重新授权一次" inView:self.view alpha:0.6f autoHide:YES showAnimated:YES hideAnimated:YES afterDelay:1.5f];
                 }
             }
             else
@@ -251,8 +250,7 @@
                 }
                 else {
                     element.boolValue = NO;
-                    
-                    [MBProgressHUD show:YES errorMessage:@"QQ空间授权出错，请重新授权一次" inView:self.view alpha:0.6f hide:YES afterDelay:1.5f];
+                    [MBProgressHUD showErrorMessage:@"QQ空间授权出错，请重新授权一次" inView:self.view alpha:0.6f autoHide:YES showAnimated:YES hideAnimated:YES afterDelay:1.5f];
                 }
             }
             else

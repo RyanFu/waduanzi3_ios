@@ -178,16 +178,50 @@
 
 + (void) setToolBar:(UIToolbar *)toolbar style:(CDToolBarStyle)style forToolbarPosition:(UIToolbarPosition)topOrBottom forBarMetrics:(UIBarMetrics)barMetrics
 {
+    UIImage *normalImage, *pressedImage;
+    UIEdgeInsets buttonInsets;
     switch (style) {
         case CDToolBarStyleBlue:
             [toolbar setBackgroundImage:[UIImage imageNamed:@"FBWebViewToolbarBackground.png"]
                                                forToolbarPosition:topOrBottom
                                                        barMetrics:barMetrics];
+            
+            buttonInsets = UIEdgeInsetsMake(0.0f, 4.0f, 0.0f, 4.0f);
+            normalImage = [[UIImage imageNamed:@"NavBarButtonPortrait.png"] resizableImageWithCapInsets:buttonInsets];
+            [[UIBarButtonItem appearanceWhenContainedIn:[UIToolbar class], nil] setBackgroundImage: normalImage
+                                                                                          forState: UIControlStateNormal
+                                                                                        barMetrics: barMetrics];
+            
+            pressedImage = [[UIImage imageNamed:@"NavBarButtonPortraitPressed.png"] resizableImageWithCapInsets:buttonInsets];
+            [[UIBarButtonItem appearanceWhenContainedIn:[UIToolbar class], nil] setBackgroundImage: pressedImage
+                                                                                          forState: UIControlStateSelected
+                                                                                        barMetrics: barMetrics];
+            
+            [[UIBarButtonItem appearanceWhenContainedIn:[UIToolbar class], nil] setBackgroundImage: pressedImage
+                                                                                          forState: UIControlStateHighlighted
+                                                                                        barMetrics: barMetrics];
+            
             break;
         case CDToolBarStyleBlack:
             [toolbar setBackgroundImage:[UIImage imageNamed:@"toolbar_bg_black.png"]
                      forToolbarPosition:topOrBottom
                              barMetrics:barMetrics];
+            
+            buttonInsets = UIEdgeInsetsMake(0.0f, 4.0f, 0.0f, 4.0f);
+            normalImage = [[UIImage imageNamed:@"UISearchBarCancelButtonBackground.png"] resizableImageWithCapInsets:buttonInsets];
+            [[UIBarButtonItem appearanceWhenContainedIn:[UIToolbar class], nil] setBackgroundImage: normalImage
+                                                                                          forState: UIControlStateNormal
+                                                                                        barMetrics: barMetrics];
+            
+            pressedImage = [[UIImage imageNamed:@"UISearchBarCancelButtonBackgroundPressed.png"] resizableImageWithCapInsets:buttonInsets];
+            [[UIBarButtonItem appearanceWhenContainedIn:[UIToolbar class], nil] setBackgroundImage: pressedImage
+                                                                                          forState: UIControlStateSelected
+                                                                                        barMetrics: barMetrics];
+            
+            [[UIBarButtonItem appearanceWhenContainedIn:[UIToolbar class], nil] setBackgroundImage: pressedImage
+                                                                                          forState: UIControlStateHighlighted
+                                                                                        barMetrics: barMetrics];
+            
             break;
         case CDToolBarStyleDefault:
         default:
