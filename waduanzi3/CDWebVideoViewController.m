@@ -8,6 +8,7 @@
 
 #import "CDWebVideoViewController.h"
 #import "UIView+Border.h"
+#
 
 @interface CDWebVideoViewController ()
 {
@@ -25,9 +26,13 @@
     BOOL _previousToolbarState;
     NSArray *_urlToolbarItems;
     
+    AdViewType _adViewType;
+    
 }
 
 - (void) setupAdView;
+- (CGSize) fetchAdViewSize;
+
 - (UIImage *)createBackArrowImage;
 - (UIImage *)createForwardArrowImage;
 @end
@@ -81,14 +86,16 @@
     
     NSLog(@"load view");
     
+    _adViewType = AdViewTypeNormalBanner;
+    
     self.view.backgroundColor = [UIColor blackColor];
 
     
     CGRect webViewFrame = self.view.bounds;
-    if (OS_VERSION_LESS_THAN(@"7.0"))
-        webViewFrame.size.height -= NAVBAR_HEIGHT;
-    else
-        webViewFrame.size.height -= (NAVBAR_HEIGHT*2 + STATUSBAR_HEIGHT);
+    CGSize adViewSize = [self fetchAdViewSize];
+    webViewFrame.size.height -= (NAVBAR_HEIGHT*2 + adViewSize.height);
+    if (IS_IOS7)
+        webViewFrame.size.height -= STATUSBAR_HEIGHT;
 
     _webView = [[UIWebView alloc] initWithFrame:webViewFrame];
     _webView.delegate = self;
@@ -297,10 +304,20 @@
 
 - (void) setupAdView
 {
-    _adView = [[AdMoGoView alloc] initWithAppKey:MOGO_ADID adType:AdViewTypeNormalBanner adMoGoViewDelegate:self];
+    _adView = [[AdMoGoView alloc] initWithAppKey:MOGO_ADID adType:_adViewType adMoGoViewDelegate:self];
     _adView.adWebBrowswerDelegate = self;
     
     [self.view addSubview:_adView];
+}
+
+- (CGSize) fetchAdViewSize
+{
+    if (_adViewType == AdViewTypeNormalBanner)
+        return NORMAL_BANNER_AD_SIZE;
+    else if (_adViewType == AdViewTypeCustomSize)
+        return CUSTOM_AD_VIDEO_WEBVIEW_SIZE;
+    else
+        return CGSizeZero;
 }
 
 #pragma mark - AdMoGoDelegate
@@ -319,12 +336,8 @@
 {
     CDLog(@"广告接收成功回调");
     
-    CGRect webViewFrame = _webView.frame;
-    webViewFrame.size.height = self.view.bounds.size.height - adMoGoView.frame.size.height - (IS_IOS7 ? NAVBAR_HEIGHT : 0);
-    _webView.frame = webViewFrame;
-    
     CGRect adViewFrame = adMoGoView.bounds;
-    adViewFrame.origin.y = webViewFrame.origin.y + webViewFrame.size.height;
+    adViewFrame.origin.y = _webView.frame.origin.y + _webView.frame.size.height;
     _adView.frame = adViewFrame;
 }
 
@@ -341,10 +354,6 @@
 - (void) adMoGoDeleteAd:(AdMoGoView *)adMoGoView
 {
     CDLog(@"广告关闭回调");
-    
-    CGRect webViewFrame = _webView.frame;
-    webViewFrame.size.height = self.view.bounds.size.height - (IS_IOS7 ? NAVBAR_HEIGHT : 0);
-    _webView.frame = webViewFrame;
 }
 
 
@@ -373,6 +382,19 @@
 - (void) webBrowserShare:(NSString *)url
 {
     
+}
+
+
+#pragma mark - custom size
+
+- (BOOL) adMoGoCustomSizeAdRotateOrNot
+{
+    return YES;
+}
+
+- (CGSize) adMoGoCustomSize
+{
+    return CUSTOM_AD_VIDEO_WEBVIEW_SIZE;
 }
 @end
 

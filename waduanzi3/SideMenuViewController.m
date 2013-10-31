@@ -104,7 +104,10 @@
     
     NSString *leftButtonTitle = [[CDSession shareInstance] hasLogined] ? [[CDSession shareInstance] currentUser].screen_name : @"登录";
     
-    CGSize titleSize = [leftButtonTitle sizeWithAttributes:[self.navigationItem.leftBarButtonItem titleTextAttributesForState:UIControlStateNormal]];
+    CGSize titleSize = IS_IOS7
+        ? [leftButtonTitle sizeWithAttributes:[self.navigationItem.leftBarButtonItem titleTextAttributesForState:UIControlStateNormal]]
+        : [leftButtonTitle sizeWithFont:[UIFont fontWithName:FZLTHK_FONT_NAME size:14.0f]];
+    
     if (titleSize.width > 130.f) {
         leftButtonTitle = [[leftButtonTitle substringToIndex:6] stringByAppendingString:@"..."];
     }

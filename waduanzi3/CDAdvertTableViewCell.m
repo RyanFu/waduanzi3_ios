@@ -181,6 +181,7 @@
     
     // imageView
     if (self.imageView.image) {
+        self.imageView.backgroundColor = [UIColor colorWithRed:0.94f green:0.94f blue:0.94f alpha:1.00f];
         widgetHeight = ADVERT_IMAGE_HEIGHT;
         CGRect imageViewFrame = CGRectMake(_contentPadding.left, widgetY, contentBlockWidth, widgetHeight);
         [self.imageView setFrame: imageViewFrame];

@@ -18,6 +18,7 @@
 #import "ArticleDetailViewController.h"
 #import "CDConfig.h"
 #import "UIView+Border.h"
+#import "UIView+Border.h"
 
 @interface FocusListViewController ()
 
@@ -38,7 +39,6 @@
     _statuses = [[CDDataCache shareCache] fetchFocusPosts];
     
     [super viewDidLoad];
-    
     
     @try {
         if ([CDConfig enabledFocusListBannerAdvert])
@@ -185,6 +185,7 @@
 
 - (void) setupAdView
 {
+//    [self.tableView showBorder:1.5f color:[UIColor redColor].CGColor radius:0];
     
     self.adView = [[AdMoGoView alloc] initWithAppKey:MOGO_ADID adType:AdViewTypeNormalBanner adMoGoViewDelegate:self];
     _adView.adWebBrowswerDelegate = self;
