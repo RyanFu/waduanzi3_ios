@@ -171,8 +171,8 @@ typedef NS_ENUM(NSInteger, CDImageHeightFilter)
 #define POST_TEXT_COLOR [UIColor colorWithRed:0.27f green:0.27f blue:0.27f alpha:1.00f]
 #define COMMENT_TEXT_COLOR [UIColor colorWithRed:0.35f green:0.35f blue:0.35f alpha:1.00f]
 
-#define PLACEHOLDER_IMAGE_AVATAR [UIImage imageNamed:@"avatar_placeholder.png"]
-#define PLACEHOLDER_IMAGE_POST_THUMB [UIImage imageNamed:@"thumb_placeholder.png"]
+#define PLACEHOLDER_IMAGE_AVATAR [UIImage imageNamed:@"timeline_AvatarPlaceholderMale"]
+#define PLACEHOLDER_IMAGE_POST_THUMB [UIImage imageNamed:@"thumb_placeholder"]
 
 
 /*

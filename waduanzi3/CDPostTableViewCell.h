@@ -28,6 +28,9 @@
 @property (nonatomic, strong) UIButton *upButton;
 @property (nonatomic, strong) UIButton *commentButton;
 @property (nonatomic, strong) UIButton *moreButton;
+@property (nonatomic, strong) UIProgressView *progressView;
+@property (nonatomic, strong) UIActivityIndicatorView *indicatoryView;
+
 @property (nonatomic, assign) UIEdgeInsets contentMargin;
 @property (nonatomic, assign) UIEdgeInsets contentPadding;
 

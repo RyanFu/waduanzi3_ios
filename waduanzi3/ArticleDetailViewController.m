@@ -35,6 +35,12 @@
     _cellCache = [[NSCache alloc] init];
 }
 
+- (void) viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+}
+
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -98,22 +104,33 @@
 {
     CDLog(@"post content html: %@, attachement: %@", self.post.content_html, attachment.class);
     if ([attachment isKindOfClass:[DTImageTextAttachment class]]) {
+        
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:frame];
         imageView.layer.cornerRadius = 3.0f;
         imageView.contentMode = UIViewContentModeScaleAspectFill;
         imageView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         imageView.clipsToBounds = YES;
+        
         UIActivityIndicatorView *loadingView = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake((frame.size.width-30)/2, (frame.size.height-30)/2, 30, 30)];
         loadingView.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
         loadingView.hidesWhenStopped = YES;
         [imageView addSubview:loadingView];
-        
         [loadingView startAnimating];
-        __weak UIActivityIndicatorView *weakLoadingView = loadingView;
-        [imageView setImageWithURL:attachment.contentURL placeholderImage:[UIImage imageNamed:@"thumb_placeholder.png"] options:SDWebImageRetryFailed progress:^(NSUInteger receivedSize, long long expectedSize) {
+        
+        CGRect progressViewFrame = CGRectMake(50.0f, 50.0f, frame.size.width - 100.0f, 100);
+        UIProgressView *progressView = [[UIProgressView alloc] initWithFrame:progressViewFrame];
+        [imageView addSubview:progressView];
+        
+        imageView.backgroundColor = [UIColor colorWithRed:0.94f green:0.94f blue:0.94f alpha:1.00f];
+        [imageView setImageWithURL:attachment.contentURL placeholderImage:nil options:SDWebImageRetryFailed progress:^(NSUInteger receivedSize, long long expectedSize) {
+            CDLog(@"image download process: %d / %d", receivedSize, expectedSize);
+            if (expectedSize > 0) {
+                progressView.progress = (float)receivedSize/(float)expectedSize;
+            }
             ;
         } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-            [weakLoadingView stopAnimating];
+            [progressView removeFromSuperview];
+            [loadingView stopAnimating];
         }];
         
         imageView.userInteractionEnabled = YES;
@@ -141,10 +158,10 @@
 
 - (void)thumbImageDidTapFinished:(UITapGestureRecognizer *)recognizer
 {
-    UIImageView *imageView = (UIImageView *)recognizer.view;
+    UIImageView *view = (UIImageView *)recognizer.view;
     ImageDetailViewController *imageViewController = [[ImageDetailViewController alloc] init];
-    imageViewController.thumbnail = imageView.image;
-    imageViewController.originaPic = imageView.image;
+    imageViewController.thumbnail = view.image;
+    imageViewController.originaPic = view.image;
     // TODO: 这里需要再详细处理，或需要做成点击之后可以多图片查看的视图
 //    imageViewController.originalPicUrl = [NSURL URLWithString:self.post.middle_pic];
     

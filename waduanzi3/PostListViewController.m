@@ -483,6 +483,8 @@
     cell.authorTextLabel.text = post.author_name;
     cell.datetimeTextLabel.text = post.create_time_at;
     cell.textLabel.text = nil;
+    cell.progressView.progress = 0;
+    [cell.indicatoryView stopAnimating];
     
     cell.avatarImageView.image = PLACEHOLDER_IMAGE_AVATAR;
     
@@ -671,16 +673,38 @@
         [postCell.avatarImageView setImageWithURL:[NSURL URLWithString:post.user.small_avatar] placeholderImage:PLACEHOLDER_IMAGE_AVATAR];
         
         if (post.small_pic.length > 0) {
+            BOOL showBigImage = NO;
             NSString *imageUrlString = post.small_pic;
             if ((NETWORK_STATUS_IS_WIFI && [CDUserConfig shareInstance].wifi_big_image) || (NETWORK_STATUS_IS_WWAN && [CDUserConfig shareInstance].wwan_big_image)) {
                 imageUrlString = post.middle_pic;
+                showBigImage = YES;
+                [postCell.indicatoryView startAnimating];
+                postCell.indicatoryView.hidden = NO;
+                postCell.progressView.hidden = NO;
+            }
+            else {
+                showBigImage = NO;
+                [postCell.indicatoryView stopAnimating];
+                postCell.indicatoryView.hidden = YES;
+                postCell.progressView.hidden = YES;
             }
             
             NSURL *imageUrl = [NSURL URLWithString:imageUrlString];
-            [cell.imageView setImageWithURL:imageUrl placeholderImage:PLACEHOLDER_IMAGE_POST_THUMB options:SDWebImageRetryFailed progress:^(NSUInteger receivedSize, long long expectedSize) {
+            __weak UIProgressView *weakProgressView = postCell.progressView;
+            __weak UIActivityIndicatorView *weakIndicatorView = postCell.indicatoryView;
+            UIImage *grayImage = [UIImage imageWithColor:[UIColor colorWithRed:0.94f green:0.94f blue:0.94f alpha:1.00f] size:CGSizeMake(1, 1)];
+            [cell.imageView setImageWithURL:imageUrl placeholderImage:grayImage options:SDWebImageRetryFailed progress:^(NSUInteger receivedSize, long long expectedSize) {
                 CDLog(@"receivedSize/expectedSize: %d/%lld", receivedSize, expectedSize);
+                if (showBigImage && expectedSize > 0 && weakProgressView)
+                    weakProgressView.progress = (float)receivedSize/expectedSize;
             } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
                 CDLog(@"image download finished.");
+                if (showBigImage && weakIndicatorView) {
+                    [weakIndicatorView stopAnimating];
+                    weakIndicatorView.hidden = YES;
+                }
+                if (showBigImage && weakProgressView)
+                    weakProgressView.hidden = YES;
             }];
         }
     }

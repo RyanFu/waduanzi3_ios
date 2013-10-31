@@ -372,8 +372,6 @@
 		2B623B831792F09800D3270D /* close@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B623B511792F09800D3270D /* close@2x.png */; };
 		2B623B841792F09800D3270D /* checkbox_checked@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B623B521792F09800D3270D /* checkbox_checked@2x.png */; };
 		2B623B851792F09800D3270D /* checkbox_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B623B531792F09800D3270D /* checkbox_normal@2x.png */; };
-		2B623B861792F09800D3270D /* avatar_placeholder.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B623B541792F09800D3270D /* avatar_placeholder.png */; };
-		2B623B871792F09800D3270D /* avatar_placeholder@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B623B551792F09800D3270D /* avatar_placeholder@2x.png */; };
 		2B623B961792F73D00D3270D /* ButtonAction.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B623B8A1792F73D00D3270D /* ButtonAction.png */; };
 		2B623B971792F73D00D3270D /* ButtonAction@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B623B8B1792F73D00D3270D /* ButtonAction@2x.png */; };
 		2B623B981792F73D00D3270D /* ButtonNext.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B623B8C1792F73D00D3270D /* ButtonNext.png */; };
@@ -476,6 +474,11 @@
 		2BCA0A0117578704000DD9FF /* CDComment.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BCA0A0017578704000DD9FF /* CDComment.m */; };
 		2BCB1D7017AE0E02008BC470 /* CDCommon.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BCB1D6F17AE0E01008BC470 /* CDCommon.m */; };
 		2BCB1D7417AEA7C1008BC470 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BCB1D7317AEA7C1008BC470 /* CFNetwork.framework */; };
+		2BCD59CC1822A1C100105172 /* timeline_AvatarPlaceholderMale@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BCD59C81822A1C100105172 /* timeline_AvatarPlaceholderMale@2x.png */; };
+		2BCD59CD1822A1C100105172 /* timeline_AvatarPlaceholderFemale.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BCD59C91822A1C100105172 /* timeline_AvatarPlaceholderFemale.png */; };
+		2BCD59CE1822A1C100105172 /* timeline_AvatarPlaceholderMale.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BCD59CA1822A1C100105172 /* timeline_AvatarPlaceholderMale.png */; };
+		2BCD59CF1822A1C100105172 /* timeline_AvatarPlaceholderFemale@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BCD59CB1822A1C100105172 /* timeline_AvatarPlaceholderFemale@2x.png */; };
+		2BCD59D11822AA9F00105172 /* lbs_list_icon_image@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BCD59D01822AA9F00105172 /* lbs_list_icon_image@2x.png */; };
 		2BCEA34017EF63D300FCF982 /* PassKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BCEA33F17EF63D300FCF982 /* PassKit.framework */; };
 		2BCFA8CB16E4E12500521DEC /* SideMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BCFA8CA16E4E12500521DEC /* SideMenuViewController.m */; };
 		2BCFA8CE16E4E2CF00521DEC /* PostListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BCFA8CD16E4E2CF00521DEC /* PostListViewController.m */; };
@@ -1067,8 +1070,6 @@
 		2B623B511792F09800D3270D /* close@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "close@2x.png"; sourceTree = "<group>"; };
 		2B623B521792F09800D3270D /* checkbox_checked@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checkbox_checked@2x.png"; sourceTree = "<group>"; };
 		2B623B531792F09800D3270D /* checkbox_normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checkbox_normal@2x.png"; sourceTree = "<group>"; };
-		2B623B541792F09800D3270D /* avatar_placeholder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = avatar_placeholder.png; sourceTree = "<group>"; };
-		2B623B551792F09800D3270D /* avatar_placeholder@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "avatar_placeholder@2x.png"; sourceTree = "<group>"; };
 		2B623B8A1792F73D00D3270D /* ButtonAction.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonAction.png; sourceTree = "<group>"; };
 		2B623B8B1792F73D00D3270D /* ButtonAction@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ButtonAction@2x.png"; sourceTree = "<group>"; };
 		2B623B8C1792F73D00D3270D /* ButtonNext.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonNext.png; sourceTree = "<group>"; };
@@ -1213,6 +1214,11 @@
 		2BCB1D6E17AE0E01008BC470 /* CDCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDCommon.h; sourceTree = "<group>"; };
 		2BCB1D6F17AE0E01008BC470 /* CDCommon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDCommon.m; sourceTree = "<group>"; };
 		2BCB1D7317AEA7C1008BC470 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		2BCD59C81822A1C100105172 /* timeline_AvatarPlaceholderMale@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "timeline_AvatarPlaceholderMale@2x.png"; sourceTree = "<group>"; };
+		2BCD59C91822A1C100105172 /* timeline_AvatarPlaceholderFemale.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = timeline_AvatarPlaceholderFemale.png; sourceTree = "<group>"; };
+		2BCD59CA1822A1C100105172 /* timeline_AvatarPlaceholderMale.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = timeline_AvatarPlaceholderMale.png; sourceTree = "<group>"; };
+		2BCD59CB1822A1C100105172 /* timeline_AvatarPlaceholderFemale@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "timeline_AvatarPlaceholderFemale@2x.png"; sourceTree = "<group>"; };
+		2BCD59D01822AA9F00105172 /* lbs_list_icon_image@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lbs_list_icon_image@2x.png"; sourceTree = "<group>"; };
 		2BCEA33F17EF63D300FCF982 /* PassKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PassKit.framework; path = System/Library/Frameworks/PassKit.framework; sourceTree = SDKROOT; };
 		2BCFA8C916E4E12500521DEC /* SideMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SideMenuViewController.h; sourceTree = "<group>"; };
 		2BCFA8CA16E4E12500521DEC /* SideMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SideMenuViewController.m; sourceTree = "<group>"; };
@@ -2442,6 +2448,11 @@
 		2BED82F8167B5ED20025E9C4 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				2BCD59D01822AA9F00105172 /* lbs_list_icon_image@2x.png */,
+				2BCD59C81822A1C100105172 /* timeline_AvatarPlaceholderMale@2x.png */,
+				2BCD59C91822A1C100105172 /* timeline_AvatarPlaceholderFemale.png */,
+				2BCD59CA1822A1C100105172 /* timeline_AvatarPlaceholderMale.png */,
+				2BCD59CB1822A1C100105172 /* timeline_AvatarPlaceholderFemale@2x.png */,
 				2B48FE65181FC53300A08825 /* FBBookmarkRateThisApp.png */,
 				2B48FE66181FC53300A08825 /* FBBookmarkPushNotifications@2x.png */,
 				2B48FE67181FC53300A08825 /* FBBookmarkLogout@2x.png */,
@@ -2680,8 +2691,6 @@
 				2B623B511792F09800D3270D /* close@2x.png */,
 				2B623B521792F09800D3270D /* checkbox_checked@2x.png */,
 				2B623B531792F09800D3270D /* checkbox_normal@2x.png */,
-				2B623B541792F09800D3270D /* avatar_placeholder.png */,
-				2B623B551792F09800D3270D /* avatar_placeholder@2x.png */,
 				2B623AFD1792F07D00D3270D /* navibg@2x.png */,
 				2B623AFE1792F07D00D3270D /* navibg.png */,
 				2B623AFF1792F07D00D3270D /* mqz_input_bg@2x.png */,
@@ -2919,6 +2928,7 @@
 				2B623B701792F09800D3270D /* camera_focus.png in Resources */,
 				2B9C27E317E1070A00C823EC /* Icon-29x29.png in Resources */,
 				2B0A60A2181ECCBC00E9DF6D /* adchina_hide@2x.png in Resources */,
+				2BCD59CF1822A1C100105172 /* timeline_AvatarPlaceholderFemale@2x.png in Resources */,
 				2B1469F41814C92900D4D291 /* UMSCommentInputControlleriPad.xib in Resources */,
 				2B613E14181E93750017DCF9 /* website-728x90.gif in Resources */,
 				2B623B711792F09800D3270D /* camera_focus@2x.png in Resources */,
@@ -2955,6 +2965,8 @@
 				2B623B801792F09800D3270D /* cancel_press.png in Resources */,
 				2B623B811792F09800D3270D /* cancel_press@2x.png in Resources */,
 				2B623B821792F09800D3270D /* close.png in Resources */,
+				2BCD59D11822AA9F00105172 /* lbs_list_icon_image@2x.png in Resources */,
+				2BCD59CE1822A1C100105172 /* timeline_AvatarPlaceholderMale.png in Resources */,
 				2B1F680B181E999E00249BBD /* DomobAdSDKBundle.bundle in Resources */,
 				2B613E12181E93750017DCF9 /* website-468x60.gif in Resources */,
 				2B623B831792F09800D3270D /* close@2x.png in Resources */,
@@ -2963,8 +2975,6 @@
 				2B623B841792F09800D3270D /* checkbox_checked@2x.png in Resources */,
 				2B623B851792F09800D3270D /* checkbox_normal@2x.png in Resources */,
 				2BD588EC181ECB48007B0A7B /* adwo_takephoto.png in Resources */,
-				2B623B861792F09800D3270D /* avatar_placeholder.png in Resources */,
-				2B623B871792F09800D3270D /* avatar_placeholder@2x.png in Resources */,
 				2B623B961792F73D00D3270D /* ButtonAction.png in Resources */,
 				2B613E2A181E93750017DCF9 /* webview_bar_refresh@2x.png in Resources */,
 				2B623B971792F73D00D3270D /* ButtonAction@2x.png in Resources */,
@@ -3000,6 +3010,7 @@
 				2B613E47181E93760017DCF9 /* shareviewhead_icon.png in Resources */,
 				2B924CC717951E7E00686A94 /* ButtonNavBack@2x.png in Resources */,
 				2B6F12B7181E2CFE0099E313 /* ios7_tabbar_notificationsicon_normal@2x.png in Resources */,
+				2BCD59CC1822A1C100105172 /* timeline_AvatarPlaceholderMale@2x.png in Resources */,
 				2B924CD11795270400686A94 /* ButtonUnread@2x.png in Resources */,
 				2B924CD21795270400686A94 /* ButtonUnread.png in Resources */,
 				2B613E52181E93760017DCF9 /* AdMoGoWebBrowser.xib in Resources */,
@@ -3093,6 +3104,7 @@
 				2B0AEC9617982B0F00AFBAFA /* FBBookmarkDefault.png in Resources */,
 				2B0AEC9717982B0F00AFBAFA /* FBBookmarkDefault@2x.png in Resources */,
 				2B6F12B4181E2CFE0099E313 /* ios7_tabbar_feedicon_normal.png in Resources */,
+				2BCD59CD1822A1C100105172 /* timeline_AvatarPlaceholderFemale.png in Resources */,
 				2B0AEC9A17982B6F00AFBAFA /* friends.png in Resources */,
 				2B0AEC9B17982B6F00AFBAFA /* friends@2x.png in Resources */,
 				2B0AEC9E179832F700AFBAFA /* pullToRefreshBg.png in Resources */,

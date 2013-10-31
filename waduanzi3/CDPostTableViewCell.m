@@ -30,6 +30,8 @@
 @synthesize upButton = _upButton;
 @synthesize commentButton = _commentButton;
 @synthesize moreButton = _moreButton;
+@synthesize progressView = _progressView;
+@synthesize indicatoryView = _indicatoryView;
 @synthesize contentMargin = _contentMargin;
 @synthesize contentPadding = _contentPadding;
 @synthesize separatorHeight = _separatorHeight;
@@ -70,6 +72,10 @@
         [self.contentView addSubview:_commentButton];
         // MARK: 以后添加列表中的更多按钮
 //        [self.contentView addSubview:_moreButton];
+        
+        self.progressView = [[UIProgressView alloc] initWithFrame:CGRectZero];
+        self.indicatoryView = [[UIActivityIndicatorView alloc] initWithFrame:CGRectZero];
+        _indicatoryView.hidesWhenStopped = YES;
         
         _gifImageIconView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mqz_img_gif.png"]];
         [_gifImageIconView sizeToFit];
@@ -246,6 +252,23 @@
         }
         else
             self.imageView.userInteractionEnabled = NO;
+        
+        
+        CGRect progressViewFrame = imageViewFrame;
+        progressViewFrame.size.width -= 100.0f;
+        progressViewFrame.size.height = 30.0f;
+        progressViewFrame.origin.x += 50.0f;
+        progressViewFrame.origin.y += 100.0f;
+        _progressView.frame = progressViewFrame;
+        [self.contentView addSubview:_progressView];
+        
+        CGRect indicatoryViewFrame = imageViewFrame;
+        _indicatoryView.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
+        indicatoryViewFrame.origin.x = imageViewFrame.origin.x + imageViewFrame.size.width/2 - 15.0f;
+        indicatoryViewFrame.origin.y = progressViewFrame.origin.y - 50.0f;
+        indicatoryViewFrame.size.width = indicatoryViewFrame.size.height = 30.0f;
+        _indicatoryView.frame = indicatoryViewFrame;
+        [self.contentView addSubview:_indicatoryView];
         
         widgetY += widgetHeight + _separatorHeight;
     }
