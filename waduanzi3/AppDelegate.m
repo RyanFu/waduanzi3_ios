@@ -293,7 +293,7 @@
     _deckController.centerhiddenInteractivity = IIViewDeckCenterHiddenNotUserInteractiveWithTapToClose;
     _deckController.openSlideAnimationDuration = 0.2f;
     _deckController.closeSlideAnimationDuration = 0.25f;
-    _deckController.delegateMode = IIViewDeckDelegateAndSubControllers;
+    _deckController.delegateMode = IIViewDeckDelegateOnly;
     _deckController.hidesBottomBarWhenPushed = YES;
     _centerController.hidesBottomBarWhenPushed = YES;
 
@@ -325,8 +325,8 @@
     [Appirater setDaysUntilPrompt:3]; // 安装几天后弹出
     [Appirater setUsesUntilPrompt:2]; // 到达最小安装时间后，用户有效操作事件多少次后弹出
     [Appirater setSignificantEventsUntilPrompt:-1];
-    [Appirater setTimeBeforeReminding:5]; // 用户点了“稍后提醒我”之后再过多少天再次提醒
-    [Appirater setDebug:CD_DEBUG];
+    [Appirater setTimeBeforeReminding:4]; // 用户点了“稍后提醒我”之后再过多少天再次提醒
+    [Appirater setDebug:NO];
     [Appirater appLaunched:YES];
     
     // set Baidu Push
@@ -395,9 +395,6 @@
         // 如果状态改变，刷新当前段子列表
         @try {
             if ((status == AFNetworkReachabilityStatusReachableViaWiFi || status == AFNetworkReachabilityStatusReachableViaWWAN)) {
-                
-//                [MBProgressHUD showText:tipMessage inView:ROOT_CONTROLLER.view alpha:0.7f autoHide:YES showAnimated:YES hideAnimated:YES afterDelay:1.5f];
-                
                 UIViewController *currentViewController;
                 if ([_deckController.centerController isKindOfClass:[UINavigationController class]]) {
                     UINavigationController *currentNavViewController = (UINavigationController *)_deckController.centerController;

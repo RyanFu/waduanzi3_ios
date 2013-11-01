@@ -47,7 +47,7 @@
 {
     self.postFontSize = CDPostContentFontSizeNormal;
     self.commentFontSize = CDCommentContentFontSizeNormal;
-    self.wwan_big_image = YES;
+    self.wwan_big_image = NO;
     self.wifi_big_image = YES;
     self.enable_push_message = YES;
 }

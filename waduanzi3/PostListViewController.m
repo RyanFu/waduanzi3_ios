@@ -39,6 +39,7 @@
 #import "CDNavigationController.h"
 #import "UIView+Border.h"
 #import "MobClick.h"
+#import "UIImage+Tint.h"
 
 @interface PostListViewController ()
 - (void) setupNavButtonItems;
@@ -483,8 +484,6 @@
     cell.authorTextLabel.text = post.author_name;
     cell.datetimeTextLabel.text = post.create_time_at;
     cell.textLabel.text = nil;
-    cell.progressView.progress = 0;
-    [cell.indicatoryView stopAnimating];
     
     cell.avatarImageView.image = PLACEHOLDER_IMAGE_AVATAR;
     
@@ -493,7 +492,7 @@
         cell.isLongImage = [post isLongImage];
         
         cell.thumbSize = CGSizeMake(THUMB_WIDTH, THUMB_HEIGHT);
-        if ((NETWORK_STATUS_IS_WIFI && [CDUserConfig shareInstance].wifi_big_image) || (NETWORK_STATUS_IS_WWAN && [CDUserConfig shareInstance].wwan_big_image)){
+        if (POST_LIST_SHOW_BIG_IMAGE){
             cell.thumbSize = [post picSizeByWidth:[cell contentBlockWidth]];
             cell.showLongIcon = cell.showGIFIcon = NO;
         }
@@ -673,32 +672,28 @@
         [postCell.avatarImageView setImageWithURL:[NSURL URLWithString:post.user.small_avatar] placeholderImage:PLACEHOLDER_IMAGE_AVATAR];
         
         if (post.small_pic.length > 0) {
-            BOOL showBigImage = NO;
-            NSString *imageUrlString = post.small_pic;
-            if ((NETWORK_STATUS_IS_WIFI && [CDUserConfig shareInstance].wifi_big_image) || (NETWORK_STATUS_IS_WWAN && [CDUserConfig shareInstance].wwan_big_image)) {
-                imageUrlString = post.middle_pic;
-                showBigImage = YES;
+            BOOL showBigImage = POST_LIST_SHOW_BIG_IMAGE;
+            NSString *imageUrlString = showBigImage ? post.middle_pic : post.small_pic;
+            postCell.indicatoryView.hidden = postCell.progressView.hidden = !showBigImage;
+            if (showBigImage) {
                 [postCell.indicatoryView startAnimating];
-                postCell.indicatoryView.hidden = NO;
-                postCell.progressView.hidden = NO;
-            }
-            else {
-                showBigImage = NO;
-                [postCell.indicatoryView stopAnimating];
-                postCell.indicatoryView.hidden = YES;
-                postCell.progressView.hidden = YES;
             }
             
+            postCell.imageView.userInteractionEnabled = NO;
+            
             NSURL *imageUrl = [NSURL URLWithString:imageUrlString];
+            __weak CDPostTableViewCell *weakCell = postCell;
             __weak UIProgressView *weakProgressView = postCell.progressView;
             __weak UIActivityIndicatorView *weakIndicatorView = postCell.indicatoryView;
-            UIImage *grayImage = [UIImage imageWithColor:[UIColor colorWithRed:0.94f green:0.94f blue:0.94f alpha:1.00f] size:CGSizeMake(1, 1)];
-            [cell.imageView setImageWithURL:imageUrl placeholderImage:grayImage options:SDWebImageRetryFailed progress:^(NSUInteger receivedSize, long long expectedSize) {
+            UIImage *placer = showBigImage ? PLACEHOLDER_IMAGE_LIGHTGRAY_THUMB : PLACEHOLDER_IMAGE_POST_THUMB;
+            
+            [cell.imageView setImageWithURL:imageUrl placeholderImage:placer options:SDWebImageRetryFailed progress:^(NSUInteger receivedSize, long long expectedSize) {
                 CDLog(@"receivedSize/expectedSize: %d/%lld", receivedSize, expectedSize);
                 if (showBigImage && expectedSize > 0 && weakProgressView)
                     weakProgressView.progress = (float)receivedSize/expectedSize;
             } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
                 CDLog(@"image download finished.");
+                weakCell.imageView.userInteractionEnabled = YES;
                 if (showBigImage && weakIndicatorView) {
                     [weakIndicatorView stopAnimating];
                     weakIndicatorView.hidden = YES;
@@ -707,6 +702,8 @@
                     weakProgressView.hidden = YES;
             }];
         }
+        else if (postCell.isVideo)
+            postCell.imageView.userInteractionEnabled = YES;
     }
     else if ([cell isKindOfClass:[CDAdvertTableViewCell class]]) {
         CDAdvertTableViewCell *advertCell = (CDAdvertTableViewCell *)cell;

@@ -201,6 +201,7 @@
     
     // imageView
     if (self.imageView.image) {
+        self.imageView.contentMode = UIViewContentModeScaleAspectFit;
         self.imageView.backgroundColor = [UIColor colorWithRed:0.94f green:0.94f blue:0.94f alpha:1.00f];
         widgetHeight = _thumbSize.height;
         CGRect imageViewFrame = CGRectMake(_contentPadding.left, widgetY, _thumbSize.width, widgetHeight);
@@ -238,7 +239,6 @@
         
         if (self.delegate) {
             UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] init];
-            self.imageView.userInteractionEnabled = YES;
             tapGestureRecognizer.numberOfTapsRequired = 1;
             
             if (_isVideo && [self.delegate respondsToSelector:@selector(videoImageViewDidTapFinished:)]) {
@@ -254,21 +254,35 @@
             self.imageView.userInteractionEnabled = NO;
         
         
-        CGRect progressViewFrame = imageViewFrame;
-        progressViewFrame.size.width -= 100.0f;
-        progressViewFrame.size.height = 30.0f;
-        progressViewFrame.origin.x += 50.0f;
-        progressViewFrame.origin.y += 100.0f;
-        _progressView.frame = progressViewFrame;
-        [self.contentView addSubview:_progressView];
-        
-        CGRect indicatoryViewFrame = imageViewFrame;
-        _indicatoryView.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
-        indicatoryViewFrame.origin.x = imageViewFrame.origin.x + imageViewFrame.size.width/2 - 15.0f;
-        indicatoryViewFrame.origin.y = progressViewFrame.origin.y - 50.0f;
-        indicatoryViewFrame.size.width = indicatoryViewFrame.size.height = 30.0f;
-        _indicatoryView.frame = indicatoryViewFrame;
-        [self.contentView addSubview:_indicatoryView];
+        if (!_isVideo) {
+            _indicatoryView.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
+            [_indicatoryView sizeToFit];
+            [_progressView sizeToFit];
+
+            CGSize indicatoryViewSize = _indicatoryView.frame.size;
+            CGSize progressViewSize= _progressView.frame.size;
+            
+            CGFloat divideMargin = 50.0f;
+            CGFloat imageMinHeight = divideMargin * 3 + indicatoryViewSize.height + progressViewSize.height;
+            if (imageViewFrame.size.height < imageMinHeight) {
+                divideMargin = (imageViewFrame.size.height - indicatoryViewSize.height - progressViewSize.height) / 3;
+            }
+            
+            CGRect indicatoryViewFrame = imageViewFrame;
+            indicatoryViewFrame.origin.x = imageViewFrame.origin.x + imageViewFrame.size.width/2 - indicatoryViewSize.width/2;
+            indicatoryViewFrame.origin.y += divideMargin;
+            indicatoryViewFrame.size = indicatoryViewSize;
+            _indicatoryView.frame = indicatoryViewFrame;
+            [self.contentView addSubview:_indicatoryView];
+            
+            CGFloat progressViewHorizontalPadding = 50.0f;
+            CGRect progressViewFrame = imageViewFrame;
+            progressViewFrame.size.width -= progressViewHorizontalPadding*2;
+            progressViewFrame.origin.x += progressViewHorizontalPadding;
+            progressViewFrame.origin.y = indicatoryViewFrame.origin.y + divideMargin;
+            _progressView.frame = progressViewFrame;
+            [self.contentView addSubview:_progressView];
+        }
         
         widgetY += widgetHeight + _separatorHeight;
     }

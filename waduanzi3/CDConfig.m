@@ -45,9 +45,6 @@
     if (CD_DEBUG) return YES;
     
     @try {
-        double firstBootTime = [[CDDataCache shareCache] fetchAppFirstBootTime];
-        if (firstBootTime > CFAbsoluteTimeGetCurrent() - DAY_SECONDS)
-            return NO;
         NSString *switcher = [MobClick getConfigParams:UM_ONLINE_CONFIG_ENABLE_FOCUS_LIST_BANNER];
         return [switcher isEqualToString:@"on"];
     }

@@ -34,6 +34,7 @@
 #define CURRENT_NETWORK_STATUS [RKObjectManager sharedManager].HTTPClient.networkReachabilityStatus
 #define NETWORK_STATUS_IS_WIFI (CURRENT_NETWORK_STATUS == AFNetworkReachabilityStatusReachableViaWiFi)
 #define NETWORK_STATUS_IS_WWAN (CURRENT_NETWORK_STATUS == AFNetworkReachabilityStatusReachableViaWWAN)
+#define POST_LIST_SHOW_BIG_IMAGE (NETWORK_STATUS_IS_WIFI && [CDUserConfig shareInstance].wifi_big_image) || (NETWORK_STATUS_IS_WWAN && [CDUserConfig shareInstance].wwan_big_image)
 
 #define HTTP_REST_REQUEST_REFERRE @"http://ios.apps.waduanzi.com/"
 #define HTTP_IMAGE_REQUEST_REFERR @"http://img.apps.waduanzi.com/"
@@ -173,6 +174,7 @@ typedef NS_ENUM(NSInteger, CDImageHeightFilter)
 
 #define PLACEHOLDER_IMAGE_AVATAR [UIImage imageNamed:@"timeline_AvatarPlaceholderMale"]
 #define PLACEHOLDER_IMAGE_POST_THUMB [UIImage imageNamed:@"thumb_placeholder"]
+#define PLACEHOLDER_IMAGE_LIGHTGRAY_THUMB [UIImage imageWithColor:[UIColor colorWithRed:0.94f green:0.94f blue:0.94f alpha:1.00f] size:CGSizeMake(1, 1)]
 
 
 /*
