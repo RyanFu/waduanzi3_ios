@@ -242,6 +242,27 @@
     return [USER_DEFAULTS boolForKey:cacheKey];
 }
 
+- (BOOL) cacheDeviceToken:(NSString *)token
+{
+    @try {
+        NSString *cacheKey = @"device_push_token";
+        
+        [USER_DEFAULTS setObject:token forKey:cacheKey];
+        return YES;
+    }
+    @catch (NSException *exception) {
+        return NO;
+    }
+    @finally {
+        ;
+    }
+}
+
+- (NSString *) fetchDeviceToken
+{
+    NSString *cacheKey = @"device_push_token";
+    return [USER_DEFAULTS stringForKey:cacheKey];
+}
 
 
 #pragma mark - cache posts to cache and fetch posts from cache

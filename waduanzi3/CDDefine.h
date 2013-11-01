@@ -229,3 +229,16 @@ typedef NS_ENUM (NSInteger, UMShareToTypeExtend) {
     UMSocialSnsTypeCopy = 999
 };
 
+
+/*
+ * 百度云推送固定tag
+ */
+
+#define BAIDU_PUSH_TAG_HAS_LOGINED @"has_logined"
+#define BAIDU_PUSH_TAG_NOT_LOGINED @"not_logined"
+
+
+
+
+
+

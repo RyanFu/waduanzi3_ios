@@ -66,6 +66,9 @@
 - (BOOL) cacheBaiduPushBindState:(BOOL)state;
 - (BOOL) fetchBaiduPushBindState;
 
+- (BOOL) cacheDeviceToken:(NSString *)token;
+- (NSString *) fetchDeviceToken;
+
 + (NSString *) cacheFilesTotalSize;
 + (BOOL) clearAllCacheFiles;
 + (BOOL) clearCacheFilesBeforeDays:(CGFloat)days;

@@ -56,9 +56,13 @@
 - (void) setHttpDefaultHeaders
 {
     NSString *userToken = @"";
+    NSString *userID = @"";
+    NSString *userName = @"";
     if ([[CDSession shareInstance] hasLogined]) {
         CDUser *user = [[CDSession shareInstance] currentUser];
         userToken = user.token;
+        userID = user.user_id.stringValue;
+        userName = user.username;
     }
 
     [_client setDefaultHeader:@"Referer" value:HTTP_REST_REQUEST_REFERRE];
@@ -66,6 +70,8 @@
     [_client setDefaultHeader:@"Accept" value:RKMIMETypeJSON];
     [_client setDefaultHeader:@"Device-UDID" value:[OpenUDID value]];
     [_client setDefaultHeader:@"User-Token" value:userToken];
+    [_client setDefaultHeader:@"User-ID" value:userID];
+    [_client setDefaultHeader:@"User-Name" value:userName];
     [_client setDefaultHeader:@"Network-Status" value:[NSString stringWithFormat:@"%d", _client.networkReachabilityStatus]];
     
     [_client setDefaultHeader:@"OS-Version" value:CDDEVICE.systemVersion];

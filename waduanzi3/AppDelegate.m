@@ -43,6 +43,7 @@
 - (void) checkNetworkChange;
 - (void)preInitWithSize:(CGFloat)size family:(NSString *)family;
 - (void) saveBaiduBindChannelResult;
+- (void) updateDeviceToken:(NSString *)token;
 @end
 
 
@@ -79,10 +80,23 @@
 
 - (void) application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
-    CDLog(@"device token: %@", [[NSString alloc] initWithData:deviceToken encoding:NSUTF8StringEncoding]);
+    NSString *token = [[[deviceToken description] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]]
+                       stringByReplacingOccurrencesOfString:@" " withString:@""];
+
     [BPush registerDeviceToken:deviceToken];
-    if (CD_DEBUG || ![[CDDataCache shareCache] fetchBaiduPushBindState])
-        [BPush bindChannel];
+    [BPush bindChannel];
+    
+    @try {
+        [[CDDataCache shareCache] cacheDeviceToken:token];
+        [self updateDeviceToken:token];
+    }
+    @catch (NSException *exception) {
+        CDLog(@"update device token exception: %@", exception.reason);
+    }
+    @finally {
+        ;
+    }
+    
 }
 
 - (void) application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
@@ -303,6 +317,11 @@
 
 - (void) afterWindowVisible:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    // set Baidu Push
+    [BPush setupChannel:launchOptions];
+    [BPush setDelegate:self];
+    [application registerForRemoteNotificationTypes:UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound];
+
     [self asyncInit];
     [self checkNetworkChange];
     
@@ -328,15 +347,7 @@
     [Appirater setTimeBeforeReminding:4]; // 用户点了“稍后提醒我”之后再过多少天再次提醒
     [Appirater setDebug:NO];
     [Appirater appLaunched:YES];
-    
-    // set Baidu Push
-    [BPush setupChannel:launchOptions];
-    [BPush setDelegate:self];
-    [application registerForRemoteNotificationTypes:UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound];
-    
-
 }
-
 
 
 - (void) asyncInit
@@ -350,6 +361,7 @@
     dispatch_async(queue, ^(void) {
         [self preInitWithSize:CDPostContentFontSizeNormal family:FZLTHK_FONT_FAMILY];
         [self preInitWithSize:CDPostContentFontSizeBig family:FZLTHK_FONT_FAMILY];
+        
     });
 
 }
@@ -435,10 +447,16 @@
     NSString *language = [[NSLocale preferredLanguages] objectAtIndex:0];
     NSString *countryCode = [[NSLocale currentLocale] objectForKey: NSLocaleCountryCode];
     
-    NSDictionary *infos = [NSDictionary dictionaryWithObjectsAndKeys:CDDEVICE.model, @"model",
-                          CDDEVICE.name, @"device_name",
-                          language , @"language",
-                          countryCode, @"country", nil];
+    NSString *deviceToken = [[CDDataCache shareCache] fetchDeviceToken];
+    if (deviceToken == nil) deviceToken = @"";
+    
+    NSDictionary *infos = @{
+                            @"model": CDDEVICE.model,
+                            @"device_name": CDDEVICE.name,
+                            @"language": language,
+                            @"country": countryCode,
+                            @"device_token": deviceToken
+                            };
     
     NSDictionary *params = [CDRestClient requestParams:infos];
     RKObjectManager *manager = [RKObjectManager sharedManager];
@@ -449,11 +467,29 @@
     }];
 }
 
+
+// update device info
+- (void) updateDeviceToken:(NSString *)token
+{
+    if (token == nil) {
+        NSLog(@"update device token error: token is nil.");
+        return ;
+    }
+    
+    NSDictionary *params = [CDRestClient requestParams:@{@"device_token": token}];
+    RKObjectManager *manager = [RKObjectManager sharedManager];
+    [manager.HTTPClient postPath:@"/device/pushtoken" parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"update deivce token success");
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"update deivce token error: %@", error.localizedRecoverySuggestion);
+    }];
+}
+
 #pragma mark - BPushDelegate
 - (void) onMethod:(NSString *)method response:(NSDictionary *)data
 {
+    NSDictionary* res = [[NSDictionary alloc] initWithDictionary:data];
     if ([BPushRequestMethod_Bind isEqualToString:method]) {
-        NSDictionary* res = [[NSDictionary alloc] initWithDictionary:data];
         int returnCode = [[res valueForKey:BPushRequestErrorCodeKey] intValue];
         
         if (returnCode == BPushErrorCode_Success) {
@@ -472,7 +508,13 @@
             
         }
         
-        CDLog(@"error code: %d", returnCode);
+        NSLog(@"error code: %d", returnCode);
+    }
+    else if ([BPushRequestMethod_SetTag isEqualToString:method]) {
+        NSLog(@"set tag res: %@", res);
+    }
+    else if ([BPushRequestMethod_Unbind isEqualToString:method]) {
+        NSLog(@"unbind res: %@", res);
     }
 }
 

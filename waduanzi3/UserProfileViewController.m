@@ -17,6 +17,7 @@
 #import "UpdateProfileViewController.h"
 #import "MBProgressHUD+Custom.h"
 #import "UIView+Border.h"
+#import "BPush.h"
 
 #define LOGOUT_BUTTON_TAG 99999
 
@@ -132,7 +133,7 @@
 
 - (void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"cell: %@", cell);
+    CDLog(@"cell: %@", cell);
     QSection *section = [self.root getVisibleSectionForIndex:indexPath.section];
     QElement *element = [section getVisibleElementForIndex: indexPath.row];
     
@@ -323,7 +324,7 @@
 - (void) unOauthSina
 {
     [[UMSocialDataService defaultDataService] requestUnOauthWithType:UMShareToSina completion:^(UMSocialResponseEntity *response) {
-        NSLog(@"response is %@",response);
+        CDLog(@"response is %@",response);
         QBooleanElement *element = (QBooleanElement *)[self.root elementWithKey:@"key_share_sina_weibo"];
         if (response.responseType == UMSResponseUnOauth && response.responseCode == UMSResponseCodeSuccess) {
             element.boolValue = NO;
@@ -340,7 +341,7 @@
 - (void) unOauthQzone
 {
     [[UMSocialDataService defaultDataService] requestUnOauthWithType:UMShareToQzone completion:^(UMSocialResponseEntity *response) {
-        NSLog(@"response is %@",response);
+        CDLog(@"response is %@",response);
         QBooleanElement *element = (QBooleanElement *)[self.root elementWithKey:@"key_share_qzone"];
         if (response.responseType == UMSResponseUnOauth && response.responseCode == UMSResponseCodeSuccess) {
             element.boolValue = NO;
@@ -358,7 +359,7 @@
 - (void) unOauthTencent
 {
     [[UMSocialDataService defaultDataService] requestUnOauthWithType:UMShareToTencent completion:^(UMSocialResponseEntity *response) {
-        NSLog(@"response is %@",response);
+        CDLog(@"response is %@",response);
         QBooleanElement *element = (QBooleanElement *)[self.root elementWithKey:@"key_share_tencent"];
         if (response.responseType == UMSResponseUnOauth && response.responseCode == UMSResponseCodeSuccess) {
             element.boolValue = NO;

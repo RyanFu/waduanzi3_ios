@@ -23,6 +23,7 @@
 #import "WBErrorNoticeView+WaduanziMethod.h"
 #import "UIView+Border.h"
 #import "UIImage+ColorImage.h"
+#import "BPush.h"
 
 @interface UserLoginViewController ()
 - (void) setupNavbar;
