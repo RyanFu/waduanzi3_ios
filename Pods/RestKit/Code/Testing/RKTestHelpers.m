@@ -24,19 +24,11 @@
 #import "RKPathUtilities.h"
 #import "RKLog.h"
 #import "SOCKit.h"
+#import "RKRouteSet.h"
 
-@interface SOCPattern (RKTestHelpers)
-@property (nonatomic, strong, readonly) NSArray* parameters;
-@end
-
-@implementation SOCPattern (RKTestHelpers)
-
-- (NSArray *)parameters
-{
-    return _parameters;
-}
-
-@end
+#ifdef _COREDATADEFINES_H
+#import "RKManagedObjectRequestOperation.h"
+#endif
 
 @implementation RKTestHelpers
 
@@ -59,22 +51,27 @@
     [[RKObjectManager sharedManager].router.routeSet removeRoute:route];
     RKRoute *stubbedRoute = [RKRoute routeWithName:routeName pathPattern:pathPattern method:route.method];
     [[RKObjectManager sharedManager].router.routeSet addRoute:stubbedRoute];
+#ifdef _COREDATADEFINES_H
     [self copyFetchRequestBlocksMatchingPathPattern:route.pathPattern toBlocksMatchingRelativeString:pathPattern onObjectManager:objectManager];
+#endif
     return stubbedRoute;
 }
 
-+ (RKRoute *)stubRouteForRelationship:(NSString *)relationshipName ofClass:(Class)objectClass pathPattern:(NSString *)pathPattern onObjectManager:(RKObjectManager *)nilOrObjectManager
++ (RKRoute *)stubRouteForRelationship:(NSString *)relationshipName ofClass:(Class)objectClass method:(RKRequestMethod)method pathPattern:(NSString *)pathPattern onObjectManager:(RKObjectManager *)nilOrObjectManager
 {
     RKObjectManager *objectManager = nilOrObjectManager ?: [RKObjectManager sharedManager];
-    RKRoute *route = [objectManager.router.routeSet routeForRelationship:relationshipName ofClass:objectClass method:RKRequestMethodGET];
+    RKRoute *route = [objectManager.router.routeSet routeForRelationship:relationshipName ofClass:objectClass method:method];
     NSAssert(route, @"Expected to retrieve a route, but got nil");
     [objectManager.router.routeSet removeRoute:route];
-    RKRoute *stubbedRoute = [RKRoute routeWithRelationshipName:relationshipName objectClass:objectClass pathPattern:pathPattern method:RKRequestMethodGET];
+    RKRoute *stubbedRoute = [RKRoute routeWithRelationshipName:relationshipName objectClass:objectClass pathPattern:pathPattern method:method];
     [objectManager.router.routeSet addRoute:stubbedRoute];
+#ifdef _COREDATADEFINES_H
     [self copyFetchRequestBlocksMatchingPathPattern:route.pathPattern toBlocksMatchingRelativeString:pathPattern onObjectManager:objectManager];
+#endif
     return stubbedRoute;
 }
 
+#ifdef _COREDATADEFINES_H
 + (void)copyFetchRequestBlocksMatchingPathPattern:(NSString *)pathPattern
                    toBlocksMatchingRelativeString:(NSString *)relativeString
                                   onObjectManager:(RKObjectManager *)nilOrObjectManager
@@ -83,7 +80,7 @@
     
     // Extract the dynamic portions of the path pattern to construct a set of parameters
     SOCPattern *pattern = [SOCPattern patternWithString:pathPattern];
-    NSArray *parameterNames = [pattern.parameters valueForKey:@"string"];
+    NSArray *parameterNames = [pattern valueForKey:@"parameters.string"];
     NSMutableDictionary *stubbedParameters = [NSMutableDictionary dictionaryWithCapacity:[parameterNames count]];
     for (NSString *parameter in parameterNames) {
         [stubbedParameters setValue:@"value" forKey:parameter];
@@ -110,6 +107,7 @@
         }
     }
 }
+#endif
 
 + (void)disableCaching
 {

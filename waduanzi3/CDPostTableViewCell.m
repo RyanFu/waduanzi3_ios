@@ -10,9 +10,19 @@
 #import "CDPostTableViewCell.h"
 #import "CDDefine.h"
 
+@interface CDPostTableViewCell ()
+{
+    UIImageView *_gifImageIconView;
+    UIImageView *_longImageIconView;
+    UIImageView *_videoIconView;
+}
+
+- (void) setupTableCellStyle;
+- (void) setupSubviewsDefaultStyle;
+@end
+
 @implementation CDPostTableViewCell
 
-@synthesize padding = _padding;
 @synthesize thumbSize = _thumbSize;
 @synthesize avatarImageView = _avatarImageView;
 @synthesize authorTextLabel = _authorTextLabel;
@@ -20,6 +30,17 @@
 @synthesize upButton = _upButton;
 @synthesize commentButton = _commentButton;
 @synthesize moreButton = _moreButton;
+@synthesize progressView = _progressView;
+@synthesize indicatoryView = _indicatoryView;
+@synthesize contentMargin = _contentMargin;
+@synthesize contentPadding = _contentPadding;
+@synthesize separatorHeight = _separatorHeight;
+@synthesize isAnimatedGIF = _isAnimatedGIF;
+@synthesize isLongImage = _isLongImage;
+@synthesize isVideo = _isVideo;
+@synthesize showGIFIcon = _showGIFIcon;
+@synthesize showLongIcon = _showLongIcon;
+
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -27,9 +48,15 @@
     if (self) {
         self.multipleTouchEnabled = YES;
         self.userInteractionEnabled = YES;
+        self.isAnimatedGIF = NO;
+        self.isLongImage = NO;
+        self.showGIFIcon = YES;
+        self.showLongIcon = YES;
         
-        self.padding = 7.5f;
-        self.thumbSize = CGSizeMake(150.0f, 150.0f);
+        self.separatorHeight = POST_LIST_CELL_FRAGMENT_PADDING;
+        self.contentMargin = POST_LIST_CELL_CONTENT_MARGIN;
+        self.contentPadding = POST_LIST_CELL_CONTENT_PADDING;
+        self.thumbSize = CGSizeMake(THUMB_WIDTH, THUMB_HEIGHT);
         
         self.avatarImageView = [[UIImageView alloc] init];
         self.authorTextLabel = [[UILabel alloc] init];
@@ -43,9 +70,66 @@
         [self.contentView addSubview:_datetimeTextLabel];
         [self.contentView addSubview:_upButton];
         [self.contentView addSubview:_commentButton];
-        [self.contentView addSubview:_moreButton];
+        // MARK: 以后添加列表中的更多按钮
+//        [self.contentView addSubview:_moreButton];
+        
+        self.progressView = [[UIProgressView alloc] initWithFrame:CGRectZero];
+        self.indicatoryView = [[UIActivityIndicatorView alloc] initWithFrame:CGRectZero];
+        _indicatoryView.hidesWhenStopped = YES;
+        
+        _gifImageIconView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mqz_img_gif.png"]];
+        [_gifImageIconView sizeToFit];
+        _longImageIconView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mqz_img_long.png"]];
+        [_longImageIconView sizeToFit];
+        _videoIconView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"newsfeedVideoPlayIcon.png"] highlightedImage:[UIImage imageNamed:@"newsfeedVideoPlayIconPressed.png"]];
+        [_videoIconView sizeToFit];
+        
+        
+        [self setupTableCellStyle];
+        [self setupSubviewsDefaultStyle];
     }
     return self;
+}
+
+- (void) setupSubviewsDefaultStyle
+{
+    self.contentView.layer.cornerRadius = 3.0f;
+    self.contentView.layer.borderColor = [UIColor colorWithRed:0.76f green:0.77f blue:0.78f alpha:1.00f].CGColor;
+    self.contentView.layer.borderWidth = 1.0f;
+    
+    // avatarImageView
+    _avatarImageView.contentMode = UIViewContentModeScaleAspectFit;
+    _avatarImageView.opaque = YES;
+    _avatarImageView.layer.cornerRadius = 3.0f;
+    _avatarImageView.clipsToBounds = YES;
+    
+    // datetimeTextLabel
+    _datetimeTextLabel.backgroundColor = [UIColor clearColor];
+    _datetimeTextLabel.textColor = [UIColor colorWithRed:0.65f green:0.65f blue:0.65f alpha:1.00f];
+    
+    // authorTextLabel
+    _authorTextLabel.backgroundColor = [UIColor clearColor];
+    _authorTextLabel.textColor = POST_TEXT_COLOR;
+    
+    // textLabel
+    self.textLabel.backgroundColor = [UIColor clearColor];
+    self.textLabel.numberOfLines = 0;
+    self.textLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    self.textLabel.textColor = POST_TEXT_COLOR;
+    
+    //detailTextLabel
+    self.detailTextLabel.backgroundColor = [UIColor clearColor];
+    self.detailTextLabel.numberOfLines = 0;
+    self.detailTextLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    self.detailTextLabel.textColor = POST_TEXT_COLOR;
+    
+    // imageView
+    self.imageView.contentMode = UIViewContentModeScaleAspectFit;
+    self.imageView.opaque = YES;
+    
+    self.upButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    self.commentButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    self.moreButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
@@ -58,94 +142,215 @@
 {
     [super layoutSubviews];
     
-    CGSize cellContentViewSize = self.contentView.frame.size;
-    CGFloat contentViewWidth = cellContentViewSize.width - _padding*2;
+    CGRect contentViewFrame = self.frame;
+    contentViewFrame.origin.x = _contentMargin.left;
+    contentViewFrame.origin.y = _contentMargin.top;
+    contentViewFrame.size.width -= _contentMargin.left + _contentMargin.right;
+    contentViewFrame.size.height -= _contentMargin.top + _contentMargin.bottom;
+    self.contentView.frame = contentViewFrame;
     
-    CGFloat avatarWidth = POST_AVATAR_WIDTH;
-    CGFloat avatarHeight = POST_AVATAR_WIDTH;
     
-    CGFloat subContentViewX = _padding + avatarWidth + _padding;
-    CGFloat subContentViewWidth = contentViewWidth - avatarWidth - _padding;
+    CGSize contentViewSize = contentViewFrame.size;
+    CGFloat contentBlockWidth = contentViewSize.width  - _contentPadding.left - _contentPadding.right;
     
-    CGFloat widgetY = _padding;
-    CGFloat widgetHeight = avatarHeight;
+    CGFloat widgetY = _contentPadding.top;
+    CGFloat widgetHeight = POST_AVATAR_SIZE.height;
     
     // avatarImageView
-    _avatarImageView.contentMode = UIViewContentModeScaleAspectFit;
-    _avatarImageView.opaque = YES;
-    CGRect avatarViewFrame = CGRectMake(_padding, widgetY, avatarWidth, widgetHeight);
+    CGRect avatarViewFrame = CGRectMake(_contentPadding.left, widgetY, POST_AVATAR_SIZE.width, POST_AVATAR_SIZE.height);
     [_avatarImageView setFrame:avatarViewFrame];
     
     // timeLabel
-    CGSize timeLabelSize = [self.datetimeTextLabel.text sizeWithFont:self.datetimeTextLabel.font
-                                                   constrainedToSize:CGSizeMake(contentViewWidth, 9999.0)
-                                                       lineBreakMode:UILineBreakModeWordWrap];
-    CGRect timeLabelFrame = CGRectMake(cellContentViewSize.width - _padding - timeLabelSize.width, widgetY, timeLabelSize.width, widgetHeight);
+    CGSize timeLabelSize = [self.datetimeTextLabel.text sizeWithFont:self.datetimeTextLabel.font];
+    CGRect timeLabelFrame = CGRectMake(contentViewSize.width - _contentPadding.right - timeLabelSize.width, widgetY, timeLabelSize.width, 0);
     [_datetimeTextLabel setFrame:timeLabelFrame];
-    _datetimeTextLabel.contentMode = UIViewContentModeRight;
     [_datetimeTextLabel sizeToFit];
-    _datetimeTextLabel.backgroundColor = [UIColor clearColor];
-    
+
     // authorLabel
-    CGFloat authorLabelWidth = contentViewWidth - timeLabelSize.width - widgetHeight - _padding*2;
-    CGRect authorLabelFrame = CGRectMake(_padding + widgetHeight + _padding, widgetY, authorLabelWidth, widgetHeight);
+    CGRect authorLabelFrame = CGRectMake(_contentPadding.left + widgetHeight + _separatorHeight, widgetY, 0, 0);
     [self.authorTextLabel setFrame:authorLabelFrame];
     [_authorTextLabel sizeToFit];
-    _authorTextLabel.backgroundColor = [UIColor clearColor];
+
     
-    widgetY += widgetHeight;
+    widgetY += widgetHeight + _separatorHeight;
     
     // textLabel
     if (self.textLabel.text.length > 0) {
-        self.textLabel.numberOfLines = 0;
-        self.textLabel.lineBreakMode = UILineBreakModeWordWrap;
-        
         CGSize titleLabelSize = [self.textLabel.text sizeWithFont:self.textLabel.font
-                                                       constrainedToSize:CGSizeMake(contentViewWidth, 9999.0)
-                                                           lineBreakMode:UILineBreakModeWordWrap];
+                                                       constrainedToSize:CGSizeMake(contentBlockWidth, 9999.0)
+                                                           lineBreakMode:NSLineBreakByWordWrapping];
         
         widgetHeight = titleLabelSize.height;
-        CGRect titleLabelFrame = CGRectMake(subContentViewX, widgetY, subContentViewWidth, widgetHeight);
+        CGRect titleLabelFrame = CGRectMake(_contentPadding.left, widgetY, contentBlockWidth, widgetHeight);
         [self.textLabel setFrame:titleLabelFrame];
         
-        widgetY += widgetHeight + _padding;
+        widgetY += widgetHeight + _separatorHeight;
     }
     
     // detailLabel
     if (self.detailTextLabel.text.length > 0) {
-        self.detailTextLabel.numberOfLines = 0;
-        self.detailTextLabel.lineBreakMode = UILineBreakModeWordWrap;
-        
         CGSize detailLabelSize = [self.detailTextLabel.text sizeWithFont:self.detailTextLabel.font
-                                                constrainedToSize:CGSizeMake(contentViewWidth, 9999.0)
-                                                    lineBreakMode:UILineBreakModeWordWrap];
+                                                constrainedToSize:CGSizeMake(contentBlockWidth, 9999.0)
+                                                    lineBreakMode:NSLineBreakByWordWrapping];
         widgetHeight = detailLabelSize.height;
-        CGRect detailLabelFrame = CGRectMake(subContentViewX, widgetY, subContentViewWidth, widgetHeight);
+        CGRect detailLabelFrame = CGRectMake(_contentPadding.left, widgetY, contentBlockWidth, widgetHeight);
         [self.detailTextLabel setFrame:detailLabelFrame];
         
-        widgetY += widgetHeight + _padding;
+        widgetY += widgetHeight + _separatorHeight;
     }
     
     // imageView
-    if (self.imageView.tag > 0) {
+    if (self.imageView.image) {
         self.imageView.contentMode = UIViewContentModeScaleAspectFit;
-        self.imageView.opaque = YES;
-        self.imageView.userInteractionEnabled = YES;
+        self.imageView.backgroundColor = [UIColor colorWithRed:0.94f green:0.94f blue:0.94f alpha:1.00f];
         widgetHeight = _thumbSize.height;
-        CGRect imageViewFrame = CGRectMake(subContentViewX, widgetY, _thumbSize.width, widgetHeight);
+        CGRect imageViewFrame = CGRectMake(_contentPadding.left, widgetY, _thumbSize.width, widgetHeight);
         [self.imageView setFrame: imageViewFrame];
         
-        widgetY += widgetHeight + _padding;
+        if (_gifImageIconView.superview != nil)
+            [_gifImageIconView removeFromSuperview];
+        if (_longImageIconView.superview != nil)
+            [_longImageIconView removeFromSuperview];
+        if (_videoIconView.superview != nil)
+            [_videoIconView removeFromSuperview];
+        
+        if (_isVideo) {
+            CGRect videoImageFrame = _videoIconView.frame;
+            videoImageFrame.origin.x = self.imageView.frame.size.width/2 - videoImageFrame.size.width/2;
+            videoImageFrame.origin.y = self.imageView.frame.size.height/2 - videoImageFrame.size.height/2;
+            _videoIconView.frame = videoImageFrame;
+            [self.imageView addSubview:_videoIconView];
+        }
+        else if (_isAnimatedGIF && _showGIFIcon) {
+            CGRect gifImageFrame = _gifImageIconView.frame;
+            gifImageFrame.origin.x = self.imageView.frame.size.width - gifImageFrame.size.width;
+            gifImageFrame.origin.y = self.imageView.frame.size.height - gifImageFrame.size.height;
+            _gifImageIconView.frame = gifImageFrame;
+            [self.imageView addSubview:_gifImageIconView];
+        }
+        else if (_isLongImage && _showLongIcon) {
+            CGRect longImageFrame = _longImageIconView.frame;
+            longImageFrame.origin.x = self.imageView.frame.size.width - longImageFrame.size.width;
+            longImageFrame.origin.y = self.imageView.frame.size.height - longImageFrame.size.height;
+            _longImageIconView.frame = longImageFrame;
+
+            [self.imageView addSubview:_longImageIconView];
+        }
+        
+        if (self.delegate) {
+            UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] init];
+            tapGestureRecognizer.numberOfTapsRequired = 1;
+            
+            if (_isVideo && [self.delegate respondsToSelector:@selector(videoImageViewDidTapFinished:)]) {
+                [tapGestureRecognizer addTarget:self.delegate action:@selector(videoImageViewDidTapFinished:)];
+                [self.imageView addGestureRecognizer:tapGestureRecognizer];
+            }
+            else if ([self.delegate respondsToSelector:@selector(thumbImageViewDidTapFinished:)]) {
+                [tapGestureRecognizer addTarget:self.delegate action:@selector(thumbImageViewDidTapFinished:)];
+                [self.imageView addGestureRecognizer:tapGestureRecognizer];
+            }
+        }
+        else
+            self.imageView.userInteractionEnabled = NO;
+        
+        
+        if (!_isVideo) {
+            _indicatoryView.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
+            [_indicatoryView sizeToFit];
+            [_progressView sizeToFit];
+
+            CGSize indicatoryViewSize = _indicatoryView.frame.size;
+            CGSize progressViewSize= _progressView.frame.size;
+            
+            CGFloat divideMargin = 50.0f;
+            CGFloat imageMinHeight = divideMargin * 3 + indicatoryViewSize.height + progressViewSize.height;
+            if (imageViewFrame.size.height < imageMinHeight) {
+                divideMargin = (imageViewFrame.size.height - indicatoryViewSize.height - progressViewSize.height) / 3;
+            }
+            
+            CGRect indicatoryViewFrame = imageViewFrame;
+            indicatoryViewFrame.origin.x = imageViewFrame.origin.x + imageViewFrame.size.width/2 - indicatoryViewSize.width/2;
+            indicatoryViewFrame.origin.y += divideMargin;
+            indicatoryViewFrame.size = indicatoryViewSize;
+            _indicatoryView.frame = indicatoryViewFrame;
+            [self.contentView addSubview:_indicatoryView];
+            
+            CGFloat progressViewHorizontalPadding = 50.0f;
+            CGRect progressViewFrame = imageViewFrame;
+            progressViewFrame.size.width -= progressViewHorizontalPadding*2;
+            progressViewFrame.origin.x += progressViewHorizontalPadding;
+            progressViewFrame.origin.y = indicatoryViewFrame.origin.y + divideMargin;
+            _progressView.frame = progressViewFrame;
+            [self.contentView addSubview:_progressView];
+        }
+        
+        widgetY += widgetHeight + _separatorHeight;
     }
 
-    CGRect upButtonFrame = CGRectMake(subContentViewX, widgetY, 75.0f, 27);
-    [_upButton setFrame:upButtonFrame];
+    widgetHeight = POST_LIST_CELL_BOTTOM_BUTTON_HEIGHT;
+    CGRect buttonFrame = CGRectMake(contentViewSize.width - _contentMargin.right - _contentPadding.right - 70.0f, widgetY, 70.0f, widgetHeight);
+    // MARK: 以后添加列表中的更多按钮
+//    [_moreButton setFrame:buttonFrame];
+//    buttonFrame.origin.x -= buttonFrame.size.width;
+    [_commentButton setFrame:buttonFrame];
+    buttonFrame.origin.x -= buttonFrame.size.width;
+    [_upButton setFrame:buttonFrame];
     
-    CGRect commentButtonFrame = upButtonFrame;
-    commentButtonFrame.origin.x += 75.0f + _padding;
-    [_commentButton setFrame:commentButtonFrame];
+    
+//    widgetY += widgetHeight + _separatorHeight;
+    
+}
+
+- (void) setupTableCellStyle
+{
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
+    self.backgroundColor = [UIColor clearColor];
+    self.contentMode = UIViewContentModeTopLeft;
+    self.contentView.backgroundColor = [UIColor whiteColor];
+}
+
+
+
+- (CGFloat) realHeight
+{
+    CGFloat contentBlockWidth = self.frame.size.width - _contentMargin.left - _contentMargin.right  - _contentPadding.left - _contentPadding.right;
+    
+    CGFloat height = _contentMargin.top + _contentPadding.top + POST_AVATAR_SIZE.height + _separatorHeight;
+    
+    // textLabel
+    if (self.textLabel.text.length > 0) {
+        CGSize titleLabelSize = [self.textLabel.text sizeWithFont:self.textLabel.font
+                                                constrainedToSize:CGSizeMake(contentBlockWidth, 9999.0)
+                                                    lineBreakMode:NSLineBreakByWordWrapping];
+        
+        height += titleLabelSize.height + _separatorHeight;
+    }
+    
+    // detailLabel
+    if (self.detailTextLabel.text.length > 0) {
+        CGSize detailLabelSize = [self.detailTextLabel.text sizeWithFont:self.detailTextLabel.font
+                                                       constrainedToSize:CGSizeMake(contentBlockWidth, 9999.0)
+                                                           lineBreakMode:NSLineBreakByWordWrapping];
+        height += detailLabelSize.height + _separatorHeight;
+    }
+    
+    // imageView
+    if (self.imageView.image)
+        height += _thumbSize.height + _separatorHeight;
+    
+    // buttons
+    height += POST_LIST_CELL_BOTTOM_BUTTON_HEIGHT; // 最后一个不加 _separatorHeight
+    
+    return height + _contentPadding.bottom + _contentMargin.bottom;
+}
+
+- (CGFloat) contentBlockWidth
+{
+    return self.frame.size.width - _contentMargin.left - _contentMargin.right - _contentPadding.left - _contentPadding.right;
 }
 
 @end
+
+
 
 

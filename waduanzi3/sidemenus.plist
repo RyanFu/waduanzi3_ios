@@ -5,47 +5,65 @@
 	<array>
 		<dict>
 			<key>name</key>
-			<string>随边逛逛</string>
+			<string>每日更新</string>
 			<key>tag</key>
 			<integer>0</integer>
+			<key>icon</key>
+			<string>FBBookmarkDefault.png</string>
 		</dict>
 		<dict>
 			<key>name</key>
-			<string>精华</string>
-			<key>tag</key>
-			<integer>1</integer>
-		</dict>
-		<dict>
-			<key>name</key>
-			<string>穿越</string>
+			<string>随机穿越</string>
 			<key>tag</key>
 			<integer>2</integer>
+			<key>icon</key>
+			<string>events.png</string>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>精华推荐</string>
+			<key>tag</key>
+			<integer>1</integer>
+			<key>icon</key>
+			<string>friends.png</string>
 		</dict>
 	</array>
 	<array>
 		<dict>
 			<key>name</key>
-			<string>挖笑话</string>
+			<string>天天涨姿势</string>
 			<key>tag</key>
-			<integer>10</integer>
+			<integer>2</integer>
+			<key>icon</key>
+			<string>places.png</string>
+		</dict>
+	</array>
+	<array>
+		<dict>
+			<key>name</key>
+			<string>我收藏的</string>
+			<key>tag</key>
+			<string>100</string>
+			<key>icon</key>
+			<string>FBBookmarkRateThisApp.png</string>
 		</dict>
 		<dict>
 			<key>name</key>
-			<string>挖趣图</string>
+			<string>我参与的</string>
 			<key>tag</key>
-			<integer>11</integer>
+			<string>110</string>
+			<key>icon</key>
+			<string>FBBookmarkPushNotifications.png</string>
 		</dict>
+	</array>
+	<array>
 		<dict>
 			<key>name</key>
-			<string>挖女神</string>
+			<string>系统设置</string>
 			<key>tag</key>
-			<integer>12</integer>
-		</dict>
-		<dict>
-			<key>name</key>
-			<string>挖短片</string>
-			<key>tag</key>
-			<integer>13</integer>
+			<string>200</string>
+			<key>icon</key>
+			<string>FBBookmarkSettings.png</string>
 		</dict>
 	</array>
 </array>

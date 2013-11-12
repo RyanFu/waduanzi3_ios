@@ -69,9 +69,11 @@
  */
 + (RKRoute *)stubRouteForRelationship:(NSString *)relationshipName
                               ofClass:(Class)objectClass
+                               method:(RKRequestMethod)method
                           pathPattern:(NSString *)pathPattern
                       onObjectManager:(RKObjectManager *)nilOrObjectManager;
 
+#ifdef _COREDATADEFINES_H
 /**
  Finds all registered fetch request blocks matching the given path pattern and adds a new fetch request block that returns the same value as the origin block that matches the given relative string portion of a URL object.
  
@@ -82,6 +84,7 @@
 + (void)copyFetchRequestBlocksMatchingPathPattern:(NSString *)pathPattern
                    toBlocksMatchingRelativeString:(NSString *)relativeString
                       onObjectManager:(RKObjectManager *)nilOrObjectManager;
+#endif
 
 ///-----------------------------
 /// @name Working with the Cache

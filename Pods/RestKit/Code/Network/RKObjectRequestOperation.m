@@ -59,33 +59,11 @@ static NSString *RKLogTruncateString(NSString *string)
        (long) maxMessageLength];
 }
 
-static NSString *RKStringFromStreamStatus(NSStreamStatus streamStatus)
-{
-    switch (streamStatus) {
-        case NSStreamStatusNotOpen:     return @"Not Open";
-        case NSStreamStatusOpening:     return @"Opening";
-        case NSStreamStatusOpen:        return @"Open";
-        case NSStreamStatusReading:     return @"Reading";
-        case NSStreamStatusWriting:     return @"Writing";
-        case NSStreamStatusAtEnd:       return @"At End";
-        case NSStreamStatusClosed:      return @"Closed";
-        case NSStreamStatusError:       return @"Error";
-        default:                        break;
-    }
-    return nil;
-}
+@interface NSCachedURLResponse (RKLeakFix)
 
-static NSString *RKStringDescribingStream(NSStream *stream)
-{
-    NSString *errorDescription = ([stream streamStatus] == NSStreamStatusError) ? [NSString stringWithFormat:@", error=%@", [stream streamError]] : @"";
-    if ([stream isKindOfClass:[NSInputStream class]]) {
-        return [NSString stringWithFormat:@"<%@: %p hasBytesAvailable=%@, status='%@'%@>", [stream class], stream, [(NSInputStream *)stream hasBytesAvailable] ? @"YES" : @"NO", RKStringFromStreamStatus([stream streamStatus]), errorDescription];
-    } else if ([stream isKindOfClass:[NSOutputStream class]]) {
-        return [NSString stringWithFormat:@"<%@: %p hasSpaceAvailable=%@, status='%@'%@>", [stream class], stream, [(NSOutputStream *)stream hasSpaceAvailable] ? @"YES" : @"NO", RKStringFromStreamStatus([stream streamStatus]), errorDescription];
-    } else {
-        return [stream description];
-    }
-}
+- (NSData *)rkData;
+
+@end
 
 @interface RKObjectRequestOperationLogger : NSObject
 
@@ -151,7 +129,7 @@ static void *RKOperationFinishDate = &RKOperationFinishDate;
     // Weakly tag the HTTP operation with its parent object request operation
     RKObjectRequestOperation *objectRequestOperation = [notification object];
     objc_setAssociatedObject(objectRequestOperation, RKOperationStartDate, [NSDate date], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-    objc_setAssociatedObject(objectRequestOperation.HTTPRequestOperation, RKParentObjectRequestOperation, objectRequestOperation, OBJC_ASSOCIATION_ASSIGN);
+    objc_setAssociatedObject(objectRequestOperation.HTTPRequestOperation, RKParentObjectRequestOperation, objectRequestOperation, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 - (void)HTTPOperationDidStart:(NSNotification *)notification
@@ -165,8 +143,6 @@ static void *RKOperationFinishDate = &RKOperationFinishDate;
         NSString *body = nil;
         if ([operation.request HTTPBody]) {
             body = RKLogTruncateString([[NSString alloc] initWithData:[operation.request HTTPBody] encoding:NSUTF8StringEncoding]);
-        } else if ([operation.request HTTPBodyStream]) {
-            body = RKStringDescribingStream([operation.request HTTPBodyStream]);
         }
         
         RKLogTrace(@"%@ '%@':\nrequest.headers=%@\nrequest.body=%@", [operation.request HTTPMethod], [[operation.request URL] absoluteString], [operation.request allHTTPHeaderFields], body);
@@ -182,6 +158,7 @@ static void *RKOperationFinishDate = &RKOperationFinishDate;
     
     // NOTE: if we have a parent object request operation, we'll wait it to finish to emit the logging info
     RKObjectRequestOperation *parentOperation = objc_getAssociatedObject(operation, RKParentObjectRequestOperation);
+    objc_setAssociatedObject(operation, RKParentObjectRequestOperation, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     if (parentOperation) {
         objc_setAssociatedObject(operation, RKOperationFinishDate, [NSDate date], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
         return;
@@ -391,6 +368,7 @@ static NSString *RKStringDescribingURLResponseWithData(NSURLResponse *response, 
             }
         }];
         [self.stateMachine setFinalizationBlock:^{
+            [weakSelf willFinish];
             RKDecrementNetworkAcitivityIndicator();
             [[NSNotificationCenter defaultCenter] postNotificationName:RKObjectRequestOperationDidFinishNotification object:weakSelf userInfo:@{ RKObjectRequestOperationMappingDidStartUserInfoKey: weakSelf.mappingDidStartDate ?: [NSNull null], RKObjectRequestOperationMappingDidFinishUserInfoKey: weakSelf.mappingDidFinishDate ?: [NSNull null] }];
         }];
@@ -557,7 +535,7 @@ static NSString *RKStringDescribingURLResponseWithData(NSURLResponse *response, 
                     // in the use of this cachedResponse.
                     NSMutableDictionary *userInfo = cachedResponse.userInfo ? [cachedResponse.userInfo mutableCopy] : [NSMutableDictionary dictionary];
                     [userInfo setObject:@YES forKey:RKResponseHasBeenMappedCacheUserInfoKey];
-                    NSCachedURLResponse *newCachedResponse = [[NSCachedURLResponse alloc] initWithResponse:cachedResponse.response data:cachedResponse.data userInfo:userInfo storagePolicy:cachedResponse.storagePolicy];
+                    NSCachedURLResponse *newCachedResponse = [[NSCachedURLResponse alloc] initWithResponse:cachedResponse.response data:cachedResponse.rkData userInfo:userInfo storagePolicy:cachedResponse.storagePolicy];
                     [[NSURLCache sharedURLCache] storeCachedResponse:newCachedResponse forRequest:weakSelf.HTTPRequestOperation.request];
                 }
             }
@@ -579,6 +557,11 @@ static NSString *RKStringDescribingURLResponseWithData(NSURLResponse *response, 
     return [NSString stringWithFormat:@"<%@: %p, state: %@, isCancelled=%@, request: %@, response: %@>",
             NSStringFromClass([self class]), self, RKStringForStateOfObjectRequestOperation(self), [self isCancelled] ? @"YES" : @"NO",
             self.HTTPRequestOperation.request, RKStringDescribingURLResponseWithData(self.HTTPRequestOperation.response, self.HTTPRequestOperation.responseData)];
+}
+
+- (void)willFinish
+{
+    // Default implementation does nothing
 }
 
 #pragma mark - NSCopying
@@ -604,7 +587,7 @@ static NSString *RKStringDescribingURLResponseWithData(NSURLResponse *response, 
 
 - (BOOL)isReady
 {
-    return [self.stateMachine isReady];
+    return [self.stateMachine isReady] && [super isReady];
 }
 
 - (BOOL)isExecuting
@@ -626,6 +609,33 @@ static NSString *RKStringDescribingURLResponseWithData(NSURLResponse *response, 
 {
     [super cancel];
     [self.stateMachine cancel];
+}
+
+@end
+
+#pragma mark - Fix for leak in iOS 5/6 "- [NSCachedURLResponse data]" message
+
+@implementation NSCachedURLResponse (RKLeakFix)
+
+- (NSData *)rkData
+{
+    @synchronized(self) {
+        NSData *result;
+        CFIndex count;
+        
+        @autoreleasepool {
+            result = [self data];
+            count = CFGetRetainCount((__bridge CFTypeRef)result);
+        }
+        
+        if (CFGetRetainCount((__bridge CFTypeRef)result) == count) {
+#ifndef __clang_analyzer__
+            CFRelease((__bridge CFTypeRef)result); // Leak detected, manually release
+#endif
+        }
+        
+        return result;
+    }
 }
 
 @end

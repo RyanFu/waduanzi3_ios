@@ -32,10 +32,11 @@
 #undef RKLogComponent
 #define RKLogComponent RKlcl_cRestKitCoreData
 
-extern NSString * const RKErrorDomain;
+extern NSString *const RKErrorDomain;
 
-NSString * const RKSQLitePersistentStoreSeedDatabasePathOption = @"RKSQLitePersistentStoreSeedDatabasePathOption";
-NSString * const RKManagedObjectStoreDidFailSaveNotification = @"RKManagedObjectStoreDidFailSaveNotification";
+NSString *const RKSQLitePersistentStoreSeedDatabasePathOption = @"RKSQLitePersistentStoreSeedDatabasePathOption";
+NSString *const RKManagedObjectStoreDidFailSaveNotification = @"RKManagedObjectStoreDidFailSaveNotification";
+NSString *const RKManagedObjectStoreDidResetPersistentStoresNotification = @"RKManagedObjectStoreDidResetPersistentStoresNotification";
 
 static RKManagedObjectStore *defaultStore = nil;
 
@@ -244,8 +245,24 @@ static char RKManagedObjectContextChangeMergingObserverAssociationKey;
 
             return NO;
         }
+        if ([[NSFileManager defaultManager] fileExistsAtPath:[seedPath stringByAppendingString:@"-shm"]]) {
+            if (![[NSFileManager defaultManager] copyItemAtPath:[seedPath stringByAppendingString:@"-shm"] toPath:[storePath stringByAppendingString:@"-shm"] error:&localError]) {
+                RKLogError(@"Failed to copy seed database (SHM) from path '%@' to path '%@': %@", seedPath, storePath, [localError localizedDescription]);
+                if (error) *error = localError;
+                
+                return NO;
+            }
+        }
+        if ([[NSFileManager defaultManager] fileExistsAtPath:[seedPath stringByAppendingString:@"-wal"]]) {
+            if (![[NSFileManager defaultManager] copyItemAtPath:[seedPath stringByAppendingString:@"-wal"] toPath:[storePath stringByAppendingString:@"-wal"] error:&localError]) {
+                RKLogError(@"Failed to copy seed database (WAL) from path '%@' to path '%@': %@", seedPath, storePath, [localError localizedDescription]);
+                if (error) *error = localError;
+                
+                return NO;
+            }
+        }
     }
-
+    
     return YES;
 }
 
@@ -341,6 +358,19 @@ static char RKManagedObjectContextChangeMergingObserverAssociationKey;
                         RKLogWarning(@"Found external support item for store at path that is not a directory: %@", [supportDirectoryFileURL path]);
                     }
                 }
+
+                // Check for and remove -shm and -wal files
+                for (NSString *suffix in @[ @"-shm", @"-wal" ]) {
+                    NSString *supportFileName = [[URL lastPathComponent] stringByAppendingString:suffix];
+                    NSURL *supportFileURL = [NSURL URLWithString:supportFileName relativeToURL:[URL URLByDeletingLastPathComponent]];
+                    if ([[NSFileManager defaultManager] fileExistsAtPath:[supportFileURL path]]) {
+                        if (! [[NSFileManager defaultManager] removeItemAtURL:supportFileURL error:&localError]) {
+                            RKLogError(@"Failed to remove support file at URL %@: %@", supportFileURL, localError);
+                            if (error) *error = localError;
+                            return NO;
+                        }
+                    }
+                }
             } else {
                 RKLogDebug(@"Skipped removal of persistent store file: URL for persistent store is not a file URL. (%@)", URL);
             }
@@ -375,6 +405,9 @@ static char RKManagedObjectContextChangeMergingObserverAssociationKey;
     }
 
     [self recreateManagedObjectContexts];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:RKManagedObjectStoreDidResetPersistentStoresNotification object:self];
+    
     return YES;
 }
 

@@ -7,18 +7,40 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MBProgressHUD.h"
+#import "IIViewDeckController.h"
+#import "UMSocialControllerService.h"
+#import "CDViewController.h"
+#import "CDCommentFormView.h"
+#import "CDPostToolBar.h"
 
 @class CDPost;
 
-@interface PostDetailViewController : UITableViewController <UIActionSheetDelegate, UIGestureRecognizerDelegate>
+@interface PostDetailViewController : CDViewController <UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate, UIGestureRecognizerDelegate, MBProgressHUDDelegate, UITextFieldDelegate, IIViewDeckControllerDelegate, UMSocialUIDelegate>
 {
     NSMutableArray *_comments;
     NSInteger _lasttime;
+    UIToolbar *_bottomToolbar;
+    CGFloat detailFontSize;
+    CGFloat commentFontSize;
+    MBProgressHUD *_HUD;
+    CDCommentFormView *_formView;
+    CDPostToolBar *_postToolbar;
 }
 
+@property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic) NSInteger postID;
 @property (nonatomic, strong) CDPost *post;
+@property (nonatomic, strong) UIImage *smallImage;
+@property (nonatomic, strong) UIImage *middleImage;
+@property (nonatomic) BOOL *commentMode;
 
-- (id)initWithStyle:(UITableViewStyle)style andPost:(CDPost *)post;
-- (id)initWithStyle:(UITableViewStyle)style andPostID:(NSInteger)post_id;
+- (id)initWithPost:(CDPost *)post;
+- (id)initWithPostID:(NSInteger)post_id;
+
+- (UITableViewCell *) setupPostDetailViewCell:(NSIndexPath *)indexPath;
+- (CGFloat) tableView:(UITableView *)tableView detailViewCellheightForRowAtIndexPath:(NSIndexPath *)indexPath;
+- (void) setupHUDInView:(UIView *)view;
+- (void) backButtonDidPressed:(id)sender;
+
 @end

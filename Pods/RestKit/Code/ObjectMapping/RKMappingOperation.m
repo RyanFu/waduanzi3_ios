@@ -39,9 +39,6 @@
 
 extern NSString * const RKObjectMappingNestingAttributeKeyName;
 
-// Defined in RKObjectMapping.h
-NSDate *RKDateFromStringWithFormatters(NSString *dateString, NSArray *formatters);
-
 /**
  This function ensures that attribute mappings apply cleanly to an `NSMutableDictionary` target class to support mapping to nested keyPaths. See issue #882
  */
@@ -65,106 +62,6 @@ static BOOL RKIsManagedObject(id object)
     return managedObjectClass && [object isKindOfClass:managedObjectClass];
 }
 
-/**
- NOTE: Because most Foundation classes are implemented as class-clusters, we cannot introspect them for mutability. Instead, we evaluate the destination type and if it is a mutable class, we return `YES` to trigger an invocation of `mutableCopy`.
- */
-static BOOL RKIsMutableTypeTransformation(id value, Class destinationType)
-{
-    if ([destinationType isEqual:[NSMutableArray class]]) return YES;
-    else if ([destinationType isEqual:[NSMutableDictionary class]]) return YES;
-    else if ([destinationType isEqual:[NSMutableString class]]) return YES;
-    else if ([destinationType isEqual:[NSMutableSet class]]) return YES;
-    else if ([destinationType isEqual:[NSMutableOrderedSet class]]) return YES;
-    else return NO;
-}
-
-id RKTransformedValueWithClass(id value, Class destinationType, NSValueTransformer *dateToStringValueTransformer);
-id RKTransformedValueWithClass(id value, Class destinationType, NSValueTransformer *dateToStringValueTransformer)
-{
-    Class sourceType = [value class];
-    
-    if ([value isKindOfClass:destinationType]) {
-        // No transformation necessary
-        return value;
-    } else if ([destinationType isSubclassOfClass:[NSDictionary class]]) {
-        return [NSMutableDictionary dictionaryWithObject:[NSMutableDictionary dictionary] forKey:value];
-    } else if (RKClassIsCollection(destinationType) && !RKObjectIsCollection(value)) {
-        // Call ourself recursively with an array value to transform as appropriate
-        return RKTransformedValueWithClass(@[ value ], destinationType, dateToStringValueTransformer);
-    } else if (RKIsMutableTypeTransformation(value, destinationType)) {
-        return [value mutableCopy];
-    } else if ([sourceType isSubclassOfClass:[NSString class]] && [destinationType isSubclassOfClass:[NSDate class]]) {
-        // String -> Date
-        return [dateToStringValueTransformer transformedValue:value];
-    } else if ([destinationType isSubclassOfClass:[NSString class]] && [value isKindOfClass:[NSDate class]]) {
-        // NSDate -> NSString
-        // Transform using the preferred date formatter
-        return [dateToStringValueTransformer reverseTransformedValue:value];
-    } else if ([destinationType isSubclassOfClass:[NSData class]]) {
-        return [NSKeyedArchiver archivedDataWithRootObject:value];
-    } else if ([sourceType isSubclassOfClass:[NSString class]]) {
-        if ([destinationType isSubclassOfClass:[NSURL class]]) {
-            // String -> URL
-            return [NSURL URLWithString:(NSString *)value];
-        } else if ([destinationType isSubclassOfClass:[NSDecimalNumber class]]) {
-            // String -> Decimal Number
-            return [NSDecimalNumber decimalNumberWithString:(NSString *)value];
-        } else if ([destinationType isSubclassOfClass:[NSNumber class]]) {
-            // String -> Number
-            NSString *lowercasedString = [(NSString *)value lowercaseString];
-            NSSet *trueStrings = [NSSet setWithObjects:@"true", @"t", @"yes", @"y", nil];
-            NSSet *booleanStrings = [trueStrings setByAddingObjectsFromSet:[NSSet setWithObjects:@"false", @"f", @"no", @"n", nil]];
-            if ([booleanStrings containsObject:lowercasedString]) {
-                // Handle booleans encoded as Strings
-                return [NSNumber numberWithBool:[trueStrings containsObject:lowercasedString]];
-            } else {
-                return [NSNumber numberWithDouble:[(NSString *)value doubleValue]];
-            }
-        }
-    } else if ([value isEqual:[NSNull null]]) {
-        // Transform NSNull -> nil for simplicity
-        return nil;
-    } else if ([sourceType isSubclassOfClass:[NSSet class]]) {
-        // Set -> Array
-        if ([destinationType isSubclassOfClass:[NSArray class]]) {
-            return [(NSSet *)value allObjects];
-        }
-    } else if ([sourceType isSubclassOfClass:[NSOrderedSet class]]) {
-        // OrderedSet -> Array
-        if ([destinationType isSubclassOfClass:[NSArray class]]) {
-            return [value array];
-        }
-    } else if ([sourceType isSubclassOfClass:[NSArray class]]) {
-        // Array -> Set
-        if ([destinationType isSubclassOfClass:[NSSet class]]) {
-            return [NSSet setWithArray:value];
-        }
-        // Array -> OrderedSet
-        if ([destinationType isSubclassOfClass:[NSOrderedSet class]]) {
-            return [[NSOrderedSet class] orderedSetWithArray:value];
-        }
-    } else if ([sourceType isSubclassOfClass:[NSNumber class]] && [destinationType isSubclassOfClass:[NSDate class]]) {
-        // Number -> Date
-        return [NSDate dateWithTimeIntervalSince1970:[(NSNumber *)value doubleValue]];
-    } else if ([sourceType isSubclassOfClass:[NSNumber class]] && [destinationType isSubclassOfClass:[NSDecimalNumber class]]) {
-        // Number -> Decimal Number
-        return [NSDecimalNumber decimalNumberWithDecimal:[value decimalValue]];
-    } else if ( ([sourceType isSubclassOfClass:NSClassFromString(@"__NSCFBoolean")] ||
-                 [sourceType isSubclassOfClass:NSClassFromString(@"NSCFBoolean")] ) &&
-               [destinationType isSubclassOfClass:[NSString class]]) {
-        return ([value boolValue] ? @"true" : @"false");
-        if ([destinationType isSubclassOfClass:[NSDate class]]) {
-            return [NSDate dateWithTimeIntervalSince1970:[(NSNumber *)value intValue]];
-        } else if (([sourceType isSubclassOfClass:NSClassFromString(@"__NSCFBoolean")] || [sourceType isSubclassOfClass:NSClassFromString(@"NSCFBoolean")]) && [destinationType isSubclassOfClass:[NSString class]]) {
-            return ([value boolValue] ? @"true" : @"false");
-        }
-    } else if ([destinationType isSubclassOfClass:[NSString class]] && [value respondsToSelector:@selector(stringValue)]) {
-        return [value stringValue];
-    }
-    
-    return nil;
-}
-
 // Returns the appropriate value for `nil` value of a primitive type
 static id RKPrimitiveValueForNilValueOfClass(Class keyValueCodingClass)
 {
@@ -181,7 +78,7 @@ NSArray *RKApplyNestingAttributeValueToMappings(NSString *attributeName, id valu
 {
     if (!attributeName) return propertyMappings;
 
-    NSString *searchString = [NSString stringWithFormat:@"(%@)", attributeName];
+    NSString *searchString = [NSString stringWithFormat:@"{%@}", attributeName];
     NSString *replacementString = [NSString stringWithFormat:@"%@", value];
     NSMutableArray *nestedMappings = [NSMutableArray arrayWithCapacity:[propertyMappings count]];
     for (RKPropertyMapping *propertyMapping in propertyMappings) {
@@ -199,15 +96,6 @@ NSArray *RKApplyNestingAttributeValueToMappings(NSString *attributeName, id valu
     return nestedMappings;
 }
 
-static void RKSetValueForObject(id value, id destinationObject)
-{
-    if ([destinationObject isKindOfClass:[NSMutableDictionary class]] && [value isKindOfClass:[NSDictionary class]]) {
-        [destinationObject setDictionary:value];
-    } else {
-        [NSException raise:NSInvalidArgumentException format:@"Unable to set value for destination object of type '%@': no strategy available. %@ to %@", [destinationObject class], value, destinationObject];
-    }
-}
-
 // Returns YES if there is a value present for at least one key path in the given collection
 static BOOL RKObjectContainsValueForKeyPaths(id representation, NSArray *keyPaths)
 {
@@ -217,22 +105,31 @@ static BOOL RKObjectContainsValueForKeyPaths(id representation, NSArray *keyPath
     return NO;
 }
 
-static NSString * const RKMetadataKeyPathPrefix = @"@metadata.";
+static NSString *const RKMetadataKey = @"@metadata";
+static NSString *const RKMetadataKeyPathPrefix = @"@metadata.";
+static NSString *const RKParentKey = @"@parent";
+static NSString *const RKParentKeyPathPrefix = @"@parent.";
+static NSString *const RKRootKey = @"@root";
+static NSString *const RKRootKeyPathPrefix = @"@root.";
 
 @interface RKMappingSourceObject : NSProxy
-- (id)initWithObject:(id)object metadata:(NSDictionary *)metadata;
+- (id)initWithObject:(id)object parentObject:(id)parentObject rootObject:(id)rootObject metadata:(NSDictionary *)metadata;
 @end
 
 @interface RKMappingSourceObject ()
 @property (nonatomic, strong) id object;
+@property (nonatomic, strong) id parentObject;
+@property (nonatomic, strong) id rootObject;
 @property (nonatomic, strong) NSDictionary *metadata;
 @end
 
 @implementation RKMappingSourceObject
 
-- (id)initWithObject:(id)object metadata:(NSDictionary *)metadata
+- (id)initWithObject:(id)object parentObject:(id)parentObject rootObject:(id)rootObject metadata:(NSDictionary *)metadata
 {
     self.object = object;
+    self.parentObject = parentObject;
+    self.rootObject = rootObject;
     self.metadata = metadata;
     return self;
 }
@@ -247,6 +144,19 @@ static NSString * const RKMetadataKeyPathPrefix = @"@metadata.";
     [invocation invokeWithTarget:self.object];
 }
 
+- (id)valueForKey:(NSString *)key
+{
+    if ([key isEqualToString:RKMetadataKey]) {
+        return self.metadata;
+    } else if ([key isEqualToString:RKParentKey]) {
+        return self.parentObject;
+    } else if ([key isEqualToString:RKRootKey]) {
+        return self.rootObject;
+    } else {
+        return [self.object valueForKey:key];
+    }
+}
+
 /**
  NOTE: We implement `valueForKeyPath:` on the proxy instead of using `forwardInvocation:` because the OS X runtime fails to appropriately handle scalar boxing/unboxing, resulting in incorrect metadata mappings. Proxying the method directly produces the expected results on both OS X and iOS [sbw - 2/1/2012]
  */
@@ -255,6 +165,12 @@ static NSString * const RKMetadataKeyPathPrefix = @"@metadata.";
     if ([keyPath hasPrefix:RKMetadataKeyPathPrefix]) {
         NSString *metadataKeyPath = [keyPath substringFromIndex:[RKMetadataKeyPathPrefix length]];
         return [self.metadata valueForKeyPath:metadataKeyPath];
+    } else if ([keyPath hasPrefix:RKParentKeyPathPrefix]) {
+        NSString *parentKeyPath = [keyPath substringFromIndex:[RKParentKeyPathPrefix length]];
+        return [self.parentObject valueForKeyPath:parentKeyPath];
+    } else if ([keyPath hasPrefix:RKRootKeyPathPrefix]) {
+        NSString *rootKeyPath = [keyPath substringFromIndex:[RKRootKeyPathPrefix length]];
+        return [self.rootObject valueForKeyPath:rootKeyPath];
     } else {
         return [self.object valueForKeyPath:keyPath];
     }
@@ -336,6 +252,8 @@ static NSString * const RKMetadataKeyPathPrefix = @"@metadata.";
 @interface RKMappingOperation ()
 @property (nonatomic, strong, readwrite) RKMapping *mapping;
 @property (nonatomic, strong, readwrite) id sourceObject;
+@property (nonatomic, strong, readwrite) id parentSourceObject;
+@property (nonatomic, strong, readwrite) id rootSourceObject;
 @property (nonatomic, strong, readwrite) id destinationObject;
 @property (nonatomic, strong) NSDictionary *nestedAttributeSubstitution;
 @property (nonatomic, strong, readwrite) NSError *error;
@@ -354,6 +272,7 @@ static NSString * const RKMetadataKeyPathPrefix = @"@metadata.";
     self = [super init];
     if (self) {
         self.sourceObject = sourceObject;
+        self.rootSourceObject = sourceObject;
         self.destinationObject = destinationObject;
         self.mapping = objectOrDynamicMapping;
     }
@@ -361,7 +280,26 @@ static NSString * const RKMetadataKeyPathPrefix = @"@metadata.";
     return self;
 }
 
-- (id)destinationObjectForMappingRepresentation:(id)representation withMapping:(RKMapping *)mapping inRelationship:(RKRelationshipMapping *)relationshipMapping
+- (id)parentObjectForRelationshipMapping:(RKRelationshipMapping *)mapping
+{
+    id parentSourceObject = self.sourceObject;
+
+    NSArray *sourceKeyComponents = [mapping.sourceKeyPath componentsSeparatedByString:@"."];
+    if (sourceKeyComponents.count > 1)
+    {
+        for (NSString *key in [sourceKeyComponents subarrayWithRange:NSMakeRange(0, sourceKeyComponents.count - 1)])
+        {
+            parentSourceObject = [[RKMappingSourceObject alloc] initWithObject:[parentSourceObject valueForKey:key]
+                                                                  parentObject:parentSourceObject
+                                                                    rootObject:self.rootSourceObject
+                                                                      metadata:self.metadata];
+        }
+    }
+
+    return parentSourceObject;
+}
+
+- (id)destinationObjectForMappingRepresentation:(id)representation parentRepresentation:(id)parentRepresentation withMapping:(RKMapping *)mapping inRelationship:(RKRelationshipMapping *)relationshipMapping
 {
     RKObjectMapping *concreteMapping = nil;
     if ([mapping isKindOfClass:[RKDynamicMapping class]]) {
@@ -375,33 +313,16 @@ static NSString * const RKMetadataKeyPathPrefix = @"@metadata.";
     }
     
     NSDictionary *dictionaryRepresentation = [representation isKindOfClass:[NSDictionary class]] ? representation : @{ [NSNull null] : representation };
-    id mappingSourceObject = [[RKMappingSourceObject alloc] initWithObject:dictionaryRepresentation metadata:self.metadata];
-    return [self.dataSource mappingOperation:self targetObjectForRepresentation:mappingSourceObject withMapping:concreteMapping inRelationship:relationshipMapping];
-}
-
-- (NSDate *)parseDateFromString:(NSString *)string
-{
-    RKLogTrace(@"Transforming string value '%@' to NSDate...", string);
-    return RKDateFromStringWithFormatters(string, self.objectMapping.dateFormatters);
-}
-
-- (id)transformValue:(id)value atKeyPath:(NSString *)keyPath toType:(Class)destinationType
-{
-    RKLogTrace(@"Found transformable value at keyPath '%@'. Transforming from type '%@' to '%@'", keyPath, NSStringFromClass([value class]), NSStringFromClass(destinationType));
-    RKDateToStringValueTransformer *transformer = [[RKDateToStringValueTransformer alloc] initWithDateToStringFormatter:self.objectMapping.preferredDateFormatter stringToDateFormatters:self.objectMapping.dateFormatters];
-    id transformedValue = RKTransformedValueWithClass(value, destinationType, transformer);        
-    if (transformedValue != value) return transformedValue;
-    
-    RKLogWarning(@"Failed transformation of value at keyPath '%@'. No strategy for transforming from '%@' to '%@'", keyPath, NSStringFromClass([value class]), NSStringFromClass(destinationType));
-
-    return nil;
+    NSDictionary *metadata = RKDictionaryByMergingDictionaryWithDictionary(self.metadata, @{ @"mapping": @{ @"parentObject": (self.destinationObject ?: [NSNull null]) } });
+    RKMappingSourceObject *sourceObject = [[RKMappingSourceObject alloc] initWithObject:dictionaryRepresentation parentObject:parentRepresentation rootObject:self.rootSourceObject metadata:metadata];
+    return [self.dataSource mappingOperation:self targetObjectForRepresentation:(NSDictionary *)sourceObject withMapping:concreteMapping inRelationship:relationshipMapping];
 }
 
 - (BOOL)validateValue:(id *)value atKeyPath:(NSString *)keyPath
 {
     BOOL success = YES;
 
-    if (self.objectMapping.performKeyValueValidation && [self.destinationObject respondsToSelector:@selector(validateValue:forKeyPath:error:)]) {
+    if (self.objectMapping.performsKeyValueValidation && [self.destinationObject respondsToSelector:@selector(validateValue:forKeyPath:error:)]) {
         NSError *validationError;
         success = [self.destinationObject validateValue:value forKeyPath:keyPath error:&validationError];
         if (!success) {
@@ -439,10 +360,7 @@ static NSString * const RKMetadataKeyPathPrefix = @"@metadata.";
 
      See issue & pull request: https://github.com/RestKit/RestKit/pull/436
      */
-    if (*value == [NSNull null]) {
-        RKLogWarning(@"Coercing NSNull value to nil in shouldSetValue:atKeyPath: -- should be fixed.");
-        *value = nil;
-    }
+    if (*value == [NSNull null]) *value = nil;
 
     if (nil == currentValue && nil == *value) {
         // Both are nil
@@ -501,6 +419,19 @@ static NSString * const RKMetadataKeyPathPrefix = @"@metadata.";
     return [self applyNestingToMappings:self.objectMapping.relationshipMappings];
 }
 
+- (BOOL)transformValue:(id)inputValue toValue:(__autoreleasing id *)outputValue withPropertyMapping:(RKPropertyMapping *)propertyMapping error:(NSError *__autoreleasing *)error
+{
+    Class transformedValueClass = propertyMapping.propertyValueClass ?: [self.objectMapping classForKeyPath:propertyMapping.destinationKeyPath];
+    if (! transformedValueClass) {
+        *outputValue = inputValue;
+        return YES;
+    }
+    RKLogTrace(@"Found transformable value at keyPath '%@'. Transforming from class '%@' to '%@'", propertyMapping.sourceKeyPath, NSStringFromClass([inputValue class]), NSStringFromClass(transformedValueClass));
+    BOOL success = [propertyMapping.valueTransformer transformValue:inputValue toValue:outputValue ofClass:transformedValueClass error:error];
+    if (! success) RKLogError(@"Failed transformation of value at keyPath '%@' to representation of type '%@': %@", propertyMapping.sourceKeyPath, transformedValueClass, *error);
+    return success;
+}
+
 - (void)applyAttributeMapping:(RKAttributeMapping *)attributeMapping withValue:(id)value
 {
     if ([self.delegate respondsToSelector:@selector(mappingOperation:didFindValue:forKeyPath:mapping:)]) {
@@ -508,17 +439,15 @@ static NSString * const RKMetadataKeyPathPrefix = @"@metadata.";
     }
     RKLogTrace(@"Mapping attribute value keyPath '%@' to '%@'", attributeMapping.sourceKeyPath, attributeMapping.destinationKeyPath);
 
-    // Inspect the property type to handle any value transformations
-    Class type = [self.objectMapping classForKeyPath:attributeMapping.destinationKeyPath];
-    if (type && NO == [[value class] isSubclassOfClass:type]) {
-        value = [self transformValue:value atKeyPath:attributeMapping.sourceKeyPath toType:type];
-    }
+    id transformedValue = nil;
+    NSError *error = nil;
+    if (! [self transformValue:value toValue:&transformedValue withPropertyMapping:attributeMapping error:&error]) return;
     
     // If we have a nil value for a primitive property, we need to coerce it into a KVC usable value or bail out
-    if (value == nil && RKPropertyInspectorIsPropertyAtKeyPathOfObjectPrimitive(attributeMapping.destinationKeyPath, self.destinationObject)) {
+    if (transformedValue == nil && RKPropertyInspectorIsPropertyAtKeyPathOfObjectPrimitive(attributeMapping.destinationKeyPath, self.destinationObject)) {
         RKLogDebug(@"Detected `nil` value transformation for primitive property at keyPath '%@'", attributeMapping.destinationKeyPath);
-        value = RKPrimitiveValueForNilValueOfClass(type);
-        if (! value) {
+        transformedValue = RKPrimitiveValueForNilValueOfClass([self.objectMapping classForKeyPath:attributeMapping.destinationKeyPath]);
+        if (! transformedValue) {
             RKLogTrace(@"Skipped mapping of attribute value from keyPath '%@ to keyPath '%@' -- Unable to transform `nil` into primitive value representation", attributeMapping.sourceKeyPath, attributeMapping.destinationKeyPath);
             return;
         }
@@ -527,21 +456,25 @@ static NSString * const RKMetadataKeyPathPrefix = @"@metadata.";
     RKSetIntermediateDictionaryValuesOnObjectForKeyPath(self.destinationObject, attributeMapping.destinationKeyPath);
     
     // Ensure that the value is different
-    if ([self shouldSetValue:&value forKeyPath:attributeMapping.destinationKeyPath usingMapping:attributeMapping]) {
-        RKLogTrace(@"Mapped attribute value from keyPath '%@' to '%@'. Value: %@", attributeMapping.sourceKeyPath, attributeMapping.destinationKeyPath, value);
+    if ([self shouldSetValue:&transformedValue forKeyPath:attributeMapping.destinationKeyPath usingMapping:attributeMapping]) {
+        RKLogTrace(@"Mapped attribute value from keyPath '%@' to '%@'. Value: %@", attributeMapping.sourceKeyPath, attributeMapping.destinationKeyPath, transformedValue);
         
         if (attributeMapping.destinationKeyPath) {
-            [self.destinationObject setValue:value forKeyPath:attributeMapping.destinationKeyPath];
+            [self.destinationObject setValue:transformedValue forKeyPath:attributeMapping.destinationKeyPath];
         } else {
-            RKSetValueForObject(value, self.destinationObject);
+            if ([self.destinationObject isKindOfClass:[NSMutableDictionary class]] && [transformedValue isKindOfClass:[NSDictionary class]]) {
+                [self.destinationObject setDictionary:transformedValue];
+            } else {
+                [NSException raise:NSInvalidArgumentException format:@"Unable to set value for destination object of type '%@': Can only directly set destination object for `NSMutableDictionary` targets. (transformedValue=%@)", [self.destinationObject class], transformedValue];
+            }
         }
         if ([self.delegate respondsToSelector:@selector(mappingOperation:didSetValue:forKeyPath:usingMapping:)]) {
-            [self.delegate mappingOperation:self didSetValue:value forKeyPath:attributeMapping.destinationKeyPath usingMapping:attributeMapping];
+            [self.delegate mappingOperation:self didSetValue:transformedValue forKeyPath:attributeMapping.destinationKeyPath usingMapping:attributeMapping];
         }
     } else {
-        RKLogTrace(@"Skipped mapping of attribute value from keyPath '%@ to keyPath '%@' -- value is unchanged (%@)", attributeMapping.sourceKeyPath, attributeMapping.destinationKeyPath, value);
+        RKLogTrace(@"Skipped mapping of attribute value from keyPath '%@ to keyPath '%@' -- value is unchanged (%@)", attributeMapping.sourceKeyPath, attributeMapping.destinationKeyPath, transformedValue);
         if ([self.delegate respondsToSelector:@selector(mappingOperation:didNotSetUnchangedValue:forKeyPath:usingMapping:)]) {
-            [self.delegate mappingOperation:self didNotSetUnchangedValue:value forKeyPath:attributeMapping.destinationKeyPath usingMapping:attributeMapping];
+            [self.delegate mappingOperation:self didNotSetUnchangedValue:transformedValue forKeyPath:attributeMapping.destinationKeyPath usingMapping:attributeMapping];
         }
     }
     [self.mappingInfo addPropertyMapping:attributeMapping];
@@ -553,7 +486,7 @@ static NSString * const RKMetadataKeyPathPrefix = @"@metadata.";
     // If we have a nesting substitution value, we have already succeeded
     BOOL appliedMappings = (self.nestedAttributeSubstitution != nil);
 
-    if (!self.objectMapping.performKeyValueValidation) {
+    if (!self.objectMapping.performsKeyValueValidation) {
         RKLogDebug(@"Key-value validation is disabled for mapping, skipping...");
     }
 
@@ -576,7 +509,7 @@ static NSString * const RKMetadataKeyPathPrefix = @"@metadata.";
             RKLogTrace(@"Did not find mappable attribute value keyPath '%@'", attributeMapping.sourceKeyPath);
 
             // Optionally set the default value for missing values
-            if ([self.objectMapping shouldSetDefaultValueForMissingAttributes]) {
+            if (self.objectMapping.assignsDefaultValueForMissingAttributes) {
                 [self.destinationObject setValue:[self.objectMapping defaultValueForAttribute:attributeMapping.destinationKeyPath]
                                       forKeyPath:attributeMapping.destinationKeyPath];
                 RKLogTrace(@"Setting nil for missing attribute value at keyPath '%@'", attributeMapping.sourceKeyPath);
@@ -603,6 +536,8 @@ static NSString * const RKMetadataKeyPathPrefix = @"@metadata.";
     subOperation.dataSource = self.dataSource;
     subOperation.delegate = self.delegate;
     subOperation.metadata = subOperationMetadata;
+    subOperation.parentSourceObject = [self parentObjectForRelationshipMapping:relationshipMapping];
+    subOperation.rootSourceObject = self.rootSourceObject;
     [subOperation start];
     
     if (subOperation.error) {
@@ -645,7 +580,8 @@ static NSString * const RKMetadataKeyPathPrefix = @"@metadata.";
         return NO;
     }
 
-    id destinationObject = [self destinationObjectForMappingRepresentation:value withMapping:relationshipMapping.mapping inRelationship:relationshipMapping];
+    id parentSourceObject = [self parentObjectForRelationshipMapping:relationshipMapping];
+    id destinationObject = [self destinationObjectForMappingRepresentation:value parentRepresentation:parentSourceObject withMapping:relationshipMapping.mapping inRelationship:relationshipMapping];
     if (! destinationObject) {
         RKLogDebug(@"Mapping %@ declined mapping for representation %@: returned `nil` destination object.", relationshipMapping.mapping, destinationObject);
         return NO;
@@ -704,7 +640,9 @@ static NSString * const RKMetadataKeyPathPrefix = @"@metadata.";
     if (relationshipMapping.assignmentPolicy == RKUnionAssignmentPolicy) {
         RKLogDebug(@"Mapping relationship with union assignment policy: constructing combined relationship value.");
         id existingObjects = [self.destinationObject valueForKeyPath:relationshipMapping.destinationKeyPath] ?: @[];
-        NSArray *existingObjectsArray = RKTransformedValueWithClass(existingObjects, [NSArray class], nil);
+        NSArray *existingObjectsArray = nil;
+        NSError *error = nil;
+        [[RKValueTransformer defaultValueTransformer] transformValue:existingObjects toValue:&existingObjectsArray ofClass:[NSArray class] error:&error];
         [relationshipCollection addObjectsFromArray:existingObjectsArray];
     }
     else if (relationshipMapping.assignmentPolicy == RKReplaceAssignmentPolicy) {
@@ -714,7 +652,8 @@ static NSString * const RKMetadataKeyPathPrefix = @"@metadata.";
     }
 
     [value enumerateObjectsUsingBlock:^(id nestedObject, NSUInteger collectionIndex, BOOL *stop) {
-        id mappableObject = [self destinationObjectForMappingRepresentation:nestedObject withMapping:relationshipMapping.mapping inRelationship:relationshipMapping];
+        id parentSourceObject = [self parentObjectForRelationshipMapping:relationshipMapping];
+        id mappableObject = [self destinationObjectForMappingRepresentation:nestedObject parentRepresentation:parentSourceObject withMapping:relationshipMapping.mapping inRelationship:relationshipMapping];
         if (mappableObject) {
             if ([self mapNestedObject:nestedObject toObject:mappableObject withRelationshipMapping:relationshipMapping metadata:@{ @"mapping": @{ @"collectionIndex": @(collectionIndex) } }]) {
                 [relationshipCollection addObject:mappableObject];
@@ -724,12 +663,9 @@ static NSString * const RKMetadataKeyPathPrefix = @"@metadata.";
         }
     }];
 
-    id valueForRelationship = relationshipCollection;
-    // Transform from NSSet <-> NSArray if necessary
-    Class type = [self.objectMapping classForKeyPath:relationshipMapping.destinationKeyPath];
-    if (type && NO == [[relationshipCollection class] isSubclassOfClass:type]) {
-        valueForRelationship = [self transformValue:relationshipCollection atKeyPath:relationshipMapping.sourceKeyPath toType:type];
-    }
+    id valueForRelationship = nil;
+    NSError *error = nil;
+    if (! [self transformValue:relationshipCollection toValue:&valueForRelationship withPropertyMapping:relationshipMapping error:&error]) return NO;
 
     // If the relationship has changed, set it
     if ([self shouldSetValue:&valueForRelationship forKeyPath:relationshipMapping.destinationKeyPath usingMapping:relationshipMapping]) {
@@ -782,27 +718,36 @@ static NSString * const RKMetadataKeyPathPrefix = @"@metadata.";
 
         if (value == nil) {
             RKLogDebug(@"Did not find mappable relationship value keyPath '%@'", relationshipMapping.sourceKeyPath);
-
-            // Optionally nil out the property
-            id nilReference = nil;
-            if ([self.objectMapping setNilForMissingRelationships] && [self shouldSetValue:&nilReference forKeyPath:relationshipMapping.destinationKeyPath usingMapping:relationshipMapping]) {
-                RKLogTrace(@"Setting nil for missing relationship value at keyPath '%@'", relationshipMapping.sourceKeyPath);
-                [self.destinationObject setValue:nil forKeyPath:relationshipMapping.destinationKeyPath];
-            }
-
-            continue;
+            if (! self.objectMapping.assignsNilForMissingRelationships) continue;
         }
         
         if (value == [NSNull null]) {
             RKLogDebug(@"Found null value at keyPath '%@'", relationshipMapping.sourceKeyPath);
-            
-            // Optionally nil out the property
-            id nilReference = nil;
-            if ([self shouldSetValue:&nilReference forKeyPath:relationshipMapping.destinationKeyPath usingMapping:relationshipMapping]) {
-                RKLogTrace(@"Setting nil for null relationship value at keyPath '%@'", relationshipMapping.sourceKeyPath);
-                [self.destinationObject setValue:nil forKeyPath:relationshipMapping.destinationKeyPath];
+            value = nil;
+        }
+
+        // nil out the property if necessary
+        if (value == nil) {
+            Class relationshipClass = [self.objectMapping classForKeyPath:relationshipMapping.destinationKeyPath];
+            BOOL mappingToCollection = RKClassIsCollection(relationshipClass);
+            if (relationshipMapping.assignmentPolicy == RKUnionAssignmentPolicy && mappingToCollection) {
+                // Unioning `nil` with the existing value is functionally equivalent to doing nothing, so just continue
+                continue;
+            } else if (relationshipMapping.assignmentPolicy == RKUnionAssignmentPolicy) {
+                NSDictionary *userInfo = @{ NSLocalizedDescriptionKey: @"Invalid assignment policy: cannot union a one-to-one relationship." };
+                self.error = [NSError errorWithDomain:RKErrorDomain code:RKMappingErrorInvalidAssignmentPolicy userInfo:userInfo];
+                continue;
+            } else if (relationshipMapping.assignmentPolicy == RKReplaceAssignmentPolicy) {
+                if (! [self applyReplaceAssignmentPolicyForRelationshipMapping:relationshipMapping]) {
+                    continue;
+                }
             }
-            
+
+            if ([self shouldSetValue:&value forKeyPath:relationshipMapping.destinationKeyPath usingMapping:relationshipMapping]) {
+                RKLogTrace(@"Setting nil for relationship value at keyPath '%@'", relationshipMapping.sourceKeyPath);
+                [self.destinationObject setValue:value forKeyPath:relationshipMapping.destinationKeyPath];
+            }
+
             continue;
         }
 
@@ -901,13 +846,13 @@ static NSString * const RKMetadataKeyPathPrefix = @"@metadata.";
     if ([self isCancelled]) return;
 
     // Handle metadata
-    self.sourceObject = [[RKMappingSourceObject alloc] initWithObject:self.sourceObject metadata:self.metadata];
+    self.sourceObject = [[RKMappingSourceObject alloc] initWithObject:self.sourceObject parentObject:self.parentSourceObject rootObject:self.rootSourceObject metadata:self.metadata];
 
     RKLogDebug(@"Starting mapping operation...");
     RKLogTrace(@"Performing mapping operation: %@", self);
     
     if (! self.destinationObject) {
-        self.destinationObject = [self destinationObjectForMappingRepresentation:self.sourceObject withMapping:self.mapping inRelationship:nil];
+        self.destinationObject = [self destinationObjectForMappingRepresentation:self.sourceObject parentRepresentation:self.parentSourceObject withMapping:self.mapping inRelationship:nil];
         if (! self.destinationObject) {
             RKLogDebug(@"Mapping operation failed: Given nil destination object and unable to instantiate a destination object for mapping.");
             NSDictionary *userInfo = @{ NSLocalizedDescriptionKey: @"Cannot perform a mapping operation with a nil destination object." };

@@ -32,7 +32,11 @@ NSString * const RKPropertyInspectionKeyValueCodingClassKey = @"keyValueCodingCl
 NSString * const RKPropertyInspectionIsPrimitiveKey = @"isPrimitive";
 
 @interface RKPropertyInspector ()
+#if OS_OBJECT_USE_OBJC
+@property (nonatomic, strong) dispatch_queue_t queue;
+#else
 @property (nonatomic, assign) dispatch_queue_t queue;
+#endif
 @property (nonatomic, strong) NSMutableDictionary *inspectionCache;
 @end
 
@@ -118,7 +122,8 @@ NSString * const RKPropertyInspectionIsPrimitiveKey = @"isPrimitive";
 
         free(propList);
         Class superclass = [currentClass superclass];
-        currentClass = (superclass == [NSObject class] || superclass == [NSManagedObject class]) ? nil : superclass;
+        Class nsManagedObject = NSClassFromString(@"NSManagedObject");
+        currentClass = (superclass == [NSObject class] || (nsManagedObject && superclass == nsManagedObject)) ? nil : superclass;
     }
 
     dispatch_barrier_async(self.queue, ^{

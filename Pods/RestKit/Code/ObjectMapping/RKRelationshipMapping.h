@@ -23,9 +23,14 @@
 @class RKMapping;
 
 typedef enum {
-    RKSetAssignmentPolicy,       // Set the relationship to the new value and leave the existing objects alone, breaking the relationship to existing objects at the destination. This is the default policy for `RKRelationshipMapping`.
-    RKReplaceAssignmentPolicy,  // Set the relationship to the new value and destroy the previous value, replacing the existing objects at the destination of the relationship.
-    RKUnionAssignmentPolicy,    // Set the relationship to the union of the existing value and the new value being assigned. Only applicable for to-many relationships.
+    RKAssignmentPolicySet, // Set the relationship to the new value and leave the existing objects alone, breaking the relationship to existing objects at the destination. This is the default policy for `RKRelationshipMapping`.
+    RKAssignmentPolicyReplace, // Set the relationship to the new value and destroy the previous value, replacing the existing objects at the destination of the relationship.
+    RKAssignmentPolicyUnion, // Set the relationship to the union of the existing value and the new value being assigned. Only applicable for to-many relationships.
+
+    // Deprecated
+    RKSetAssignmentPolicy = RKAssignmentPolicySet, // Will be deprecated, use `RKAssignmentPolicySet` instead
+    RKReplaceAssignmentPolicy = RKAssignmentPolicyReplace, // Will be deprecated, use `RKAssignmentPolicyReplace` instead
+    RKUnionAssignmentPolicy = RKAssignmentPolicyUnion, // Will be deprecated, use `RKAssignmentPolicyUnion` instead
 } RKAssignmentPolicy;
 
 /**
@@ -33,7 +38,7 @@ typedef enum {
 
  `RKRelationshipMapping` extends `RKPropertyMapping` to describe features specific to relationships, including the `RKMapping` object describing how to map the destination object.
  
- Relationship mappings are described in terms of a source key path, which identifies a key in the parent object representation under which the data for the relationship is nested, and a destination key path, which specifies the key path at which the mapped object is to be assigned on the parent entity. The key-paths of the property mappings of the `RKMapping` object in the relationship mapping are evaluated against the nested object representationship at the source key path.
+ Relationship mappings are described in terms of a source key path, which identifies a key in the parent object representation under which the data for the relationship is nested, and a destination key path, which specifies the key path at which the mapped object is to be assigned on the parent entity. The key paths of the property mappings of the `RKMapping` object in the relationship mapping are evaluated against the nested object representationship at the source key path.
  
  ## Mapping a Non-nested Relationship from the Parent Representation
  

@@ -8,7 +8,10 @@
 
 #import <Foundation/Foundation.h>
 #import "CDUser.h"
+#import "CDVideo.h"
 
+#define SUMMARY_LEN 100
+#define CONTENT_SUB_THRESHOLD_LEN 200
 
 @interface CDPost : NSObject
 
@@ -16,6 +19,7 @@
 @property (nonatomic, strong) NSNumber * channel_id;
 @property (nonatomic, copy) NSString * title;
 @property (nonatomic, copy) NSString * content;
+@property (nonatomic, copy) NSString * content_html;
 @property (nonatomic, strong) NSNumber * up_count;
 @property (nonatomic, strong) NSNumber * down_count;
 @property (nonatomic, strong) NSNumber * create_time;
@@ -29,7 +33,19 @@
 @property (nonatomic, copy) NSString * middle_pic;
 @property (nonatomic, copy) NSString * large_pic;
 @property (nonatomic, strong) NSNumber * pic_frames;
+@property (nonatomic, strong) NSNumber * pic_width;
+@property (nonatomic, strong) NSNumber * pic_height;
+@property (nonatomic, copy) NSString * url;
 
+@property (nonatomic, strong) CDVideo *video;
 @property (nonatomic, strong) CDUser *user;
+
+
+- (NSString *) summary;
+- (NSString *) shareContentWithLength:(NSUInteger)length withPrefix:(NSString *)prefix withSuffix:(NSString *)suffix;
+- (BOOL) isAnimatedGIF;
+- (BOOL) isLongImage;
+- (CGFloat) picHeightByWidth:(CGFloat)width;
+- (CGSize) picSizeByWidth:(CGFloat)width;
 
 @end

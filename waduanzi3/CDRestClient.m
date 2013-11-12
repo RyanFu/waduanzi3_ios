@@ -10,12 +10,15 @@
 #import "CDRestClient.h"
 #import "CDPost.h"
 #import "CDComment.h"
+#import "CDVideo.h"
 #import "OpenUDID.h"
 #import "CDRestError.h"
-#import "WCAlertView.h"
+#import "CDSession.h"
+#import "MBProgressHUD+Custom.h"
 
 
 @interface CDRestClient ()
+
 - (void) initHttpClient;
 - (void) setHttpDefaultHeaders;
 - (void) initObjectManager;
@@ -23,9 +26,9 @@
 - (RKObjectMapping *) setPostObjectMapping;
 - (RKObjectMapping *) setUserObjectMapping;
 - (RKObjectMapping *) setCommentObjectMapping;
+- (RKObjectMapping *) setVideoObjectMapping;
 - (RKObjectMapping *) setErrorObjectMapping;
 
-+ (NSString *) userAgent;
 @end
 
 
@@ -52,65 +55,118 @@
 
 - (void) setHttpDefaultHeaders
 {
+    NSString *userToken = @"";
+    NSString *userID = @"";
+    NSString *userName = @"";
+    if ([[CDSession shareInstance] hasLogined]) {
+        CDUser *user = [[CDSession shareInstance] currentUser];
+        userToken = user.token;
+        userID = user.user_id.stringValue;
+        userName = user.username;
+    }
+
+    [_client setDefaultHeader:@"Referer" value:HTTP_REST_REQUEST_REFERRE];
     [_client setDefaultHeader:@"User-Agent" value:[CDRestClient userAgent]];
     [_client setDefaultHeader:@"Accept" value:RKMIMETypeJSON];
-    [_client setDefaultHeader:@"device_udid" value:[OpenUDID value]];
+    [_client setDefaultHeader:@"Device-UDID" value:[OpenUDID value]];
+    [_client setDefaultHeader:@"User-Token" value:userToken];
+    [_client setDefaultHeader:@"User-ID" value:userID];
+    [_client setDefaultHeader:@"User-Name" value:userName];
+    [_client setDefaultHeader:@"Network-Status" value:[NSString stringWithFormat:@"%d", _client.networkReachabilityStatus]];
     
-    UIDevice *device = [UIDevice currentDevice];
-    [_client setDefaultHeader:@"sys_version" value:device.systemVersion];
-    
-    NSString *appVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"] ?: [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey];
-    [_client setDefaultHeader:@"app_version" value:appVersion];
+    [_client setDefaultHeader:@"OS-Version" value:CDDEVICE.systemVersion];
+    [_client setDefaultHeader:@"App-Version" value:APP_VERSION];
+    [_client setDefaultHeader:@"OS-Name" value:CDDEVICE.systemName];
 }
 
 - (void) initObjectManager
 {
     _manager = [[RKObjectManager alloc] initWithHTTPClient:_client];
 
-    [RKObjectMapping addDefaultDateFormatterForString:@"MMM-dd HH:mm" inTimeZone:nil];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    dateFormatter.dateFormat = @"MMM-dd HH:mm";
+    [[RKValueTransformer defaultValueTransformer] insertValueTransformer:dateFormatter atIndex:0];
     _manager.requestSerializationMIMEType = RKMIMETypeFormURLEncoded;
-    
-    // check network
-    [_manager.HTTPClient setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
-        if (status == AFNetworkReachabilityStatusNotReachable) {
-            [WCAlertView showAlertWithTitle:@"没有网络" message:@"请检测您当前手机网络是否正常" customizationBlock:^(WCAlertView *alertView) {
-                alertView.style = WCAlertViewStyleWhite;
-            } completionBlock:^(NSUInteger buttonIndex, WCAlertView *alertView) {
-                ;
-            } cancelButtonTitle:@"关闭" otherButtonTitles:nil, nil];
-        }
-    }];
 }
+
 
 - (void) setResponseDescriptor
 {
     RKObjectMapping *postMapping = [self setPostObjectMapping];
     RKObjectMapping *userMapping = [self setUserObjectMapping];
     RKObjectMapping *commentMapping = [self setCommentObjectMapping];
+    RKObjectMapping *videoMapping = [self setVideoObjectMapping];
     
     /*
      * RelationshipMapping
      */
     // user relationship mapping
-    RKRelationshipMapping* userRelationShipMapping = [RKRelationshipMapping relationshipMappingFromKeyPath:@"user"
+    RKRelationshipMapping *userRelationShipMapping = [RKRelationshipMapping relationshipMappingFromKeyPath:@"user"
                                                                                                  toKeyPath:@"user"
                                                                                                withMapping:userMapping];
     
+    RKRelationshipMapping *videoRelationShipMapping = [RKRelationshipMapping relationshipMappingFromKeyPath:@"video"
+                                                                                                  toKeyPath:@"video"
+                                                                                                withMapping:videoMapping];
+    
     // add user relationShipMapping
     [postMapping addPropertyMapping:userRelationShipMapping];
+    [postMapping addPropertyMapping:videoRelationShipMapping];
     [commentMapping addPropertyMapping:[userRelationShipMapping copy]];
     
     
-    // post response descriptor
-    RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:postMapping
-                                                                                       pathPattern:@"/post/timeline"
-                                                                                           keyPath:nil
-                                                                                       statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
-    [_manager addResponseDescriptor:responseDescriptor];
+    // post timeline response descriptor
+    RKResponseDescriptor *timelineResponseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:postMapping
+                                                                                                    method:RKRequestMethodGET
+                                                                                               pathPattern:@"/post/timeline"
+                                                                                                   keyPath:nil
+                                                                                               statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+    [_manager addResponseDescriptor:timelineResponseDescriptor];
+    
+    // post myshare response descriptor
+    RKResponseDescriptor *myshareResponseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:postMapping
+                                                                                                   method:RKRequestMethodGET
+                                                                                              pathPattern:@"/post/myshare"
+                                                                                                  keyPath:nil
+                                                                                              statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+    [_manager addResponseDescriptor:myshareResponseDescriptor];
+    
+    // post favorite response descriptor
+    RKResponseDescriptor *favoriteResponseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:postMapping
+                                                                                                    method:RKRequestMethodGET
+                                                                                               pathPattern:@"/post/favorite"
+                                                                                                   keyPath:nil
+                                                                                               statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+    [_manager addResponseDescriptor:favoriteResponseDescriptor];
+    
+    // post favorite response descriptor
+    RKResponseDescriptor *bestResponseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:postMapping
+                                                                                                method:RKRequestMethodGET
+                                                                                           pathPattern:@"/post/best"
+                                                                                               keyPath:nil
+                                                                                           statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+    [_manager addResponseDescriptor:bestResponseDescriptor];
+    
+    // post favorite response descriptor
+    RKResponseDescriptor *historyResponseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:postMapping
+                                                                                                   method:RKRequestMethodGET
+                                                                                              pathPattern:@"/post/history"
+                                                                                                  keyPath:nil
+                                                                                              statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+    [_manager addResponseDescriptor:historyResponseDescriptor];
+    
+    // post favorite response descriptor
+    RKResponseDescriptor *feedbacResponseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:postMapping
+                                                                                                   method:RKRequestMethodGET
+                                                                                              pathPattern:@"/post/feedback"
+                                                                                                  keyPath:nil
+                                                                                              statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+    [_manager addResponseDescriptor:feedbacResponseDescriptor];
     
     
     // comment response descriptor
     RKResponseDescriptor *commentResponseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:commentMapping
+                                                                                                   method:RKRequestMethodGET
                                                                                               pathPattern:@"/comment/show/:post_id"
                                                                                                   keyPath:nil
                                                                                               statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
@@ -119,19 +175,35 @@
     
     // post/show response descriptor
     RKResponseDescriptor *postDetailResponseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:postMapping
-                                                                                              pathPattern:@"/post/show/:post_id"
-                                                                                                  keyPath:nil
-                                                                                              statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+                                                                                                      method:RKRequestMethodGET
+                                                                                                 pathPattern:@"/post/show/:post_id"
+                                                                                                     keyPath:nil
+                                                                                                 statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
     [_manager addResponseDescriptor:postDetailResponseDescriptor];
     
     // post/show response descriptor
     RKResponseDescriptor *createCommentResponseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:commentMapping
-                                                                                                 pathPattern:@"/comment/create"
-                                                                                                     keyPath:nil
-                                                                                                 statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+                                                                                                         method:RKRequestMethodPOST
+                                                                                                    pathPattern:@"/comment/create"
+                                                                                                        keyPath:nil
+                                                                                                    statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
     [_manager addResponseDescriptor:createCommentResponseDescriptor];
     
+    // user/login
+    RKResponseDescriptor *loginUserResponseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:userMapping
+                                                                                                     method:RKRequestMethodPOST
+                                                                                                pathPattern:@"/user/login"
+                                                                                                    keyPath:nil
+                                                                                                statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+    [_manager addResponseDescriptor:loginUserResponseDescriptor];
     
+    // user/create
+    RKResponseDescriptor *createUserResponseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:userMapping
+                                                                                                      method:RKRequestMethodPOST
+                                                                                                 pathPattern:@"/user/create"
+                                                                                                     keyPath:nil
+                                                                                                 statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+    [_manager addResponseDescriptor:createUserResponseDescriptor];
 }
 
 - (RKObjectMapping *) setPostObjectMapping
@@ -142,6 +214,7 @@
         @"channel_id"          : @"channel_id",
         @"title"               : @"title",
         @"content"             : @"content",
+        @"content_html"        : @"content_html",
         @"create_time"         : @"create_time",
         @"create_time_at"      : @"create_time_at",
         @"up_count"            : @"up_count",
@@ -155,10 +228,29 @@
         @"small_pic"           : @"small_pic",
         @"middle_pic"          : @"middle_pic",
         @"large_pic"           : @"large_pic",
-        @"pic_frames"           : @"pic_frames",
+        @"pic_frames"          : @"pic_frames",
+        @"pic_width"           : @"pic_width",
+        @"pic_height"          : @"pic_height",
+        @"url"                 : @"url"
      }];
     
     return postMapping;
+}
+
+- (RKObjectMapping *) setVideoObjectMapping
+{
+    RKObjectMapping *videoMapping = [RKObjectMapping mappingForClass:[CDVideo class]];
+    [videoMapping addAttributeMappingsFromDictionary:@{
+        @"post_id"             : @"post_id",
+        @"video_id"            : @"video_id",
+        @"html5_url"           : @"html5_url",
+        @"flash_url"           : @"flash_url",
+        @"source_url"          : @"source_url",
+        @"desc"                : @"desc",
+        @"simple_page"         : @"simple_page"
+    }];
+    
+    return videoMapping;
 }
 
 - (RKObjectMapping *) setUserObjectMapping
@@ -175,7 +267,8 @@
         @"desc"             : @"desc",
         @"mini_avatar"      : @"mini_avatar",
         @"small_avatar"     : @"small_avatar",
-        @"large_avatar"     : @"large_avatar"
+        @"large_avatar"     : @"large_avatar",
+        @"score"            : @"score"
     }];
     
     return userMapping;
@@ -214,26 +307,16 @@
 
 + (NSString *) userAgent
 {
-    NSString *appVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"] ?: [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey];
-    
-    UIDevice *device = [UIDevice currentDevice];
-    NSString *userAgent = [NSString stringWithFormat:@"Waduanzi/%@ (%@; %@ %@)", appVersion, device.model, device.systemName, device.systemVersion];
-    
+    NSString *userAgent = [NSString stringWithFormat:@"Waduanzi/%@ (%@; %@ %@)", APP_VERSION, CDDEVICE.model, CDDEVICE.systemName, CDDEVICE.systemVersion];
     return userAgent;
 }
 
 + (NSDictionary *) defaultParams
 {
-    UIDevice *device = [UIDevice currentDevice];
-    NSString *appVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"] ?: [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey];
-    
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
          @"123", @"apikey",
          @"json", @"format",
-         @"153635366", @"timestamp",
-         [OpenUDID value], @"device_udid",
-         device.systemVersion, @"sys_version",
-         appVersion, @"app_version", nil];
+         @"153635366", @"timestamp", nil];
     
     return params;
 };
@@ -248,6 +331,7 @@
     
     NSString *sig = [CDRestClient generateSignatureByParams:args];
     [args setObject:sig forKey:@"sig"];
+    NSLog(@"params: %@", args);
     
     return args;
 }
