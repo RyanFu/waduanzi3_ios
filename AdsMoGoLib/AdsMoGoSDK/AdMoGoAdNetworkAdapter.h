@@ -124,7 +124,7 @@ typedef enum {
     AdMoGoAdNetworkTypeGuomob       = 75,
     AdMoGoAdNetworkTypeYiTong       = 76,
     AdMoGoadNetworkTypeYiJiFen      = 77,
-    AdMogoAdNetworkTypePuchBox      = 79,
+    AdMoGoAdNetworkTypePuchBox      = 79,
     AdMoGoAdNetworkTypeIWant        = 80,
     AdMoGoAdNetworkTypeWAPS         = 87,
     AdMoGoAdNetworkTypeMIX          = 88,
@@ -132,6 +132,7 @@ typedef enum {
     AdMoGoAdNetworkTypeMobFox       = 90,
     AdMoGoAdNetworkTypeMojiva       = 91,
     AdMoGoAdNetworkTypeVungle       = 92,
+    AdMoGoAdNetworkTypeZhiXun       = 99,
 
     AdMoGoAdNetworkTypeS2S_First    = 1000,
     AdMoGoAdNetworkTypeS2S_Last     = 1499,

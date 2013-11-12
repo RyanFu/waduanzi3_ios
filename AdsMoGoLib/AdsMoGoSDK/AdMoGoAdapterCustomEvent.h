@@ -25,7 +25,7 @@
 //+(AdMoGoAdNetworkType)networkType;
 //-(void)getAd;
 /*---------------------------------*/
-+(AdMoGoAdNetworkType)networkType;
++(NSDictionary *)networkType;
 -(void)getAd;
 #pragma mark custom use method
 +(void)registerClass:(id)clazz;
