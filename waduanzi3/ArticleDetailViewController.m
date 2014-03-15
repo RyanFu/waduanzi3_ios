@@ -122,7 +122,7 @@
         [imageView addSubview:progressView];
         
         imageView.backgroundColor = [UIColor colorWithRed:0.94f green:0.94f blue:0.94f alpha:1.00f];
-        [imageView setImageWithURL:attachment.contentURL placeholderImage:nil options:SDWebImageRetryFailed progress:^(NSUInteger receivedSize, long long expectedSize) {
+        [imageView setImageWithURL:attachment.contentURL placeholderImage:nil options:SDWebImageRetryFailed progress:^(NSInteger receivedSize, NSInteger expectedSize) {
             CDLog(@"image download process: %d / %d", receivedSize, expectedSize);
             if (expectedSize > 0) {
                 progressView.progress = (float)receivedSize/(float)expectedSize;

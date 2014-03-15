@@ -103,11 +103,7 @@
                     titleWidth = width;
             }
         }
-        int inset = 0;
-		if ([self respondsToSelector:@selector(separatorInset)]) {
-			inset = self.separatorInset.left;
-		};
-        _entryElement.parentSection.entryPosition = CGRectMake(titleWidth+20,10,totalWidth-titleWidth-_entryElement.appearance.cellBorderWidth-extra-inset, self.frame.size.height-20);
+        _entryElement.parentSection.entryPosition = CGRectMake(titleWidth+20,10,totalWidth-titleWidth-_entryElement.appearance.cellBorderWidth-extra, self.frame.size.height-20);
     }
 
     return _entryElement.parentSection.entryPosition;
@@ -150,7 +146,7 @@
 
     if (_entryElement.hiddenToolbar){
         _textField.inputAccessoryView = nil;
-    } else if (_textField!=nil){
+    } else if (_textField==nil){
         UIToolbar *toolbar = [self createActionBar];
         toolbar.barStyle = element.appearance.toolbarStyle;
         toolbar.translucent = element.appearance.toolbarTranslucent;

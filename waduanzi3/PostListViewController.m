@@ -686,8 +686,7 @@
             __weak UIProgressView *weakProgressView = postCell.progressView;
             __weak UIActivityIndicatorView *weakIndicatorView = postCell.indicatoryView;
             UIImage *placer = showBigImage ? PLACEHOLDER_IMAGE_LIGHTGRAY_THUMB : PLACEHOLDER_IMAGE_POST_THUMB;
-            
-            [cell.imageView setImageWithURL:imageUrl placeholderImage:placer options:SDWebImageRetryFailed progress:^(NSUInteger receivedSize, long long expectedSize) {
+            [cell.imageView setImageWithURL:imageUrl placeholderImage:placer options:SDWebImageRetryFailed progress:^(NSInteger receivedSize, NSInteger expectedSize) {
                 CDLog(@"receivedSize/expectedSize: %d/%lld", receivedSize, expectedSize);
                 if (showBigImage && expectedSize > 0 && weakProgressView)
                     weakProgressView.progress = (float)receivedSize/expectedSize;
@@ -711,7 +710,7 @@
         
         if (post.small_pic.length > 0) {
             NSURL *imageUrl = [NSURL URLWithString:post.small_pic];
-            [advertCell.imageView setImageWithURL:imageUrl placeholderImage:PLACEHOLDER_IMAGE_POST_THUMB options:SDWebImageRetryFailed progress:^(NSUInteger receivedSize, long long expectedSize) {
+            [advertCell.imageView setImageWithURL:imageUrl placeholderImage:PLACEHOLDER_IMAGE_POST_THUMB options:SDWebImageRetryFailed progress:^(NSInteger receivedSize, NSInteger expectedSize) {
                 ;
             } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
                 ;

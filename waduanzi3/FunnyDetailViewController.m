@@ -178,8 +178,8 @@
             __weak CDPostToolBar *weakToolbar = _postToolbar;
             
             NSURL *imageUrl = [NSURL URLWithString:self.post.middle_pic];
-            [_detailView.imageView setImageWithURL:imageUrl placeholderImage:self.smallImage options:SDWebImageRetryFailed progress:^(NSUInteger receivedSize, long long expectedSize) {
-                CDLog(@"expected size: %d/%lld", receivedSize, expectedSize);
+            [_detailView.imageView setImageWithURL:imageUrl placeholderImage:self.smallImage options:SDWebImageRetryFailed progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+                CDLog(@"expected size: %d/%d", receivedSize, expectedSize);
                 if (expectedSize < 0) {
                     weakHUD.mode = MBProgressHUDModeDeterminate;
                     [weakHUD show:YES];

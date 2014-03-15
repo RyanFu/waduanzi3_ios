@@ -21,6 +21,8 @@ PODS:
   - QuickDialog (1.0):
     - QuickDialog/Core
   - QuickDialog/Core (1.0)
+  - QuickDialog/Extras (1.0):
+    - QuickDialog/Core
   - Reachability (3.1.1)
   - RestKit (0.22.0):
     - RestKit/Core
@@ -63,24 +65,17 @@ DEPENDENCIES:
   - MGImageUtilities
   - NoticeView
   - OpenUDID
-  - QuickDialog (from `https://github.com/escoz/QuickDialog`)
-  - Reachability (from `https://github.com/tonymillion/Reachability`)
+  - QuickDialog
+  - QuickDialog/Extras
+  - Reachability
   - RestKit
   - RestKit/Search
   - RestKit/Testing
   - SDWebImage
-  - SVPullToRefresh (from `https://github.com/samvermette/SVPullToRefresh`)
+  - SVPullToRefresh
   - TouchJSON
   - ViewDeck (= 2.2.11)
   - ZipArchive
-
-EXTERNAL SOURCES:
-  QuickDialog:
-    :git: https://github.com/escoz/QuickDialog
-  Reachability:
-    :git: https://github.com/tonymillion/Reachability
-  SVPullToRefresh:
-    :git: https://github.com/samvermette/SVPullToRefresh
 
 SPEC CHECKSUMS:
   AFNetworking: 61fdd49e2ffe6380378df37b3b6e70630bb9dd66
@@ -94,8 +89,8 @@ SPEC CHECKSUMS:
   MGImageUtilities: ab3580f2161b10f8a41331baea87aaafbd688950
   NoticeView: f885ce90b53dacce3b19f2d5e95c6db68fe4e45d
   OpenUDID: 13ab988776ef38dca1e2e799e961448cf83a8111
-  QuickDialog: 36f3e3387b6e1af9f963c3afc665a07f03107a01
-  Reachability: 2be6bc2fd2bd31d97f5db33e75e4b29c79e95883
+  QuickDialog: 64b08aa21a150e881cfe688c6099614d5229a5ef
+  Reachability: be4883bb93f31e38266ae3365e5600a317aae735
   RestKit: dc107a0aa4f962575ad0385bac5b3c5e4f591f4e
   RKValueTransformers: 1562d458b9c9d59ce777bfc5982f2e1aef2e9182
   SDWebImage: 1a62010700adbba823b621fc217906739dbf6aa5

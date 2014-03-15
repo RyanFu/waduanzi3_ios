@@ -96,6 +96,12 @@
 #define COCOAPODS_VERSION_MINOR_QuickDialog_Core 0
 #define COCOAPODS_VERSION_PATCH_QuickDialog_Core 0
 
+// QuickDialog/Extras
+#define COCOAPODS_POD_AVAILABLE_QuickDialog_Extras
+#define COCOAPODS_VERSION_MAJOR_QuickDialog_Extras 1
+#define COCOAPODS_VERSION_MINOR_QuickDialog_Extras 0
+#define COCOAPODS_VERSION_PATCH_QuickDialog_Extras 0
+
 // RKValueTransformers
 #define COCOAPODS_POD_AVAILABLE_RKValueTransformers
 #define COCOAPODS_VERSION_MAJOR_RKValueTransformers 1
