@@ -47,6 +47,13 @@
     [self createElements];
 }
 
+-(void)setItemsImageNames:(NSArray *)itemsImageNames {
+    _itemsImageNames = itemsImageNames;
+    if (self.items) {
+        [self createElements];
+    }
+}
+
 -(NSObject *)selectedValue {
     if (_selected<0 || _selected>=_values.count)
         return nil;
@@ -75,7 +82,7 @@
 
 - (QRadioElement *)initWithItems:(NSArray *)stringArray selected:(NSInteger)selected {
     self = [self initWithItems:stringArray selected:selected title:nil];
-    _selected = -1;
+    _selected = selected;
     return self;
 }
 
@@ -83,7 +90,7 @@
 - (QRadioElement *)initWithDict:(NSDictionary *)valuesDictionary selected:(int)selected title:(NSString *)title {
     self = [self initWithItems:valuesDictionary.allKeys selected:(NSUInteger) selected];
     _values = valuesDictionary.allValues;
-    _selected = -1;
+    _selected = selected;
     self.title = title;
     return self;
 }
@@ -142,7 +149,7 @@
         cell.textField.text = [selectedValue description];
         cell.detailTextLabel.text = nil;
         cell.textField.textAlignment = self.appearance.labelAlignment;
-        cell.textField.textColor = self.enabled ? self.appearance.labelColorEnabled : self.appearance.labelColorDisabled;
+        cell.textField.textColor = self.enabled ? self.appearance.valueColorEnabled : self.appearance.valueColorDisabled;
     } else {
         cell.textLabel.text = _title;
         cell.textField.text = [selectedValue description];
@@ -157,7 +164,10 @@
     _selected = aSelected;
 
     self.preselectedElementIndex = [NSIndexPath indexPathForRow:_selected inSection:0];
-    self.image = [UIImage imageNamed:[_itemsImageNames objectAtIndex:(NSUInteger) self.selected]];
+
+    if([_itemsImageNames objectAtIndex:(NSUInteger) self.selected] != nil) {
+        self.image = [UIImage imageNamed:[_itemsImageNames objectAtIndex:(NSUInteger) self.selected]];
+    }
     
     [self handleEditingChanged];
 }

@@ -7,7 +7,7 @@
 //
 
 /**
- Bla bla bla
+ Replacement for `NSLog` which can be configured to output certain log levels at run time.
  */
 
 // block signature called for each log statement
@@ -83,7 +83,7 @@ typedef NS_ENUM(NSUInteger, DTLogLevel)
 
 /**
  Sets the block to be executed for messages with a log level less or equal the currently set log level
- @param logBlock
+ @param handler The block to handle log output
  */
 void DTLogSetLoggerBlock(DTLogBlock handler);
 

@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "F58FCC868D4F4538A7859CA4"
+               BlueprintIdentifier = "8FFE973B115A447EB83FA8D5"
                BuildableName = "libPods-TouchJSON.a"
                BlueprintName = "Pods-TouchJSON"
                ReferencedContainer = "container:Pods.xcodeproj">

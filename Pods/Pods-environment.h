@@ -22,31 +22,31 @@
 #define COCOAPODS_POD_AVAILABLE_DTCoreText
 #define COCOAPODS_VERSION_MAJOR_DTCoreText 1
 #define COCOAPODS_VERSION_MINOR_DTCoreText 6
-#define COCOAPODS_VERSION_PATCH_DTCoreText 8
+#define COCOAPODS_VERSION_PATCH_DTCoreText 10
 
 // DTFoundation/Core
 #define COCOAPODS_POD_AVAILABLE_DTFoundation_Core
 #define COCOAPODS_VERSION_MAJOR_DTFoundation_Core 1
-#define COCOAPODS_VERSION_MINOR_DTFoundation_Core 5
-#define COCOAPODS_VERSION_PATCH_DTFoundation_Core 4
+#define COCOAPODS_VERSION_MINOR_DTFoundation_Core 6
+#define COCOAPODS_VERSION_PATCH_DTFoundation_Core 2
 
 // DTFoundation/DTHTMLParser
 #define COCOAPODS_POD_AVAILABLE_DTFoundation_DTHTMLParser
 #define COCOAPODS_VERSION_MAJOR_DTFoundation_DTHTMLParser 1
-#define COCOAPODS_VERSION_MINOR_DTFoundation_DTHTMLParser 5
-#define COCOAPODS_VERSION_PATCH_DTFoundation_DTHTMLParser 4
+#define COCOAPODS_VERSION_MINOR_DTFoundation_DTHTMLParser 6
+#define COCOAPODS_VERSION_PATCH_DTFoundation_DTHTMLParser 2
 
 // DTFoundation/UIKit
 #define COCOAPODS_POD_AVAILABLE_DTFoundation_UIKit
 #define COCOAPODS_VERSION_MAJOR_DTFoundation_UIKit 1
-#define COCOAPODS_VERSION_MINOR_DTFoundation_UIKit 5
-#define COCOAPODS_VERSION_PATCH_DTFoundation_UIKit 4
+#define COCOAPODS_VERSION_MINOR_DTFoundation_UIKit 6
+#define COCOAPODS_VERSION_PATCH_DTFoundation_UIKit 2
 
 // EAIntroView
 #define COCOAPODS_POD_AVAILABLE_EAIntroView
-#define COCOAPODS_VERSION_MAJOR_EAIntroView 1
+#define COCOAPODS_VERSION_MAJOR_EAIntroView 2
 #define COCOAPODS_VERSION_MINOR_EAIntroView 3
-#define COCOAPODS_VERSION_PATCH_EAIntroView 0
+#define COCOAPODS_VERSION_PATCH_EAIntroView 1
 
 // ISO8601DateFormatterValueTransformer
 #define COCOAPODS_POD_AVAILABLE_ISO8601DateFormatterValueTransformer
@@ -86,21 +86,21 @@
 
 // QuickDialog
 #define COCOAPODS_POD_AVAILABLE_QuickDialog
-#define COCOAPODS_VERSION_MAJOR_QuickDialog 0
-#define COCOAPODS_VERSION_MINOR_QuickDialog 9
-#define COCOAPODS_VERSION_PATCH_QuickDialog 1
+#define COCOAPODS_VERSION_MAJOR_QuickDialog 1
+#define COCOAPODS_VERSION_MINOR_QuickDialog 0
+#define COCOAPODS_VERSION_PATCH_QuickDialog 0
 
-// QuickDialog/Extras
-#define COCOAPODS_POD_AVAILABLE_QuickDialog_Extras
-#define COCOAPODS_VERSION_MAJOR_QuickDialog_Extras 0
-#define COCOAPODS_VERSION_MINOR_QuickDialog_Extras 9
-#define COCOAPODS_VERSION_PATCH_QuickDialog_Extras 1
+// QuickDialog/Core
+#define COCOAPODS_POD_AVAILABLE_QuickDialog_Core
+#define COCOAPODS_VERSION_MAJOR_QuickDialog_Core 1
+#define COCOAPODS_VERSION_MINOR_QuickDialog_Core 0
+#define COCOAPODS_VERSION_PATCH_QuickDialog_Core 0
 
 // RKValueTransformers
 #define COCOAPODS_POD_AVAILABLE_RKValueTransformers
 #define COCOAPODS_VERSION_MAJOR_RKValueTransformers 1
 #define COCOAPODS_VERSION_MINOR_RKValueTransformers 0
-#define COCOAPODS_VERSION_PATCH_RKValueTransformers 0
+#define COCOAPODS_VERSION_PATCH_RKValueTransformers 1
 
 // Reachability
 #define COCOAPODS_POD_AVAILABLE_Reachability
@@ -111,62 +111,62 @@
 // RestKit
 #define COCOAPODS_POD_AVAILABLE_RestKit
 #define COCOAPODS_VERSION_MAJOR_RestKit 0
-#define COCOAPODS_VERSION_MINOR_RestKit 21
+#define COCOAPODS_VERSION_MINOR_RestKit 22
 #define COCOAPODS_VERSION_PATCH_RestKit 0
 
 // RestKit/Core
 #define COCOAPODS_POD_AVAILABLE_RestKit_Core
 #define COCOAPODS_VERSION_MAJOR_RestKit_Core 0
-#define COCOAPODS_VERSION_MINOR_RestKit_Core 21
+#define COCOAPODS_VERSION_MINOR_RestKit_Core 22
 #define COCOAPODS_VERSION_PATCH_RestKit_Core 0
 
 // RestKit/CoreData
 #define COCOAPODS_POD_AVAILABLE_RestKit_CoreData
 #define COCOAPODS_VERSION_MAJOR_RestKit_CoreData 0
-#define COCOAPODS_VERSION_MINOR_RestKit_CoreData 21
+#define COCOAPODS_VERSION_MINOR_RestKit_CoreData 22
 #define COCOAPODS_VERSION_PATCH_RestKit_CoreData 0
 
 // RestKit/Network
 #define COCOAPODS_POD_AVAILABLE_RestKit_Network
 #define COCOAPODS_VERSION_MAJOR_RestKit_Network 0
-#define COCOAPODS_VERSION_MINOR_RestKit_Network 21
+#define COCOAPODS_VERSION_MINOR_RestKit_Network 22
 #define COCOAPODS_VERSION_PATCH_RestKit_Network 0
 
 // RestKit/ObjectMapping
 #define COCOAPODS_POD_AVAILABLE_RestKit_ObjectMapping
 #define COCOAPODS_VERSION_MAJOR_RestKit_ObjectMapping 0
-#define COCOAPODS_VERSION_MINOR_RestKit_ObjectMapping 21
+#define COCOAPODS_VERSION_MINOR_RestKit_ObjectMapping 22
 #define COCOAPODS_VERSION_PATCH_RestKit_ObjectMapping 0
 
 // RestKit/Search
 #define COCOAPODS_POD_AVAILABLE_RestKit_Search
 #define COCOAPODS_VERSION_MAJOR_RestKit_Search 0
-#define COCOAPODS_VERSION_MINOR_RestKit_Search 21
+#define COCOAPODS_VERSION_MINOR_RestKit_Search 22
 #define COCOAPODS_VERSION_PATCH_RestKit_Search 0
 
 // RestKit/Support
 #define COCOAPODS_POD_AVAILABLE_RestKit_Support
 #define COCOAPODS_VERSION_MAJOR_RestKit_Support 0
-#define COCOAPODS_VERSION_MINOR_RestKit_Support 21
+#define COCOAPODS_VERSION_MINOR_RestKit_Support 22
 #define COCOAPODS_VERSION_PATCH_RestKit_Support 0
 
 // RestKit/Testing
 #define COCOAPODS_POD_AVAILABLE_RestKit_Testing
 #define COCOAPODS_VERSION_MAJOR_RestKit_Testing 0
-#define COCOAPODS_VERSION_MINOR_RestKit_Testing 21
+#define COCOAPODS_VERSION_MINOR_RestKit_Testing 22
 #define COCOAPODS_VERSION_PATCH_RestKit_Testing 0
 
 // SDWebImage
 #define COCOAPODS_POD_AVAILABLE_SDWebImage
 #define COCOAPODS_VERSION_MAJOR_SDWebImage 3
 #define COCOAPODS_VERSION_MINOR_SDWebImage 5
-#define COCOAPODS_VERSION_PATCH_SDWebImage 0
+#define COCOAPODS_VERSION_PATCH_SDWebImage 4
 
 // SDWebImage/Core
 #define COCOAPODS_POD_AVAILABLE_SDWebImage_Core
 #define COCOAPODS_VERSION_MAJOR_SDWebImage_Core 3
 #define COCOAPODS_VERSION_MINOR_SDWebImage_Core 5
-#define COCOAPODS_VERSION_PATCH_SDWebImage_Core 0
+#define COCOAPODS_VERSION_PATCH_SDWebImage_Core 4
 
 // SOCKit
 #define COCOAPODS_POD_AVAILABLE_SOCKit
@@ -188,9 +188,9 @@
 
 // TransitionKit
 #define COCOAPODS_POD_AVAILABLE_TransitionKit
-#define COCOAPODS_VERSION_MAJOR_TransitionKit 1
-#define COCOAPODS_VERSION_MINOR_TransitionKit 1
-#define COCOAPODS_VERSION_PATCH_TransitionKit 1
+#define COCOAPODS_VERSION_MAJOR_TransitionKit 2
+#define COCOAPODS_VERSION_MINOR_TransitionKit 0
+#define COCOAPODS_VERSION_PATCH_TransitionKit 0
 
 // ViewDeck
 #define COCOAPODS_POD_AVAILABLE_ViewDeck

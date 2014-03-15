@@ -211,7 +211,8 @@
         self.toolbarItems = nil;
 	}
 	else {
-		[_webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:_url]]];
+        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:_url]];
+		[_webView loadRequest:request];
 		self.navigationController.toolbarHidden = NO;
         
         self.toolbarItems = _urlToolbarItems;
